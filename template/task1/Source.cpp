@@ -6,39 +6,6 @@ class Rational
 private:
 	signed long long p;
 	unsigned long long q;
-public:
-	void out()
-	{
-		reduction();
-		cout << p;
-		cout << "/";
-		cout << q << "\n";
-	}
-	void operation(int choice, long long m, unsigned long long n)
-	{
-		switch (choice)
-		{
-		case 1: case 2:
-			m = Algsum(n, m);
-			if (choice == 1)
-				p += m;
-			else
-				p -= m;
-		case 3:
-			multiply(m, n);
-		case 4:
-			long long n1 = n;
-			unsigned long long m1;
-			if (m < 0)
-			{
-				n1 *= -1;
-				m1 = (-1) * m;
-			}
-			else
-				m1 = m;
-			multiply(n1, m1);
-		}
-	}
 	void multiply(long long m, unsigned long long n)
 	{
 		p *= m;
@@ -80,10 +47,10 @@ public:
 			return min_tmp;
 		}
 	}
-	long long Algsum(unsigned long long n, long long m)//общее для сложения и вычитания
+	long long Algebsum(unsigned long long n, long long m)//общее для сложения и вычитания
 	{
 		unsigned long long nok = NOK(n);
-		p *= nok / q;
+		p *= long long (nok / q);
 		m *= nok / n;
 		q = nok;
 		return m;
@@ -99,38 +66,75 @@ public:
 			nod = NOD(p_tmp, q);
 		else
 			nod = NOD(q, p_tmp);
-		p /= nod;
+		p /= long long (nod);
 		q /= nod;
+	}
+public:
+	void out()
+	{
+		reduction();
+		cout << p;
+		cout << "/";
+		cout << q << "\n";
+	}
+	void operation(int choice, long long m, unsigned long long n)
+	{
+		switch (choice)
+		{
+		case 1: case 2:
+			m = Algebsum(n, m);
+			if (choice == 1)
+				p += m;
+			else
+				p -= m;
+			break;
+		case 3:
+			multiply(m, n);
+			break;
+		case 4:
+			long long n1 = n;
+			unsigned long long m1;
+			if (m < 0)
+			{
+				n1 *= -1;
+				m1 = (-1) * m;
+			}
+			else
+				m1 = m;
+			multiply(n1, m1);
+			break;
+		}
 	}
 	Rational(long long a, unsigned long long b)
 	{
 		p = a;
 		q = b;
+		reduction();
 	}
 };
 int main()
 {
 	setlocale(LC_ALL, "Russian");
-	cout << "Введите через пробел числитель и знаменатель дроби (знаменатель положителен)\n";
+	cout << "Введите числитель и знаменатель дроби (знаменатель положителен)\n";
 	long long a;
 	unsigned long long b;
-	cin >> a >> b;
 	bool repeat = true;
 	do
 	{
+		cin >> a >> b;
 		if (b != 0)
 		{
 			Rational drob(a, b);
+			int ans;
 			do 
 			{
-				cout << "Выберите ту операцию, которая вам требуется:" << endl;
+				cout << "Выберите требуемую операцию:" << endl;
 				cout << "1 - Сложение" << endl;
 				cout << "2 - Вычитание" << endl;
 				cout << "3 - Умножение" << endl;
 				cout << "4 - Деление" << endl;
-				cout << "5 - Вывод на экран результата" << endl;
+				cout << "5 - Вывод рациональной дроби на экран" << endl;
 				cout << "0 - Выход из программы" << endl;
-				int ans;
 				cin >> ans;
 				switch (ans)
 				{
@@ -140,8 +144,14 @@ int main()
 					drob.operation(ans, a, b);
 				case 5:
 					drob.out();
+					break;
 				case 0:
 					repeat = false;
+					cout << "До свидания!" << endl;
+					break;
+				default:
+					cout << "Вы ошиблись, попробуйте ещё раз" << endl;
+					break;
 				}
 			} while (repeat);
 		}
