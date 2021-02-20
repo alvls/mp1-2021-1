@@ -2,15 +2,6 @@
 #include <clocale>
 #include <iostream>
 #include <cmath>
-void clean(void);
-void clean(void)//очищает поток ввода
-{
-	int c;
-	do
-	{
-		c = getchar();
-	} while (c != '\n' && c != EOF);
-}
 #define N 5
 void showmenu()
 {
