@@ -9,23 +9,26 @@ private:
     double FtCoef = 3.28084f;
     double len[5] = { 0 };
 public:
-    void Print(int mode = 0) {
+    LenConv(int a) 
+    {
+        len[0] = a;
+    }
+    void Print(int mode = 0) 
+    {	
         if (!len[mode]) {
             if (mode == 0) {
-                cout << "You don`t set init val\n";
+                cout << "You don`t set init val"<<endl;
             }
             else {
-                cout << "You don`t convert to it\n";
+                cout << "You don`t convert to it"<<endl;
             }
         }
         else {
-            cout << len[mode]<< "\n";
+            cout << len[mode]<<endl;
         }
     }
-    LenConv(int a) {
-        len[0] = a;
-    }
-    void Init(int a) {
+    void Init(int a) 
+    {
         len[0] = a;
         for (int i = 1; i < 5; i++) {
             len[i] = 0;
@@ -38,7 +41,8 @@ public:
 	}
 	return *this;
     }
-    void Convert(int mode) {
+    void Convert(int mode) 
+    {
         switch (mode) {
         case (1):
             len[mode] = len[0] * ArchinCoef;
@@ -54,7 +58,6 @@ public:
 int main()
 {   
     int val = 2;
-    std::cin >> val;
     LenConv a(val);
     a.Print();
     a.Convert(1);
@@ -62,4 +65,5 @@ int main()
     LenConv b(3);
     b = a;
     b.Print(1);
+    b.Print(3);
 }
