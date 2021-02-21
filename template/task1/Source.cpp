@@ -82,25 +82,28 @@ public:
 		switch (choice)
 		{
 		case 1: case 2:
-			m = Algebsum(n, m);
-			if (choice == 1)
-				p += m;
-			else
-				p -= m;
-			break;
+			if (m != 0)
+			{
+				m = Algebsum(n, m);
+				if (choice == 1)
+					p += m;
+				else
+					p -= m;
+			}
+				break;
 		case 3:
 			multiply(m, n);
 			break;
 		case 4:
-			long long n1 = n;
+			long long n1 = long long(n);
 			unsigned long long m1;
 			if (m < 0)
 			{
 				n1 *= -1;
-				m1 = (-1) * m;
+				m1 = unsigned long long((-1) * m);
 			}
 			else
-				m1 = m;
+				m1 = unsigned long long(m);
 			multiply(n1, m1);
 			break;
 		}
@@ -110,6 +113,11 @@ public:
 		p = a;
 		q = b;
 		reduction();
+	}
+	void operator = (Rational& from)
+	{
+		this->p = from.p;
+		this->q = from.q;
 	}
 };
 int main()
@@ -133,26 +141,45 @@ int main()
 				cout << "2 - Вычитание" << endl;
 				cout << "3 - Умножение" << endl;
 				cout << "4 - Деление" << endl;
-				cout << "5 - Вывод рациональной дроби на экран" << endl;
+				cout << "5 - Повторный вывод рациональной дроби на экран" << endl;
+				cout << "6 - Изменение значения дроби" << endl;
 				cout << "0 - Выход из программы" << endl;
 				cin >> ans;
-				switch (ans)
-				{
-				case 1: case 2: case 3: case 4:
-					cout << "Введите числитель и знаменатель второй дроби" << endl;
-					cin >> a >> b;
-					drob.operation(ans, a, b);
-				case 5:
-					drob.out();
-					break;
-				case 0:
-					repeat = false;
-					cout << "До свидания!" << endl;
-					break;
-				default:
+				if (ans < 0 || ans>6)
 					cout << "Вы ошиблись, попробуйте ещё раз" << endl;
-					break;
-				}
+				else 
+				{
+					if (ans == 6)//я бы мог просто в кейсе 6 сделать инициализацию,но мне почему-то не дали 
+					{
+						cout << "Введите новые числитель и знаменатель" << endl;
+						cin >> a >> b;
+						Rational newdrob(a, b);
+						drob = newdrob;
+					}
+					else
+					{
+						switch (ans)
+						{
+						case 1: case 2: case 3: case 4:
+							cout << "Введите числитель и знаменатель второй дроби" << endl;
+							cin >> a >> b;
+							if (b == 0)
+							{
+								cout << "На нуль делить нельзя" << endl;
+								break;
+							}
+							drob.operation(ans, a, b);
+						case 5:
+							cout << "Ответ: ";
+							drob.out();
+							break;
+						case 0:
+							repeat = false;
+							cout << "До свидания!" << endl;
+							break;
+						}
+					}
+				}				
 			} while (repeat);
 		}
 		else
