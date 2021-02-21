@@ -7,6 +7,11 @@ private:
     bool check = true;
     double weight, originalWeight;
 public:
+    ScaleConverter()
+    {
+        weight = 9;
+        originalWeight = 3.5;
+    }
     void scanWeight()
     {
         while (check)
