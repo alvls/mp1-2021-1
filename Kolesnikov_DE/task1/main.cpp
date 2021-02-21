@@ -7,16 +7,15 @@ private:
     double YardCoef = 0.9144f;
     double SazhenCoef = 1.8288f;
     double FtCoef = 3.28084f;
-    int a = 0;
     double len[5] = { 0 };
 public:
     void Print(int mode = 0) {
         if (!len[mode]) {
             if (mode == 0) {
-                std::cout << "You don`t set init val\n";
+                cout << "You don`t set init val\n";
             }
             else {
-                std::cout << "You don`t convert to it\n";
+                cout << "You don`t convert to it\n";
             }
         }
         else {
@@ -31,6 +30,13 @@ public:
         for (int i = 1; i < 5; i++) {
             len[i] = 0;
         }
+    }
+    LenConv& operator= (const LenConv &conv)
+    {
+	for(int i = 0;i<5;i++){
+		len[i] = conv.len[i];
+	}
+	return *this;
     }
     void Convert(int mode) {
         switch (mode) {
@@ -53,4 +59,7 @@ int main()
     a.Print();
     a.Convert(1);
     a.Print(1);   
+    LenConv b(3);
+    b = a;
+    b.Print(1);
 }
