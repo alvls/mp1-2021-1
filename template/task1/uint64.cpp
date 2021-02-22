@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 
 typedef unsigned int uint;
 using namespace std;
@@ -17,12 +17,12 @@ public:
 		highPart = 0;
 		lowPart = 0;
 	}
-	//делим число на 2 части
+	//РґРµР»РёРј С‡РёСЃР»Рѕ РЅР° 2 С‡Р°СЃС‚Рё
 	uint64(const unsigned long long& num)
 	{
-		//первые 32 бита
+		//РїРµСЂРІС‹Рµ 32 Р±РёС‚Р°
 		highPart = num >> 32;
-		//вторые 32 бита
+		//РІС‚РѕСЂС‹Рµ 32 Р±РёС‚Р°
 		lowPart = num & 0xffffffff;
 	}
 
@@ -38,7 +38,7 @@ public:
 		lowPart = _lowPart;
 	}
 
-	//печать числа
+	//РїРµС‡Р°С‚СЊ С‡РёСЃР»Р°
 	void PrintNum()
 	{
 		uint a = lowPart;
@@ -117,13 +117,13 @@ public:
 	//*
 	uint64 operator*(uint64& num)
 	{
-		//первые 16 битов lowPArt 1-го числа
+		//РїРµСЂРІС‹Рµ 16 Р±РёС‚РѕРІ lowPArt 1-РіРѕ С‡РёСЃР»Р°
 		uint ff = lowPart >> 16;
-		//вторые 16 битов lowPart 1-го числа
+		//РІС‚РѕСЂС‹Рµ 16 Р±РёС‚РѕРІ lowPart 1-РіРѕ С‡РёСЃР»Р°
 		uint fs = lowPart & 0xffff;
-		//первые 16 битов lowPart 2-го числа
+		//РїРµСЂРІС‹Рµ 16 Р±РёС‚РѕРІ lowPart 2-РіРѕ С‡РёСЃР»Р°
 		uint sf = num.lowPart >> 16;
-		//вторые 16 битов lowPart 2-го числа
+		//РІС‚РѕСЂС‹Рµ 16 Р±РёС‚РѕРІ lowPart 2-РіРѕ С‡РёСЃР»Р°
 		uint ss = num.lowPart & 0xffff;
 
 		uint64 result;
@@ -132,12 +132,12 @@ public:
 		return result;
 	}
 
-	//деление(очень долгое и неэффективное, но больше ничего не придумал)
+	//РґРµР»РµРЅРёРµ(РѕС‡РµРЅСЊ РґРѕР»РіРѕРµ Рё РЅРµСЌС„С„РµРєС‚РёРІРЅРѕРµ, РЅРѕ Р±РѕР»СЊС€Рµ РЅРёС‡РµРіРѕ РЅРµ РїСЂРёРґСѓРјР°Р»)
 	uint64 operator/(uint64& num)
 	{
 		if (num == 0)
 		{
-			cout << "Деление на 0";
+			cout << "Ж’РµР»РµРЅРёРµ РЅР° 0";
 			return 0;
 		}
 		if (num == (*this))
@@ -163,12 +163,12 @@ public:
 		return uint64(count);
 	}
 
-	// % такое же неэффективное
+	// % С‚Р°РєРѕРµ Р¶Рµ РЅРµСЌС„С„РµРєС‚РёРІРЅРѕРµ
 	uint64 operator%(uint64& num)
 	{
 		if (num == 0)
 		{
-			cout << "Деление на 0";
+			cout << "Ж’РµР»РµРЅРёРµ РЅР° 0";
 			return 0;
 		}
 		if (num == (*this))
