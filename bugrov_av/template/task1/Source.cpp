@@ -6,11 +6,6 @@ class Rational
 private:
 	signed long long p;
 	unsigned long long q;
-	void multiply(long long m, unsigned long long n)
-	{
-		p *= m;
-		q *= n;
-	}
 	unsigned long long NOK(unsigned long long n)
 	{
 		if (n % q == 0)
@@ -69,6 +64,19 @@ private:
 		p /= long long (nod);
 		q /= nod;
 	}
+	void num_multiply(long long m, unsigned long long n)
+	{
+		p *= m;
+		q *= n;
+	}
+	long long open_p()
+	{
+		return p;
+	}
+	unsigned long long open_q()
+	{
+		return q;
+	}
 public:
 	void out()
 	{
@@ -76,6 +84,36 @@ public:
 		cout << p;
 		cout << "/";
 		cout << q << "\n";
+	}
+	void multiply(Rational r)
+	{
+		long long m = r.open_p();
+		unsigned long long n = r.open_q();
+		num_multiply(m, n);
+	}
+	void division(Rational r)
+	{
+		long long n1 = long long(r.open_q());
+		long long m = r.open_p();
+		unsigned long long m1;
+		if (m < 0)
+		{
+			n1 *= -1;
+			m1 = unsigned long long((-1) * m);
+		}
+		else
+			m1 = unsigned long long(m);
+		num_multiply(n1, m1);
+	}
+	void addition(Rational r)
+	{
+		long long m = r.open_p();
+		unsigned long long n = r.open_q();
+		m = Algebsum(n, m);
+	}
+	void subtraction(Rational r)
+	{
+		m = Algebsum(n, m);
 	}
 	void operation(int choice, long long m, unsigned long long n)
 	{
@@ -92,7 +130,7 @@ public:
 			}
 				break;
 		case 3:
-			multiply(m, n);
+			//multiply(m, n);
 			break;
 		case 4:
 			long long n1 = long long(n);
@@ -104,7 +142,7 @@ public:
 			}
 			else
 				m1 = unsigned long long(m);
-			multiply(n1, m1);
+			//multiply(n1, m1);
 			break;
 		}
 	}
