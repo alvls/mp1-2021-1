@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <cmath>
 using namespace std;
@@ -28,13 +27,20 @@ public:
 		cout << m_hours <<'\t'<< m_minutes << '\t'<<m_seconds <<endl;
 	}
 
-	int difference(int a, int b, int c)//функция вычисления разницы установленного и заданного времени
+	Time difference(int a, int b, int c)//функция вычисления разницы установленного и заданного времени
 	{
-		int priv, zadan, diff;
+		Time dif(0, 0, 0);
+		int priv, zadan,differ;
 		priv = (m_hours * 3600) + (m_minutes * 60) + m_seconds;
 		zadan= (a * 3600) + (b* 60) + c;
-		diff = abs(priv - zadan);
-		return diff;
+		differ = abs(priv - zadan);
+		dif.m_hours = differ / 3600;
+		differ = differ - dif.m_hours * 3600;
+		dif.m_minutes = differ / 60;
+		differ = differ - dif.m_minutes * 60;
+		dif.m_seconds= differ;
+
+		return dif;
 	}
 	void offset(int a, int b, int c, int m)//функция сдвига времени на заданное смещение
 	{
@@ -44,7 +50,7 @@ public:
 		if (m == 1)
 		{
 			diff = priv + zadan;
-			while (diff > 86400)
+			while (diff >= 86400)
 				diff = diff - 86400;
 		
 		}
@@ -80,9 +86,10 @@ void main()
 {
 	setlocale(LC_ALL, "Russian");
 	Time k(0,0,0);
+	Time dif(0, 0, 0);
 d:
 	int a, b, c;
-	int m,diff;
+	int m;
 	m = menu();
 	switch (m)
 	{
@@ -114,15 +121,9 @@ d:
 			cout << "Неверный формат, попробуйте снова" << endl;
 			goto k;
 		}
-		diff = k.difference(a, b, c);
-		a = diff / 3600;
-		diff = diff - a * 3600;
-		b = diff / 60;
-		diff = diff - b * 60;
-		c = diff;
+		dif = k.difference(a, b, c);
 		cout << "Разница составляет:" << endl;
-		cout << "Часы" << '\t' << "Минуты" << '\t' << "Секунды" << endl;
-		cout << a << '\t' << b << '\t' << c << endl;
+		dif.Print();
 		break;
 
 	case 4://смещение времени
