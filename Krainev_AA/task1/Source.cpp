@@ -11,7 +11,7 @@ void printMainMenu();
 void printMenuWithNamesOfWeights();
 void infornationAbConverted(int varianOfMenu, class ScaleConverter measuring);
 void welcomeMessage();
- 
+
 
 class ScaleConverter {
 private:
@@ -20,11 +20,14 @@ private:
 public:
     ScaleConverter(double i); // construct для задания значения веса
     //методы для конвертации в другие меры веса
-    void kgToTroyOunce();
-    void kgToPharmacyPound();
-    void kgToOunce();//унция обыкновенная
-    void kgToStones();//стоны 
-    void kgToAmericanTones();//американская тонна
+    void setTheValue(double i);
+
+
+    double kgToTroyOunce();
+    double  kgToPharmacyPound();
+    double kgToOunce();//унция обыкновенная
+    double kgToStones();//стоны 
+    double kgToAmericanTones();//американская тонна
 
     //вывод enteredWeight значения
     void printOfEnteredWeight();
@@ -47,9 +50,9 @@ int main() {
         int variantOfMenu = -1;
 
         printMainMenu();
-        while (variantOfMenu <= 0 || variantOfMenu >= 4) {
+        while (variantOfMenu <= 0 || variantOfMenu > 4) {
             cin >> variantOfMenu;
-            if (variantOfMenu <= 0 || variantOfMenu >= 4) {
+            if (variantOfMenu <= 0 || variantOfMenu > 4) {
                 cout << "Неверный выбор меню, попробуйте снова!" << endl;
             }
         }
@@ -60,10 +63,15 @@ int main() {
             variantOfMenu = getNumberOfWeidth();
             infornationAbConverted(variantOfMenu, measuring);
             break;
-        case 2: //просмотр текущего значения (в кг.)
+        case 2://изменить конвертируемую величину
+            cout << "Введите новую конвертируемую величину (в кг.): " << endl;
+            cin >> kg;
+            measuring.setTheValue(kg);
+            break;
+        case 3: //просмотр текущего значения (в кг.)
             measuring.printOfEnteredWeight();
             break;
-        case 3: //выход из программы
+        case 4: //выход из программы
             //measuring.printOfEnteredWeight();
             return 0;
             break;
@@ -76,16 +84,17 @@ void welcomeMessage() {
     cout << "Добро пожаловать в приложение конвертер весов!\n" << endl;
     cout << "Сначала Вам будет предложено ввести значение для конвертации (в кг.)\n"
         << "Затем вы сможете выбрать единицу меры веса, в которую хотите провести конвертацию \n"
+        << "Или изменить введенную величину в метрах\n"
         << "Перевод может выведен с некоторой погрешностью, из-за разных значений мер в справочниках\n"
         << "Значения для перевода взяты с сайта конвертер единиц измерения google.com\n" << endl;
 }
 void printMainMenu() {
     cout << "Выберите вариант меню:\n" << endl;
     cout << "1. Конвертировать в другую единицу измерения\n"
-        << "2. Просмотр текущего выбранного значения (в кг.) \n"
-        << "3. Выйти\n" << endl;
+        << "2. Изменить конвертируемую величину\n"
+        << "3. Просмотр текущего выбранного значения (в кг.) \n"
+        << "4. Выйти\n" << endl;
 }
-
 void printMenuWithNamesOfWeights() {
     cout << "Выберите вариант\n" << endl;
     cout << "1. Конвертация в тройскую унцию \n"
@@ -97,29 +106,39 @@ void printMenuWithNamesOfWeights() {
 }
 
 ScaleConverter::ScaleConverter(double i) {
-    enteredWeight = i;
-    convertedWeight = 0;
+    setTheValue(i);
+    convertedWeight = -1;
 }
 
-void ScaleConverter::kgToTroyOunce() {
+void ScaleConverter::setTheValue(double i)
+{
+    enteredWeight = i;
+}
+
+double ScaleConverter::kgToTroyOunce() {
     convertedWeight = 32.150743 * enteredWeight;
+    return convertedWeight;
     //cout << enteredWeight;
 }
 
-void ScaleConverter::kgToPharmacyPound() {
+double ScaleConverter::kgToPharmacyPound() {
     convertedWeight = 2.679229 * enteredWeight;
+    return convertedWeight;
 }
 
-void ScaleConverter::kgToOunce() {
+double ScaleConverter::kgToOunce() {
     convertedWeight = 35.274 * enteredWeight;
+    return convertedWeight;
 }
 
-void ScaleConverter::kgToStones() {
+double ScaleConverter::kgToStones() {
     convertedWeight = 0.157473 * enteredWeight;
+    return convertedWeight;
 }
 
-void ScaleConverter::kgToAmericanTones() {
+double ScaleConverter::kgToAmericanTones() {
     convertedWeight = 0.00110231 * enteredWeight;
+    return convertedWeight;
 }
 
 void ScaleConverter::printOfEnteredWeight() {
