@@ -100,7 +100,7 @@ public:
 		}else {
 			long res = 0;
 			for (int i = 0; i < size; i++)
-				res += a[i] * v.get(i + 1);
+				res += a[i] * (v.a)[i];
 			return res;
 		}
 	}
@@ -140,7 +140,7 @@ void main() {
 			v[i].show();
 		}
 
-		cout << "Operations:\n";
+		cout << "\nOperations:\n";
 		cout << "1) show v_i \n";
 		cout << "2) Set size for v_i: \n";
 		cout << "3) Get size for v_i: \n";
@@ -149,6 +149,7 @@ void main() {
 		cout << "6) Get length for v_i: \n";
 		cout << "7) Scalar for v_i, v_j: \n";
 		cout << "8) Sum for v_i, v_j: \n";
+		cout << "9) Set v_i = v_j: \n";
 		cout << "\n$Choose:  ";
 		cin >> choice;
 
@@ -204,6 +205,13 @@ void main() {
 			cout << "Enter j: ";
 			cin >> j;
 			v[(i - 1) % 3].add(v[(j - 1)]).show();
+			break;
+		case 9:
+			cout << "Enter i: ";
+			cin >> i;
+			cout << "Enter j: ";
+			cin >> j;
+			v[(i - 1) % 3] = v[(j - 1) % 3];
 			break;
 		default:
 			cout << "No such option\n";
