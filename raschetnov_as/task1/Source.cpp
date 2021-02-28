@@ -39,6 +39,7 @@ rFraction rFraction::operator+(const rFraction& temp)
     rFraction helper;
     helper.numerator = this->numerator * temp.denominator + temp.numerator * this->denominator;
     helper.denominator = this->denominator * temp.denominator;
+    helper.fractionGCF();
     return helper;
 }
 
@@ -47,6 +48,7 @@ rFraction rFraction::operator-(const rFraction& temp)
     rFraction helper;
     helper.numerator = this->numerator * temp.denominator - temp.numerator * this->denominator;
     helper.denominator = this->denominator * temp.denominator;
+    helper.fractionGCF();
     return helper;
 }
 
@@ -55,6 +57,7 @@ rFraction rFraction::operator*(const rFraction& temp)
     rFraction helper;
     helper.numerator = this->numerator * temp.numerator;
     helper.denominator = this->denominator * temp.denominator;
+    helper.fractionGCF();
     return helper;
 }
 
@@ -63,6 +66,7 @@ rFraction rFraction::operator/(const rFraction& temp)
     rFraction helper;
     helper.numerator = this->numerator * temp.denominator;
     helper.denominator = this->denominator * temp.numerator;
+    helper.fractionGCF();
     return helper;
 }
 
@@ -145,15 +149,9 @@ int main()
     initFunction(numerator, denominator);
     rfraction2.fractionInit(numerator, denominator);
     addition = rfraction1 + rfraction2;
-    // call object.fractionGCF everytime u want to reduce fraction.
-    addition.fractionGCF();
     subtraction = rfraction1 - rfraction2;
-    subtraction.fractionGCF();
     multiplication = rfraction1 * rfraction2;
-    multiplication.fractionGCF();
     division = rfraction1 / rfraction2;
-    division.fractionGCF();
-    addition.fractionGCF();
     addition.fractionOutput();
     subtraction.fractionOutput();
     multiplication.fractionOutput();
