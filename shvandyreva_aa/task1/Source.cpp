@@ -12,7 +12,8 @@
 #include <iostream>
 using namespace std;
 
-class KonverterDlin {
+class KonverterDlin 
+{
 private:
     double metr;
     double foot, yard, fathom, arshin;
@@ -32,41 +33,41 @@ public:
     }
     void CurrentMetr()
     {
-        cout << " \nТекущая длина в метрах:  " << get_in_metr() << endl;
+        cout << " \nТекущая длина в метрах:  " << GetMetr() << endl;
     }
     void CurrentFoot()
     {
-        cout << " \nТекущая длина в футах:  " << get_in_foot() << endl;
+        cout << " \nТекущая длина в футах:  " << GetFoot() << endl;
     }
     void CurrentYard()
     {
-        cout << " \nТекущая длина в ярдах:  " << get_in_yard() << endl;
+        cout << " \nТекущая длина в ярдах:  " << GetYard() << endl;
     }
     void CurrentFathom()
     {
-        cout << " \nТекущая длина в саженях:  " << get_in_fathom() << endl;
+        cout << " \nТекущая длина в саженях:  " << GetFathom() << endl;
     }
     void CurrentArshin()
     {
-        cout << " \nТекущая длина в аршинах:  " << get_in_arshin() << endl;
+        cout << " \nТекущая длина в аршинах:  " << GetArshin() << endl;
     }
-    double get_in_metr() 
+    double GetMetr() 
     {
         return metr;
     }
-    double get_in_foot()
+    double GetFoot()
     {
         return foot;
     }
-    double get_in_yard()
+    double GetYard()
     {
         return yard;
     }
-    double get_in_fathom()
+    double GetFathom()
     {
         return fathom;
     }
-    double get_in_arshin()
+    double GetArshin()
     {
         return fathom;
     }
