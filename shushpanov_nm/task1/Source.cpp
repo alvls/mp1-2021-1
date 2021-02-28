@@ -12,45 +12,37 @@ public:
         weight = 9;
         originalWeight = 3.5;
     }
-    void scanWeight()
+    void scanWeight(double weightInput)
     {
-        while (check)
-        {
-            cout << "Введите вес в килограммах (Если число не целое, вводите так: 3.5): ";
-            cin >> originalWeight;
-            if (originalWeight < 0)
-            {
-                cout << "Введенно отрицательное значение, программа работает только с положительными числами. Пожалуйста, попробуйте еще раз. \n" << endl;
-            }
-            else
-            {
-                check = false;
-            }
-        }
+        originalWeight = weightInput;
     }
     void printOriginalWeight()
     {
-        cout << "Исходный вес = " << originalWeight << "кг" << "\n" << endl;
+        cout << "Исходный вес = " << originalWeight << " кг" << "\n" << endl;
     }
     void printConvertWeight(char* str)
     {
         cout << "Перевод " << originalWeight << "кг = " << weight << str << "\n" << endl;
     }
-    void convertGrams()
+    double convertGrams()
     {
         weight = originalWeight * 1000;
+        return weight;
     }
-    void convertPharmacyPound()
+    double convertPharmacyPound()
     {
         weight = originalWeight * 2.679;
+        return weight;
     }
-    void convertTroyOunce()
+    double convertTroyOunce()
     {
         weight = originalWeight * 32.151;
+        return weight;
     }
-    void convertPood()
+    double convertPood()
     {
         weight = originalWeight / 16.381;
+        return weight;
     }
 };
 
@@ -58,10 +50,24 @@ int main()
 {
     setlocale(LC_ALL, "rus");
     int indexMenu = 0;
-    bool end = true;
+    double weightInput;
+    bool end = true, check = true;
     char* str;
     ScaleConverter convert;
-    convert.scanWeight();
+    while (check)
+    {
+        cout << "Введите вес в килограммах (Если число не целое, вводите так: 3.5): ";
+        cin >> weightInput;
+        if (weightInput < 0)
+        {
+            cout << "Введенно отрицательное значение, программа работает только с положительными числами. Пожалуйста, попробуйте еще раз. \n" << endl;
+        }
+        else
+        {
+            convert.scanWeight(weightInput);
+            check = false;
+        }
+    }
     cout << "\nПрограмма умеет: \n" << "1. Перевести килограммы в граммы;\n" << "2. Перевести килограммы в аптечный фунт;\n"
         << "3. Перевести килограммы в тройскую унцию;\n" << "4. Перевести килограммы в пуды;\n" << "5. Вывести изначально веденные килограммы;\n"
         << "6. Выйти из программы. \n" << endl;
