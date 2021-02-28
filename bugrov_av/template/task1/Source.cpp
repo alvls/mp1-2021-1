@@ -87,14 +87,14 @@ public:
 	}
 	void multiply(Rational r)
 	{
-		long long m = r.open_p();
-		unsigned long long n = r.open_q();
+		long long m = r.p;
+		unsigned long long n = r.q;
 		num_multiply(m, n);
 	}
 	void division(Rational r)
 	{
-		long long n1 = long long(r.open_q());
-		long long m = r.open_p();
+		long long n1 = long long(r.q);
+		long long m = r.p;
 		unsigned long long m1;
 		if (m < 0)
 		{
@@ -107,8 +107,8 @@ public:
 	}
 	void addition(Rational r)
 	{
-		long long m = r.open_p();
-		unsigned long long n = r.open_q();
+		long long m = r.p;
+		unsigned long long n = r.q;
 		m = Algebsum(n, m);
 	}
 	void subtraction(Rational r)
