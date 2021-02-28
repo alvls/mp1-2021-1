@@ -2,17 +2,19 @@
 #include <cmath>
 using namespace std;
 
+class rFraction;
+void initFunction(int& numerator, int& denominator);
 class rFraction
 {
     int numerator;
     int denominator;
-    void fractionGCF();
 public:
     rFraction();
     rFraction(int numerator, int denominator);
-    void fractionInit();
+    void fractionInit(int numerator, int denominator);
     void fractionStatus();
     void fractionOutput();
+    void fractionGCF();
     rFraction operator+(const rFraction& temp);
     rFraction operator-(const rFraction& temp);
     rFraction operator*(const rFraction& temp);
@@ -95,7 +97,6 @@ void rFraction::fractionGCF()
 
 void rFraction::fractionOutput()
 {
-    this->fractionGCF();
     if (this->numerator == 0)
         cout << numerator << endl;
     else
@@ -105,25 +106,27 @@ void rFraction::fractionOutput()
             if (this->denominator == 1)
                 cout << this->numerator << endl;
             else
-                cout << this->numerator << "/" << this->denominator << endl;
+                cout << this->numerator << "/" << this->denominator << endl; 
 }
 
-void rFraction::fractionInit()
+void rFraction::fractionInit(int numerator, int denominator)
 {
-    int numerator, denominator;
-    cout << "Enter numerator of the fraction:" << endl;
-    cin >> numerator;
     this->numerator = numerator;
-    cout << "Enter denominator of the fraction:" << endl;
-    cin >> denominator;
-    while (denominator == 0)
-    {
-        cout << "Denominator can't be zero, enter another value:" << endl;
-        cin >> denominator;
-    }
-
     this->denominator = denominator;
     this->fractionGCF();
+}
+
+void initFunction(int& numerator, int& denominator)
+{
+  cout << "Enter numerator of the fraction:" << endl;
+  cin >> numerator;
+  cout << "Enter denominator of the fraction:" << endl;
+  cin >> denominator;
+  while (denominator == 0)
+  {
+      cout << "Denominator can't be zero, enter another value:" << endl;
+      cin >> denominator;
+  }
 }
 
 void rFraction::fractionStatus()
@@ -133,17 +136,27 @@ void rFraction::fractionStatus()
 
 int main()
 {
+    int numerator = 0, denominator = 0;
     rFraction addition, subtraction, multiplication, division;
     rFraction rfraction1, rfraction2;
-    rfraction1.fractionInit();
-    rfraction2.fractionInit();
+    // call initFunction everytime u want to initialize object, than call object.fractionInit.
+    initFunction(numerator, denominator);
+    rfraction1.fractionInit(numerator, denominator);
+    initFunction(numerator, denominator);
+    rfraction2.fractionInit(numerator, denominator);
     addition = rfraction1 + rfraction2;
+    // call object.fractionGCF everytime u want to reduce fraction.
+    addition.fractionGCF();
     subtraction = rfraction1 - rfraction2;
+    subtraction.fractionGCF();
     multiplication = rfraction1 * rfraction2;
+    multiplication.fractionGCF();
     division = rfraction1 / rfraction2;
+    division.fractionGCF();
+    addition.fractionGCF();
     addition.fractionOutput();
     subtraction.fractionOutput();
     multiplication.fractionOutput();
-    division.fractionOutput();
+    division.fractionOutput(); 
     return 0;
 }
