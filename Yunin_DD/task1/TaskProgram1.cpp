@@ -10,14 +10,13 @@ private:
 public:
 	ConversionTemperature()
 	{
-		tektemp = 21;
+		tektemp = -273.15;
 		/*cout << "Здесь заработал констурктор!" << endl;
 		cout << "Текущее значение температуры = " << tektemp << endl;*/
 	}
-	double SetTekTemp()
+	double SetTekTemp(double temper)
 	{
-		cout << "Введите число (в градусах Цельсия): ";
-		cin >> tektemp;
+		tektemp = temper;
 		anothertemp = tektemp;
 		return anothertemp;
 	}
@@ -29,25 +28,30 @@ public:
 	{
 		cout << "Текущее значение температуры  = " << tektemp << " " << namestr << endl;
 	}
-	void TempKelvin()
+	double TempKelvin()
 	{
 		tektemp += 273.15;
+		return tektemp;
 	}
-	void TempFar()
+	double TempFar()
 	{
 		tektemp = ((9 * tektemp) / 5) + 32;
+		return tektemp;
 	}
-	void TempReor()
+	double TempReor()
 	{
 		tektemp = tektemp * 0.8;
+		return tektemp;
 	}
-	void TempRo()
+	double TempRo()
 	{
 		tektemp = (21 * tektemp / 40) + 7.5;
+		return tektemp;
 	}
-	void TempRan()
+	double TempRan()
 	{
 		tektemp = (tektemp + 273.15) * 9 / 5;
+		return tektemp;
 	}
 };
 
@@ -57,12 +61,13 @@ void Repete(int* i);
 
 ConversionTemperature a;
 int temp = 0;
-double cormis = 21;
+double cormis = -273.15;
 
 int main()
 {
 	setlocale(LC_ALL, "Rus");
 	int i;
+	double temperature;
 	string namec;
 	//небольшая менюшка для 3 режимов (их описание)
 	Menu();
@@ -72,7 +77,9 @@ int main()
 	{
 		case 1:
 			//установить температуру.
-			cormis = a.SetTekTemp();
+			cout << "Введите число (в градусах Цельсия): ";
+			cin >> temperature;
+			cormis = a.SetTekTemp(temperature);
 			break;
 		case 2:
 			//получить знания о тек переменной.
@@ -103,6 +110,7 @@ int main()
 int ChoiceTransl()
 {
 	int i = 0;
+	double valuetemperature;
 	string name;
 	cout << "Доступны следующие шкалы температур:\n\t(1) - Кельвины\n\t(2) - Фаренгейты\n\t(3) - Реомюры\n\t(4) - Рёмеры\n\t(5) - Ранкины" << endl;
 	cout << "Введите цифру, в которой хотите узнать данное значение температуры: ";
@@ -111,27 +119,27 @@ int ChoiceTransl()
 	switch (i)
 	{
 	case 1:
-		a.TempKelvin();
+		valuetemperature = a.TempKelvin();
 		name = "Кельвинов";
 		a.GetTekTemp(name);
 		break;
 	case 2:
-		a.TempFar();
+		valuetemperature = a.TempFar();
 		name = "градусов по Фаренгейту";
 		a.GetTekTemp(name);
 		break;
 	case 3:
-		a.TempReor();
+		valuetemperature = a.TempReor();
 		name = "градусов Реомюра";
 		a.GetTekTemp(name);
 		break;
 	case 4:
-		a.TempRo();
+		valuetemperature = a.TempRo();
 		name = "градусов Рёмера";
 		a.GetTekTemp(name);
 		break;
 	case 5:
-		a.TempRan();
+		valuetemperature = a.TempRan();
 		name = "градусов Ранкина";
 		a.GetTekTemp(name);
 		break;
