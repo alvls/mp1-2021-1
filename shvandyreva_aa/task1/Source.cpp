@@ -14,7 +14,8 @@ using namespace std;
 
 class KonverterDlin {
 private:
-    double metr;double foot, yard, fathom, arshin;
+    double metr;
+    double foot, yard, fathom, arshin;
 public:
     
     KonverterDlin(double metr_k) // конструктор класса
@@ -24,30 +25,10 @@ public:
     void setMetr(double metr_k)
     {
         metr = metr_k;
-        foot = 0;
-        yard = 0;
-        fathom = 0;
-        arshin = 0;
-    }
-    void perevod_in_foot(double metr_k) //перевод в футы
-    {
-        double foot_one = 3.28083989501;
-        foot = metr_k * foot_one;
-    }
-    void perevod_in_yard(double metr_k) //перевод в ярды
-    {
-        double yard_one = 1.09361329834;
-        yard = metr_k * yard_one;
-    }
-    void perevod_in_fathom(double metr_k) //перевод в сажени
-    {
-        double fathom_one = 2.1336;
-        fathom = metr_k * fathom_one;
-    }
-    void perevod_in_arshin(double metr_k) //перевод в аршины
-    {
-        double arshin_one = 0.7112;
-        arshin = metr_k * arshin_one;
+        foot = metr_k * 3.28083989501;//перевод в футы
+        yard = metr_k * 1.09361329834;//перевод в ярды
+        fathom = metr_k * 2.1336;//перевод в сажени
+        arshin = metr_k * 0.7112;//перевод в аршины
     }
     void CurrentMetr()
     {
@@ -136,25 +117,21 @@ int main()
             {
             case 1:
             {
-                objKonverterDlin.perevod_in_foot(Metr);
                 objKonverterDlin.CurrentFoot();
                 break;
             }
             case 2:
             {
-                objKonverterDlin.perevod_in_yard(Metr);
                 objKonverterDlin.CurrentYard();
                 break;
             }
             case 3:
             {
-                objKonverterDlin.perevod_in_fathom(Metr);
                 objKonverterDlin.CurrentFathom();
                 break;
             }
             case 4:
             {
-                objKonverterDlin.perevod_in_arshin(Metr);
                 objKonverterDlin.CurrentArshin();
                 break;
             }
