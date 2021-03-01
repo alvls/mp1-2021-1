@@ -33,21 +33,29 @@ int main()
 				term[i] = 0.0;
 			}
 		}
+		polinom()
+		{
+
+		}
 		unsigned short int degree()//получение степени полинома
 		{
 			return max;
 		}
 		double monom(int k)//получение коэффициента монома
 		{
-
+			return term[k];
 		}
 		double point_value(double x)//значение при данном икс
 		{
-
+			double answer;
+			
 		}
-		double* derivative()//производная 
+		polinom* derivative()//производная 
 		{
-
+			polinom der(max);
+			for (int i = 0; i < max; i++)
+				der.term[i] = der.term[i + 1] * double(i + 1);
+			der.term[max] = 0.0;
 		}
 		~polinom()//деструктор, удаляющий полином
 		{
