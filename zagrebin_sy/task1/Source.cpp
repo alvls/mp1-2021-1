@@ -15,8 +15,8 @@ public:
 		p2 = x;
 	}
 	void set(long_number x) {	//SET long_number
-		p1 = x.get1();
-		p2 = x.get2();
+		p1 = x.p1;
+		p2 = x.p2;
 	}
 	long long show() {	// RETURN AS long long
 		return long long(p1) << (sizeof(long long) * 4) | p2;
@@ -43,8 +43,8 @@ public:
 	}
 	long_number add(long_number x) {	// + long_number
 		long_number r;
-		r.set2(p2 + x.get2());
-		r.set1(p1+ x.get1() + int((long long(p2) + x.get2()) >> 32));
+		r.set2(p2 + x.p2);
+		r.set1(p1+ x.p1 + int((long long(p2) + x.p2) >> 32));
 		return r;
 	}
 	long_number add(int x) {	// + int
@@ -56,22 +56,22 @@ public:
 	long_number sub(long_number x) {	// -
 		long_number r;
 		x = x.inv();
-		r.set2(p2 + x.get2());
-		r.set1(p1 + x.get1() + int((long long(p2) + x.get2()) >> 32));
+		r.set2(p2 + x.p2);
+		r.set1(p1 + x.p1 + int((long long(p2) + x.p2) >> 32));
 		return r;
 	}
 	long_number mult(long_number x) {	// *
 		long_number r;
-		r.set2(p2 * x.get2());
-		r.set1(p1 * x.get2() + p2 * x.get1() + int((long long(p2) * x.get2()) >> 32));
+		r.set2(p2 * x.p2);
+		r.set1(p1 * x.p2 + p2 * x.p1 + int((long long(p2) * x.p2) >> 32));
 
 		return r;
 	}
 	long_number div(long_number x) {	// /
 		long_number r, y; y.set(show()); // y / x
 		int sign;
-		if ((x.get1() | x.get2()) != 0)
-			if ((y.get1() >= 0) ^ (x.get1() >= 0))
+		if ((x.p1 | x.p2) != 0)
+			if ((y.p1 >= 0) ^ (x.p1 >= 0))
 				while (abs(y.show()) >= abs(x.show())) {// +-
 					r = r.add(-1);
 					y = y.add(x);
