@@ -44,38 +44,101 @@ public:
 		int sum2 = 0;
 		sum1 = h * 3600 + m * 60 + s;//число секунд для времени, хранящегося в классе 
 		sum2 = hours * 3600 + minutes * 60 + seconds;//число секунд для времени, введенного с клавиатуры
-		return (sum1-sum2);//возвращает разницу в секундах 
+		return (sum1-sum2);//возвращает разницу в секундах, затем в main переводится в привычное время 
 	}
-	int move(int h, int m, int s, bool flag)//сдвиг времени
+	void move(int h, int m, int s, bool flag)//сдвиг времени. flag-в какую сторону сдвигаем время (1 - в положительную сторону, 0 - в отрицательную сторону)
 	{
-		while (((flag==1)&&((hours+h) >= 24)) || ((flag == 0) && (((hours - h) < 0))))
-		{
-			return 1;//по возвращенному числу алгоритм в main понимает, введены ли верно данные (часы, минуты, секунды) 
-		}
-		while (((flag == 1) && ((minutes + m) >= 60)) || ((flag == 0) && ((minutes - m) < 0)))
-		{
-			return 2;
-		}
-
-		while (((flag == 1) && ((seconds + s) >= 60)) || ((flag == 0) && ((seconds - s) < 0)))
-		{
-			return 3;
-		}
-
 		if (flag == 1)
 		{
 			seconds = seconds + s;
 			minutes = minutes + m;
 			hours = hours + h;
-			return 0;//если все хорошо, возвращает 0
 		}
-		else
+		if (flag == 0)
 		{
 			seconds = seconds - s;
 			minutes = minutes - m;
 			hours = hours - h;
-			return 0;//если все хорошо, возвращает 0
 		}
+
+		if ((flag == 1) && ((seconds + s) > 60))//обработка положительного переполнения для секунд
+		{
+			minutes = minutes + seconds / 60;
+			seconds = seconds % 60;
+		}
+		else 
+			if ((flag == 1) && ((seconds + s) < 0))//обработка отрицательного переполнения для секунд
+			{
+				minutes = minutes - abs(seconds) / 60;
+				seconds = 60-abs(seconds) % 60;
+			}
+
+		if ((flag == 0) && ((seconds - s) > 60))//обработка положительного переполнения для секунд
+		{
+			minutes = minutes + seconds / 60;
+			seconds = seconds % 60;
+		}
+		else 
+			if ((flag == 0) && ((seconds - s) < 0))//обработка отрицательного переполнения для секунд
+			{
+				minutes = minutes - abs(seconds) / 60;
+				seconds = 60-abs(seconds) % 60;
+			}
+
+		if ((flag == 1) && ((minutes + m) > 60))//обработка положительного переполнения для минут
+		{
+				hours = hours + minutes / 60;
+				minutes = minutes % 60;
+		}
+		else 
+			if ((flag == 1) && ((minutes + m) < 0))//обработка отрицательного переполнения для минут
+			{
+				hours = hours - abs(minutes) / 60;
+				minutes = 60-abs(minutes) % 60;
+			}
+
+		if ((flag == 0) && ((minutes - m) > 60))//обработка положительного переполнения для минут
+		{
+			hours = hours + minutes / 60;
+			minutes = minutes % 60;
+		}
+		else
+			if ((flag == 0) && ((minutes - m) < 0))//обработка отрицательного переполнения для минут
+			{
+				hours = hours - abs(minutes) / 60;
+				minutes = 60-abs(minutes) % 60;
+			}
+
+		if ((flag == 1) && ((hours + h) > 24))//обработка положительного переполнения для часа
+		{
+			if (hours % 24 == 0)
+				hours = 0;
+			else
+				hours = hours % 24;
+		} 
+		else 
+			if ((flag == 1) && ((hours + h) < 0))//обработка отрицательного переполнения для часа
+			{
+				if (hours % 24 == 0)
+					hours = 0;
+				else
+					hours = 24-abs(hours) % 24;
+			}
+		if ((flag == 0) && ((hours - h) > 24))//обработка положительного переполнения для часа
+		{
+			if (hours % 24 == 0)
+				hours = 0;
+			else
+				hours = hours % 24;
+		}
+		else 
+			if ((flag == 0) && ((hours - h) < 0))//обработка отрицательного переполнения для часа
+			{
+				if (hours % 24 == 0)
+					hours = 0;
+				else
+					hours = 24 - abs(hours) % 24;
+			}
 	}
 };
 void main()
@@ -84,7 +147,7 @@ void main()
 	bool flag = 1;//флаг для меню
 	bool f;//флаг для 4 режима
 	setlocale(LC_ALL, "Russian");
-	Time t(s, m, h);//вызываем конструктор
+	Time t(h, m, s);//вызываем конструктор
 	while (flag == 1)
 	{
 		showmenu();
@@ -117,21 +180,6 @@ void main()
 		case 3://вычисление разницы
 			std::cout << "Введите время - сначала час, затем минуту и секунду, каждый раз нажимая enter: ";
 			std::cin >> h >> m >> s;
-			while ((h >= 24) || (h < 0))
-			{
-				std::cout << "Неверно введен час, попытайтесь заново: ";
-				std::cin >> h;
-			}
-			while ((m >= 60) || (m < 0))
-			{
-				std::cout << "Неверно введена минута, попытайтесь заново: ";
-				std::cin >> m;
-			}
-			while ((s >= 60) || (s < 0))
-			{
-				std::cout << "Неверно введена секунда, попытайтесь заново: ";
-				std::cin >> s;
-			}
 			sum=t.raznica(h, m, s);
 			h = sum / 3600;
 			sum = sum % 3600;
@@ -147,41 +195,7 @@ void main()
 			std::cin >> f;
 			std::cout << "Введите смещение времени - сначала час, затем минуту и секунду, каждый раз нажимая enter: ";
 			std::cin >> h >> m >> s;
-			while ((h >= 24) || (h < 0))
-			{
-				std::cout << "Неверно введен час, попытайтесь заново: ";
-				std::cin >> h;
-			}
-			while ((m >= 60) || (m < 0))
-			{
-				std::cout << "Неверно введена минута, попытайтесь заново: ";
-				std::cin >> m;
-			}
-			while ((s >= 60) || (s < 0))
-			{
-				std::cout << "Неверно введена секунда, попытайтесь заново: ";
-				std::cin >> s;
-			}
-			t.move(s, m, h, f);
-
-			while (t.move(h, m, s, f) != 0)
-			{
-				if(t.move(h, m, s, f)==1)
-				{
-					std::cout << "введен слишком большой сдвиг по часам, попытайтесь заново: ";
-					std::cin >> h;
-				}
-				if (t.move(h, m, s, f) == 2)
-				{
-					std::cout << "введен слишком большой сдвиг по минутам, попытайтесь заново: ";
-					std::cin >> m;
-				}
-				if (t.move(h, m, s, f) == 3)
-				{
-					std::cout << "введен слишком большой сдвиг по секундам, попытайтесь заново: ";
-					std::cin >> s;
-				}
-			}
+			t.move(h, m, s, f);
 			break;
 		case 0:
 			flag = 0;
