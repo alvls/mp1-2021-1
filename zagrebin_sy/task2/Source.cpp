@@ -12,7 +12,7 @@ public:
 	}
 	Vector(int n) {
 		if (n < 1 || n > 20)
-			cout << "Init Error: Out of range [1;20]\n";
+			cout << "*Init Error* Out of range [1;20]\n";
 		else {
 			size = n;
 			a = new int[n];
@@ -20,15 +20,25 @@ public:
 				a[i] = 0;
 		}
 	}
+	Vector(const Vector& v) {
+		size = v.size;
+		a = new int[size];
+		for (int i = 0; i < size; i++)
+			a[i] = v.a[i];
+	}
 	Vector(int n, int ...) {
 		if (n < 1 || n > 20)
-			cout << "Init Error: Out of range [1;20]\n";
+			cout << "*Init Error* Out of range [1;20]\n";
 		else {
 			size = n;
 			int *arr = &n;
 			a = new int[n];
-			for (int i = 0; i < n; i++)
-				a[i] = arr[2*(i+1)];	// why + 8 bytes works???
+			if (sizeof(int*) == 4)	// x86
+				for (int i = 0; i < n; i++)
+					a[i] = arr[i+1];	
+			else
+				for (int i = 0; i < n; i++)	// x64
+					a[i] = arr[2 * (i + 1)];
 		}
 	}
 	~Vector() {		// destructor
@@ -48,7 +58,7 @@ public:
 		}
 
 	}
-	void show() {	// show
+	void show() {	// for tester
 		cout << '[';
 		for (int i = 0; i < size; i++)
 			cout << a[i] << ", ";
@@ -56,7 +66,7 @@ public:
 	}
 	void set_size(int n) {	// set size
 		if (n < 1 || n > 20)
-			cout << "Error: Size out of range [1;20]\n";
+			cout << "*Error* Size out of range [1;20]\n";
 		else {
 			size = n;
 			delete []a;
@@ -69,21 +79,21 @@ public:
 		return size;
 	}
 	void set(int i, int x) {	// set component
-		if (size < i || i < 1)
-			cout << "Error: Index out of range\n";
+		if (size < i || i < 1)	// index from 1!
+			cout << "*Error* Index out of range\n";
 		else
 			a[i-1] = x;
 	}
 	int get(int i) {	// get component
 		if (size < i || i < 1) {
-			cout << "Error: Index out of range\n";
+			cout << "*Error* Index out of range\n";
 			return 0;
 		}else
 			return a[i-1];
 	}
 	double length() {	// get length
 		if (size < 1) {
-			cout << "Error: Vector wasn't initialized\n";
+			cout << "*Error* Vector wasn't initialized\n";
 			return 0;
 		}else {
 			double len = 0;
@@ -93,9 +103,9 @@ public:
 			return sqrt(len);
 		}
 	}
-	long scalar(Vector &v) {	// scalar
+	long scalar(const Vector &v) {	// scalar
 		if (size < 1 || v.size != size) {
-			cout << "Error: Wrong sizes\n";
+			cout << "*Error* Wrong sizes\n";
 			return 0;
 		}else {
 			long res = 0;
@@ -104,15 +114,15 @@ public:
 			return res;
 		}
 	}
-	Vector add(Vector& v) {		// +
+	Vector add(const Vector &v) {		// +
 		Vector res;
 		if (size != v.size) {
-			cout << "Error: Different sizes\n";
+			cout << "*Error* Different sizes\n";
 			return res;
 		}else{
 			res.set_size(size);
-			for(int i = 0; i < size; i++)
-				res.set(i, a[i] + (v.a)[i]);
+			for (int i = 0; i < size; i++)
+				res.set(i + 1, a[i] + (v.a)[i]);
 			return res;
 		}
 	}
@@ -204,7 +214,7 @@ void main() {
 			cin >> i;
 			cout << "Enter j: ";
 			cin >> j;
-			v[(i - 1) % 3].add(v[(j - 1)]).show();
+			v[(i - 1) % 3].add(v[(j - 1) % 3]).show();
 			break;
 		case 9:
 			cout << "Enter i: ";
@@ -216,10 +226,9 @@ void main() {
 		default:
 			cout << "No such option\n";
 		}
-		cout << "Continue? (0 - NO):";
+		cout << "\nContinue? (0 - NO):";
 		cin >> again;
 	}
 	
-
 	system("pause");
 }

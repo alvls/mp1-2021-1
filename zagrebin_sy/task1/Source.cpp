@@ -117,8 +117,7 @@ void main() {
 			cout << "n2: ";
 			cin >> x;
 			n2.set(x);
-			n3 = n1.add(n2);
-			cout << n3.show();
+			cout << n1.add(n2).show();
 			break;
 		case 3:
 			cout << "n1: ";
