@@ -55,16 +55,23 @@ public:
 			delete[]coef;
 			coef = new double[n + 1];
 		}
+		deg = n;
 		double a;
 		for (int i = n; i >= 0; i--)
 		{
 			cin >> a;
 			coef[i] = a;
 		}
+		while (coef[deg] == 0.0)
+		{
+			if (!deg)
+				break;
+			deg--;
+		}
 	}
 	double out_coef(int k)//вывод коэффициента монома
 	{
-		return coef[k];
+		return (k > deg) ? 0.0 : coef[k];
 	}
 	double value(double x)//значение при данном икс
 	{
@@ -79,17 +86,15 @@ public:
 				monom_val *= x;
 			}
 			monom_val *= coef[i];
-			cout << "Monom " << "№" << i << " = " << monom_val << endl;
 			answer += monom_val;
 		}
 		return answer;
 	}
 	polinom derivative()//производная 
 	{
-		polinom der(deg);
+		polinom der(deg-1);
 		for (int i = 0; i < deg; i++)
-			der.coef[i] = der.coef[i + 1] * double(i + 1);
-		der.coef[deg] = 0.0;
+			der.coef[i] = coef[i + 1] * double(i + 1);
 		return der;
 	}
 	~polinom() //деструктор, удаляющий полином
@@ -98,7 +103,6 @@ public:
 	}
 	polinom(const polinom& p)//оператор копирования
 	{
-		delete[] coef;
 		deg = p.deg;
 		coef = new double[deg + 1];
 		for (int i = 0; i < deg + 1; i++)
@@ -128,13 +132,52 @@ void printer(const T print)
 void class_printer(const polinom& p)
 {
 	cout << "Ответ: ";
-	cout << p.coef[p.deg] << "x^" << p.deg;
-	for (int i = p.deg - 1; i >= 0; i--)
+	if (p.deg > 1)
 	{
-		if (p.coef[i] != 0.0)
-			cout << showpos << p.coef[i] << "x^" << i;
+		if (p.coef[p.deg] == 1.0 && p.deg > 1)
+			cout << "x^" << p.deg;
+		else
+			cout << p.coef[p.deg] << "x^" << p.deg << " ";
+		for (int i = p.deg - 1; i > 1; i--)
+		{
+			if (p.coef[i] != 0.0)
+			{
+				cout << showpos << p.coef[i];
+				cout << noshowpos << "x^" << i << " ";
+			}
+		}
+		if (p.coef[1] != 0.0)
+		{
+			cout << showpos << p.coef[1];
+			cout << "x" << " ";
+		}
+		if (p.coef[0] != 0.0)
+			cout << showpos << p.coef[0] << " ";
+	}
+	else
+	{
+		if (p.deg >= 1 && p.coef[1] != 0.0)
+		{
+			cout << p.coef[1];
+			cout << "x" << " ";
+			if (p.coef[0] != 0.0)
+				cout << showpos << p.coef[0] << " ";
+		}
+		else
+		if (p.coef[0] != 0.0)
+			cout << p.coef[0] << " ";
 	}
 	cout << "\n";
+}
+int get_deg()
+{
+	int n;
+	do {
+		cin >> n;
+		if (n < 0 || n>12)
+			cout << "Вы ошиблись, введите заново" << endl;
+	} while (n < 0 || n>12);
+	return n;
 }
 int main()
 {
@@ -147,45 +190,39 @@ int main()
 	double _coef;
 	double x;
 	double y;
+	cout << "Все дробные значения вводите, отделяя дробную часть точкой" << endl << endl;
 	do {
-		cout << "1. Задать степень полинома." << endl;
-		cout << "2. Задать коэффициенты мономов полинома." << endl;
-		cout << "3. Узнать степень полинома." << endl;
-		cout << "4. Узнать значение коэффициента по его номеру." << endl;
-		cout << "5. Вычислить значение полинома в заданной точке х." << endl;
-		cout << "6. Найти производную полинома." << endl;
-		cout << "7. Вывести полином на экран." << endl;
-		cout << "0. Выйти из программы." << endl;
+		cout << "1. Заменить степень полинома" << endl;
+		cout << "2. Задать коэффициенты мономов полинома" << endl;
+		cout << "3. Узнать степень полинома" << endl;
+		cout << "4. Узнать значение коэффициента при указанной степени х" << endl;
+		cout << "5. Вычислить значение полинома в заданной точке х" << endl;
+		cout << "6. Найти производную полинома" << endl;
+		cout << "7. Вывести полином на экран" << endl;
+		cout << "0. Выйти из программы" << endl;
 		cin >> a;
 		switch (a)
 		{
 		case 1:
-			cin >> n;
-			do {
-				p.in_deg(n);
-				if (n < 0 || n>12)
-					cout << "Вы ошиблись, введите заново" << endl;
-			} while (n < 0 || n>12);
+			cout << "Введите степень" << endl;
+			p.in_deg(get_deg());
 			break;
 		case 2:
-			cout << "Укажите степень полинома." << endl;
-			cin >> n;
-			do {
-				p.in_coef(n);
-				if (n < 0 || n > 12)
-					cout << "Вы ошиблись, введите заново" << endl;
-			} while (!n || n > 12);
+			cout << "Укажите дополнительно степень полинома" << endl;
+			cout << "Затем вводите коэффициенты при степенях, расположенных в порядке убывания" << endl;
+			p.in_coef(get_deg());
 			break;
 		case 3:
 			_deg = p.out_deg();
 			printer(_deg);
 			break;
 		case 4:
-			cin >> n;
-			_coef = p.out_coef(n);
+			cout << "Введите степень икс" << endl;
+			_coef = p.out_coef(get_deg());
 			printer(_coef);
 			break;
 		case 5:
+			cout << "Введите значение точки х" << endl;
 			cin >> x;
 			y = p.value(x);
 			printer(y);
