@@ -8,7 +8,8 @@
 5) выделить подстроку из строки,
 6) проверить, является ли строка палиндромом,
 7) найти, сколько разных символов латинского алфавита содержится в строке.
-Класс должен содержать все необходимые конструкторы, деструктор, оператор присваивания, а также «уметь» выводить себя на консоль.
+Класс должен содержать все необходимые конструкторы, 
+деструктор, оператор присваивания, а также «уметь» выводить себя на консоль.
 */
 
 
@@ -46,7 +47,7 @@ public:
 	void changeSymbolByIndex(int index, char zamena);
 
 	//выделить строку из-под строки(5)
-	char* extractАSubstringАromАString(int left, int lenSub);
+	void extractАSubstringАromАString(int left, int lenSub);
 
 	//счетчик буковок(6)
 	void countCharikov();//
@@ -60,6 +61,7 @@ int main()
 {
 	setlocale(LC_ALL, "rus");
 	const int strLimit = 40;
+	int menuExit = true; // для менюшек
 	char* stringForOperation = new char[strLimit];
 	welcomMessege();
 	cout << "Введите строку" << endl;
@@ -70,6 +72,10 @@ int main()
 		int variantMenu;
 		cout << "Введите номер нужного пункта" << endl;
 		cin >> variantMenu;
+		while ((variantMenu<1)||(variantMenu)>8) {
+			cout << "Такого пункта меню нет. Повторите ввод заново!" << endl;
+			cin >> variantMenu;
+		}
 		switch (variantMenu) {
 		case 1:
 			cout << "Введенная строка:" << endl;
@@ -82,19 +88,28 @@ int main()
 			cout << "________________________________________________________________________________________" << endl;
 			break;
 		case 3:
-			cout << "Введите индекс элемента, который хотите вернуть" << endl;
+			//cout << "Введите индекс элемента, который хотите вернуть" << endl;
 			int index;
+			cout << "Введите индекс интересующего элемента." << endl;
 			cin >> index;
-			cout << "Возвращенный индекс:" << endl;
-			cout << objectForOperation.gettingSymbolByIndex(index) << endl;
+			while ((index > objectForOperation.get_length()) || (index < 1)) {
+				cout << "Элемента с таким индексом нет. Повторите ввод заново." << endl;
+				cin >> index;
+			}
+			cout << "Возвращенный индекс:" << "' " << objectForOperation.gettingSymbolByIndex(index) <<" '" << endl;
+			//cout <<"_______" <<objectForOperation.gettingSymbolByIndex(index) << endl;
 			cout << "________________________________________________________________________________________" << endl;
 			break;
 		case 4:
 
 			cout << "Введите индекс элемента, который хотите изменить" << endl;
 			cin >> index;
+			while ((index > objectForOperation.get_length()) || (index < 1)) {
+				cout << "Элемента с таким индексом нет. Повторите ввод заново." << endl;
+				cin >> index;
+			}
 			char symbol;
-			cout << "Введите символ на который хотите заменить" << endl;
+			cout << "Введите символ, на который хотите заменить" << endl;
 			cin >> symbol;
 			objectForOperation.changeSymbolByIndex(index, symbol);
 			cout << "Получившаяся строка:" << endl;
@@ -103,17 +118,19 @@ int main()
 			break;
 		case 5:
 			cout << "Сейчас вы сможете выделить подстроку из строки" << endl;
-			cout << "Для этого нужно будет ввести индекс с которого начать выделять и количество символов котоые нужно выделить" << endl;
+			cout << "Для этого нужно будет ввести индекс с которого начать выделять и количество символов, которые нужно выделить" << endl;
 			cout << "Введите индекс символа с которого нужно начать" << endl;
 			int left;
 			cin >> left;
 			cout << "Введите длину нужной подстроки" << endl;
 			int len;
 			cin >> len;
-			cout << objectForOperation.extractАSubstringАromАString(left, len) << endl;
+			objectForOperation.extractАSubstringАromАString(left, len);
 			cout << "________________________________________________________________________________________" << endl;
 			break;
 		case 6:
+			cout << "Здесь будет выведено какие и сколько символов в строке находятся. Если вдруг вы изменяли строку" << endl;
+			cout << "в режиме 4, то произойдет разбор измененной строки." << endl;
 			cout << "Сколько каждых символов в строке:" << endl;
 			objectForOperation.countCharikov();
 			cout << "________________________________________________________________________________________" << endl;
@@ -130,7 +147,7 @@ int main()
 			return 0;
 		}
 	}
-	system("pause");
+
 }
 //констрктор по умолчанию
 String::String() {
@@ -164,20 +181,20 @@ void String::scanString(char* getChar)
 	}
 	len = strlen(str);
 }
-//✅
+
 int String::get_length() {
 	return len;
 }
-//✅
+
 char String::gettingSymbolByIndex(int index) {
 	return str[index - 1];
 }
-//✅
+
 void String::changeSymbolByIndex(int index, char zamena) {
 	str[index - 1] = zamena;
 }
 //✅
-char* String::extractАSubstringАromАString(int left, int lenSub)
+void String::extractАSubstringАromАString(int left, int lenSub)
 {
 	char* sub;
 	sub = new char[lenSub + 1];
@@ -186,14 +203,11 @@ char* String::extractАSubstringАromАString(int left, int lenSub)
 		left++;
 	}
 	sub[lenSub] = '\0';
-	//cout << "Выделенная подстрока:" << sub << endl;
-	return sub;
+	cout << "Выделенная подстрока:" << sub << endl;
+	delete[]sub;
 }
 
-//✅
 
-
-//✅
 bool String::polyindromeCheck() {
 	//int i, j;
 	/*//для отладочки
