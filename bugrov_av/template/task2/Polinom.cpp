@@ -10,65 +10,199 @@ using namespace std;
 //5) вычислить значение полинома в заданной точке х, 
 //6) найти производную полинома.
 //Класс должен содержать все необходимые конструкторы, деструктор, оператор присваивания, а также «уметь» выводить себя на консоль.
+//
+/*Задание степени - in_deg
+Задание коэффициентов - in_coef
+Узнать степень полинома - out_deg
+Узнать коэффициент при данной степени икс - out_coef
+Вычислить значение полинома в заданной точке х - value 
+Найти производную полинома - derivative
+*/
+class polinom
+{
+	double* coef;
+	int deg;
+public:
+	friend void class_printer(const polinom& p);
+	polinom(int n = 0)//конструктоp
+	{
+		deg = n;
+		coef = new double[deg + 1];
+		coef[deg] = 1.0;
+		for (int i = 0; i < deg; i++)
+		{
+			coef[i] = 0.0;
+		}
+	}
+	void in_deg(int n)//задание степени полинома
+	{
+		deg = n;
+		coef = new double[deg + 1];
+		coef[deg] = 1.0;
+		for (int i = 0; i < deg; i++)
+		{
+			coef[i] = 0.0;
+		}
+	}
+	unsigned short int out_deg()//вывод степени полинома
+	{
+		return deg;
+	}
+	void in_coef(int n)//ввод коэффициентов
+	{
+		if (n != deg)
+		{
+			delete[]coef;
+			coef = new double[n + 1];
+		}
+		double a;
+		for (int i = n; i >= 0; i--)
+		{
+			cin >> a;
+			coef[i] = a;
+		}
+	}
+	double out_coef(int k)//вывод коэффициента монома
+	{
+		return coef[k];
+	}
+	double value(double x)//значение при данном икс
+	{
+		double monom_val;
+		double answer = 0.0;
+		int i, t;
+		for (i = 0; i < deg + 1; i++)
+		{
+			monom_val = 1.0;
+			for (t = 1; t < i + 1; t++)
+			{
+				monom_val *= x;
+			}
+			monom_val *= coef[i];
+			cout << "Monom " << "№" << i << " = " << monom_val << endl;
+			answer += monom_val;
+		}
+		return answer;
+	}
+	polinom derivative()//производная 
+	{
+		polinom der(deg);
+		for (int i = 0; i < deg; i++)
+			der.coef[i] = der.coef[i + 1] * double(i + 1);
+		der.coef[deg] = 0.0;
+		return der;
+	}
+	~polinom() //деструктор, удаляющий полином
+	{
+		delete[]coef;
+	}
+	polinom(const polinom& p)//оператор копирования
+	{
+		delete[] coef;
+		deg = p.deg;
+		coef = new double[deg + 1];
+		for (int i = 0; i < deg + 1; i++)
+		{
+			coef[i] = p.coef[i];
+		}
+	}
+	polinom& operator = (const polinom& from) //оператор присваивания
+	{
+		if (this == &from)
+			return *this;
+		delete[] coef;
+		deg = from.deg;
+		coef = new double[deg+1];
+		for (int i = 0; i < deg+1; i++)
+		{
+			coef[i] = from.coef[i];
+		}
+		return *this;
+	}
+};
+template <typename T>
+void printer(const T print)
+{
+	cout << "Ответ: " << print << endl;
+}
+void class_printer(const polinom& p)
+{
+	cout << "Ответ: ";
+	cout << p.coef[p.deg] << "x^" << p.deg;
+	for (int i = p.deg - 1; i >= 0; i--)
+	{
+		if (p.coef[i] != 0.0)
+			cout << showpos << p.coef[i] << "x^" << i;
+	}
+	cout << "\n";
+}
 int main()
 {
-	class polinom
-	{
-		double* term;
-		int max;
-	public:
-		polinom()//конструктор по умолчанию
+	setlocale(LC_ALL, "Russian");
+	polinom p;
+	int a;
+	int n;
+	polinom der_x;
+	unsigned short _deg;
+	double _coef;
+	double x;
+	double y;
+	do {
+		cout << "1. Задать степень полинома." << endl;
+		cout << "2. Задать коэффициенты мономов полинома." << endl;
+		cout << "3. Узнать степень полинома." << endl;
+		cout << "4. Узнать значение коэффициента по его номеру." << endl;
+		cout << "5. Вычислить значение полинома в заданной точке х." << endl;
+		cout << "6. Найти производную полинома." << endl;
+		cout << "7. Вывести полином на экран." << endl;
+		cout << "0. Выйти из программы." << endl;
+		cin >> a;
+		switch (a)
 		{
-			term = new double[1];
-			term[0] = 1.0;
-			max = 0;
+		case 1:
+			cin >> n;
+			do {
+				p.in_deg(n);
+				if (n < 0 || n>12)
+					cout << "Вы ошиблись, введите заново" << endl;
+			} while (n < 0 || n>12);
+			break;
+		case 2:
+			cout << "Укажите степень полинома." << endl;
+			cin >> n;
+			do {
+				p.in_coef(n);
+				if (n < 0 || n > 12)
+					cout << "Вы ошиблись, введите заново" << endl;
+			} while (!n || n > 12);
+			break;
+		case 3:
+			_deg = p.out_deg();
+			printer(_deg);
+			break;
+		case 4:
+			cin >> n;
+			_coef = p.out_coef(n);
+			printer(_coef);
+			break;
+		case 5:
+			cin >> x;
+			y = p.value(x);
+			printer(y);
+			break;
+		case 6:
+			der_x = p.derivative();
+			class_printer(der_x);
+			break;
+		case 7:
+			class_printer(p);
+			break;
+		case 0:
+			cout << "До свидания!" << endl;
+			break;
+		default:
+			cout << "Вы ошиблись, повторите ввод снова" << endl;
 		}
-		polinom(int n)//конструктор по умолчанию при указании степени полинома
-		{
-			max = n;
-			term = new double[max+1];
-			term[max] = 1.0;
-			for (int i = 0; i < max; i++)
-			{
-				term[i] = 0.0;
-			}
-		}
-		polinom()
-		{
-
-		}
-		unsigned short int degree()//получение степени полинома
-		{
-			return max;
-		}
-		double monom(int k)//получение коэффициента монома
-		{
-			return term[k];
-		}
-		double point_value(double x)//значение при данном икс
-		{
-			double answer;
-			
-		}
-		polinom* derivative()//производная 
-		{
-			polinom der(max);
-			for (int i = 0; i < max; i++)
-				der.term[i] = der.term[i + 1] * double(i + 1);
-			der.term[max] = 0.0;
-		}
-		~polinom()//деструктор, удаляющий полином
-		{
-			delete []term;
-		}
-		void out()
-		{
-			cout << term[max] << "x^" << max;
-			for (int i = max-1; i >= 0; i--)
-			{
-				if (term[i] != 0.0)
-					cout << showpos << term[i] << "x^" << i;
-			}
-		}
-	};
+	} while (a);
+	system("pause");
 }
