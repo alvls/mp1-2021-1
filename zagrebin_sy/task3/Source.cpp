@@ -50,7 +50,11 @@ public:
 		for (i = size - 1; i >= 0; i--)
 			if (a[i] == str)
 				break;
+		last = i + 1;
 		return i + 1;
+	}
+	int Last() {
+		return last;
 	}
 };
 
@@ -70,6 +74,7 @@ int main() {
 		cout << "3 - set name for i field \n";
 		cout << "4 - set position of the window and show \n";
 		cout << "5 - get field's index \n";
+		cout << "6 - get last chosen \n";
 		cout << "(check your language)\n";
 		cout << "\nPress the button\n";
 
@@ -105,9 +110,13 @@ int main() {
 			_getch();
 			break;
 		case 53:		// 5
-			cout << "Enter index: ";
+			cout << "Enter name of field: ";
 			cin >> str;
 			cout << menu.get(str);
+			_getch();
+			break;
+		case 54:		// 6
+			cout << "Last chosen: " << menu.Last();
 			_getch();
 			break;
 		case 120:		// x-exit
