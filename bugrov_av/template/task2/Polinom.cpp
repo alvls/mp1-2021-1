@@ -92,6 +92,12 @@ public:
 	}
 	polinom derivative()//производная 
 	{
+		if (deg == 0)
+		{
+			polinom der(0);
+			der.coef[0] = 0.0;
+			return der;
+		}
 		polinom der(deg-1);
 		for (int i = 0; i < deg; i++)
 			der.coef[i] = coef[i + 1] * double(i + 1);
@@ -127,7 +133,7 @@ public:
 template <typename T>
 void printer(const T print)
 {
-	cout << "Ответ: " << print << endl;
+	cout << "Ответ: " << noshowpos << print << endl;
 }
 void class_printer(const polinom& p)
 {
@@ -135,9 +141,9 @@ void class_printer(const polinom& p)
 	if (p.deg > 1)
 	{
 		if (p.coef[p.deg] == 1.0 && p.deg > 1)
-			cout << "x^" << p.deg;
+			cout << noshowpos << "x^" << p.deg;
 		else
-			cout << p.coef[p.deg] << "x^" << p.deg << " ";
+			cout << noshowpos << p.coef[p.deg] << "x^" << p.deg << " ";
 		for (int i = p.deg - 1; i > 1; i--)
 		{
 			if (p.coef[i] != 0.0)
@@ -156,16 +162,18 @@ void class_printer(const polinom& p)
 	}
 	else
 	{
-		if (p.deg >= 1 && p.coef[1] != 0.0)
+		if (p.deg > 0)
 		{
-			cout << p.coef[1];
-			cout << "x" << " ";
+			if (p.coef[1] != 0.0)
+			{
+				cout << p.coef[1];
+				cout << "x" << " ";
+			}
 			if (p.coef[0] != 0.0)
 				cout << showpos << p.coef[0] << " ";
 		}
 		else
-		if (p.coef[0] != 0.0)
-			cout << p.coef[0] << " ";
+			cout << noshowpos << p.coef[0] << " ";
 	}
 	cout << "\n";
 }
