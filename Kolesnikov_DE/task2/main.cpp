@@ -1,0 +1,73 @@
+class Dynamic_Mass
+{
+    private:
+        double* mass;
+        int len;
+    public:
+    Dynamic_Mass(int n)
+    {
+        mass =  new double [n];
+        len = n;
+    }
+    ~Dynamic_Mass()
+    {
+        delete[](mass);
+    }
+    void operator{}(int num)
+    {
+        for(int i = 0;i < len;i++){
+            *(mass + i) = num;  
+        }
+    }
+    double operator[](int ind)
+    {   
+
+        if((ind > len-1) ||ind < 0){return NULL}
+        return *(mas + ind);  
+    }
+    Dynamic_Mass& operator=(Dynamic_Mass& massT)
+    {
+        if(massT.len != len){return -1};
+        for(int i = 0;i < len;i++){
+            *(mass + i) = *(massT.mass + i);  
+        }
+        return *this;
+    }
+    int IsOrdered()
+    {
+        for(int i = 1;i < len;i++){
+            if(*(mass + i) < *(mass + i-1)){
+                return 0
+            }
+        }
+        return 1
+    }
+    int Get_Lenght()
+    {
+        return len;
+    }
+    int Cr_OddMass()
+    {
+        double *massOdd;
+        int Oddlen = len/2;
+        massOdd =  new double [Oddlen];
+        if (!massOdd){return -1}
+        for(int i = 0;i < len;i++){
+            *(massOdd + i) = *(mass + i + 1);        
+        }
+        t = mas;
+        mas = massOdd;
+        delete[](t);
+        return 0;
+    }
+}
+
+
+int main()
+{
+    Dynamic_Mass a(5);
+    a[4] = 4;
+    Dynamic_Mass b(5)
+    a = b;
+    a{0};
+}
