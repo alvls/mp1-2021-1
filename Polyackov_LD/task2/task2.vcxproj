@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -19,7 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="0 main.cpp" />
+    <ClCompile Include="1 Class Date.cpp" />
+    <ClCompile Include="2 Information processing.cpp" />
+    <ClCompile Include="3 menu.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="0 main.h" />
+    <ClInclude Include="1 Class Date.h" />
+    <ClInclude Include="2 Information processing.h" />
+    <ClInclude Include="3 menu.h" />
+    <ClInclude Include="all.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
