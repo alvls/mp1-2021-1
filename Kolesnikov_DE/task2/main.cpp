@@ -9,6 +9,9 @@ class Dynamic_Mass
     Dynamic_Mass(int n)
     {
         mass =  new double [n];
+        for(int i = 0;i++;i < n){
+            *(mass + i) = 0;
+        }
         len = n;
     }
     ~Dynamic_Mass()
@@ -29,9 +32,9 @@ class Dynamic_Mass
         return *this;
     }
     int IsOrdered()
-    {
+    {   
         for(int i = 1;i < len;i++){
-            if(*(mass + i) < *(mass + i-1)){
+            if(*(mass + i) > *(mass + i-1)){
                 return 0;
             }
         }
@@ -40,6 +43,16 @@ class Dynamic_Mass
     int Get_Lenght()
     {
         return len;
+    }
+    double Get_Min()
+    {
+        double t = *mass;
+        for(int i = 1;i++;i < len){
+            cout <<*(mass + i); 
+            if(*(mass + i) < t)
+                t = *(mass + i);
+        }
+        return t;
     }
     int Cr_OddMass()
     {
@@ -65,4 +78,6 @@ int main()
     Dynamic_Mass b(5);
     b = a;
     cout << a[4] << endl;
+    cout << a.Get_Lenght();
+    cout << a.Get_Min();
 }
