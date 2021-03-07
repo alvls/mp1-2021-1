@@ -79,7 +79,10 @@ Date Date::operator- (const int& otherday)
     {
         tmp.month--;
         if (tmp.month == 0)
+        {
             tmp.month = 12;
+            tmp.year--;
+        }
         tmp.day = MonthDays(tmp.month, tmp.year);
         return tmp;
     }
