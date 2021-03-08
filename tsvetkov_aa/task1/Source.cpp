@@ -84,7 +84,7 @@ int menu()//Вывод меню на консоль
 
 void main()
 {
-	setlocale(LC_ALL, "Russian");
+setlocale(LC_ALL, "Russian");
 	Time k(0,0,0);
 	Time dif(0, 0, 0);
 d:
