@@ -4,27 +4,27 @@ using namespace std;
 class Vector {
 private:
 	int size = 0;
-	int *a = nullptr;
+	int *arr = nullptr;
 public:
 	Vector() {		// Constructors
 		size = 0;
-		a = nullptr;
+		arr = nullptr;
 	}
 	Vector(int n) {
 		if (n < 1 || n > 20)
 			cout << "*Init Error* Out of range [1;20]\n";
 		else {
 			size = n;
-			a = new int[n];
+			arr = new int[n];
 			for (int i = 0; i < n; i++)
-				a[i] = 0;
+				arr[i] = 0;
 		}
 	}
 	Vector(const Vector& v) {
 		size = v.size;
-		a = new int[size];
+		arr = new int[size];
 		for (int i = 0; i < size; i++)
-			a[i] = v.a[i];
+			arr[i] = v.arr[i];
 	}
 	Vector(int n, int ...) {
 		if (n < 1 || n > 20)
@@ -32,36 +32,36 @@ public:
 		else {
 			size = n;
 			int *arr = &n;
-			a = new int[n];
+			arr = new int[n];
 			if (sizeof(int*) == 4)	// x86
 				for (int i = 0; i < n; i++)
-					a[i] = arr[i+1];	
+					arr[i] = arr[i+1];	
 			else
 				for (int i = 0; i < n; i++)	// x64
-					a[i] = arr[2 * (i + 1)];
+					arr[i] = arr[2 * (i + 1)];
 		}
 	}
 	~Vector() {		// destructor
-		delete []a;
+		delete []arr;
 	}
 	void operator=(const Vector &v) {	//	=
 		if (size == v.size) {
 			size = v.size;
 			for (int i = 0; i < size; i++)
-				a[i] = (v.a)[i];
+				arr[i] = v.arr[i];
 		}else {
 			size = v.size;
-			delete []a;
-			a = new int[size];
+			delete []arr;
+			arr = new int[size];
 			for (int i = 0; i < size; i++)
-				a[i] = (v.a)[i];
+				arr[i] = v.arr[i];
 		}
 
 	}
 	void show() {	// for tester
 		cout << '[';
 		for (int i = 0; i < size; i++)
-			cout << a[i] << ", ";
+			cout << arr[i] << ", ";
 		cout << "]\n";
 	}
 	void set_size(int n) {	// set size
@@ -69,10 +69,10 @@ public:
 			cout << "*Error* Size out of range [1;20]\n";
 		else {
 			size = n;
-			delete []a;
-			a = new int[n];
+			delete []arr;
+			arr = new int[n];
 			for (int i = 0; i < n; i++)
-				a[i] = 0;
+				arr[i] = 0;
 		}
 	}
 	int get_size() {	// get size
@@ -82,14 +82,14 @@ public:
 		if (size < i || i < 1)	// index from 1!
 			cout << "*Error* Index out of range\n";
 		else
-			a[i-1] = x;
+			arr[i-1] = x;
 	}
 	int get(int i) {	// get component
 		if (size < i || i < 1) {
 			cout << "*Error* Index out of range\n";
 			return 0;
 		}else
-			return a[i-1];
+			return arr[i-1];
 	}
 	double length() {	// get length
 		if (size < 1) {
@@ -98,7 +98,7 @@ public:
 		}else {
 			double len = 0;
 			for (int i = 0; i < size; i++) {
-				len += a[i] * a[i];
+				len += arr[i] * arr[i];
 			}
 			return sqrt(len);
 		}
@@ -110,7 +110,7 @@ public:
 		}else {
 			long res = 0;
 			for (int i = 0; i < size; i++)
-				res += a[i] * (v.a)[i];
+				res += arr[i] * v.arr[i];
 			return res;
 		}
 	}
@@ -122,7 +122,7 @@ public:
 		}else{
 			res.set_size(size);
 			for (int i = 0; i < size; i++)
-				res.set(i + 1, a[i] + (v.a)[i]);
+				res.set(i + 1, arr[i] + v.arr[i]);
 			return res;
 		}
 	}
