@@ -47,10 +47,10 @@ public:
 	void changeSymbolByIndex(int index, char zamena);
 
 	//выделить строку из-под строки(5)
-	char* extractАSubstringАromАString(int left, int lenSub);
+	void extractSubstring(int left, int lenSub, char* sub);
 
 	//счетчик буковок(6)
-	void countCharInAString();//
+	void countChar();//
 
 	//проверка на полиндром(7)
 	bool checkPolyindrome();
@@ -116,7 +116,7 @@ int main()
 			objectForOperation.printStr();
 			cout << "________________________________________________________________________________________" << endl;
 			break;
-		case 5:
+		case 5: {
 			cout << "Сейчас вы сможете выделить подстроку из строки" << endl;
 			cout << "Для этого нужно будет ввести индекс с которого начать выделять и количество символов, которые нужно выделить" << endl;
 			cout << "Введите индекс символа с которого нужно начать" << endl;
@@ -125,14 +125,18 @@ int main()
 			cout << "Введите длину нужной подстроки" << endl;
 			int len;
 			cin >> len;
-			cout << objectForOperation.extractАSubstringАromАString(left, len) <<endl;
+			char* sub = new char[len + 1];
+			objectForOperation.extractSubstring(left, len, sub);
+			cout << sub << endl;
+			delete[]sub;
 			cout << "________________________________________________________________________________________" << endl;
 			break;
+		}
 		case 6:
 			cout << "Здесь будет выведено какие и сколько символов в строке находятся. Если вдруг вы изменяли строку" << endl;
 			cout << "в режиме 4, то произойдет разбор измененной строки." << endl;
 			cout << "Сколько каждых символов в строке:" << endl;
-			objectForOperation.countCharInAString();
+			objectForOperation.countChar();
 			cout << "________________________________________________________________________________________" << endl;
 			break;
 		case 7:
@@ -193,16 +197,14 @@ char String::getSymbolByIndex(int index) {
 void String::changeSymbolByIndex(int index, char zamena) {
 	str[index - 1] = zamena;
 }
-char* String::extractАSubstringАromАString(int left, int lenSub)
+void String::extractSubstring(int left, int lenSub, char *sub)
 {
-	char* sub = new char[lenSub+1];
 	for (int i = 1; i <= lenSub; i++) {
 		sub[i - 1] = str[left - 1];
 		left++;
 	}
 	sub[lenSub] = '\0';
 	//cout << "Выделенная подстрока:" << sub << endl;
-	return sub;
 }
 
 
@@ -258,7 +260,7 @@ void welcomMessege()
 	cout << "Вам будет предложено ввести строку и выбрать что с ней сделать." << endl;
 	cout << "Программа считает пробел как символ. Не забывайте об этом!!!" << endl;
 }
-void String::countCharInAString()
+void String::countChar()
 {
 	char* disassemble;
 	disassemble = new char[len];
