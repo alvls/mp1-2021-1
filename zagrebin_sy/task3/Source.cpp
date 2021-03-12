@@ -6,16 +6,16 @@ using namespace std;
 class Menu {
 private:
 	int size = 0, last = 0;
-	string *a = nullptr;
+	string *names = nullptr;
 public:
 	Menu() {
 		size = last = 0;
-		a = nullptr;
+		names = nullptr;
 	}
 	~Menu() {
-		delete []a;
+		delete []names;
 	}
-	void show(int x, int y) {
+	void show(int x, int y) {	// SHOW MENU
 		system("cls");
 		int i;
 		for (i = 0; i < y; i++)
@@ -24,36 +24,37 @@ public:
 			cout << ' ';
 		cout << '<';
 		for (i = 0; i < size; i++)
-			cout << "| " << a[i] << " |";
+			cout << "| " << names[i] << " |";
 		cout << ">\n";
 	}
-	void set_size(int _size) {
+	void set_size(int _size) {	// SET SIZE
 		if (_size > 0) {
 			size = _size;
-			delete[]a;
-			a = new string[size];
+			delete[]names;
+			names = new string[size];
 			for (int i = 0; i < size; i++)
-				a[i] = "";
-		}
+				names[i] = "";
+		}else
+			cout << "*Error* Size can't be less than 1\n";
 	}
-	int get_size() {
+	int get_size() {	// GET SIZE
 		return size;
 	}
-	void set(int i, string &_s) {
-		if (i > size || i < 1)
+	void set(int index, string &str) {	// SET NAME
+		if (index < 1 || index > size)	// numbers are natural 
 			cout << "*Error* Index out of range\n";
 		else
-			a[i - 1] = _s;
+			names[index - 1] = str;
 	}
-	int get(string &str) {
+	int get(string &str) {	// CHOOSE ITEM - RETURN INDEX
 		int i;
 		for (i = size - 1; i >= 0; i--)
-			if (a[i] == str)
+			if (names[i] == str)
 				break;
 		last = i + 1;
-		return i + 1;
+		return i + 1;	// RETURN 0 IF NOT FOUND
 	}
-	int Last() {
+	int Last() {	// LAST CHOSEN
 		return last;
 	}
 };
@@ -76,10 +77,10 @@ int main() {
 		cout << "5 - get field's index \n";
 		cout << "6 - get last chosen \n";
 		cout << "(check your language)\n";
-		cout << "\nPress the button\n";
+		cout << "\nPress any corrent button\n";
 
 		choice = _getch();
-		if (choice == 224) 
+		if (choice == 224)	// IF SPECIALS KEYS
 			choice = _getch();
 
 		switch (choice) {
@@ -89,8 +90,7 @@ int main() {
 			menu.set_size(i);
 			break;
 		case 50:		// 2
-			cout << "Size: " << menu.get_size() << endl;
-			_getch();
+			cout << "Size: " << menu.get_size();
 			break;
 		case 51:		// 3
 			cout << "Enter index: ";
@@ -106,24 +106,21 @@ int main() {
 			cout << "Enter y: ";
 			cin >> j;
 			menu.show(i, j);
-			cout << "Tap to continue\n";
-			_getch();
 			break;
 		case 53:		// 5
 			cout << "Enter name of field: ";
 			cin >> str;
 			cout << menu.get(str);
-			_getch();
 			break;
 		case 54:		// 6
 			cout << "Last chosen: " << menu.Last();
-			_getch();
 			break;
 		case 120:		// x-exit
 			return 0;
 		default:
 			cout << "No such option\n";
-			_getch();
 		}
+		cout << "\nTap to continue";
+		_getch();
 	}
 }
