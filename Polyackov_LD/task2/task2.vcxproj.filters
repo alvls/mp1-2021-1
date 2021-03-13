@@ -17,28 +17,34 @@
     <ClCompile Include="1 Class Date.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="2 Information processing.cpp">
+    <ClCompile Include="4 menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="3 menu.cpp">
+    <ClCompile Include="3 Information processing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="2 Class Calendar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="0 main.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="1 Class Date.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="2 Information processing.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="2 Class Calendar.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="3 menu.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="3 Information processing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="4 menu.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="all.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
