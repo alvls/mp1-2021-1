@@ -68,12 +68,11 @@ public:
 		if (this->size != size)
 		{
 			Vector tempVec(*this);
-			this->size = size;
 			delete[]vec;
-			vec = nullptr;
 			vec = new int[size];
 			if (this->size > size)
 			{
+				this->size = size;
 				for (int i = 0; i < size; i++)
 				{
 					vec[i] = tempVec.vec[i];
@@ -81,6 +80,7 @@ public:
 			}
 			if (this->size < size)
 			{
+				this->size = size;
 				for (short i = 0; i < tempVec.size; i++)
 				{
 					vec[i] = tempVec.vec[i];
@@ -162,6 +162,7 @@ public:
 		if (this == &vec2)
 			return *this;
 		size = vec2.size;
+		delete[]vec;
 		vec = new int[size];
 		for  (short i = 0; i < size;i++)
 		{
