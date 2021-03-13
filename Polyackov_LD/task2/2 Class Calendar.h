@@ -32,7 +32,8 @@ public:
 	//Увеличение памяти
 	void Calendar::AddMemory();
 
-	//Оператор
+	//Операторы
+	Calendar& operator= (const Calendar& other);
 	Date& operator[] (const int index);
 
 	//Деструктор
