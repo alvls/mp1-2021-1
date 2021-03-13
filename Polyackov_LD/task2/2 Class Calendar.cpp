@@ -50,19 +50,10 @@ void Calendar::AddMemory()
     arr = new Date[size];
     for (int i = 0; i < size/2; i++)
         arr[i] = tmp[i];
+    // После выхода из этой функции вызывается ~Calendar() для tmp
 }
 
-Calendar& Calendar::operator= (const Calendar& other)
-{
-    if (this == &other)
-        return *this;
-    size = other.size;
-    counter = other.counter;
-    arr = new Date[size];
-    for (int i = 0; i < size; i++)
-        arr[i] = other.arr[i];
-    return *this;
-}
+//operator= не был задействован в конечной версии программы для класса Calendar, поэтому был удалён
 
 Date& Calendar::operator[] (const int index)
 {
