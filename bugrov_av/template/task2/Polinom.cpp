@@ -44,11 +44,11 @@ public:
 			coef[i] = 0.0;
 		}
 	}
-	unsigned short int out_deg()//вывод степени полинома
+	int out_deg()//вывод степени полинома
 	{
 		return deg;
 	}
-	void in_coef(int n)//ввод коэффициентов
+	void in_coef(double* p, int n)//ввод коэффициентов
 	{
 		if (n != deg)
 		{
@@ -56,17 +56,9 @@ public:
 			coef = new double[n + 1];
 		}
 		deg = n;
-		double a;
-		for (int i = n; i >= 0; i--)
+		for (int i = 0; i < n + 1; i++)
 		{
-			cin >> a;
-			coef[i] = a;
-		}
-		while (coef[deg] == 0.0)
-		{
-			if (!deg)
-				break;
-			deg--;
+			coef[i] = p[i];
 		}
 	}
 	double out_coef(int k)//вывод коэффициента монома
@@ -198,6 +190,8 @@ int main()
 	double _coef;
 	double x;
 	double y;
+	double* coefs;
+	int deg_coef;
 	cout << "Все дробные значения вводите, отделяя дробную часть точкой" << endl << endl;
 	do {
 		cout << "1. Заменить степень полинома" << endl;
@@ -218,7 +212,13 @@ int main()
 		case 2:
 			cout << "Укажите дополнительно степень полинома" << endl;
 			cout << "Затем вводите коэффициенты при степенях, расположенных в порядке убывания" << endl;
-			p.in_coef(get_deg());
+			deg_coef = get_deg();
+			coefs = new double[deg_coef+1];
+			for (int i = deg_coef; i >= 0; i--)
+			{
+				cin >> coefs[i];
+			}
+			p.in_coef(coefs, deg_coef);
 			break;
 		case 3:
 			_deg = p.out_deg();
