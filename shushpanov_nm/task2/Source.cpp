@@ -8,7 +8,7 @@ class String
 {
 private:
 	int size;
-	char *str;
+	char* str;
 public:
 	String()
 	{
@@ -16,7 +16,7 @@ public:
 		str = new char[1];
 		str[0] = '\0';
 	}
-	String(char *ss)
+	String(char* ss)
 	{
 		size = strlen(ss);
 		str = new char[size + 1];
@@ -36,27 +36,19 @@ public:
 	}
 	char CharByIndexString(int index)
 	{
-		if (str[index] != ' ')
-		{
-			return str[index];
-		}
-		else
-		{
-			return 0;
-		}
+		return str[index];
 	}
-	void EditCharByIndexString(int index, char *symbol)
+	void EditCharByIndexString(int index, char symbol)
 	{
-		str[index] = *symbol;
+		str[index] = symbol;
 	}
 	char* SubstringFromAString(int indexLeft, int indexRight)
 	{
 		int sizeSub = indexRight - indexLeft + 1;
 		int sizeFor;
-		char *substr = new char[sizeSub];
+		char* substr = new char[sizeSub];
 		int i = indexLeft - 1, n = 0;
 		sizeFor = i + sizeSub;
-		cout << "\nРазмер подстроки: " << sizeSub << endl;
 		for (i; i <= sizeFor; i++)
 		{
 			if (i == sizeFor)
@@ -80,36 +72,59 @@ public:
 			{
 				return false;
 			}
+			else
+			{
+				return true;
+			}
 		}
 	}
 	int LatinCharString()
 	{
-		char *countChar = new char[size];
+		char* countChar = new char[size];
 		strcpy(countChar, str);
 		char symbolCheck;
-		int i, j, count = 0, n = 0;
-		for (i = 0; i <= size; i++)
+		int i, j, k, count = 0, n = 0;
+		bool check = true;
+		for (k = 0; k < size; k++)
 		{
-			if (str[i] != ' ')
+			if (str[k] >= 'A' && str[k] <= 'Z' || str[k] >= 'a' && str[k] <= 'z' || str[k] == ' ')
 			{
-				symbolCheck = str[i];
-				for (j = i + 1; j < size; j++)
+			}
+			else
+			{
+				check = false;
+				break;
+			}
+		}
+		if (check == true)
+		{
+			for (i = 0; i <= size; i++)
+			{
+				if (str[i] != ' ')
 				{
-					if (countChar[j] == symbolCheck)
+					symbolCheck = str[i];
+					for (j = i + 1; j < size; j++)
 					{
-						countChar[j] = '\0';
+						if (countChar[j] == symbolCheck)
+						{
+							countChar[j] = '\0';
+						}
 					}
 				}
 			}
-		}
-		for (i = 0; i < size; i++)
-		{
-			if (countChar[i] != '\0' && countChar[i] != ' ')
+			for (i = 0; i < size; i++)
 			{
-				count++;
+				if (countChar[i] != '\0' && countChar[i] != ' ')
+				{
+					count++;
+				}
 			}
+			return count;
 		}
-		return count;
+		else
+		{
+			return 0;
+		}
 	}
 };
 
@@ -120,8 +135,9 @@ int main()
 	bool end = true, checkIndex;
 	int size=256, indexMenu = 0, index, indexRight;
 	char *ss=new char[size];
-	char *symbol=new char[1];
+	char symbol;
 	cout << "Добро пожаловать!" << endl;
+	cout << "Программа работает только с латинским алфавитом..." << endl;
 	cout << "Введите строку: ";
 	cin.getline(ss, 256);
 	String s(ss);
@@ -156,16 +172,8 @@ int main()
 					index -= 1;
 					if (index >= 0 && index < s.LengthString())
 					{
-						if (s.CharByIndexString(index) != 0)
-						{
-							cout << "\nСимвол по заданному индексу: " << s.CharByIndexString(index) << endl;
-							checkIndex = false;
-						}
-						else
-						{
-							cout << "\nСимвола на данной позици нет, это пробел. " << endl;
-							checkIndex = false;
-						}
+						cout << "\nСимвол по заданному индексу: " << s.CharByIndexString(index) << endl;
+						checkIndex = false;
 					}
 					else
 					{
@@ -218,7 +226,14 @@ int main()
 			}
 			case 7:
 			{
-				cout << "Строка содержит " << s.LatinCharString() << " различных букв из алфавита!" << endl;
+				if (s.LatinCharString() != 0)
+				{
+					cout << "Строка содержит " << s.LatinCharString() << " различных букв из латинского алфавита!" << endl;
+				}
+				else
+				{
+					cout << "Ошибка! Строка должна содержать только латинские символы!" << endl;
+				}
 				break;
 			}
 			case 8:
