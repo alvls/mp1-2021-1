@@ -12,8 +12,8 @@ public:
 	{
 		int i, j;
 		size = razmer;
-		matr = (int**)malloc(sizeof(int) * size*size);
-		for (int i = 0; i < /*size1*/size; i++)
+		matr = (int**)malloc(sizeof(int*) * size * size);
+		for (int i = 0; i < size; i++)
 		{
 			matr[i] = (int*)malloc(sizeof(int) * size);
 		}
@@ -30,7 +30,7 @@ public:
 		}
 		free(matr);
 		size = size_new;
-		matr = (int**)malloc(sizeof(int) * size * size);
+		matr = (int**)malloc(sizeof(int*) * size * size);
 		for (i = 0; i < size; i++)
 		{
 			matr[i] = (int*)malloc(sizeof(int) * size);
@@ -42,7 +42,7 @@ public:
 	Matrix(const Matrix &m)//конструктор копирования
 	{
 		size = m.size;
-		matr = (int**)malloc(sizeof(int) * size * size);
+		matr = (int**)malloc(sizeof(int*) * size * size);
 		for (int i = 0; i < size; i++)
 		{
 			matr[i] = (int*)malloc(sizeof(int) * size);
@@ -51,11 +51,11 @@ public:
 			for (int j = 0; j < size; j++)
 				matr[i][j] = m.matr[i][j];
 	}
-	void getmatr(int num1, int num2, int elem)//инициализация матрицы по номеру
+	void setmatr(int num1, int num2, int elem)//инициализация матрицы по номеру
 	{
 		matr[num1][num2] = elem;
 	}
-	int setmatr(int num1, int num2)//возвращает элемент по номеру
+	int getmatr(int num1, int num2)//возвращает элемент по номеру
 	{
 		return(matr[num1][num2]);
 	}
@@ -130,7 +130,7 @@ void full_init(Matrix& m, int size)//функция полной инициализации матрицы (для у
 		{
 			std::cout << "Введите элемент с индексами " << (i + 1) << "," << (j + 1) << "(первый индекс - номер строки, второй - номер столбца)" << ":";
 			std::cin >> elem;
-			m.getmatr(i, j, elem);
+			m.setmatr(i, j, elem);
 		}
 	}
 }
@@ -183,7 +183,7 @@ void main()
 			}
 			std::cout << "Введите элемент: ";
 			std::cin >> elem;
-			m1.getmatr(num1-1, num2-1, elem);//(num1-1), поскольку нумерация элементов массива начинается с 0, а в математике номера элементов начинаются с 1
+			m1.setmatr(num1-1, num2-1, elem);//(num1-1), поскольку нумерация элементов массива начинается с 0, а в математике номера элементов начинаются с 1
 			break;
 		case 4://полная инициализация матрицы по порядку(для удобства)
 			full_init(m1, size);
@@ -203,7 +203,7 @@ void main()
 				std::cout << "Недопустимый номер стобца, попытайтесь заново: ";
 				std::cin >> num2;
 			}
-			std::cout << "Искомый элемент: "<<m1.setmatr((num1-1), (num2-1)) << '\n';
+			std::cout << "Искомый элемент: "<<m1.getmatr((num1-1), (num2-1)) << '\n';
 			break;
 		case 6://проверка на диагональное преобладание
 			if (m1.diagonal()==true)
@@ -221,7 +221,7 @@ void main()
 			{
 				for (j = 0; j < size; j++)
 				{
-					std::cout << m.setmatr(i, j) << "  ";
+					std::cout << m.getmatr(i, j) << "  ";
 				}
 				std::cout << '\n';
 			}
