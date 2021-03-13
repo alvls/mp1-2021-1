@@ -54,8 +54,6 @@ public:
 	~Vector()
 	{
 		delete []vec;
-		vec = nullptr;
-		size = 0;
 	}
 	
 	//количество компонентов в векторе
@@ -67,30 +65,33 @@ public:
 	//изменить размер
 	void ChangeSize(short size)
 	{
-		if (this->size > size)
+		if (this->size != size)
 		{
 			Vector tempVec(*this);
 			this->size = size;
-			this->vec = new int[size];
-			for (int i = 0; i < size; i++)
-			{
-				vec[i] = tempVec.vec[i];
-			}
-		}
-		if (this->size < size)
-		{
-			Vector tempVec(*this);
-			this->size = size;
+			delete[]vec;
+			vec = nullptr;
 			vec = new int[size];
-			for (short i = 0; i < tempVec.size; i++)
+			if (this->size > size)
 			{
-				vec[i] = tempVec.vec[i];
+				for (int i = 0; i < size; i++)
+				{
+					vec[i] = tempVec.vec[i];
+				}
 			}
-			for (short i = tempVec.size; i < size ; i++)
+			if (this->size < size)
 			{
-				vec[i] = 0;
+				for (short i = 0; i < tempVec.size; i++)
+				{
+					vec[i] = tempVec.vec[i];
+				}
+				for (short i = tempVec.size; i < size; i++)
+				{
+					vec[i] = 0;
+				}
 			}
 		}
+		
 	}
 
 	//изменить компоненту вектора
@@ -117,7 +118,7 @@ public:
 	}
 
 	//скал¤рное произведение
-	long ScalarProduct(Vector vec2)
+	long ScalarProduct(const Vector& vec2)
 	{
 		long result = 0;
 		if (this->size == vec2.size)
@@ -161,6 +162,7 @@ public:
 		if (this == &vec2)
 			return *this;
 		size = vec2.size;
+		vec = new int[size];
 		for  (short i = 0; i < size;i++)
 		{
 			vec[i] = vec2.vec[i];
@@ -257,6 +259,5 @@ public:
 		delete[]temp;
 		temp = nullptr;
 	}
-
 
 };
