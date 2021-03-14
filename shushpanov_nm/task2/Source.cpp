@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <cstdio>
-#include <string>
+
 using namespace std;
 
 class String
@@ -28,7 +28,7 @@ public:
 	}
 	void PrintString()
 	{
-		cout << "Ваша строка: " << str << endl;
+		cout << str << endl;
 	}
 	int LengthString()
 	{
@@ -42,7 +42,7 @@ public:
 	{
 		str[index] = symbol;
 	}
-	char* SubstringFromAString(int indexLeft, int indexRight)
+	String SubstringFromAString(int indexLeft, int indexRight)
 	{
 		int sizeSub = indexRight - indexLeft + 1;
 		int sizeFor;
@@ -72,11 +72,8 @@ public:
 			{
 				return false;
 			}
-			else
-			{
-				return true;
-			}
 		}
+		return true;
 	}
 	int LatinCharString()
 	{
@@ -135,7 +132,7 @@ int main()
 	bool end = true, checkIndex;
 	int size=256, indexMenu = 0, index, indexRight;
 	char *ss=new char[size];
-	char symbol;
+	char symbol, substr;
 	cout << "Добро пожаловать!" << endl;
 	cout << "Программа работает только с латинским алфавитом..." << endl;
 	cout << "Введите строку: ";
@@ -154,6 +151,7 @@ int main()
 		{
 			case 1:
 			{
+				cout << "Ваша строка: ";
 				s.PrintString();
 				break;
 			}
@@ -206,7 +204,9 @@ int main()
 					}
 					else
 					{
-						cout << "Выделенная подстрока: " << s.SubstringFromAString(index, indexRight) << endl;
+						String substring(s.SubstringFromAString(index, indexRight));
+						cout << "Выделенная подстрока: ";
+						substring.PrintString();
 						checkIndex = false;
 					}
 				}
