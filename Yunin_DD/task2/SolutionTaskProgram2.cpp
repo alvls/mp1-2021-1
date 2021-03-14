@@ -104,7 +104,7 @@ public:
 				if (month == 13)
 				{
 					month = 1;
-				year++;
+					year++;
 				}
 			}
 			else if (month == 2)
@@ -248,6 +248,7 @@ public:
 class Calendarofevents
 {
 private:
+	int counter = 0;
 	Event* arrevents;
 	void Create()
 	{
@@ -262,17 +263,17 @@ public:
 	{
 		delete[] arrevents;
 	}
-	void SetArrEvent(int index, Event& nevent)
+	void SetArrEvent(Event& nevent)
 	{
 		int i;
-		for (i = (index - 1); i < index ; i++)
+		for (i = (counter - 1); i < counter ; i++)
 		{
 			arrevents[i] = nevent;
 		}
 	}
-	void PrintElemArr(int count)
+	void PrintElemArr()
 	{
-		for (int i = 0; i < count; i++)
+		for (int i = 0; i < counter; i++)
 		{
 			cout << "(" << i + 1 << ")"; 
 			arrevents[i].GetNameEvent();
@@ -311,15 +312,19 @@ public:
 	{
 		arrevents[index].ChangeSubtractDays(numdays);
 	}
+	void CountigCounter()
+	{
+		counter++;
+	}
 };
 
 
 
 void Menu();
-void PutZnInArr(Calendarofevents& calen, Event& nevent, int countpop);
+void PutZnInArr(Calendarofevents& calen, Event& nevent);
 void GetDataForClassEvent(int& age, int& day, int& month, string& name);
 void GetDaysOfMonth(int month, int& day);
-void GetInfoNameEvent(Calendarofevents& calen, int count);
+void GetInfoNameEvent(Calendarofevents& calen);
 void FunFindEvent(Calendarofevents& calen, int choice);
 void GetDataForNewDate(int& age, int& day, int& month);
 void FunChoiceEvent3(Calendarofevents& calen, Event& nevent, int choice, int& countdayse, int& countdaysn);
@@ -335,7 +340,7 @@ int main()
 	Calendarofevents calendar;
 	calendar.CreateArrEvents();
 	Event nevent;
-	int choicetem, countindex = 0, numdays, countdayse = 0, countdaysn = 0;;
+	int choicetem, numdays, countdayse = 0, countdaysn = 0;;
 	while (choiceret)
 	{
 		Menu();
@@ -344,13 +349,13 @@ int main()
 		switch (choicetem)
 		{
 		case 1:
-			countindex++;
-			PutZnInArr(calendar, nevent,countindex);
+			calendar.CountigCounter();
+			PutZnInArr(calendar, nevent);
 			system("pause");
 			break;
 		case 2:
 			int choice1;
-			GetInfoNameEvent(calendar, countindex);
+			GetInfoNameEvent(calendar);
 			cout << "Введите номер события из списка, дату которого хотите узнать: ";
 			cin >> choice1;
 			FunFindEvent(calendar, choice1);
@@ -360,7 +365,7 @@ int main()
 			int nage, nday, nmonth,choice2;
 			GetDataForNewDate(nage, nday, nmonth);
 			nevent.SetEvent(nage, nday, nmonth);
-			GetInfoNameEvent(calendar, countindex);
+			GetInfoNameEvent(calendar);
 			cout << "Введите номер события из списка, дату которого хотите узнать: ";
 			cin >> choice2;
 			FunChoiceEvent3(calendar,nevent,choice2,countdayse,countdaysn);
@@ -376,7 +381,7 @@ int main()
 			case 1:
 				cout << "Введите количество дней, на которое хотите переместить событие вперёд" << endl;
 				cin >> numdays;
-				GetInfoNameEvent(calendar, countindex);
+				GetInfoNameEvent(calendar);
 				cout << "Введите номер события из списка, дату которого хотите перенести: ";
 				cin >> choicenum;
 				FAddDays(calendar, choicenum, numdays);
@@ -386,7 +391,7 @@ int main()
 			case 2:
 				cout << "Введите количество дней, на которое хотите переместить событие назад" << endl;
 				cin >> numdays;
-				GetInfoNameEvent(calendar, countindex);
+				GetInfoNameEvent(calendar);
 				cout << "Введите номер события из списка, дату которого хотите перенести: ";
 				cin >> choicenum;
 				FSubtractDays(calendar, choicenum, numdays);
@@ -414,17 +419,16 @@ void Menu()
 	cout << "  Здравствуйте, уважаемый пользователь, в программе доступны следующие возможности:\n\t(1) Установить событие (Доступное число событий не более 30).\n\t(2) Узнать дату выбранного события.\n\t(3) Вычислить разницу между заданной датой и датой события(в годах, месяцах, днях).\n\t(4) Сформировать новое событие, сдвинув выбранное существующее событие на заданное смещение(в годах, месяцах, днях) в меньшую и в большую сторон.\n\t(0) Выход из программы.\n";
 }
 
-void PutZnInArr(Calendarofevents& calen, Event& nevent, int countpop)
+void PutZnInArr(Calendarofevents& calen, Event& nevent)
 {
 	int ageu = 0, dayu = 0, monthu = 0;
 	string nameu = "Пусто";
 	GetDataForClassEvent(ageu, dayu, monthu, nameu);
 	nevent.SetEvent(ageu, dayu, monthu, nameu);
-	calen.SetArrEvent(countpop, nevent);
+	calen.SetArrEvent(nevent);
 	cout << "Событие успешно установлено!" << endl;
 	system("pause");
 	system("cls");
-	
 }
 
 void GetDataForClassEvent(int& age, int& day, int& month, string& name)
@@ -502,10 +506,10 @@ void GetDaysOfMonth(int month, int& day)
 	}
 }
 
-void GetInfoNameEvent(Calendarofevents& calen, int count)
+void GetInfoNameEvent(Calendarofevents& calen)
 {
 	cout << "\t\tСписок доступных событий:" << endl;
-	calen.PrintElemArr(count);
+	calen.PrintElemArr();
 }
 
 void FunFindEvent(Calendarofevents& calen,int choice)
