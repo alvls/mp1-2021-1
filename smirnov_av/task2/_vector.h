@@ -9,9 +9,9 @@ private:
 	short size;
 	int* vec;
 public:
-	Vector(short size)
+	Vector(short _size)
 	{
-		this->size = size;
+		size = _size;
 		vec = new int[size];
 		for (short i = 0; i < size; i++)
 		{
@@ -37,13 +37,13 @@ public:
 	}
 
 	//конструктор на size элементов с инициализацией
-	Vector(short size,int ...)
+	Vector(short _size,int ...)
 	{
-		this->size = size;
+		size = _size;
 		vec = new int[size];
 		va_list firstParm;
-		va_start(firstParm, size);
-		for (int i = 0; i < size; i++)
+		va_start(firstParm, _size);
+		for (int i = 0; i < _size; i++)
 		{
 			vec[i] = va_arg(firstParm, int);
 		}
@@ -63,29 +63,29 @@ public:
 	}
 
 	//изменить размер
-	void ChangeSize(short size)
+	void ChangeSize(short _size)
 	{
-		if (this->size != size)
+		if (size != _size)
 		{
 			Vector tempVec(*this);
 			delete[]vec;
-			vec = new int[size];
-			if (this->size > size)
+			vec = new int[_size];
+			if (size > _size)
 			{
-				this->size = size;
-				for (int i = 0; i < size; i++)
+				size = _size;
+				for (int i = 0; i < _size; i++)
 				{
 					vec[i] = tempVec.vec[i];
 				}
 			}
-			if (this->size < size)
+			if (size < _size)
 			{
-				this->size = size;
+				size = _size;
 				for (short i = 0; i < tempVec.size; i++)
 				{
 					vec[i] = tempVec.vec[i];
 				}
-				for (short i = tempVec.size; i < size; i++)
+				for (short i = tempVec.size; i < _size; i++)
 				{
 					vec[i] = 0;
 				}
@@ -121,7 +121,7 @@ public:
 	long ScalarProduct(const Vector& vec2)
 	{
 		long result = 0;
-		if (this->size == vec2.size)
+		if (size == vec2.size)
 		{
 			for (short i = 0; i < size; i++)
 			{
