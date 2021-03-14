@@ -1,6 +1,3 @@
-#include <iostream>
-#include <cmath>
-#include <iomanip>
 #include <clocale>
 #include <iostream>
 #include <cmath>
@@ -15,7 +12,7 @@ private:
 public:
 	Matrix(int a)
 	{
-		int i = 0;
+		int i = 0, j = 0;
 		size = a;
 		matr = (int**)malloc(sizeof(int*) * size);//создание двумерного массива size*size
 		for (i = 0; i < size; i++)
@@ -23,28 +20,28 @@ public:
 
 		for (i = 0; i < size; i++)
 		{
-			for (int j = 0; j < size; j++)
-				matr[i][j] = 0;//зануление матрицы
+			for ( j = 0; j < size; j++)
+				matr[i][j] = 0;//зануление элементов матрицы
 		}
 
 
 	}
 	void setsize(int a)//задание размера матрицы
 	{
-
-		for (int i = 0; i < size; i++)//очищаем старое
+		int i = 0,j=0;
+		for (i = 0; i < size; i++)//очищаем старое
 		{
 			free(matr[i]);
 		}
 		free(matr);
 		size = a;
 
-		matr = (int**)malloc(sizeof(int) * size * size);//создаем новое с новым размером
-		for (int i = 0; i < size; i++)
+		matr = (int**)malloc(sizeof(int*) * size );//создаем новую матрицу с новым размером
+		for ( i = 0; i < size; i++)
 			matr[i] = (int*)malloc(sizeof(int) * size);
-		for (int i = 0; i < size; i++)
+		for (i = 0; i < size; i++)
 		{
-			for (int j = 0; j < size; j++)
+			for ( j = 0; j < size; j++)
 				matr[i][j] = 0;
 		}
 	}
@@ -54,14 +51,12 @@ public:
 	}
 	void Print()//вывод матрицы на консоль
 	{
-		for (int i = 0; i < size; i++)
+		int i = 0, j = 0;
+		for (i = 0; i < size; i++)
 		{
-			for (int j = 0; j < size; j++)
+			for (j = 0; j < size; j++)
 			{
-				if (j != size - 1)
-					cout << matr[i][j] << "\t";
-				else
-					cout << matr[i][j];
+				cout << matr[i][j] << "\t";
 			}
 			cout << endl;
 		}
@@ -78,31 +73,31 @@ public:
 	bool diag()//проверка на диагональное преобладание
 	{
 
-		int i, s; int** a;
-		a = (int**)malloc(size * sizeof(int*));//двумерный массив из 2 строк и size столбцов
-		// в нулевую строку заносим значения элементов на диагонали, в первую сумму элементов каждой каждой строки
+		int i=0,j=0, s; 
+		int** a;
+		a = (int**)malloc(sizeof(int*)* size);//двумерный массив из 2 столбцов и size строк
+		// в нулевой столбец заносим значения элементов на диагонали, в первый сумму элементов каждой каждой строки
 
 		for (i = 0; i < size; i++)  
 		{
-			
-			a[i] = (int*)malloc(2 * sizeof(int));
+			a[i] = (int*)malloc(sizeof(int)*2);
 		}
 		bool flag = 1;//изначально true ,если найдется хоть один диагональный элемент меньше суммы элементов в строке flag становится 0
 		for (i = 0; i < size; i++)
 		{
 			s = 0;
 			a[i][0] = matr[i][i];
-			for (int j = 0; j < size; j++)
+			for ( j = 0; j < size; j++)
 			{
 				if (j != i)
 					s += matr[i][j];
 			}
 			a[i][1] = s;
 		}
-		for (int j = 0; j < size; j++)
+		for ( j = 0; j < size; j++)
 			if (a[j][1] > a[j][0])
 				flag = 0;
-		for (int i = 0; i < size; i++)//чистим созданный двумерный массив
+		for (i = 0; i < size; i++)//чистим созданный двумерный массив
 		{
 			free(a[i]);
 		}
@@ -120,22 +115,20 @@ public:
 			{
 				res.matr[i][j] = matr[i][j] + c.matr[i][j];
 			}
-
-		;
 		return res;
 	}
 
 	Matrix(const Matrix& m)//конструктор копирования
 	{
-
+		int i = 0, j = 0;
 		size = m.size;
 		matr = (int**)malloc(sizeof(int*) * size);//создание матрицы
-		for (int i = 0; i < size; i++)
+		for ( i = 0; i < size; i++)
 		{
 			matr[i] = (int*)malloc(sizeof(int) * size);
 		}
-		for (int i = 0; i < size; i++)
-			for (int j = 0; j < size; j++)
+		for ( i = 0; i < size; i++)
+			for (j = 0; j < size; j++)
 				matr[i][j] = m.matr[i][j];
 	}
 	~Matrix()//деструктор
@@ -150,12 +143,12 @@ public:
 };
 
 
-int menu()//Вывод меню на консоль
+int menu()//Вывод меню на консоль и возврат значения режима работы
 {
 	int a;
 	cout << "Выберите дальнейшее действие" << endl;
-	cout << "1.Задать размер матрицы" << endl << "2.Узнать размер матрицы" << endl << "3.Задать элемент матрицы по его индексам" << endl << "4.Узнать элемент матрицы по его индексам" << endl;
-	cout << "5.Проверить, обладает ли матрица диагональным преобладанием" << endl << "6.Вычислить сумму двух матриц одного размера" << endl <<"7.Вывести матрицу на консоль"<<endl<< "0.Выход" << endl;
+	cout << "1.Задать размер матрицы" << endl << "2.Узнать размер матрицы" << endl << "3.Задать элемент матрицы по его индексам" << endl << "4.Узнать элемент матрицы по его индексам" << endl<<
+	"5.Проверить, обладает ли матрица диагональным преобладанием" << endl << "6.Вычислить сумму двух матриц одного размера" << endl <<"7.Вывести матрицу на консоль"<<endl<< "0.Выход" << endl;
 	cin >> a;
 	return a;
 }
@@ -163,12 +156,12 @@ int menu()//Вывод меню на консоль
 void main()
 {
 	setlocale(LC_ALL, "Russian");
-	int m, size = 0, i, j, a;
+	int m, size, i=0, j=0, a;
 	bool flag;
 	Matrix p(2);
 	cout << "По умолчанию размер квадратной матрицы равен 2" << endl;
+	size = 2;//пригодится если пользователь в первый раз вызовет case 3,case 4 до setsize
 p:
-	size = p.getsize();//пригодится если пользователь вызовет case 3,case 4 до setsize
 	m = menu();
 	switch (m)
 	{
@@ -228,8 +221,6 @@ p:
 			}
 
 		}
-
-		
 		Matrix rep(p + c);
 		cout << "Сумма матриц равна:" << endl;
 		rep.Print();
@@ -243,13 +234,4 @@ p:
 		break;
 	}
 	goto p;
-
-
-
-
-
-
-
-
-
 }
