@@ -12,7 +12,7 @@ public:
 	{
 		int i, j;
 		size = razmer;
-		matr = (int**)malloc(sizeof(int*) * size * size);
+		matr = (int**)malloc(sizeof(int*) * size);
 		for (int i = 0; i < size; i++)
 		{
 			matr[i] = (int*)malloc(sizeof(int) * size);
@@ -30,7 +30,7 @@ public:
 		}
 		free(matr);
 		size = size_new;
-		matr = (int**)malloc(sizeof(int*) * size * size);
+		matr = (int**)malloc(sizeof(int*) * size);
 		for (i = 0; i < size; i++)
 		{
 			matr[i] = (int*)malloc(sizeof(int) * size);
@@ -42,7 +42,7 @@ public:
 	Matrix(const Matrix &m)//конструктор копирования
 	{
 		size = m.size;
-		matr = (int**)malloc(sizeof(int*) * size * size);
+		matr = (int**)malloc(sizeof(int*) * size);
 		for (int i = 0; i < size; i++)
 		{
 			matr[i] = (int*)malloc(sizeof(int) * size);
