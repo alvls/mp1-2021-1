@@ -85,21 +85,21 @@ public:
         if (((k == 1) && (m == 0)) || ((k == 0) && (m == 1)))
             return true;
     }
-    DynamicArray* OddIndex() //создание нового массива, включающего в себя элементы исходного, стоящие на нечетных позициях
+    DynamicArray OddIndex() //создание нового массива, включающего в себя элементы исходного, стоящие на нечетных позициях
     {
         int s = ceil((size) / 2);
-        DynamicArray* odd_array = new DynamicArray(s);
+        DynamicArray* odd_array= new DynamicArray (s);
         int i, j;
-        for ( i = 0, j = 0; j<size; i++, j+=2)
+        for (i = 0, j = 0; j < size; i++, j += 2)
         {
             odd_array->SetValue(i, d_array[j]);
         }
         odd_array->PrintArray();
-        return odd_array;
+        return *odd_array;
     }
     ~DynamicArray() //деструктор класса
     {
-         delete[]d_array;
+         delete[] d_array;
     }
 };
 
