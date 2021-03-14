@@ -22,6 +22,7 @@
 using namespace std;
 void printMainMenu();
 void welcomMessege();
+//enum TCmystringExeption { strINDOUTOFRANGE };
 class String
 {
 private:
@@ -32,7 +33,8 @@ public:
 	String();
 	// конструктор с одним аргументом
 	String(char* val);
-
+	//конструктор который принимает длину строки
+	String(int lenOther);
 	//для печати str
 	void printStr();
 	//задать строку 
@@ -47,7 +49,7 @@ public:
 	void changeSymbolByIndex(int index, char zamena);
 
 	//выделить строку из-под строки(5)
-	void extractSubstring(int left, int lenSub, char* sub);
+	void extractSubstring(int left, int lenSub, String *sub);
 
 	//счетчик буковок(6)
 	void countChar();//
@@ -125,10 +127,10 @@ int main()
 			cout << "Введите длину нужной подстроки" << endl;
 			int len;
 			cin >> len;
-			char* sub = new char[len + 1];
+			String* sub = new String(len + 1);
 			objectForOperation.extractSubstring(left, len, sub);
-			cout << sub << endl;
-			delete[]sub;
+			cout << "Выделенная подстрока:";
+			sub->printStr();
 			cout << "________________________________________________________________________________________" << endl;
 			break;
 		}
@@ -155,13 +157,23 @@ int main()
 }
 //констрктор по умолчанию
 String::String() {
+	//cout << "Сработал конструктор по умолчанию" << endl;
 	len = 0;
 	str = new char[1];
 	str[0] = '\0';//строка по умолчанию
 }
 
 String::String(char* val) {
+	//cout << "Сработал конструктор принимающий char" << endl;
 	scanString(val);
+}
+
+String::String(int lenOther){
+	//cout << "Сработал конструктор принимающий int" << endl;
+	len = lenOther;
+	const int lenOtherConst = lenOther + 1;
+	str = new char[lenOtherConst];
+
 }
 
 void String::printStr()
@@ -197,18 +209,14 @@ char String::getSymbolByIndex(int index) {
 void String::changeSymbolByIndex(int index, char zamena) {
 	str[index - 1] = zamena;
 }
-void String::extractSubstring(int left, int lenSub, char *sub)
+void String::extractSubstring(int left, int lenSub, String* sub)
 {
 	for (int i = 1; i <= lenSub; i++) {
-		sub[i - 1] = str[left - 1];
+		sub->str[i - 1] = str[left - 1];
 		left++;
 	}
-	sub[lenSub] = '\0';
-	//cout << "Выделенная подстрока:" << sub << endl;
+	sub->str[lenSub] = '\0';
 }
-
-
-
 
 bool String::checkPolyindrome() {
 	//int i, j;
