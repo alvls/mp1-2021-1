@@ -1,31 +1,40 @@
-﻿/* 
+﻿/*
 Разработать класс Динамический массив.
 Класс должен хранить заданное число вещественных элементов, размещаемых в динамической памяти.
-Класс должен предоставлять следующие операции: 
-1) задать размер массива, 
-2) узнать размер массива, 
-3) задать элемент массива по его индексу, 
-4) узнать элемент массива по его индексу, 
-5) найти минимальный элемент массива, 
-6) проверить, является ли массив упорядоченным, 
+Класс должен предоставлять следующие операции:
+1) задать размер массива,
+2) узнать размер массива,
+3) задать элемент массива по его индексу,
+4) узнать элемент массива по его индексу,
+5) найти минимальный элемент массива,
+6) проверить, является ли массив упорядоченным,
 7) выделить из массива подмассив с элементами с нечетными индексами.
-Класс должен содержать все необходимые конструкторы, деструктор, оператор присваивания, а также «уметь» выводить себя на консоль. 
+Класс должен содержать все необходимые конструкторы, деструктор, оператор присваивания, а также «уметь» выводить себя на консоль.
 */
 
 #include <iostream>
 #include <math.h>
 using namespace std;
 #pragma
-class DynamicArray 
+class DynamicArray
 {
 private:
     int size; //размер массива
-    double *d_array; //динамический массив
+    double* d_array; //динамический массив
 public:
     DynamicArray() //конструктор класса
     {
         size = 1;
         d_array = new double[size];
+    }
+    DynamicArray(const DynamicArray& ar) //конструктор копирования
+    {
+        size = ar.size;
+        d_array = new double[size];
+        for (int i = 0; i < size; i++) 
+        {
+            d_array[i] = ar.d_array[i];
+        }
     }
     DynamicArray(int size_k) //конструктор класса
     {
@@ -87,19 +96,23 @@ public:
     }
     DynamicArray OddIndex() //создание нового массива, включающего в себя элементы исходного, стоящие на нечетных позициях
     {
-        int s = ceil((size) / 2);
-        DynamicArray* odd_array= new DynamicArray (s);
+        int s = ceil(((double)size) / 2);
+        DynamicArray odd_array(s);
         int i, j;
         for (i = 0, j = 0; j < size; i++, j += 2)
         {
-            odd_array->SetValue(i, d_array[j]);
+            odd_array.SetValue(i, d_array[j]);
         }
-        odd_array->PrintArray();
-        return *odd_array;
+        odd_array.PrintArray();
+        return odd_array;
     }
     ~DynamicArray() //деструктор класса
     {
-         delete[] d_array;
+        if (d_array != NULL)
+        {
+            delete[] d_array;
+            d_array = NULL;
+        }
     }
 };
 
@@ -123,11 +136,11 @@ int main()
             cout << " Операции с таким номером нет. Пожалуйста, ведите нужный номер ещё раз: ";
             cin >> choice_operation;
         }
-        switch (choice_operation) 
+        switch (choice_operation)
         {
         case 1:
         {
-            cout << " \nВведите размер массива: "; 
+            cout << " \nВведите размер массива: ";
             cin >> size_arr;
             objDynamicArray.SetDynamicArray(size_arr);
             cout << " \nМассив на данный момент: ";
@@ -162,12 +175,12 @@ int main()
                 cout << " Элемента с таким индексом нет. Пожалуйста, введите нужный индекс ещё раз: ";
                 cin >> number;
             }
-            cout << " \nЭлемент массива с индексом " << number << ": "<< objDynamicArray.FindValue(number);
+            cout << " \nЭлемент массива с индексом " << number << ": " << objDynamicArray.FindValue(number);
             break;
         }
         case 5:
         {
-            cout << " \nМинимальный элемент массива: "<<objDynamicArray.FindMin();
+            cout << " \nМинимальный элемент массива: " << objDynamicArray.FindMin();
             break;
         }
         case 6://является ли упорядоченным 
