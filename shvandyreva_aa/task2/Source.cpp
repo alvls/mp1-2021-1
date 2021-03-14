@@ -21,17 +21,14 @@ class DynamicArray
 private:
     int size; //размер массива
     double *d_array; //динамический массив
-    int index_element; //индекс элемента
-    double* odd_array; //динамический массив элементов на нечетных индексах
 public:
     DynamicArray() //конструктор класса
     {
-        d_array = new double[1];
-        d_array[0] = 0;
+        size = 1;
+        d_array = new double[size];
     }
     DynamicArray(int size_k) //конструктор класса
     {
-        index_element = 0;
         SetDynamicArray(size_k);
     }
     void SetDynamicArray(int size_k) //создает массив пользователем введенного размера 
@@ -42,15 +39,9 @@ public:
         {
             d_array[i] = 0;
         }
-        odd_array = new double[ceil((size)/2)]; //размер массива с нечетными в два раза меньше исходного
-        for (int i = 0; i < ceil((size)/2); i++) //ceil - округление в бОльшую сторону
-        {
-            odd_array[i] = 0;
-        }
     }
-    void PrintArray(int size_k) //печатает массив для наглядности 
+    void PrintArray() //печатает массив для наглядности 
     {
-        size = size_k;
         for (int i = 0; i < size; i++)
         {
             cout << d_array[i] << " ";
@@ -59,12 +50,11 @@ public:
     }
     double FindValue(int num) //находит значение по индексу 
     {
-        return d_array[num - 1];
+        return d_array[num];
     }
     void SetValue(int ind, double znachenie) //задает значение по индексу 
     {
-        index_element = ind-1;
-        d_array[index_element] = znachenie;
+        d_array[ind] = znachenie;
     }
     double FindMin() //находит минимальное значение в массиве
     {
@@ -76,50 +66,40 @@ public:
         }
         return d_array[min];
     }
-    void CheckOrder() //проверка на упорядоченность
+    bool CheckOrder() //проверка на упорядоченность
     {
-        int k=0,m=0; //для отслеживания упорядоченности
+        int k = 0, m = 0; //для отслеживания упорядоченности
         for (int i = 0; i < size; i++)
         {
-            if ((d_array[i] > d_array[i + 1])&&(k==0)&&(i+1<size))
+            if ((d_array[i] >= d_array[i + 1]) && (k == 0) && (i + 1 < size))
             {
                 k = 1; //Массив не является упорядоченным по возрастанию
             }
-            if ((d_array[i] < d_array[i + 1])&&(m==0) && (i + 1 < size))
+            if ((d_array[i] < d_array[i + 1]) && (m == 0) && (i + 1 < size))
             {
                 m = 1; //Массив не является упорядоченным по убыванию
             }
         }
-        if ((k==1)&&(m==1))
-        {
-            cout << "Массив не является упорядоченным. ";
-        }
-        if ((k==1)&&(m==0))
-        {
-            cout << "Массив является упорядоченным по убыванию. ";
-        }
-        if ((k==0)&&(m==0))
-        {
-            cout << "Элементы массива имеют одинаковые значения. ";
-        }
-        if ((k==0)&&(m==1))
-        {
-            cout << "Массив является упорядоченным по возрастанию. ";
-        }
+        if ((k == 1) && (m == 1))
+            return false;
+        if (((k == 1) && (m == 0)) || ((k == 0) && (m == 1)))
+            return true;
     }
-    void OddIndex() //создание нового массива, включающего в себя элементы исходного, стоящие на нечетных позициях
+    DynamicArray* OddIndex() //создание нового массива, включающего в себя элементы исходного, стоящие на нечетных позициях
     {
+        int s = ceil((size) / 2);
+        DynamicArray* odd_array = new DynamicArray(s);
         int i, j;
         for ( i = 0, j = 0; j<size; i++, j+=2)
         {
-            odd_array[i] = d_array[j];
-            cout << odd_array[i] << " ";
+            odd_array->SetValue(i, d_array[j]);
         }
+        odd_array->PrintArray();
+        return odd_array;
     }
     ~DynamicArray() //деструктор класса
     {
          delete[]d_array;
-         delete[]odd_array;
     }
 };
 
@@ -151,7 +131,7 @@ int main()
             cin >> size_arr;
             objDynamicArray.SetDynamicArray(size_arr);
             cout << " \nМассив на данный момент: ";
-            objDynamicArray.PrintArray(size_arr); //печатает массив для наглядности 
+            objDynamicArray.PrintArray(); //печатает массив для наглядности 
             break;
         }
         case 2:
@@ -190,9 +170,12 @@ int main()
             cout << " \nМинимальный элемент массива: "<<objDynamicArray.FindMin();
             break;
         }
-        case 6:
+        case 6://является ли упорядоченным 
         {
-            objDynamicArray.CheckOrder();//является ли упорядоченным 
+            if (objDynamicArray.CheckOrder() == true)
+                cout << " \nМассив является упорядоченным. " << endl;
+            if (objDynamicArray.CheckOrder() == false)
+                cout << " \nМассив не является упорядоченным. " << endl;
             break;
         }
         case 7:
@@ -207,7 +190,7 @@ int main()
         }
         case 9:
         {
-            objDynamicArray.PrintArray(size_arr); //печатает массив для наглядности
+            objDynamicArray.PrintArray(); //печатает массив для наглядности
             break;
         }
         }
