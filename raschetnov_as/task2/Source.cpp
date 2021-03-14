@@ -3,70 +3,70 @@
 
 using namespace std;
 
-class Polynomials;
-void setPower(Polynomials& object);
-int* setCoefficients(Polynomials& object, int* p);
-Polynomials operator+(const Polynomials& object1, const Polynomials& object2);
-class Polynomials
+class Polynomial;
+void fsetPower(Polynomial& object);
+int* FillInArray(int amount, int* p);
+Polynomial operator+(const Polynomial& object1, const Polynomial& object2);
+class Polynomial
 {
     int power;
     int* p;
 public:
-    explicit Polynomials(int power = 0) :power(power)
+    explicit Polynomial(int power = 0) :power(power)
     {
         int i = 0;
         p = new int[power + 1];
         for (i = power; i >= 0; i--)
             p[i] = 0;
     };
-    Polynomials(double power) :power(0)
+    Polynomial(double scalar) :power(0)
     {
         p = new int[1];
-        p[0] = power;
+        p[0] = scalar;
     };
-    Polynomials(const Polynomials& object);
-    ~Polynomials();
-    void polynomialsSetPower(int power);
-    void polynomialsSetCoefficients(int* pointer);
-    int polynomialsGetPower() const;
-    int polynomialsGetCoefficient(int number);
-    void polynomialsOutput();
-    int polynomialsGetValue(int point);
-    Polynomials polynomialsGetDerivative();
-    Polynomials& operator=(const Polynomials& object);
-    friend Polynomials operator+(const Polynomials& object1, const Polynomials& object2);
-    friend Polynomials operator*(const double& object1, const Polynomials& object2);
-    friend Polynomials operator*(const Polynomials& object2, const double& object1);
-    Polynomials& operator+=(const Polynomials& object);
-    Polynomials& operator*=(const Polynomials& object);
+    Polynomial(const Polynomial& object);
+    ~Polynomial();
+    void setPower(int power);
+    void setCoefficients(int* pointer);
+    int getPower() const;
+    int getCoefficient(int number);
+    void Output();
+    int getValue(int point);
+    Polynomial getDerivative();
+    Polynomial& operator=(const Polynomial& object);
+    friend Polynomial operator+(const Polynomial& object1, const Polynomial& object2);
+    friend Polynomial operator*(const double& object1, const Polynomial& object2);
+    friend Polynomial operator*(const Polynomial& object2, const double& object1);
+    Polynomial& operator+=(const Polynomial& object);
+    Polynomial& operator*=(const Polynomial& object);
 };
 
-Polynomials::Polynomials(const Polynomials& object)
+Polynomial::Polynomial(const Polynomial& object)
 {
     int i = 0;
-    power = object.power;
+    power = object.power;   
     p = new int[power + 1];
     for (i = power; i >= 0; i--)
         p[i] = object.p[i];
 }
 
-Polynomials::~Polynomials()
+Polynomial::~Polynomial()
 {
     delete[] p;
 }
 
-void Polynomials::polynomialsSetCoefficients(int* pointer)
+void Polynomial::setCoefficients(int* pointer)
 {
     int i = 0;
     if (power == 0)
     {
-        setPower(*this);
+        fsetPower(*this);
     }
     for (i = power; i >= 0; i--)
         p[i] = pointer[i];
 }
 
-void Polynomials::polynomialsOutput()
+void Polynomial::Output()
 {
     int i = 0, j = 0;
     cout << "Coefficients of monomers(by highest power): ";
@@ -75,36 +75,37 @@ void Polynomials::polynomialsOutput()
     cout << endl;
 }
 
-void Polynomials::polynomialsSetPower(int power)
+void Polynomial::setPower(int power)
 {
     int i = 0;
     this->power = power;
+    delete[] p;
     p = new int[power + 1];
     for (i = power; i >= 0; i--)
         p[i] = 0;
 }
 
-int Polynomials::polynomialsGetPower() const
+int Polynomial::getPower() const
 {
     return power;
 }
 
-int Polynomials::polynomialsGetCoefficient(int number)
+int Polynomial::getCoefficient(int number)
 {
     return p[number];
 }
 
-void setPower(Polynomials& object)
+void fsetPower(Polynomial& object)
 {
     int power = 0;
     cout << "Set power of a polynomial: " << endl;
     cin >> power;
-    object.polynomialsSetPower(power);
+    object.setPower(power);
 }
 
-int* setCoefficients(Polynomials& object, int* p)
+int* fillInArray(int amount, int* p)
 {
-    int object_power = object.polynomialsGetPower();
+    int object_power = amount;
     int i = 0;
     cout << "Power of a current polynomial: " << object_power << endl;
     p = new int[object_power + 1];
@@ -114,7 +115,7 @@ int* setCoefficients(Polynomials& object, int* p)
     return p;
 }
 
-int Polynomials::polynomialsGetValue(int point)
+int Polynomial::getValue(int point)
 {
     int i = 0;
     int value_point = 0;
@@ -123,20 +124,22 @@ int Polynomials::polynomialsGetValue(int point)
     return value_point;
 }
 
-Polynomials Polynomials::polynomialsGetDerivative()
+Polynomial Polynomial::getDerivative()
 {
     int i = 0;
-    Polynomials derivative;
+    Polynomial derivative;
     int copy_power = power;
-    derivative.polynomialsSetPower(power - 1);
+    derivative.setPower(power - 1);
     for (i = derivative.power; i >= 0; i--)
         derivative.p[i] = p[copy_power--] * (i + 1);
     return derivative;
 }
 
-Polynomials& Polynomials::operator=(const Polynomials& object)
+Polynomial& Polynomial::operator=(const Polynomial& object)
 {
     int i = 0;
+    if(this == &object)
+      return *this;
     power = object.power;
     delete[] p;
     p = new int[power + 1];
@@ -145,7 +148,7 @@ Polynomials& Polynomials::operator=(const Polynomials& object)
     return *this;
 }
 
-Polynomials operator+(const Polynomials& object1, const Polynomials& object2)
+Polynomial operator+(const Polynomial& object1, const Polynomial& object2)
 {
     int hpower = 0, i = 0;
     int rememberer = 0;
@@ -161,7 +164,7 @@ Polynomials operator+(const Polynomials& object1, const Polynomials& object2)
         hpower = object2.power;
         rememberer = object1.power;
     }
-    Polynomials helper(hpower);
+    Polynomial helper(hpower);
     for (i = 0; i <= rememberer; i++)
         helper.p[i] = object1.p[i] + object2.p[i];
     if (flag)
@@ -173,31 +176,31 @@ Polynomials operator+(const Polynomials& object1, const Polynomials& object2)
     return helper;
 }
 
-Polynomials operator*(const double& object1, const Polynomials& object2)
+Polynomial operator*(const double& object1, const Polynomial& object2)
 {
     int hpower = 0, i = 0;
     int rememberer = 0;
     int flag = 0;
     hpower = object2.power;
-    Polynomials helper(hpower);
+    Polynomial helper(hpower);
     for (i = hpower; i >= 0; i--)
         helper.p[i] = object1 * object2.p[i];
     return helper;
 }
 
-Polynomials operator*(const Polynomials& object2, const double& object1)
+Polynomial operator*(const Polynomial& object2, const double& object1)
 {
     int hpower = 0, i = 0;
     int rememberer = 0;
     int flag = 0;
     hpower = object2.power;
-    Polynomials helper(hpower);
+    Polynomial helper(hpower);
     for (i = hpower; i >= 0; i--)
         helper.p[i] = object2.p[i] * object1;
     return helper;
 }
 
-Polynomials& Polynomials::operator+=(const Polynomials& object) // object1.operator+=(object2);
+Polynomial& Polynomial::operator+=(const Polynomial& object)
 {
     int i = 0;
     int highest_power = 0;
@@ -235,7 +238,7 @@ Polynomials& Polynomials::operator+=(const Polynomials& object) // object1.opera
     return *this;
 }
 
-Polynomials& Polynomials::operator*=(const Polynomials& object)
+Polynomial& Polynomial::operator*=(const Polynomial& object)
 {
     int i = 0;
     int highest_power = 0;
@@ -285,22 +288,21 @@ int main()
     int* pointer2 = nullptr;
     int* pointer3 = nullptr;
     int value = 0;
-    Polynomials temp1, temp2;
-    Polynomials temp3;
-    //temp2.polynomialsSetPower(3);
-    temp3.polynomialsSetPower(4);
-    pointer3 = setCoefficients(temp3, pointer3);
-    //pointer2 = setCoefficients(temp2, pointer2);
+    Polynomial temp1(5), temp2;
+    Polynomial temp3;
+    //temp2.setPower(3);
+    temp3.setPower(4);
+    pointer3 = fillInArray(4, pointer3);
     //temp2.polynomialsSetCoefficients(pointer2);
-    temp3.polynomialsSetCoefficients(pointer3);
+    temp3.setCoefficients(pointer3);
     temp3 *= 3;
     temp2 += 5;
-    temp3.polynomialsOutput();
-    temp1 = temp3.polynomialsGetDerivative();
-    //temp3 *= 2;
-    temp3.polynomialsOutput();
+    temp3.Output();
+    temp3 *= 2;
+    temp1 = temp3.getDerivative();
+    temp3.Output();
     //temp2.polynomialsOutput();
-    temp1.polynomialsOutput();
+    temp1.Output();
     delete[] pointer1;
     delete[] pointer2;
     return 0;
