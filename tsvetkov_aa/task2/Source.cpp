@@ -33,7 +33,7 @@ public:
 		free(matr);
 		size = a;
 		matr = (int**)malloc(sizeof(int*) * size );//создаем новую матрицу с новым размером
-		for ( i = 0; i < size; i++)
+		for (i = 0; i < size; i++)
 			matr[i] = (int*)malloc(sizeof(int) * size);
 		for (i = 0; i < size; i++)
 		{
