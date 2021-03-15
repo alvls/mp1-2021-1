@@ -8,7 +8,7 @@
 5) выделить подстроку из строки,
 6) проверить, является ли строка палиндромом,
 7) найти, сколько разных символов латинского алфавита содержится в строке.
-Класс должен содержать все необходимые конструкторы, 
+Класс должен содержать все необходимые конструкторы,
 деструктор, оператор присваивания, а также «уметь» выводить себя на консоль.
 */
 
@@ -49,8 +49,8 @@ public:
 	void changeSymbolByIndex(int index, char zamena);
 
 	//выделить строку из-под строки(5)
-	void extractSubstring(int left, int lenSub, String *sub);
-
+	//void extractSubstring(int left, int lenSub, String *sub);
+	String extractSubstring(int left, int lenSub);
 	//счетчик буковок(6)
 	void countChar();//
 
@@ -74,7 +74,7 @@ int main()
 		int variantMenu;
 		cout << "Введите номер нужного пункта" << endl;
 		cin >> variantMenu;
-		while ((variantMenu<1)||(variantMenu)>8) {
+		while ((variantMenu < 1) || (variantMenu) > 8) {
 			cout << "Такого пункта меню нет. Повторите ввод заново!" << endl;
 			cin >> variantMenu;
 		}
@@ -85,7 +85,7 @@ int main()
 			break;
 		case 2:
 			cout << "Количество символов в текущей строке:" << endl;
-			cout << objectForOperation. getLength() << endl;
+			cout << objectForOperation.getLength() << endl;
 			cout << "Это число включает в себя число пробелов, в том числе которые могли поставить по ошибке в конце предложения" << endl;
 			cout << "________________________________________________________________________________________" << endl;
 			break;
@@ -94,11 +94,11 @@ int main()
 			int index;
 			cout << "Введите индекс интересующего элемента." << endl;
 			cin >> index;
-			while ((index > objectForOperation. getLength()) || (index < 1)) {
+			while ((index > objectForOperation.getLength()) || (index < 1)) {
 				cout << "Элемента с таким индексом нет. Повторите ввод заново." << endl;
 				cin >> index;
 			}
-			cout << "Возвращенный индекс:" << "' " << objectForOperation.getSymbolByIndex(index) <<" '" << endl;
+			cout << "Возвращенный индекс:" << "' " << objectForOperation.getSymbolByIndex(index) << " '" << endl;
 			//cout <<"_______" <<objectForOperation.getSymbolByIndex(index) << endl;
 			cout << "________________________________________________________________________________________" << endl;
 			break;
@@ -106,7 +106,7 @@ int main()
 
 			cout << "Введите индекс элемента, который хотите изменить" << endl;
 			cin >> index;
-			while ((index > objectForOperation. getLength()) || (index < 1)) {
+			while ((index > objectForOperation.getLength()) || (index < 1)) {
 				cout << "Элемента с таким индексом нет. Повторите ввод заново." << endl;
 				cin >> index;
 			}
@@ -127,10 +127,12 @@ int main()
 			cout << "Введите длину нужной подстроки" << endl;
 			int len;
 			cin >> len;
-			String* sub = new String(len + 1);
-			objectForOperation.extractSubstring(left, len, sub);
-			cout << "Выделенная подстрока:";
-			sub->printStr();
+			// hfString* sub = new String(len + 1);
+			//objectForOperation.extractSubstring(left, len, sub);
+			cout << "Выделенная подстрока: ";
+			objectForOperation.extractSubstring(left, len).printStr();
+			//рабочая со звездой если objectForOperation.extractSubstring(left, len)->printStr();
+			//p.printStr();
 			cout << "________________________________________________________________________________________" << endl;
 			break;
 		}
@@ -168,12 +170,11 @@ String::String(char* val) {
 	scanString(val);
 }
 
-String::String(int lenOther){
+String::String(int lenOther) {
 	//cout << "Сработал конструктор принимающий int" << endl;
 	len = lenOther;
 	const int lenOtherConst = lenOther + 1;
 	str = new char[lenOtherConst];
-
 }
 
 void String::printStr()
@@ -198,7 +199,7 @@ void String::scanString(char* getChar)
 	len = strlen(str);
 }
 
-int String:: getLength() {
+int String::getLength() {
 	return len;
 }
 
@@ -209,6 +210,7 @@ char String::getSymbolByIndex(int index) {
 void String::changeSymbolByIndex(int index, char zamena) {
 	str[index - 1] = zamena;
 }
+/*
 void String::extractSubstring(int left, int lenSub, String* sub)
 {
 	for (int i = 1; i <= lenSub; i++) {
@@ -216,7 +218,7 @@ void String::extractSubstring(int left, int lenSub, String* sub)
 		left++;
 	}
 	sub->str[lenSub] = '\0';
-}
+}*/
 
 bool String::checkPolyindrome() {
 	//int i, j;
@@ -262,14 +264,23 @@ void printMainMenu()
 	cout << "7.Проверка является ли полиндромом" << endl;
 	cout << "8.Выход" << endl << endl;
 }
-void welcomMessege()
-{
+void welcomMessege() {
 	cout << "Добро пожаловать!" << endl;
 	cout << "Вам будет предложено ввести строку и выбрать что с ней сделать." << endl;
 	cout << "Программа считает пробел как символ. Не забывайте об этом!!!" << endl;
 }
-void String::countChar()
-{
+String String::extractSubstring(int left, int lenSub) {
+	static String sub(lenSub);
+
+	for (int i = 1; i <= lenSub; i++) {
+		sub.str[i - 1] = str[left - 1];
+		left++;
+	}
+	sub.str[lenSub] = '\0';
+	//cout <<"Получаем : " <<sub->str << endl;
+	return sub;
+}
+void String::countChar() {
 	char* disassemble;
 	disassemble = new char[len];
 	int flag = 0;
