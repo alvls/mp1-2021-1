@@ -17,31 +17,27 @@ public:
 		matr = (int**)malloc(sizeof(int*) * size);//создание двумерного массива size*size
 		for (i = 0; i < size; i++)
 			matr[i] = (int*)malloc(sizeof(int) * size);
-
 		for (i = 0; i < size; i++)
 		{
-			for ( j = 0; j < size; j++)
+			for (j = 0; j < size; j++)
 				matr[i][j] = 0;//зануление элементов матрицы
 		}
-
-
 	}
 	void setsize(int a)//задание размера матрицы
 	{
-		int i = 0,j=0;
+		int i = 0, j = 0;
 		for (i = 0; i < size; i++)//очищаем старое
 		{
 			free(matr[i]);
 		}
 		free(matr);
 		size = a;
-
 		matr = (int**)malloc(sizeof(int*) * size );//создаем новую матрицу с новым размером
 		for ( i = 0; i < size; i++)
 			matr[i] = (int*)malloc(sizeof(int) * size);
 		for (i = 0; i < size; i++)
 		{
-			for ( j = 0; j < size; j++)
+			for (j = 0; j < size; j++)
 				matr[i][j] = 0;
 		}
 	}
@@ -60,7 +56,6 @@ public:
 			}
 			cout << endl;
 		}
-
 	}
 	void setind(int i, int j, int a)//задание элемента по его индексу
 	{
@@ -72,12 +67,10 @@ public:
 	}
 	bool diag()//проверка на диагональное преобладание
 	{
-
-		int i=0,j=0, s; 
+		int i=0, j=0, s; 
 		int** a;
 		a = (int**)malloc(sizeof(int*)* size);//двумерный массив из 2 столбцов и size строк
 		// в нулевой столбец заносим значени€ элементов на диагонали, в первый сумму элементов каждой каждой строки
-
 		for (i = 0; i < size; i++)  
 		{
 			a[i] = (int*)malloc(sizeof(int)*2);
@@ -87,61 +80,59 @@ public:
 		{
 			s = 0;
 			a[i][0] = matr[i][i];
-			for ( j = 0; j < size; j++)
+			for (j = 0; j < size; j++)
 			{
 				if (j != i)
 					s += matr[i][j];
 			}
 			a[i][1] = s;
 		}
-		for ( j = 0; j < size; j++)
+		for (j = 0; j < size; j++)
+		{
 			if (a[j][1] > a[j][0])
 				flag = 0;
+		}
 		for (i = 0; i < size; i++)//чистим созданный двумерный массив
 		{
 			free(a[i]);
 		}
-
 		free(a);
 		return flag;
 	}
-
 	Matrix operator+ (const Matrix& c)//оператор сложени€ матриц одного размера
 	{
 		Matrix res(size);
-
-		for (int i = 0; i < size; i++)
-			for (int j = 0; j < size; j++)
+		int i = 0, j = 0;
+		for (i = 0; i < size; i++)
+			for (j = 0; j < size; j++)
 			{
 				res.matr[i][j] = matr[i][j] + c.matr[i][j];
 			}
 		return res;
 	}
-
 	Matrix(const Matrix& m)//конструктор копировани€
 	{
 		int i = 0, j = 0;
 		size = m.size;
 		matr = (int**)malloc(sizeof(int*) * size);//создание матрицы
-		for ( i = 0; i < size; i++)
+		for (i = 0; i < size; i++)
 		{
 			matr[i] = (int*)malloc(sizeof(int) * size);
 		}
-		for ( i = 0; i < size; i++)
+		for (i = 0; i < size; i++)
 			for (j = 0; j < size; j++)
 				matr[i][j] = m.matr[i][j];
 	}
 	~Matrix()//деструктор
 	{
-		for (int i = 0; i < size; i++)
+		int i = 0;
+		for (i = 0; i < size; i++)
 		{
 			free(matr[i]);
 		}
 		free(matr);
 	}
-
 };
-
 
 int menu()//¬ывод меню на консоль и возврат значени€ режима работы
 {
@@ -210,7 +201,6 @@ p:
 	{
 		size = p.getsize();
 		Matrix c(size);
-
 		for (i = 0; i < size; i++)//инициализаци€ второго слагаемого-матрицы(задаем элементы с помощью setind)
 		{
 			cout << "«адайте значение элементов " << i + 1 << " строки" << endl;
@@ -219,7 +209,6 @@ p:
 				cin >> a;
 				c.setind(i, j, a);
 			}
-
 		}
 		Matrix rep(p + c);
 		cout << "—умма матриц равна:" << endl;
