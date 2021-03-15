@@ -10,37 +10,38 @@ class Dynamic_Mass
     {
         mass =  new double [n];
         for(int i = 0;i < n;i++){
-            *(mass + i) = 0;
+            mass[i] = 0;
         }
         len = n;
     }
     ~Dynamic_Mass()
     {
-        delete[](mass);
+        delete[] mass;
     }
     double& operator[](int ind)
     {   
-        //if((ind > len-1) ||ind < 0){}
-        return *(mass + ind);  
+        return mass[ind];  
     }
-    Dynamic_Mass& operator=(Dynamic_Mass& massT)
+    Dynamic_Mass& operator=(const Dynamic_Mass& massT)
     {
-        //if(massT.len != len){};
+        len = massT.len;
+        delete [] mass;
+        mass =  new double [len];
         for(int i = 0;i < len;i++){
-            *(mass + i) = *(massT.mass + i);  
+            mass[i] = massT.mass[i];
         }
         return *this;
     }
-    int IsOrdered()
+    bool Is_Ordered()
     {   
         for(int i = 1;i < len;i++){
-            if(*(mass + i) > *(mass + i-1)){
-                return 0;
+            if(mass[i] < mass[i-1]){
+                return false;
             }
         }
-        return 1;
+        return true;
     }
-    int Get_Lenght()
+    int Get_Length()
     {
         return len;
     }
@@ -48,24 +49,19 @@ class Dynamic_Mass
     {
         double t = *mass;
         for(int i = 1;i < len;i++){
-            if(*(mass + i) < t)
-                t = *(mass + i);
+            if(mass[i] < t){t = mass[i];}
         }
         return t;
     }
-    int Cr_OddMass()
+    double* Cr_OddMass()
     {
         double *massOdd;
         int Oddlen = len/2;
         massOdd =  new double [Oddlen];
-        if (!massOdd){return -1;}
         for(int i = 0;i < len;i++){
-            *(massOdd + i) = *(mass + i + 1);        
+            massOdd[i] = mass[i+1];        
         }
-        double* t = mass;
-        mass = massOdd;
-        delete[](t);
-        return 0;
+        return massOdd;
     }
 };
 
@@ -73,12 +69,14 @@ class Dynamic_Mass
 int main()
 {
     Dynamic_Mass a(5);
-    a[4] = 4;
+    a[1] = 4;
     Dynamic_Mass b(5);
     b = a;
-    cout << a[4] << endl;
-    cout << a.Get_Lenght() <<endl;
+    cout << a[1] << endl;
+    cout << a.Get_Length() <<endl;
     cout << a.Get_Min() << endl;
-    a.Cr_OddMass();
-    cout << a[0] <<endl;
+    double *c;
+    c = a.Cr_OddMass();
+    cout << c[0]<<endl;
+    cout << a[1] <<endl;
 }
