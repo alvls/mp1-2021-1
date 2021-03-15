@@ -69,13 +69,12 @@ int main() {
 		system("cls");
 		cout << "Instruction: \n";
 		cout << "x - exit \n";
-		cout << "SPACE - show instruction\n";
-		cout << "1 - set number of commands \n";
-		cout << "2 - get number of commands \n";
-		cout << "3 - set name for i field \n";
-		cout << "4 - set position of the window and show \n";
-		cout << "5 - get field's index \n";
-		cout << "6 - get last chosen \n";
+		cout << "1 - Set number of commands \n";
+		cout << "2 - Get number of commands \n";
+		cout << "3 - Set name for i field \n";
+		cout << "4 - Set position of the window and Show \n";
+		cout << "5 - Get field's index by name\n";
+		cout << "6 - Get last chosen \n";
 		cout << "(check your language)\n";
 		cout << "\nPress any corrent button\n";
 
