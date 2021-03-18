@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <stdarg.h> 
 #include <string>
 #include <Windows.h>
@@ -7,90 +7,71 @@ using namespace std;
 class Menu
 {
 private:
-	int countChoices;
+	int countActs;
 	int lastChoice;
-	string* str;
+	string* nameAct;
 	char* keys;
 public:
 	Menu()
 	{
-		countChoices = 0;
+		countActs = 0;
 		lastChoice = 0;
-		str = nullptr;
+		nameAct = nullptr;
 		keys = nullptr;
 	}
 
-	Menu(int countChoices)
+	Menu(int _countActs)
 	{
-		this->countChoices = countChoices;
+		countActs = _countActs;
 		lastChoice = 0;
-		str = new string[countChoices];
-		keys = new char[countChoices];
-	}
-
-	Menu(int countChoices, string ...)
-	{
-		this->countChoices = countChoices;
-		lastChoice = 0;
-		str = new string[countChoices];
-		va_list lastParm;
-		va_start(lastParm,countChoices);
-		for (int i = 0; i < countChoices; i++)
-		{
-			str[i] =  va_arg(lastParm, string);
-		}
-		va_end(lastParm);
+		nameAct = new string[countActs];
+		keys = new char[countActs];
 	}
 
 	~Menu()
 	{
-		delete[]str;
-		str = nullptr;
+		delete[]nameAct;
 		delete[]keys;
-		keys = nullptr;
-		countChoices = 0;
-		lastChoice = 0;
 	}
 
-	//установить количество выборов в меню
-	void SetCountChoices(int countChoices)
+	//СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ РєРѕРјР°РЅРґ РІ РјРµРЅСЋ
+	void SetCountActs(int _countActs)
 	{
-		this->countChoices = countChoices;
+		countActs = _countActs;
 	}
 
-	//получить количество выборов в меню
-	int GetCountChoices()
+	//СѓР·РЅР°С‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ РєРѕРјР°РЅРґ РІ РјРµРЅСЋ
+	int GetCountActs()
 	{
-		return countChoices;
+		return countActs;
 	}
 
-	//установить положение в меню, ключ и название пункта
-	void SetChoice(int number,char key, string name)
+	//СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РїРѕР·РёС†РёСЋ РІ РјРµРЅСЋ, РєР»СЋС‡ Рё РЅР°Р·РІР°РЅРёРµ РїСѓРЅРєС‚Р°
+	void SetAct(int number,char key, string name)
 	{
-		str[number] = name;
+		nameAct[number] = name;
 		keys[number] = key;
 	}
 
-	//печать меню
+	//РїРµС‡Р°С‚СЊ РјРµРЅСЋ
 	void PrintMenu(int x, int y)
 	{
 		COORD position;
 		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-		for (int i = 0; i < countChoices; i++)
+		for (int i = 0; i < countActs; i++)
 		{
 			position.X = x;
 			position.Y = y++;
 			SetConsoleCursorPosition(hConsole, position);
 			cout << keys[i] << " ";
-			cout << str[i] << endl;
-			
+			cout << nameAct[i] << endl;	
 		}
 	}
 
-	//выбор пользователя с возвращением номера ключа
+	//РІС‹Р±РѕСЂ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ СЃ РІРѕР·РІСЂР°С‰РµРЅРёРµРј РЅРѕРјРµСЂР° РєР»СЋС‡Р°
 	int Choice(char choice)
 	{
-		for (int i = 0; i < countChoices; i++)
+		for (int i = 0; i < countActs; i++)
 		{
 			if (keys[i] == choice)
 			{
@@ -102,23 +83,17 @@ public:
 		return -1;
 	}
 
-	//получение номера последнего выбора(начиная с 0)
+	//РїРѕР»СѓС‡РµРЅРёРµ РЅРѕРјРµСЂР° РїРѕСЃР»РµРґРЅРµРіРѕ РІС‹Р±РѕСЂР°(РЅР°С‡РёРЅР°СЏ СЃ 0)
 	int GetLastChoice()
 	{
 		return lastChoice;
 	}
 
-	//печать последнего выбора
+	//РїРµС‡Р°С‚СЊ РїРѕСЃР»РµРґРЅРµРіРѕ РІС‹Р±РѕСЂР°
 	void PrintChoicedAct()
 	{
-		if (lastChoice == -1)
-			cout << "Ошибка выбора" << endl;
-		cout << str[lastChoice] << endl;
+		cout << nameAct[lastChoice] << endl;
 	}
-
-
-
-
 
 
 };
