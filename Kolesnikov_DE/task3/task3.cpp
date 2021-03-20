@@ -23,14 +23,14 @@ class Dict
         {
             mass = new Dictationary [len];
         }
-        Dict(const Dict& other) : len(other.len) store(other.store)
+        Dict(const Dict& other) : len(other.len),store(other.store)
         {
             delete [] mass;
             Dictationary* mass = new Dictationary [len];
             for(int i = 0;i < len;i++)
             {
-                mass[i].word = other.word;
-                mass[i].tword = other.tword;
+                mass[i].word = other.mass[i].word;
+                mass[i].tword = other.mass[i].tword;
             }
         }
         ~Dict()
@@ -39,35 +39,35 @@ class Dict
         }
         string Get_Tr(string wd)
         {
-            for(int i = 0;i < k;k++){
+            for(int i = 0;i < store;i++){
                 if (mass[i].word == wd){
                     return mass[i].tword;
                 }
             }
-            return 1;
+            return "0";
         }
         int Len_Dict()
         {
-            return k;
+            return store;
         }
-        int Is_There()
+        int Is_There(string wd)
         {
-            for(int i = 0;i < k;i++){
+            for(int i = 0;i < store;i++){
                 if (mass[i].word == wd){return 0;}
             }
             return 1;
                 
         }
-        int Set_Word(string w,string tw)
+        int Set_Word(string wd,string twd)
         {
-            if(k+1==len){return -1;}
-            mass[k+1].word = w;
-            mass[k+1].tword = tw;
-            k++;
+            if(store+1 == len){return -1;}
+            mass[store+1].word = wd;
+            mass[store+1].tword = twd;
+            store++;
         }
         int Ch_Tr(string wd,string twd)
         {
-            for(int i = 0;i < k;k++){
+            for(int i = 0;i < store;store++){
                 if (mass[i].word == wd){
                     mass[i].tword = twd;
                     return 0;
@@ -79,22 +79,23 @@ class Dict
         {
             ofstream fout;
             fout.open("Dict.txt");
-            if(!fout){return 1;}
-            for(int i = 0;i < k;i++){
+            if(!fout){return "0";}
+            for(int i = 0;i < store;i++){
                 fout << mass[i].word << ' ' << mass[i].tword << endl;
             }
             fout.close();
-            return Dict.txt;
+            return "Dict.txt";
         }
         int Read_Fr_File(string path)
         {
             string buf;
             ifstream fin(path);
-            if(!fin){return -1;};
+            if(!fin){return -1;}
             else{
                 delete [] mass;
-                int nlen;
-                for(;!fin.getline(fin);nlen++){
+                int nlen = 0;
+                while(getline(fin, buf)){
+                    nlen++;
                 }
                 len = nlen;
                 store = nlen;
