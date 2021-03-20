@@ -23,7 +23,7 @@ class Dict
         void operator+( const Dict& ) {}
         void operator-( const Dict& ) {}
     public:
-        Dict(): len(DEFAULT_DICT_SIZE)
+        Dict() : len(DEFAULT_DICT_SIZE)
         {
             mass = new Dictationary [DEFAULT_DICT_SIZE];
             for(int i = 0;i < len;i++){
@@ -58,13 +58,13 @@ class Dict
             }
             delete [] mass;
         }
-        string Get_Tr(string wd,int numb = 0)
+        string Get_Tr(string wd,int num = 1)
         {
-            numb--;
+            num--;
             for(int i = 0;i < store;i++){
                 if (mass[i].word == wd){
-                    if(numb > mass[i].n){return "\0";}
-                    return mass[i].tword[numb];
+                    if(num > mass[i].n){return "";}
+                    return mass[i].tword[num];
                 }
             }
             return "1";
@@ -80,6 +80,22 @@ class Dict
             }
             return 1;
                 
+        }
+        int Ch_Tr(string wd,string twd,int num = 1)
+        {
+             for(int i = 0;i < store;i++){
+                if (mass[i].word == wd)
+                {
+                    if (num > mass[i].n){return -1;}
+                    mass[i].tword[num - 1] = twd;
+                    return 0;
+                }
+            }
+            mass[store].word = wd;
+            mass[store].tword[0] = twd;
+            mass[store].n = 1;
+            store++;
+            return 0;
         }
         int Set_Word(string wd,string twd)
         {
@@ -152,8 +168,9 @@ try{
     cout << a.Set_Word("Constantinople","Рим") << endl;
     cout << a.To_File("Dict.txt") << endl;
     cout << a.From_File("Dict.txt") << endl;
+    a.Ch_Tr("Moscow","Москва",3);
     cout << a.Get_Tr("Moscow",3) << endl;
-    if(a.Get_Tr("Moscow",4) == "\0"){
+    if(a.Get_Tr("Moscow",4) == ""){
         cout << "ERROOR NO TRANSLATE WITH THIS NUMBER"<< endl;
     }
     cout << a.Get_Len() << endl;
