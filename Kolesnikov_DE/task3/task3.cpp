@@ -105,13 +105,15 @@ class Dict
                     i++;
                 }
                 fin.close();
+                store = len = i;
                 }
             return 0;
         }
 };
 int main(){
     setlocale(LC_ALL, "Russian");
-    Dict a(20);
+try{
+     Dict a(20);
     cout << a.Set_Word("Moscow","Рим") << endl;
     cout << a.Get_Tr("work") << endl;
     cout << a.Set_Word("Constantinople","Рим") << endl;
@@ -120,4 +122,9 @@ int main(){
     cout << a.Get_Tr("Moscow") << endl;
     cout << a.Get_Len() << endl;
     return 0;
+}
+catch(const bad_alloc& e){
+    cout << "Memory overflow" << endl;
+    return 1;
+}
 }
