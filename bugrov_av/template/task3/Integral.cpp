@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <limits>
 using namespace std;
 //Разработать класс Расчет интегралов.
 //Класс должен позволять вычислять приближенное значение интеграла от произвольной функции одной переменной, заданной в виде функции языка C++.
@@ -13,7 +14,6 @@ using namespace std;
 //5) выбрать метод вычисления, +
 //6) вычислить значение интеграла выбранным методом,
 //7) вывести результат вычисления на экран. +
-
 typedef double(*math)(double);
 enum way
 {
@@ -32,10 +32,6 @@ class integral
 	int n;// число сегментов
 	double res;// результат вычислений
 	way method;// метод интегрирования
-	/* double midfinder(double a1, double b1)
-	{
-		return (b1 + (b1 - a1) / 2);
-	}*/
 	void calc();// вычисление интеграла
 public:
 	integral(double l = 0, double r = 0, math f = abs) :lim{ l, r }, foo(f) // конструктор
@@ -103,9 +99,40 @@ void integral::calc()
 	}
 	res *= segment;
 }
+inline void repeater(bool& flag)
+{
+	flag = true;
+	cout << "Bведите число из заданного диапазона" << endl;
+}
+int getnum()
+{
+	char c[2];
+	int n;
+	bool flag;
+	int i;
+	do
+	{
+		i = 0;
+		n = c[0] = c[1] = 'a';
+		flag = false;
+		do
+		{
+			c[i % 2] = getchar();
+			i++;
+		} while (c[0] != '\n' && c[1] != '\n');
+		if (i < 3)
+			n = c[0] - '0';
+		if (n < 0 || n>9)
+		{
+			cout << "Некорректный ввод" << endl;
+			flag = true;
+		}
+	} while (flag);
+	return n;
+}
 void usefunk(integral& s)
 {
-	enum fname { _exp = 1, _sin, _cos, _sinh, _cosh, _sqrt, _log , _line};
+	enum fname { _exp = 1, _sin, _cos, _sinh, _cosh, _sqrt, _log, _line };
 	cout << "Выберите номер функции:" << endl;
 	cout << "1. Экспонента" << endl;
 	cout << "2. Синус" << endl;
@@ -115,64 +142,75 @@ void usefunk(integral& s)
 	cout << "6. Квадратный корень" << endl;
 	cout << "7. Натуральный логарифм" << endl;
 	cout << "8. Прямая y=x" << endl;
+	math funk = line;
+	bool flag = false;
+	bool& f = flag;
 	int ans;
-	cin >> ans;
-	math funk;
-	switch (ans)
+	do
 	{
-	case _exp:
-		funk = exp;
-		break;
-	case _sin:
-		funk = sin;
-		break;
-	case _cos:
-		funk = cos;
-		break;
-	case _sinh:
-		funk = sinh;
-		break;
-	case _cosh:
-		funk = cosh;
-		break;
-	case _sqrt:
-		funk = sqrt;
-		break;
-	case _log:
-		funk = log;
-		break;
-	case _line:
-		funk = line;
-		break;
-	default:
-		funk = abs;
-		break;
-	}
+		ans = getnum();
+		switch (ans)
+		{
+		case _exp:
+			funk = exp;
+			break;
+		case _sin:
+			funk = sin;
+			break;
+		case _cos:
+			funk = cos;
+			break;
+		case _sinh:
+			funk = sinh;
+			break;
+		case _cosh:
+			funk = cosh;
+			break;
+		case _sqrt:
+			funk = sqrt;
+			break;
+		case _log:
+			funk = log;
+			break;
+		case _line:
+			funk = line;
+			break;
+		default:
+			repeater(f);
+			break;
+		}
+	} while (flag);
 	s.GetFoo(funk);
 }
 void useway(integral& s)
 {
-	int ans;
 	cout << "Выберите метод вычисления интеграла" << endl;
 	cout << "1. Метод левых прямоугольников" << endl;
-	cout << "2. Метод средних прямоугольников"<<endl;
-	cout << "3. Метод правых прямоугольников"<<endl;
-	cin >> ans;
+	cout << "2. Метод средних прямоугольников" << endl;
+	cout << "3. Метод правых прямоугольников" << endl;
+	bool flag = false;
+	bool& f = flag;
 	way getmeth;
-	switch (ans)
+	int ans;
+	do 
 	{
-	case _left:
-		getmeth = _left;
-		break;
-	case _mid:
-		getmeth = _mid;
-		break;
-	case _right:
-		getmeth = _right;
-		break;
-	default:
-		break;
-	}
+		ans = getnum();
+		switch (ans)
+		{
+		case _left:
+			getmeth = _left;
+			break;
+		case _mid:
+			getmeth = _mid;
+			break;
+		case _right:
+			getmeth = _right;
+			break;
+		default:
+			repeater(f);
+			break;
+		}
+	} while (flag);
 	s.GetWay(getmeth);
 }
 void menu()
@@ -206,10 +244,8 @@ void menu()
 		double res;
 		res = s.out();
 		cout << "Результат вычислений: " << res << endl;
-		char a;
 		cout << "Если вы желаете продолжать, введите 0, иначе введите любой другой символ" << endl;
-		cin >> a;
-		ans = static_cast<int>(a) - 48;
+		ans = getnum();
 	} while (!ans);
 }
 int main()
