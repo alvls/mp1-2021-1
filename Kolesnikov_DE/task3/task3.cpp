@@ -136,7 +136,7 @@ class Dict
                     i++;
                 }
                 fin.close();
-                store = len = i;
+                store = len = i-1;
                 }
             return 0;
         }
