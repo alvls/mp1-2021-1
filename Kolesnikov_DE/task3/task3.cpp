@@ -1,4 +1,5 @@
 #include <fstream>
+#include <locale.h>
 #include <sstream>
 #include <string>
 #include <iostream>
@@ -12,7 +13,7 @@ class Dict
             string tword;
         };
         int len;
-        int store;
+        int store = 0;
         Dictationary *mass;
     public:
         Dict(): len(100)
@@ -44,9 +45,9 @@ class Dict
                     return mass[i].tword;
                 }
             }
-            return "0";
+            return "1";
         }
-        int Len_Dict()
+        int Get_Len()
         {
             return store;
         }
@@ -61,9 +62,10 @@ class Dict
         int Set_Word(string wd,string twd)
         {
             if(store+1 == len){return -1;}
-            mass[store+1].word = wd;
-            mass[store+1].tword = twd;
+            mass[store].word = wd;
+            mass[store].tword = twd;
             store++;
+            return 0;
         }
         int Ch_Tr(string wd,string twd)
         {
@@ -75,37 +77,47 @@ class Dict
             }
             return 1;
         }
-        string To_File()
+        int To_File(string path)
         {
             ofstream fout;
-            fout.open("Dict.txt");
-            if(!fout){return "0";}
+            fout.open(path);
+            if(!fout){return -1;}
             for(int i = 0;i < store;i++){
-                fout << mass[i].word << ' ' << mass[i].tword << endl;
+                fout << mass[i].word << " - " << mass[i].tword << endl;
             }
             fout.close();
-            return "Dict.txt";
+            return 0;
         }
-        int Read_Fr_File(string path)
+        int From_File(string path)
         {
             string buf;
-            ifstream fin(path);
+            string tempbuf;
+            ifstream fin;
+            char c;
+            fin.open(path);
             if(!fin){return -1;}
             else{
                 delete [] mass;
-                int nlen = 0;
-                while(getline(fin, buf)){
-                    nlen++;
-                }
-                len = nlen;
-                store = nlen;
                 mass = new Dictationary [len];
-                for(int i = 0;!fin.eof();i++){
-                    if(i % 2 == 0){fin >> mass[i/2].word;}  
-                    else{fin >> mass[i/2].tword;}
-                return 0;
+                int i = 0;
+                while (!fin.eof()){
+                    fin >> mass[i].word>>buf>>mass[i].tword;
+                    i++;
                 }
-            }
-            
-        } 
+                fin.close();
+                }
+            return 0;
+        }
 };
+int main(){
+    setlocale(LC_ALL, "Russian");
+    Dict a(20);
+    cout << a.Set_Word("Moscow","Рим") << endl;
+    cout << a.Get_Tr("work") << endl;
+    cout << a.Set_Word("Constantinople","Рим") << endl;
+    cout << a.To_File("Dict.txt") << endl;
+    cout << a.From_File("Dict.txt") << endl;
+    cout << a.Get_Tr("Moscow") << endl;
+    cout << a.Get_Len() << endl;
+    return 0;
+}
