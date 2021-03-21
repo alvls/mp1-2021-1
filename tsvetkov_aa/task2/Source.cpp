@@ -1,8 +1,8 @@
-#include <clocale>
-#include <iostream>
-#include <cmath>
-#include <cstdlib>
-using namespace std;
+	#include <clocale>
+	#include <iostream>
+	#include <cmath>
+	#include <cstdlib>
+	using namespace std;
 
 class Matrix
 {
