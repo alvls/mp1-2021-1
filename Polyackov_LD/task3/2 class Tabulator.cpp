@@ -4,24 +4,19 @@
 //private:
 
 //Максимальная длина числа
-int Tabulator::MaxLengthX()
+int Tabulator::MaxLengthX(int quantity)
 {
-	double value = TabData[0].x;
-	for (int i = 1; i < Points; i++)
-		if (value < fabs(TabData[i].x))
-			value = TabData[i].x;
 	int len = 0;
-	if (value < 0)
-	{
-		value = (-1) * value;
+	double value;
+	fabs(TabData[0].x) >= fabs(TabData[quantity - 1].x) ? value = TabData[0].x : value = TabData[quantity - 1].x;
+	if (value < 0) {
+		value *= -1;
 		len++;
 	}
-	while (value >= 1)
-	{
+	while (value >= 1) {
 		value /= 10;
 		len++;
 	}
-	len += 4; //Для дробной части
 	return len;
 }
 
@@ -51,6 +46,14 @@ double* Tabulator::GetTabPointData(int point)
 	return tmparr;
 }
 
+// Получить информацию, есть ли данные в TabData
+bool Tabulator::TabDataExist()
+{
+	if (TabData == nullptr)
+		return false;
+	return true;
+}
+
 //Сеттеры
 void Tabulator::SetFunc(int type)
 {
@@ -68,81 +71,69 @@ void Tabulator::SetFunc(int type)
 		func = new Tan;
 		break;
 	case 4:
-		func = new Cot;
-		break;
-	case 5:
 		func = new Arcsin;
 		break;
-	case 6:
+	case 5:
 		func = new Arccos;
 		break;
-	case 7:
+	case 6:
 		func = new Arctan;
 		break;
-	case 8:
-		func = new Arccot;
-		break;
-	case 9:
+	case 7:
 		func = new Sinh;
 		break;
-	case 10:
+	case 8:
 		func = new Cosh;
 		break;
-	case 11:
+	case 9:
 		func = new Tanh;
 		break;
-	case 12:
-		func = new Cotanh;
-		break;
-	case 13:
+	case 10:
 		func = new Asinh;
 		break;
-	case 14:
+	case 11:
 		func = new Acosh;
 		break;
-	case 15:
+	case 12:
 		func = new Atanh;
 		break;
-	case 16:
-		func = new Acotanh;
-		break;
-	case 17:
+	case 13:
 		func = new XPowTwo;
 		break;
-	case 18:
+	case 14:
 		func = new XPowThree;
 		break;
-	case 19:
+	case 15:
 		func = new Sqrt;
 		break;
-	case 20:
+	case 16:
 		func = new Cbrt;
 		break;
-	case 21:
+	case 17:
 		func = new TwoPowX;
 		break;
-	case 22:
+	case 18:
 		func = new ExpPowX;
 		break;
-	case 23:
+	case 19:
 		func = new TenPowX;
 		break;
-	case 24:
+	case 20:
 		func = new Log2;
 		break;
-	case 25:
+	case 21:
 		func = new Loge;
 		break;
-	case 26:
+	case 22:
 		func = new Log10;
 		break;
-	case 27:
+	case 23:
 		func = new FractPart;
 		break;
-	case 28:
+	case 24:
 		func = new Floor;
 		break;
-	case 29:
+	case 25:
 		func = new Abs;
 		break;
 	default:
@@ -157,12 +148,14 @@ void Tabulator::TabFunc()
 	double x = LeftBound;
 	double Step = abs(RightBound - LeftBound) / (double(Points) - 1);
 	TabData = new TabPoint[Points];
-	for (int i = 0; i < Points; i++)
+	for (int i = 0; i < Points - 1; i++)
 	{
 		TabData[i].x = x;
 		TabData[i].y = counter(x);
 		x += Step;
 	}
+	TabData[Points - 1].x = RightBound;
+	TabData[Points - 1].y = counter(x);
 }
 
 //Удаление неактуальной памяти
@@ -178,10 +171,18 @@ void Tabulator::DeleteTabData()
 //Вывести данные на экран
 void Tabulator::PrintData()
 {
-	int lengthx = MaxLengthX();
-	cout << "\n x" << setfill(' ') << setw(lengthx) << "  | y" << endl << endl;
+	int lengthx = MaxLengthX(Points) + 9;
+	cout << "\n Отображение x в y" << endl << endl;
 	for (int i = 0; i < Points; i++)
-		cout << " " << left << setw(lengthx) << setprecision(4) << TabData[i].x << "| " << left << setprecision(4) << TabData[i].y << endl;
+		cout << " " << left << setw(lengthx) << TabData[i].x << "| " << TabData[i].y << endl;
+}
+
+void Tabulator::PrintData(int quantity)
+{
+	int lengthx = MaxLengthX(quantity) + 9;
+	cout << "\n Отображение x в y" << endl << endl;
+	for (int i = 0; i < quantity; i++)
+		cout << " " << left << setw(lengthx) << TabData[i].x << "| " << TabData[i].y << endl;
 }
 
 //Сохранить данные в файл
@@ -197,10 +198,10 @@ void Tabulator::SaveData()
 	tmpstr = nullptr;
 	if (!fout.is_open())
 		throw exception(" Ошибка открытия файла!");
-	lengthx = MaxLengthX();
-	fout << "\n x" << setfill(' ') << setw(lengthx) << "  | y" << endl << endl;
+	lengthx = MaxLengthX(Points) + 9;
+	fout << "\n Отображение x в y" << endl << endl;
 	for (int i = 0; i < Points; i++)
-		fout << " " << left << setw(lengthx) << setprecision(4) << TabData[i].x << "| " << left << setprecision(4) << TabData[i].y << endl;
+		fout << " " << left << setw(lengthx) << TabData[i].x << "| " << TabData[i].y << endl;
 	fout.close();
 }
 

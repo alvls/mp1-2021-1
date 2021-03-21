@@ -14,4 +14,5 @@ using namespace std;
 
 #define MAX_SYMB 40
 #define PI 3.14159265358979323846
-#define NUMOFFUNC 30
+#define NUMOFFUNC 25
+#define MAXPOINTSFORPRINT 10 // MaxPointsForPrint (>=2)

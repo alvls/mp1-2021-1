@@ -26,12 +26,6 @@ public:
 	virtual double count(double x) override { return tan(x); }
 };
 
-class Cot : public Function
-{
-public:
-	virtual double count(double x) override { return tan(PI / 2 - x); }
-};
-
 // Обратные тригонометрические функции
 
 class Arcsin : public Function
@@ -50,12 +44,6 @@ class Arctan : public Function
 {
 public:
 	virtual double count(double x) override	{ return atan(x); }
-};
-
-class Arccot : public Function
-{
-public:
-	virtual double count(double x) override	{ return (PI / 2 - atan(x)); }
 };
 
 // Гиперболические функции
@@ -78,12 +66,6 @@ public:
 	virtual double count(double x) override { return tanh(x); }
 };
 
-class Cotanh : public Function
-{
-public:
-	virtual double count(double x) override { return cosh(x) / sinh(x); }
-};
-
 // Обратные гиперболические функции
 
 class Asinh : public Function
@@ -102,12 +84,6 @@ class Atanh : public Function
 {
 public:
 	virtual double count(double x) override { return atanh(x); }
-};
-
-class Acotanh : public Function
-{
-public:
-	virtual double count(double x) override { return 1 / 2 * (log(fabs(x + 1)) - log(fabs(x - 1))); }
 };
 
 // Степени

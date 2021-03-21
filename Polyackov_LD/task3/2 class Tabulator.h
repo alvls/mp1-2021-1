@@ -12,7 +12,7 @@ private:
         double y;
     };
     TabPoint* TabData;
-    int MaxLengthX();
+    int MaxLengthX(int quantity);
     double counter(double x) { return (func->count(x)); }
 public:
     //Конструктор
@@ -23,9 +23,10 @@ public:
     double GetLeftBound() { return LeftBound; }
     double GetRightBound() { return RightBound; }
     double* GetBounds();
-    TabPoint* GetTabData() { return TabData; }
     double* GetTabPointData(int point);
     Function* GetFunc() { return func; }
+    // Получить информацию, есть ли данные в TabData
+    bool TabDataExist();
 
     //Сеттеры
     void SetPoints(int _Points) { Points = _Points; }
@@ -41,6 +42,7 @@ public:
     
     //Вывести данные на экран
     void PrintData();
+    void PrintData(int quantity);
 
     //Сохранить данные в файл
     void SaveData();
