@@ -13,24 +13,22 @@ class Dict
         {
             string word;
             string* tword;
-            int n;
+            int n; //num of translates
         };
         int len;
-        int store = 0;
+        int store;
         Dictationary *mass;
         
         void operator=( const Dict& ) {}
-        void operator+( const Dict& ) {}
-        void operator-( const Dict& ) {}
     public:
-        Dict() : len(DEFAULT_DICT_SIZE)
+        Dict() : len(DEFAULT_DICT_SIZE),store(0)
         {
             mass = new Dictationary [DEFAULT_DICT_SIZE];
             for(int i = 0;i < len;i++){
                 mass[i].tword = new string [NUM_OF_TRL];
             }
         }
-        Dict(int _len) : len(_len)
+        Dict(int _len) : len(_len),store(0)
         {
             mass = new Dictationary [len];
             for(int i = 0;i < len;i++){
@@ -79,7 +77,6 @@ class Dict
                 if (mass[i].word == wd){return 0;}
             }
             return 1;
-                
         }
         int Ch_Tr(string wd,string twd,int num = 1)
         {
@@ -91,19 +88,15 @@ class Dict
                     return 0;
                 }
             }
-            mass[store].word = wd;
-            mass[store].tword[0] = twd;
-            mass[store].n = 1;
-            store++;
-            return 0;
+            return 1;
         }
         int Set_Word(string wd,string twd)
         {
-            if(store == (len-1)){return -1;}
-             for(int i = 0;i < store;i++){
+            if(store == len){return -1;}
+            for(int i = 0;i < store;i++){
                 if (mass[i].word == wd){
                     mass[i].tword[mass[i].n++] = twd;
-                    return 0;
+                    return 1;
                 }
             }
             mass[store].word = wd;
@@ -152,7 +145,8 @@ class Dict
                     i++;
                 }
                 fin.close();
-                store = len = i-1;
+                len = DEFAULT_DICT_SIZE;
+                store = i-1;
                 }
             return 0;
         }
@@ -170,6 +164,8 @@ try{
     cout << a.From_File("Dict.txt") << endl;
     a.Ch_Tr("Moscow","Москва",3);
     cout << a.Get_Tr("Moscow",3) << endl;
+    cout << a.Is_There("Moscow") << endl;
+    cout << a.Is_There("Destiny") << endl;
     if(a.Get_Tr("Moscow",4) == ""){
         cout << "ERROOR NO TRANSLATE WITH THIS NUMBER"<< endl;
     }
