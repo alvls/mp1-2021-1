@@ -10,27 +10,27 @@ private:
 	char *str;
 	int x, y;
 	int buffer;
-	int lenght;
+	int length;
 public:
 	Redaktor()//конструктор
 	{
 		str = new char[5];
 		x = 0; y = 0;
-		lenght = 4;
+		length = 4;
 		buffer = 5;
-		str[lenght] = '\0';
+		str[length] = '\0';
 	}
 	void lengh(int l)//установка длины пол€ ввода
 	{
 		delete[] str;
 		buffer = l + 1;
-		lenght = l;
+		length = l;
 		str = new char[buffer];
-		str[lenght] = '\0';
+		str[length] = '\0';
 	}
 	int lengh()//возврат длины пол€ ввода
 	{
-		return lenght;
+		return length;
 	}
 	void poz(int _x, int _y)//задание позиции пол€ в консоли
 	{
@@ -63,7 +63,7 @@ public:
 				else cout << "\b \b";
 				break;
 			default:
-				if (i != lenght)
+				if (i != length)
 				{
 					str[i] = s;
 					cout << str[i];
