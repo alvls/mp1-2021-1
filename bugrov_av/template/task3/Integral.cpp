@@ -107,7 +107,7 @@ int getnum(int rlim, int llim = 1)
 			n = c[0] - '0';
 		if (n < llim || n>rlim)
 		{
-			cout << "Некорректный ввод" << endl;
+			cout << "Некорректные данные, введите число снова" << endl;
 			flag = true;
 		}
 	} while (flag);
@@ -133,7 +133,7 @@ int getint()
 		{
 			if (s[i] < '0' || s[i]>('0' + 9))
 			{
-				cout << "Неверный ввод, повторите ещё раз" << endl;
+				cout << "Некорректные данные, введите число снова" << endl;
 				repeat = true;
 				break;
 			}
@@ -167,7 +167,7 @@ double getdb()
 		{
 			if ((s[i] < '0' || s[i]>('0' + 9)) && s[i] != '.' || s[i] == '.' && (!NoPoint))
 			{
-				cout << "Неверный ввод, повторите ещё раз" << endl;
+				cout << "Некорректные данные, введите число снова" << endl;
 				repeat = true;
 				break;
 			}
@@ -265,7 +265,7 @@ void usefunk(integral& s)
 			funk = line;
 			break;
 		default:
-			cout << "Что-то пошло не так, введите снова" << endl;
+			cout << "Что-то пошло не так, введите число снова" << endl;
 			flag = true;
 			break;
 		}
@@ -297,7 +297,7 @@ void useway(integral& s)
 			getmeth = _right;
 			break;
 		default:
-			cout << "Что-то пошло не так, введите снова" << endl;
+			cout << "Что-то пошло не так, введите число снова" << endl;
 			flag = true;
 			break;
 		}
