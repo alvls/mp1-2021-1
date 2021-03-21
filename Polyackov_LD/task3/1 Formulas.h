@@ -6,13 +6,6 @@ public:
 	virtual double count(double x) = 0;
 };
 
-//default
-class ReturnX : public Function
-{
-public:
-	virtual double count(double x) override { return x; }
-};
-
 // Тригонометрические функции
 
 class Sin : public Function

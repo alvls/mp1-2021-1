@@ -21,3 +21,14 @@ void cleaner()
     while (getchar() != '\n');
     cin.clear();
 }
+
+void gotoxy(int x, int y)
+{
+    HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (!Console)
+        return;
+    COORD pos;
+    pos.X = x;
+    pos.Y = y;
+    SetConsoleCursorPosition(Console, pos);
+}

@@ -23,9 +23,6 @@
     <ClCompile Include="2 class Tabulator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="1 Formulas.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="0 main.h">

@@ -1,6 +1,8 @@
 #pragma once
 
 #include <iostream>
+#include<iomanip> //Для setw
+#include <Windows.h>
 #include <fstream>
 #include <ctime>
 #include <limits>
@@ -8,7 +10,7 @@
 
 using namespace std;
 
-#pragma warning(disable : 4996)
+#pragma warning(disable : 4996) // Для работы localtime() из <ctime>
 
 #define MAX_SYMB 40
 #define PI 3.14159265358979323846

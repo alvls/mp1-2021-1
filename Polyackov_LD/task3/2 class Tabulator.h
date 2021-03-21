@@ -7,15 +7,24 @@ private:
     double LeftBound;
     double RightBound;
     Function* func;
-    double counter(Function* func, double x) { return (func->count(x)); }
+    struct TabPoint {
+        double x;
+        double y;
+    };
+    TabPoint* TabData;
+    int MaxLengthX();
+    double counter(double x) { return (func->count(x)); }
 public:
     //Конструктор
-    Tabulator(int _Points = 2, double _LeftBound = DBL_MIN, double _RightBound = DBL_MAX) : Points(_Points), LeftBound(_LeftBound), RightBound(_RightBound) { func = new ReturnX; }
+    Tabulator(int _Points = 0, double _LeftBound = DBL_MIN, double _RightBound = DBL_MAX);
 
     //Геттеры
     int GetPoints() { return Points; }
     double GetLeftBound() { return LeftBound; }
     double GetRightBound() { return RightBound; }
+    double* GetBounds();
+    TabPoint* GetTabData() { return TabData; }
+    double* GetTabPointData(int point);
     Function* GetFunc() { return func; }
 
     //Сеттеры
@@ -25,8 +34,17 @@ public:
     void SetFunc(int type);
 
     //Табулятор
-    double** TabFunc(Function* func);
+    void TabFunc();
+
+    //Удаление неактуальной памяти
+    void DeleteTabData();
+    
+    //Вывести данные на экран
+    void PrintData();
+
+    //Сохранить данные в файл
+    void SaveData();
 
     //Деструктор
-    ~Tabulator() {}
+    ~Tabulator();
 };

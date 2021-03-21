@@ -1,24 +1,61 @@
 
 #include "all.h"
 
-double** Tabulator::TabFunc(Function* func)
+//private:
+
+//Максимальная длина числа
+int Tabulator::MaxLengthX()
 {
-	double x = LeftBound;
-	double Step = abs(RightBound - LeftBound) / (double(Points) - 1);
-	double** tmp = new double* [Points];
-	for (int i = 0; i < Points; i++)
+	double value = TabData[0].x;
+	for (int i = 1; i < Points; i++)
+		if (value < fabs(TabData[i].x))
+			value = TabData[i].x;
+	int len = 0;
+	if (value < 0)
 	{
-		tmp[i] = new double[2];
-		tmp[i][0] = x;
-		tmp[i][1] = counter(func, x);
-		x += Step;
+		value = (-1) * value;
+		len++;
 	}
-	return tmp;
+	while (value >= 1)
+	{
+		value /= 10;
+		len++;
+	}
+	len += 4; //Для дробной части
+	return len;
 }
 
+//public:
+
+//Конструктор
+Tabulator::Tabulator(int _Points, double _LeftBound, double _RightBound) : Points(_Points), LeftBound(_LeftBound), RightBound(_RightBound)
+{
+	func = nullptr;
+	TabData = nullptr;
+}
+
+//Геттеры
+double* Tabulator::GetBounds()
+{
+	double* tmparr = new double[2];
+	tmparr[0] = LeftBound;
+	tmparr[1] = RightBound;
+	return tmparr;
+}
+
+double* Tabulator::GetTabPointData(int point)
+{
+	double* tmparr = new double[2];
+	tmparr[0] = TabData[point].x;
+	tmparr[1] = TabData[point].y;
+	return tmparr;
+}
+
+//Сеттеры
 void Tabulator::SetFunc(int type)
 {
-	delete func;
+	if (func != nullptr)
+		delete func;
 	switch (type)
 	{
 	case 1:
@@ -109,7 +146,69 @@ void Tabulator::SetFunc(int type)
 		func = new Abs;
 		break;
 	default:
-		func = new ReturnX;
+		func = nullptr;
 		break;
 	}
+}
+
+//Табулятор
+void Tabulator::TabFunc()
+{
+	double x = LeftBound;
+	double Step = abs(RightBound - LeftBound) / (double(Points) - 1);
+	TabData = new TabPoint[Points];
+	for (int i = 0; i < Points; i++)
+	{
+		TabData[i].x = x;
+		TabData[i].y = counter(x);
+		x += Step;
+	}
+}
+
+//Удаление неактуальной памяти
+void Tabulator::DeleteTabData()
+{
+	if (TabData != nullptr)
+	{
+		delete[] TabData;
+		TabData = nullptr;
+	}
+}
+
+//Вывести данные на экран
+void Tabulator::PrintData()
+{
+	int lengthx = MaxLengthX();
+	cout << "\n x" << setfill(' ') << setw(lengthx) << "  | y" << endl << endl;
+	for (int i = 0; i < Points; i++)
+		cout << " " << left << setw(lengthx) << setprecision(4) << TabData[i].x << "| " << left << setprecision(4) << TabData[i].y << endl;
+}
+
+//Сохранить данные в файл
+void Tabulator::SaveData()
+{
+	char* tmpstr = new char[MAX_SYMB];
+	int lengthx;
+	time_t seconds = time(NULL);
+	strftime(tmpstr, MAX_SYMB, "tabfunction (%H.%M.%S).txt", localtime(&seconds)); //%H - часы, %M - минуты, %S - секунды
+	ofstream fout;
+	fout.open(tmpstr);
+	delete[] tmpstr;
+	tmpstr = nullptr;
+	if (!fout.is_open())
+		throw exception(" Ошибка открытия файла!");
+	lengthx = MaxLengthX();
+	fout << "\n x" << setfill(' ') << setw(lengthx) << "  | y" << endl << endl;
+	for (int i = 0; i < Points; i++)
+		fout << " " << left << setw(lengthx) << setprecision(4) << TabData[i].x << "| " << left << setprecision(4) << TabData[i].y << endl;
+	fout.close();
+}
+
+//Деструктор
+Tabulator::~Tabulator()
+{
+	if (func != nullptr)
+		delete func;
+	if (TabData != nullptr)
+		delete[] TabData;
 }

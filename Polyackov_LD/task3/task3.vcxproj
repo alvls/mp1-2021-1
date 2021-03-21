@@ -112,7 +112,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="2 class Tabulator.cpp" />
-    <ClCompile Include="1 Formulas.cpp" />
     <ClCompile Include="0 main.cpp" />
     <ClCompile Include="3 Information processing.cpp" />
     <ClCompile Include="4 menu.cpp" />
