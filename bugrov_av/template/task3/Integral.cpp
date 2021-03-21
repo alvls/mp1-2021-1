@@ -131,7 +131,7 @@ int getint()
 	char* s = new char[256];
 	int i;
 	bool repeat;
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	//cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	do
 	{		
 		repeat = false;
@@ -185,12 +185,12 @@ double getdb()
 			}
 		}
 	} while (repeat);
-	double res = atof(s);
-	return res;
+	/*double res = atof(s);
+	return res;*/
 	double integer = 0.0; // целая часть числа
 	double fractional = 0.0; // дробная часть числа
 	double tmp; // дополнительная переменная для дробной части
-	//double res;//итоговое число
+	double res;//итоговое число
 	bool posdeg = true;// положительная ли текущая степень 10
 	bool negative = false; // является ли число отрицательным
 	int j = 0;// второй счётчик
@@ -225,6 +225,7 @@ double getdb()
 			j++;
 		}
 	}
+	cout << "fractional = " << fractional << endl;
 	res = integer + fractional;
 	if (negative)
 		res *= -1;
@@ -330,9 +331,7 @@ void menu()
 		do
 		{
 			leflim = getdb();
-			cout << "leflim= " << leflim << endl;
 			riglim = getdb();
-			cout << "riglim= " << leflim << endl;
 			if (leflim < riglim)
 				flag = false;
 			else
