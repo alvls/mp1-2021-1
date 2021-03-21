@@ -34,7 +34,7 @@ class integral
 	way method;// метод интегрирования
 	void calc();// вычисление интеграла
 public:
-	integral(double l = 0, double r = 0, math f = abs) :lim{ l, r }, foo(f) // конструктор
+	integral(double l = 0, double r = 0, math f = line) :lim{ l, r }, foo(f) // конструктор, деструктор оказался не нужен
 	{
 		n = 1;
 		res = 0;
@@ -99,12 +99,7 @@ void integral::calc()
 	}
 	res *= segment;
 }
-inline void repeater(bool& flag)
-{
-	flag = true;
-	cout << "Bведите число из заданного диапазона" << endl;
-}
-int getnum()
+int getnum(int rlim, int llim = 1)
 {
 	char c[2];
 	int n;
@@ -122,13 +117,118 @@ int getnum()
 		} while (c[0] != '\n' && c[1] != '\n');
 		if (i < 3)
 			n = c[0] - '0';
-		if (n < 0 || n>9)
+		if (n < llim || n>rlim)
 		{
 			cout << "Некорректный ввод" << endl;
 			flag = true;
 		}
 	} while (flag);
 	return n;
+}
+int getint()
+{
+	int line = 256;
+	char* s = new char[256];
+	int i;
+	bool repeat;
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	do
+	{		
+		repeat = false;
+		line = 256;
+		s[0] = 0;
+		s[0] = getchar();
+		for (i = 1; s[i-1] != '\n'; i++)
+			s[i] = getchar();
+		line = i - 1;
+		for (i = 0; i < line; i++)
+		{
+			if (s[i] < '0' || s[i]>('0' + 9))
+			{
+				cout << "Неверный ввод, повторите ещё раз" << endl;
+				repeat = true;
+				break;
+			}
+		}
+	} while (repeat);
+	i = atoi(s);
+	return i;
+}
+double getdb()
+{
+	int line = 256;
+	char* s = new char[256];
+	int i;
+	bool repeat;
+	//cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	do
+	{
+		repeat = false;
+		line = 256;
+		s[0] = 0;
+		s[0] = getchar();
+		for (i = 1; s[i - 1] != '\n'; i++)
+			s[i] = getchar();
+		line = i - 1;
+		bool NoPoint = true;
+		if (s[0] == '-')
+			i = 1;
+		else
+			i = 0;
+		for (i; i < line; i++)
+		{
+			if ((s[i] < '0' || s[i]>('0' + 9)) && s[i] != '.' || s[i] == '.' && (!NoPoint))
+			{
+				cout << "Неверный ввод, повторите ещё раз" << endl;
+				repeat = true;
+				break;
+			}
+		}
+	} while (repeat);
+	double res = atof(s);
+	return res;
+	double integer = 0.0; // целая часть числа
+	double fractional = 0.0; // дробная часть числа
+	double tmp; // дополнительная переменная для дробной части
+	//double res;//итоговое число
+	bool posdeg = true;// положительная ли текущая степень 10
+	bool negative = false; // является ли число отрицательным
+	int j = 0;// второй счётчик
+	int t; // третий счётчик
+	int a;// целое для (возможно) более безопасного пребразования типов
+	if (s[0] == '-')
+	{
+		i = 1;
+		negative = true;
+	}
+	else
+		i = 0;
+	for (i; i < line; i++)
+	{ 
+		if (posdeg)
+			if (s[i] == '.')
+				posdeg = false;
+			else
+			{
+				integer *= 10;
+				a = s[i] - '0';
+				integer += a;
+			}
+		else
+		{
+			a = s[i] - '0';
+			tmp = a;
+			for (t = 0; t < j; t++)
+				tmp /= 10;
+			fractional += tmp;
+			fractional /= 10;
+			j++;
+		}
+	}
+	res = integer + fractional;
+	if (negative)
+		res *= -1;
+	return res;
 }
 void usefunk(integral& s)
 {
@@ -148,7 +248,8 @@ void usefunk(integral& s)
 	int ans;
 	do
 	{
-		ans = getnum();
+		flag = false;
+		ans = getnum(8);
 		switch (ans)
 		{
 		case _exp:
@@ -176,7 +277,8 @@ void usefunk(integral& s)
 			funk = line;
 			break;
 		default:
-			repeater(f);
+			cout << "Что-то пошло не так, введите снова" << endl;
+			flag = true;
 			break;
 		}
 	} while (flag);
@@ -188,13 +290,13 @@ void useway(integral& s)
 	cout << "1. Метод левых прямоугольников" << endl;
 	cout << "2. Метод средних прямоугольников" << endl;
 	cout << "3. Метод правых прямоугольников" << endl;
-	bool flag = false;
-	bool& f = flag;
+	bool flag;
 	way getmeth;
 	int ans;
 	do 
 	{
-		ans = getnum();
+		flag = false;
+		ans = getnum(3);
 		switch (ans)
 		{
 		case _left:
@@ -207,7 +309,8 @@ void useway(integral& s)
 			getmeth = _right;
 			break;
 		default:
-			repeater(f);
+			cout << "Что-то пошло не так, введите снова" << endl;
+			flag = true;
 			break;
 		}
 	} while (flag);
@@ -221,16 +324,19 @@ void menu()
 	int ans;
 	do {
 		usefunk(sum);
-		cout << "Задайте пределы интегрирования" << endl;
+		cout << "Задайте левый и правый пределы интегрирования через Enter" << endl;
 		double leflim, riglim;
 		bool flag = true;
 		do
 		{
-			cin >> leflim >> riglim;
+			leflim = getdb();
+			cout << "leflim= " << leflim << endl;
+			riglim = getdb();
+			cout << "riglim= " << leflim << endl;
 			if (leflim < riglim)
 				flag = false;
 			else
-				cout << "Неверные данные" << endl;
+				cout << "Неверный порядок или отсутствует промежуток между значениями" << endl;
 		} while (flag);
 		s.GetLim(leflim, riglim);
 		limits = s.OutLim();
@@ -238,14 +344,15 @@ void menu()
 		cout << "Правый предел интегрирования: " << limits[1] << endl;
 		cout << "Задайте число отрезков метода прямоугольников" << endl;
 		int segnum;
-		cin >> segnum;
+		segnum = getint();
 		s.GetsegNum(segnum);
+		cout << "Число отрезков равно " << segnum << endl;
 		useway(sum);
 		double res;
 		res = s.out();
 		cout << "Результат вычислений: " << res << endl;
 		cout << "Если вы желаете продолжать, введите 0, иначе введите любой другой символ" << endl;
-		ans = getnum();
+		ans = getnum(INT_MAX, INT_MIN);
 	} while (!ans);
 }
 int main()
