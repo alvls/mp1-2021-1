@@ -20,10 +20,6 @@ public:
 	void setvvod(int size_new)//изменить длину пол€ ввода
 	{
 		int i;
-		for (i = 0; i < size; i++)//убрать в случае чего
-		{
-			str[i] = 0;
-		}
 		delete[] str;
 		size = size_new;
 		str = new char[size + 1];
@@ -35,16 +31,15 @@ public:
 		num_whitespace = num_ws;//число пробелов (горизонталь)
 		indent_line = num_line;//вертикаль
 	}
-	void setstr(char* s)//инициализаци€€ строки
+	void setstr()//инициализаци€€ строки
 	{
-		int i;
-		for (i = 0; i < size; i++)
-		{
-			
-			str[i] = s[i];
-			if (str[i] == '\0')
-				break;
-		}
+
+		system("cls");
+		std::cout << "¬ведите строку: ";
+		indent_line++;
+		set_cursor();
+		std::cin >> str;
+		indent_line--;
 	}
 
 	int getsize()//задать длину пол€ ввода
@@ -59,16 +54,23 @@ public:
 	{
 		return(num_whitespace);
 	}
-	char* getstr()//узнать строку
+	void getstr()//узнать строку
 	{
-		return (str);
+		system("cls");
+		indent_line++;
+		std::cout << "—трока: ";
+		set_cursor();
+		puts(str);
+		std::cout << '\n';
+		indent_line--;
 	}
 	void set_cursor()
 	{
-		for (int i = 0; i < num_whitespace; i++)
-			std::cout << "\n";
-		for (int i = 0; i < indent_line; i++)
-			std::cout << " ";
+		COORD position;
+		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		position.X= num_whitespace;
+		position.Y= indent_line;
+		SetConsoleCursorPosition(hConsole, position);
 	}
 	~Text_editor()//деструктор
 	{
@@ -139,16 +141,10 @@ void main()
 			break;
 		case 5://ввод строки пользователем
 			
-			std::cout <<"¬ведите строку: ";
-			t.set_cursor();
-			std::cin >> s;
-			t.setstr(s);
+			t.setstr();
 			break;
 		case 6://вывод строки на экран
-			s = t.getstr();
-			t.set_cursor();
-			puts(s);
-			std::cout << '\n';
+			t.getstr();
 		}
 	}
 	delete[] s;
