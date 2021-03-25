@@ -8,8 +8,8 @@ void printMainMenu();
 void printMessegeForMenu();
 int getMenuItem(int sizeMenu);
 double getDataFromUser();
-const int SIZEMAINMENU = 9;
-const int SIZEMENUWITHTEYLORSFUNCTION = 3;
+const int SIZE_MAIN_MENU = 9;
+const int SIZE_MENU_WITH_TEYLORS_FUNCTION = 3;
 class TaylorSeries {
 private:
     double realVariable;
@@ -39,12 +39,12 @@ int main()
     while (choiceMenu != 9) { //пока пользователь не нажмет на пункт выхода из программы
         printMainMenu(); //печатаем главное меню (с функционалом)
         printMessegeForMenu();
-        choiceMenu = getMenuItem(SIZEMAINMENU);
+        choiceMenu = getMenuItem(SIZE_MAIN_MENU);
         cout << "Выбран " << choiceMenu << " пункт главного меню " << endl;
         switch (choiceMenu) {
         case 1: { // 1. Задать текущую функцию и получаем значение икс 
             printMenyWithTeylorsFunction();
-            int choiceFunction = getMenuItem(SIZEMENUWITHTEYLORSFUNCTION);
+            int choiceFunction = getMenuItem(SIZE_MENU_WITH_TEYLORS_FUNCTION);
             Tey.setSelectedFunctiomNumber(choiceFunction);
             double realVariable;
             cout << "Введите значение х: " << endl;
