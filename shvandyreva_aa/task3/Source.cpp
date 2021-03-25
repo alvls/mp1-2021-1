@@ -35,8 +35,6 @@ private:
 public:
     Dictionary()
     {
-        rus[0];
-        eng[0];
         countDic = 0;
     }
     Dictionary(string file)
@@ -46,9 +44,17 @@ public:
         countDic = 0;
         string line; // сюда читаем строки их файла 
         string rus_l, eng_l;
-        if (!in) 
+        try 
         {
-            cout << "Файл не открылся. Выйдите из программы и создайте в папке с программой текстовый документ с именем Dictionary." << endl;
+            if (!in)
+                throw "Файл не открылся!";
+            
+        }
+        catch (char* str) 
+        {
+            cout << str << "Перед запуском программы создайте текстовый документ с названием 'Dictionary'" << endl;
+            system("pause");
+            exit(0);
         }
         while (getline(in, line))
         {
@@ -86,6 +92,13 @@ public:
         eng[INDEX] = word;
         rus[INDEX] = translation;
         countDic++; //увеличиваем кол-во слов в словаре
+    }
+    bool checkFullness() //проверка на заполненность словаря
+    {
+        if ((sizeDictionary() + 1) < SIZE_DIC)
+            return true;
+        else
+            return false;
     }
     void changeTranslation(string word, string translation) //изменить перевод
     {
@@ -195,14 +208,22 @@ int main()
         {
         case 1:
         {
-            cout << " \nВведите слово(на английском языке), перевод которого вы хотите добавить в словать: ";
-            cin >> word;
-            word = Tolower(word);
-            cout << " \nВведите перевод: ";
-            cin >> translation;
-            translation = Tolower(translation);
-            objDictionary.AddWord(word, translation);
-            break;
+            if (objDictionary.checkFullness() == false)
+            {
+                cout << "Невозможно добавить слово, т.к. словарь заполнен полностью." << endl;
+                break;
+            }
+            else
+            {
+                cout << " \nВведите слово(на английском языке), перевод которого вы хотите добавить в словать: ";
+                cin >> word;
+                word = Tolower(word);
+                cout << " \nВведите перевод: ";
+                cin >> translation;
+                translation = Tolower(translation);
+                objDictionary.AddWord(word, translation);
+                break;
+            }
         }
         case 2:
         {
