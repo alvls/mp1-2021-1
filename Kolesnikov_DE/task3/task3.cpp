@@ -32,12 +32,11 @@ class Dict
         {
             mass = new Dictationary [len];
             for(int i = 0;i < len;i++){
-                mass[i].tword = new string [5];
+                mass[i].tword = new string [NUM_OF_TRL];
             }
         }
         Dict(const Dict& other) : len(other.len),store(other.store)
         {
-            delete [] mass;
             Dictationary* mass = new Dictationary [len];
             for(int i = 0;i < len;i++)
             {
@@ -58,37 +57,45 @@ class Dict
         }
         string Get_Tr(string wd,int num = 1)
         {
+            int flag = 0;
+            string err;
             num--;
             for(int i = 0;i < store;i++){
                 if (mass[i].word == wd){
-                    if(num > mass[i].n){return "";}
+                    if(num >= mass[i].n){
+                        cout << mass[i].n;
+                        err = "There is no translate with this number";
+                        flag = 1;
+                        break;
+                    }
                     return mass[i].tword[num];
                 }
             }
-            return "1";
+            if(!flag){err = "There is no entry with this word";}
+            throw err;
         }
         int Get_Len()
         {
             return store;
         }
-        int Is_There(string wd)
+        bool Is_There(string wd)
         {
             for(int i = 0;i < store;i++){
-                if (mass[i].word == wd){return 0;}
+                if (mass[i].word == wd){return true;}
             }
-            return 1;
+            return false;
         }
-        int Ch_Tr(string wd,string twd,int num = 1)
+        bool Ch_Tr(string wd,string twd,int num = 1)
         {
              for(int i = 0;i < store;i++){
                 if (mass[i].word == wd)
                 {
                     if (num > mass[i].n){return -1;}
                     mass[i].tword[num - 1] = twd;
-                    return 0;
+                    return true;
                 }
             }
-            return 1;
+            return false;
         }
         int Set_Word(string wd,string twd)
         {
@@ -105,15 +112,15 @@ class Dict
             store++;
             return 0;
         }
-        int Add_Tr(string wd,string twd)
+        bool Add_Tr(string wd,string twd)
         {
             for(int i = 0;i < store;i++){
                 if (mass[i].word == wd){
                     mass[i].tword[mass[i].n++] = twd;
-                    return 0;
+                    return true;
                 }
             }
-            return 1;
+            return false;
         }
         int To_File(string path)
         {
@@ -158,7 +165,7 @@ try{
     cout << a.Set_Word("Moscow","Рим") << endl;
     cout << a.Set_Word("Moscow","Город") << endl;
     cout << a.Add_Tr("Moscow","Столица") << endl;
-    cout << a.Get_Tr("work") << endl;
+    //cout << a.Get_Tr("work") << endl;
     cout << a.Set_Word("Constantinople","Рим") << endl;
     cout << a.To_File("Dict.txt") << endl;
     cout << a.From_File("Dict.txt") << endl;
@@ -166,14 +173,15 @@ try{
     cout << a.Get_Tr("Moscow",3) << endl;
     cout << a.Is_There("Moscow") << endl;
     cout << a.Is_There("Destiny") << endl;
-    if(a.Get_Tr("Moscow",4) == ""){
-        cout << "ERROOR NO TRANSLATE WITH THIS NUMBER"<< endl;
-    }
+    cout << a.Get_Tr("Moscow",4) << endl;
     cout << a.Get_Len() << endl;
     return 0;
 }
 catch(const bad_alloc& e){
-    cout << "Memory overflow" << endl;
+    cout << "ERROR:" <<"Memory overflow" << endl;
     return 1;
+}
+catch(string a){
+    cout << "ERROR:" << a << endl;
 }
 }
