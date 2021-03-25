@@ -13,7 +13,7 @@ private:
 	double x, referenceValue, calculationAccuracy;
 	int numberOfMembers, paramFunction;
 public:
-	TaylorSeries(double newX = 1, int newNumberOfMembers = 1, int newParamFunction = 0, double newReferenceValue = 1, double newCalculationAccuracy = 0.01)
+	TaylorSeries(double newX = 1, int newNumberOfMembers = 1, int newParamFunction = 0, double newReferenceValue = 1, double newCalculationAccuracy = 0.0000001)
 		: x(newX), numberOfMembers(newNumberOfMembers), paramFunction(newParamFunction), referenceValue(newReferenceValue), calculationAccuracy(newCalculationAccuracy) {}
 	void SetFunction(int newParamFunction)
 	{
@@ -47,14 +47,17 @@ public:
 			case 1:
 			{
 				formula = "sin(x) = x - (x^3)/(3!) + (x^5)/(5!) - ... + ((-1)^(n+1))*((x^(2*n-1))/(2*n-1)!";
+				break;
 			}
 			case 2:
 			{
 				formula = "cos(x) = 1 - (x^2)/(2!) + (x^4)/(4!) - (x^6)/(6!) + ... + ((-1)^(n+1))*((x^(2*n))/(2*n)!";
+				break;
 			}
 			case 3:
 			{
 				formula = "exp(x) = 1 + x/(1!) + (x^2)/(2!) + (x^3)/(3!) + ... + (x^n)/(n!)";
+				break;
 			}
 		}
 		return formula;
@@ -65,7 +68,7 @@ public:
 		double xRad = x * (M_PI / 180);
 		double function = xRad, term = xRad, devation = 0;
 		referenceValue = sin(xRad);
-		for (i = 2; (i <= numberOfMembers) && (fabs(xRad - referenceValue) > calculationAccuracy); i++)
+		for (i = 2; (i <= numberOfMembers) && (fabs(xRad - referenceValue) >= calculationAccuracy); i++)
 		{
 			term *= (-1) * xRad * xRad / (2 * i * (2 * i + 1));
 			function += term;
