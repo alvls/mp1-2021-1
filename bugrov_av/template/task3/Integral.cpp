@@ -28,20 +28,20 @@ public:
 		res = 0;
 		method = _mid;
 	}
-	void GetFoo(math f)// Задать текущую функцию
+	void SetFoo(math f)// Задать текущую функцию
 	{
 		foo = f;
 	}
-	void GetLim(double l, double r)// задать пределы интегрирования
+	void SetLim(double l, double r)// задать пределы интегрирования
 	{
 		lim[0] = l;
 		lim[1] = r;
 	}
-	const double* OutLim()// вывод пределов интегрирования
+	const double* GetLim()// вывод пределов интегрирования
 	{
 		return lim;
 	}
-	void GetsegNum(int number)// задать число отрезков метода прямоугольников
+	void SetsegNum(int number)// задать число отрезков метода прямоугольников
 	{
 		n = number;
 	}
@@ -50,7 +50,7 @@ public:
 		calc();
 		return res;
 	}
-	void GetWay(way choice)// выбрать метод вычисления
+	void SetWay(way choice)// выбрать метод вычисления
 	{
 		method = choice;
 	}
@@ -270,7 +270,7 @@ void usefunk(integral& s)
 			break;
 		}
 	} while (flag);
-	s.GetFoo(funk);
+	s.SetFoo(funk);
 }
 void useway(integral& s)
 {
@@ -302,7 +302,7 @@ void useway(integral& s)
 			break;
 		}
 	} while (flag);
-	s.GetWay(getmeth);
+	s.SetWay(getmeth);
 }
 void menu()
 {
@@ -324,14 +324,14 @@ void menu()
 			else
 				cout << "Неверный порядок или отсутствует промежуток между значениями" << endl;
 		} while (flag);
-		s.GetLim(leflim, riglim);
-		limits = s.OutLim();
+		s.SetLim(leflim, riglim);
+		limits = s.GetLim();
 		cout << "Левый предел интегрирования: " << limits[0] << endl;
 		cout << "Правый предел интегрирования: " << limits[1] << endl;
 		cout << "Задайте число отрезков метода прямоугольников" << endl;
 		int segnum;
 		segnum = getint();
-		s.GetsegNum(segnum);
+		s.SetsegNum(segnum);
 		cout << "Число отрезков равно " << segnum << endl;
 		useway(sum);
 		double res;
