@@ -56,8 +56,7 @@ class Dynamic_Mass
     double* Cr_OddMass()
     {
         double *massOdd;
-        int Oddlen = len/2;
-        massOdd =  new double [Oddlen];
+        massOdd =  new double [len/2];
         for(int i = 0;i < len;i++){
             massOdd[i] = mass[i+1];        
         }
