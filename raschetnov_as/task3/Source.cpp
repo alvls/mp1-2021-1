@@ -4,10 +4,6 @@
 
 using namespace std;
 
-void errorHandler(double* pointer);
-void errorHandler(double* _lowerlimit, double* _upperlimit);
-
-
 class IntegralCalculus
 {
   double(*function)(double point);
@@ -20,29 +16,9 @@ class IntegralCalculus
 public:
   IntegralCalculus(double (*function)(double point) = exp, int _amountOfSubIntervals = 0, double* _limits = nullptr, double _result = 0): function(function), amountOfSubIntervals(_amountOfSubIntervals), limits(_limits), result(_result)
   {
-    bool flag = 1;
     if(_limits != nullptr)
-    while(flag)
-    {
-      flag = 0;
-      try
-      {
-        if(_limits[0] > _limits[1])
-          throw 1.0;
-      }
-      catch(const double error)
-      {
-        cout << "Lower limit more then upper limit: " << endl;
-        errorHandler(_limits);
-        if(_limits[0] < _limits[1])
-        {
-          limits[0] = _limits[0];
-          limits[1] = _limits[1];
-        }
-        else
-          flag = 1;
-      }
-    }
+      if(_limits[0] > _limits[1])
+        throw 1.0;
     limits = new double[2];
     limits[0] = 0;
     limits[1] = 1;
@@ -51,7 +27,7 @@ public:
   ~IntegralCalculus();
   inline void setLimits(double _lowerlimit, double _upperlimit);
   inline void setFunction(double(*_function)(double point));
-  inline double getLimits();
+  inline double* getLimits();
   inline double getLeftLimit();
   inline double getRightLimit();
   inline void setAmountOfSubIntervals(int amount);
@@ -77,28 +53,8 @@ IntegralCalculus::~IntegralCalculus()
 
 void IntegralCalculus::setLimits(double _lowerlimit, double _upperlimit)
 {
-  bool flag = 1;
-  while(flag)
-  {
-    flag = 0;
-    try
-    {
-      if(_lowerlimit > _upperlimit)
-        throw 1.0;
-    }
-    catch(const double error)
-    {
-      cout << "Lower limit more then upper limit" << endl;
-      errorHandler(&_lowerlimit, &_upperlimit);
-      if(_lowerlimit < _upperlimit)
-      {
-        limits[0] = _lowerlimit;
-        limits[1] = _upperlimit;
-      }
-      else
-        flag = 1;
-    }
-  }
+  if(_lowerlimit > _upperlimit)
+    throw 1.1;
   delete[] limits;
   limits = new double[2];
   limits[0] = _lowerlimit;
@@ -110,9 +66,13 @@ void IntegralCalculus::setFunction(double(*_function)(double point))
   function = _function;
 }
 
-double IntegralCalculus::getLimits()
+double* IntegralCalculus::getLimits()
 {
-  return *limits;
+  double* pointer;
+  pointer = new double[2];
+  pointer[0] = limits[0];
+  pointer[1] = limits[1];
+  return pointer;
 }
 
 double IntegralCalculus::getLeftLimit()
@@ -224,85 +184,73 @@ void IntegralCalculus::outputResultValue()
   cout << "Calculated value: " << result << endl;
 }
 
-void errorHandler(double* pointer)
-{
-  cout << "Enter proper values: " << endl;
-  cout << "Enter lower limit: " << endl;
-  cin >> pointer[0];
-  cout << "Enter upper limit: " << endl;
-  cin >> pointer[1];
-}
-
-void errorHandler(double* _lowerlimit, double* _upperlimit)
-{
-  cout << "Enter proper values: " << endl;
-  cout << "Enter lower limit: " << endl;
-  cin >> *_lowerlimit;
-  cout << "Enter upper limit: " << endl;
-  cin >> *_upperlimit;
-}
-
 int main()
 {
   double* p;
   p = new double[2];
-  p[0] = 12;
-  p[1] = 2;
-  IntegralCalculus object12(sin, 1000, p);
-  object12.setLimits(8, 6);
-  object12.Calculation(1);
-  object12.outputResultValue();
-  IntegralCalculus object1, object2, object3, object4, object5, object6, object7, object8, object9, object10;
-  object1.setFunction(atan);
-  object1.setAmountOfSubIntervals(1000);
-  object1.setLimits(2, 12);
-  object2.setFunction(sin);
-  object2.setAmountOfSubIntervals(1000);
-  object2.setLimits(4, 14);
-  object3.setFunction(cos);
-  object3.setAmountOfSubIntervals(1000);
-  object3.setLimits(0, 4);
-  object4.setFunction(exp);
-  object4.setAmountOfSubIntervals(1000);
-  object4.setLimits(8, 18);
-  object5.setFunction(tan);
-  object5.setAmountOfSubIntervals(1000);
-  object5.setLimits(0, 10);
-  object6.setFunction(asin);
-  object6.setAmountOfSubIntervals(1000);
-  object6.setLimits(0, 1);
-  object7.setFunction(acos);
-  object7.setAmountOfSubIntervals(1000);
-  object7.setLimits(-1, 1);
-  object8.setFunction(sinh);
-  object8.setAmountOfSubIntervals(1000);
-  object8.setLimits(16, 26);
-  object9.setFunction(tanh);
-  object9.setAmountOfSubIntervals(1000);
-  object9.setLimits(18, 28);
-  object10.setFunction(cosh);
-  object10.setAmountOfSubIntervals(1000);
-  object10.setLimits(20, 30);
-  // pass as an arguments 1, 2, 3 for Left, Middle And Right Riemann Sum respectively.
-  object1.Calculation(1);
-  object1.outputResultValue();
-  object2.Calculation(2);
-  object2.outputResultValue();
-  object3.Calculation(3);
-  object3.outputResultValue();
-  object4.Calculation(1);
-  object4.outputResultValue();
-  object5.Calculation(2);
-  object5.outputResultValue();
-  object6.Calculation(3);
-  object6.outputResultValue();
-  object7.Calculation(1);
-  object7.outputResultValue();
-  object8.Calculation(2);
-  object8.outputResultValue();
-  object9.Calculation(3);
-  object9.outputResultValue();
-  object10.Calculation(1);
-  object10.outputResultValue();
+  p[0] = 44;
+  p[1] = 10;
+  try
+  {
+    IntegralCalculus object12(sin, 1000, p);
+    IntegralCalculus object1, object2, object3, object4, object5, object6, object7, object8, object9, object10;
+    object12.Calculation(1);
+    object12.outputResultValue();
+    object1.setFunction(atan);
+    object1.setAmountOfSubIntervals(1000);
+    object1.setLimits(2, 12);
+    object2.setFunction(sin);
+    object2.setAmountOfSubIntervals(1000);
+    object2.setLimits(4, 14);
+    object3.setFunction(cos);
+    object3.setAmountOfSubIntervals(1000);
+    object3.setLimits(0, 4);
+    object4.setFunction(exp);
+    object4.setAmountOfSubIntervals(1000);
+    object4.setLimits(8, 18);
+    object5.setFunction(tan);
+    object5.setAmountOfSubIntervals(1000);
+    object5.setLimits(0, 10);
+    object6.setFunction(asin);
+    object6.setAmountOfSubIntervals(1000);
+    object6.setLimits(0, 1);
+    object7.setFunction(acos);
+    object7.setAmountOfSubIntervals(1000);
+    object7.setLimits(-1, 1);
+    object8.setFunction(sinh);
+    object8.setAmountOfSubIntervals(1000);
+    object8.setLimits(16, 26);
+    object9.setFunction(tanh);
+    object9.setAmountOfSubIntervals(1000);
+    object9.setLimits(38, 28);
+    object10.setFunction(cosh);
+    object10.setAmountOfSubIntervals(1000);
+    object10.setLimits(20, 30);
+    // pass as an arguments 1, 2, 3 for Left, Middle And Right Riemann Sum respectively.
+    object1.Calculation(1);
+    object1.outputResultValue();
+    object2.Calculation(2);
+    object2.outputResultValue();
+    object3.Calculation(3);
+    object3.outputResultValue();
+    object4.Calculation(1);
+    object4.outputResultValue();
+    object5.Calculation(2);
+    object5.outputResultValue();
+    object6.Calculation(3);
+    object6.outputResultValue();
+    object7.Calculation(1);
+    object7.outputResultValue();
+    object8.Calculation(2);
+    object8.outputResultValue();
+    object9.Calculation(3);
+    object9.outputResultValue();
+    object10.Calculation(1);
+    object10.outputResultValue();
+  }
+  catch (const double error)
+  {
+    cout << "LOWER_LIMIT_MORE_THAN_UPPER_LIMIT" << endl;
+  }
   return 0;
 }
