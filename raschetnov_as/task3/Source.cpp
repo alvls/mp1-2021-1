@@ -4,6 +4,9 @@
 
 using namespace std;
 
+void errorHandler(double* pointer);
+void errorHandler(double* _lowerlimit, double* _upperlimit);
+
 
 class IntegralCalculus
 {
@@ -17,16 +20,38 @@ class IntegralCalculus
 public:
   IntegralCalculus(double (*function)(double point) = exp, int _amountOfSubIntervals = 0, double* _limits = nullptr, double _result = 0): function(function), amountOfSubIntervals(_amountOfSubIntervals), limits(_limits), result(_result)
   {
-    int i = 0;
+    bool flag = 1;
+    if(_limits != nullptr)
+    while(flag)
+    {
+      flag = 0;
+      try
+      {
+        if(_limits[0] > _limits[1])
+          throw 1.0;
+      }
+      catch(const double error)
+      {
+        cout << "Lower limit more then upper limit: " << endl;
+        errorHandler(_limits);
+        if(_limits[0] < _limits[1])
+        {
+          limits[0] = _limits[0];
+          limits[1] = _limits[1];
+        }
+        else
+          flag = 1;
+      }
+    }
     limits = new double[2];
     limits[0] = 0;
     limits[1] = 1;
   };
   IntegralCalculus(const IntegralCalculus& object);
   ~IntegralCalculus();
-  inline void setLimits(int _lowerlimit, int _upperlimit);
+  inline void setLimits(double _lowerlimit, double _upperlimit);
   inline void setFunction(double(*_function)(double point));
-  inline double* getLimits();
+  inline double getLimits();
   inline double getLeftLimit();
   inline double getRightLimit();
   inline void setAmountOfSubIntervals(int amount);
@@ -50,8 +75,31 @@ IntegralCalculus::~IntegralCalculus()
   delete[] limits;
 }
 
-void IntegralCalculus::setLimits(int _lowerlimit, int _upperlimit)
+void IntegralCalculus::setLimits(double _lowerlimit, double _upperlimit)
 {
+  bool flag = 1;
+  while(flag)
+  {
+    flag = 0;
+    try
+    {
+      if(_lowerlimit > _upperlimit)
+        throw 1.0;
+    }
+    catch(const double error)
+    {
+      cout << "Lower limit more then upper limit" << endl;
+      errorHandler(&_lowerlimit, &_upperlimit);
+      if(_lowerlimit < _upperlimit)
+      {
+        limits[0] = _lowerlimit;
+        limits[1] = _upperlimit;
+      }
+      else
+        flag = 1;
+    }
+  }
+  delete[] limits;
   limits = new double[2];
   limits[0] = _lowerlimit;
   limits[1] = _upperlimit;
@@ -62,9 +110,9 @@ void IntegralCalculus::setFunction(double(*_function)(double point))
   function = _function;
 }
 
-double* IntegralCalculus::getLimits()
+double IntegralCalculus::getLimits()
 {
-  return limits;
+  return *limits;
 }
 
 double IntegralCalculus::getLeftLimit()
@@ -89,17 +137,17 @@ double IntegralCalculus::Calculation(int mode)
   {
     case 1:
     {
-      result = this->leftRiemannSum();
+      result = leftRiemannSum();
       return result;
     }
     case 2:
     {
-      result = this->middleRiemannSum();
+      result = middleRiemannSum();
       return result;
     }
     case 3:
     {
-      result = this->rightRiemannSum();
+      result = rightRiemannSum();
       return result;
     }
     default:
@@ -115,11 +163,6 @@ double IntegralCalculus::leftRiemannSum()
   double sum = 0;
   if(limits[0] == limits[1])
     return 0;
-  if(limits[0] > limits[1])
-  {
-    cout << "ENTER PROPER LIMITS" << endl;
-    return INT_MAX;
-  }
   double subIntervalValue = (limits[1] - limits[0]) / amountOfSubIntervals;
   for(i = limits[0]; i <= limits[1] - subIntervalValue; i += subIntervalValue)
   {
@@ -181,9 +224,34 @@ void IntegralCalculus::outputResultValue()
   cout << "Calculated value: " << result << endl;
 }
 
+void errorHandler(double* pointer)
+{
+  cout << "Enter proper values: " << endl;
+  cout << "Enter lower limit: " << endl;
+  cin >> pointer[0];
+  cout << "Enter upper limit: " << endl;
+  cin >> pointer[1];
+}
+
+void errorHandler(double* _lowerlimit, double* _upperlimit)
+{
+  cout << "Enter proper values: " << endl;
+  cout << "Enter lower limit: " << endl;
+  cin >> *_lowerlimit;
+  cout << "Enter upper limit: " << endl;
+  cin >> *_upperlimit;
+}
+
 int main()
 {
-  double tt1, tt2;
+  double* p;
+  p = new double[2];
+  p[0] = 12;
+  p[1] = 2;
+  IntegralCalculus object12(sin, 1000, p);
+  object12.setLimits(8, 6);
+  object12.Calculation(1);
+  object12.outputResultValue();
   IntegralCalculus object1, object2, object3, object4, object5, object6, object7, object8, object9, object10;
   object1.setFunction(atan);
   object1.setAmountOfSubIntervals(1000);
@@ -202,7 +270,7 @@ int main()
   object5.setLimits(0, 10);
   object6.setFunction(asin);
   object6.setAmountOfSubIntervals(1000);
-  object6.setLimits(0, 1.1);
+  object6.setLimits(0, 1);
   object7.setFunction(acos);
   object7.setAmountOfSubIntervals(1000);
   object7.setLimits(-1, 1);
