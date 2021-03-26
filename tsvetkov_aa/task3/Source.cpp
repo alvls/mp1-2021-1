@@ -4,7 +4,7 @@
 #include <conio.h>
 using namespace std;
 
-class Redaktor
+class Redactor
 {
 private:
 	char *str;
@@ -12,7 +12,7 @@ private:
 	int buffer;
 	int length;
 public:
-	Redaktor()//конструктор
+	Redactor()//конструктор
 	{
 		str = new char[5];
 		x = 0; y = 0;
@@ -20,7 +20,7 @@ public:
 		buffer = 5;
 		str[length] = '\0';
 	}
-	void lengh(int l)//установка длины поля ввода
+	void setlength(int l)//установка длины поля ввода
 	{
 		delete[] str;
 		buffer = l + 1;
@@ -28,7 +28,7 @@ public:
 		str = new char[buffer];
 		str[length] = '\0';
 	}
-	int lengh()//возврат длины поля ввода
+	int getlength()//возврат длины поля ввода
 	{
 		return length;
 	}
@@ -72,11 +72,11 @@ public:
 			}
 		}
 	}
-	char* strok()//возврат строки
+	char* line()//возврат строки
 	{
 		return str;
 	}
-	~Redaktor()//деструктор
+	~Redactor()//деструктор
 	{
 		delete [] str;
 	}
@@ -106,7 +106,7 @@ void main()
 	SetConsoleCP(1251);//русский язык при вводе в консоль
 	SetConsoleOutputCP(1251);
 	cout << "По умолчанию длина поля ввода равна 4" << endl;
-	Redaktor ak;
+	Redactor ak;
 	char* str;
 	int m, size=4, x=0, y=0;
 p:
@@ -122,11 +122,11 @@ p:
 			cout << "Неккоректная длина, введите снова" << endl;
 			goto s;
 		}
-		ak.lengh(size);
+		ak.setlength(size);
 		cout << "Значение успешно задано" << endl;
 		break;
 	case 2://возврат длины поля ввода
-		size = ak.lengh();
+		size = ak.getlength();
 		cout << "Длина поля ввода равна: " << size << endl;
 		break;
 	case 3://задание координат поля ввода
@@ -152,7 +152,7 @@ p:
 		system("cls");
 		break;
 	case 6://вывод на консоль введенной пользователем строки
-		str = ak.strok();
+		str = ak.line();
 		cout << str <<endl;
 		break;
 	case 0://выход из программы
