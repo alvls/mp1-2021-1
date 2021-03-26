@@ -1,19 +1,19 @@
 
 #include "all.h"
 
-int proverka(int a, int b)
+int checking(int a, int b)
 {
-    int vibor = INT_MIN;
-    while ((vibor < a) || (vibor > b))
+    int choice = INT_MIN;
+    while ((choice < a) || (choice > b))
     {
-        cin >> vibor;
-        if ((vibor < a) || (vibor > b))
+        cin >> choice;
+        if ((choice < a) || (choice > b))
         {
             cout << "Введено неверное число. Попробуйте ввести снова." << endl;
             cleaner();
         }
     }
-    return vibor;
+    return choice;
 }
 
 void cleaner()

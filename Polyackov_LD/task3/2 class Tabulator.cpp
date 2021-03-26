@@ -151,11 +151,11 @@ void Tabulator::TabFunc()
 	for (int i = 0; i < Points - 1; i++)
 	{
 		TabData[i].x = x;
-		TabData[i].y = counter(x);
+		TabData[i].y = FuncValue(x);
 		x += Step;
 	}
 	TabData[Points - 1].x = RightBound;
-	TabData[Points - 1].y = counter(x);
+	TabData[Points - 1].y = FuncValue(x);
 }
 
 //Удаление неактуальной памяти

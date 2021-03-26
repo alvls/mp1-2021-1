@@ -13,7 +13,7 @@ private:
     };
     TabPoint* TabData;
     int MaxLengthX(int quantity);
-    double counter(double x) { return (func->count(x)); }
+    double FuncValue(double x) { return (func->calculate(x)); }
 public:
     //Конструктор
     Tabulator(int _Points = 0, double _LeftBound = DBL_MIN, double _RightBound = DBL_MAX);

@@ -4,39 +4,39 @@
 bool menu()
 {
     static Tabulator tab;
-    int vibor = -1;
+    int choice = -1;
     cout << "\n Сейчас Вы находитесь в меню. Выберите, что нужно сделать:\n\t(1) Задать текущую функцию\n\t(2) Задать текущее число точек табулирования\n\t(3) Узнать текущее число точек табулирования\n\t(4) Задать отрезок табулирования\n\t(5) Узнать отрезок табулирования\n\t(6) Выполнить табулирование функции\n\t(7) Выдать результаты табулирования\n\t(8) Сохранить результаты табулирования в файл\n\t(0) Выйти из программы" << endl;
-    vibor = proverka(0, 8);
+    choice = checking(0, 8);
     system("cls");
-    if ((vibor == 1) || (vibor == 2) || (vibor == 4))
+    if ((choice == 1) || (choice == 2) || (choice == 4))
         tab.DeleteTabData();
     try
     {
-        switch (vibor)
+        switch (choice)
         {
         case 1:
-            rezhim1(tab);
+            mode1(tab);
             break;
         case 2:
-            rezhim2(tab);
+            mode2(tab);
             break;
         case 3:
-            rezhim3(tab);
+            mode3(tab);
             break;
         case 4:
-            rezhim4(tab);
+            mode4(tab);
             break;
         case 5:
-            rezhim5(tab);
+            mode5(tab);
             break;
         case 6:
-            rezhim6(tab);
+            mode6(tab);
             break;
         case 7:
-            rezhim7(tab);
+            mode7(tab);
             break;
         case 8:
-            rezhim8(tab);
+            mode8(tab);
             break;
         case 0:
             system("cls");
@@ -54,7 +54,7 @@ bool menu()
     return true;
 }
 
-void rezhim1(Tabulator& tab)
+void mode1(Tabulator& tab)
 {
     cout << "\n Вы выбрали действие \"Задать текущую функцию\"\n\n Перечень возможных функций:" << endl << endl;
     string NameOfFunc[NUMOFFUNC] = { "Синус", "Косинус", "Тангенс", "Арксинус", "Арккосинус", "Арктангенс", "Гиперболический синус", "Гиперболический косинус", "Гиперболический тангенс", "Ареасинус", "Ареакосинус", "Ареатангенс", "x в квадрате", "x в кубе", "Квадратный корень из x", "Кубический корень из x", "2 в степени x", "e в степени x ", "10 в степени x", "Двоичный логарифм", "Натуральный логарифм", "Десятичный логарифм", "Дробная часть числа", "Целая часть числа", "Модуль" };
@@ -66,21 +66,21 @@ void rezhim1(Tabulator& tab)
     }
     gotoxy(0, 19);
     cout << " Выберите нужную функцию: ";
-    int tmpnum = proverka(1, NUMOFFUNC);
+    int tmpnum = checking(1, NUMOFFUNC);
     tab.SetFunc(tmpnum);
     cout << "\n Вы успешно задали текущую функцию!\n" << endl;
 }
 
-void rezhim2(Tabulator& tab)
+void mode2(Tabulator& tab)
 {
     int tmpnum = -1;
     cout << "\n Вы выбрали действие \"Задать текущее число точек табулирования\"\n\n Введите нужное количество точек табулирования (>=2): ";
-    tmpnum = proverka(2, INT_MAX);
+    tmpnum = checking(2, INT_MAX);
     tab.SetPoints(tmpnum);
     cout << "\n Вы успешно задали число точек табулирования!\n\n";
 }
 
-void rezhim3(Tabulator& tab)
+void mode3(Tabulator& tab)
 {
     cout << "\n Вы выбрали действие \"Узнать текущее число точек табулирования\"" << endl; 
     if (tab.GetPoints() < 2)
@@ -88,7 +88,7 @@ void rezhim3(Tabulator& tab)
     cout << "\n Заданное число точек : " << tab.GetPoints() << endl << endl;
 }
 
-void rezhim4(Tabulator& tab)
+void mode4(Tabulator& tab)
 {
     double tmp;
     cout << "\n Вы выбрали действие \"Задать отрезок табулирования\"\n\n Знак \".\" используется в качестве разделителя для нецелых значений \n\n Введите значение левой границы отрезка: ";
@@ -109,7 +109,7 @@ void rezhim4(Tabulator& tab)
     cout << "\n Вы успешно задали отрезок табулирования" << endl << endl;
 }
 
-void rezhim5(Tabulator& tab)
+void mode5(Tabulator& tab)
 {
     cout << "\n Вы выбрали действие \"Узнать отрезок табулирования\"" << endl;
     if ((tab.GetLeftBound() == DBL_MIN) || (tab.GetRightBound() == DBL_MAX))
@@ -119,7 +119,7 @@ void rezhim5(Tabulator& tab)
     delete[] tmp;
 }
 
-void rezhim6(Tabulator& tab)
+void mode6(Tabulator& tab)
 {
     cout << "\n Вы выбрали действие \"Выполнить табулирование функции\"" << endl;
     if (tab.GetFunc() == nullptr)
@@ -134,7 +134,7 @@ void rezhim6(Tabulator& tab)
     cout << "\n Табулирование функции прошло успешно!" << endl << endl;
 }
 
-void rezhim7(Tabulator& tab)
+void mode7(Tabulator& tab)
 {
     cout << "\n Вы выбрали действие \"Выдать результаты табулирования\"" << endl;
     if (!tab.TabDataExist())
@@ -143,7 +143,7 @@ void rezhim7(Tabulator& tab)
     {
         tab.PrintData(MAXPOINTSFORPRINT);
         cout << "\n Количество точек табулирования больше " << MAXPOINTSFORPRINT << "\n Вывести на экран полный список?\n (может занять немного больше времени)\n 1) Да\n 2) Нет" << endl;
-        int No = proverka(1, 2) - 1;
+        int No = checking(1, 2) - 1;
         if (!No)
         {
             cout << "\n Вы выбрали действие \"Выдать результаты табулирования\"" << endl << endl;
@@ -155,7 +155,7 @@ void rezhim7(Tabulator& tab)
         tab.PrintData();
 }
 
-void rezhim8(Tabulator& tab)
+void mode8(Tabulator& tab)
 {
     cout << "\n Вы выбрали действие \"Cохранить результаты табулирования в файл\"" << endl;
     if (!tab.TabDataExist())

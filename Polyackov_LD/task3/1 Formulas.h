@@ -3,7 +3,7 @@
 class Function
 {
 public:
-	virtual double count(double x) = 0;
+	virtual double calculate(double x) = 0;
 };
 
 // Тригонометрические функции
@@ -11,19 +11,19 @@ public:
 class Sin : public Function
 {
 public:
-	virtual double count(double x) override { return sin(x); }
+	virtual double calculate(double x) override { return sin(x); }
 };
 
 class Cos : public Function
 {
 public:
-	virtual double count(double x) override	{ return cos(x); }
+	virtual double calculate(double x) override	{ return cos(x); }
 };
 
 class Tan : public Function
 {
 public:
-	virtual double count(double x) override { return tan(x); }
+	virtual double calculate(double x) override { return tan(x); }
 };
 
 // Обратные тригонометрические функции
@@ -31,19 +31,19 @@ public:
 class Arcsin : public Function
 {
 public:
-	virtual double count(double x) override { return asin(x); }
+	virtual double calculate(double x) override { return asin(x); }
 };
 
 class Arccos : public Function
 {
 public:
-	virtual double count(double x) override	{ return acos(x); }
+	virtual double calculate(double x) override	{ return acos(x); }
 };
 
 class Arctan : public Function
 {
 public:
-	virtual double count(double x) override	{ return atan(x); }
+	virtual double calculate(double x) override	{ return atan(x); }
 };
 
 // Гиперболические функции
@@ -51,19 +51,19 @@ public:
 class Sinh : public Function
 {
 public:
-	virtual double count(double x) override	{ return sinh(x); }
+	virtual double calculate(double x) override	{ return sinh(x); }
 };
 
 class Cosh : public Function
 {
 public:
-	virtual double count(double x) override { return cosh(x); }
+	virtual double calculate(double x) override { return cosh(x); }
 };
 
 class Tanh : public Function
 {
 public:
-	virtual double count(double x) override { return tanh(x); }
+	virtual double calculate(double x) override { return tanh(x); }
 };
 
 // Обратные гиперболические функции
@@ -71,19 +71,19 @@ public:
 class Asinh : public Function
 {
 public:
-	virtual double count(double x) override	{ return asinh(x); }
+	virtual double calculate(double x) override	{ return asinh(x); }
 };
 
 class Acosh : public Function
 {
 public:
-	virtual double count(double x) override { return acosh(x); }
+	virtual double calculate(double x) override { return acosh(x); }
 };
 
 class Atanh : public Function
 {
 public:
-	virtual double count(double x) override { return atanh(x); }
+	virtual double calculate(double x) override { return atanh(x); }
 };
 
 // Степени
@@ -91,13 +91,13 @@ public:
 class XPowTwo : public Function
 {
 public:
-	virtual double count(double x) override { return pow(x, 2); }
+	virtual double calculate(double x) override { return pow(x, 2); }
 };
 
 class XPowThree : public Function
 {
 public:
-	virtual double count(double x) override { return pow(x, 3); }
+	virtual double calculate(double x) override { return pow(x, 3); }
 };
 
 // Степенные
@@ -105,31 +105,31 @@ public:
 class Sqrt : public Function
 {
 public:
-	virtual double count(double x) override { return sqrt(x); }
+	virtual double calculate(double x) override { return sqrt(x); }
 };
 
 class Cbrt : public Function
 {
 public:
-	virtual double count(double x) override { return cbrt(x); }
+	virtual double calculate(double x) override { return cbrt(x); }
 };
 
 class TwoPowX : public Function
 {
 public:
-	virtual double count(double x) override { return pow(2, x); }
+	virtual double calculate(double x) override { return pow(2, x); }
 };
 
 class ExpPowX : public Function
 {
 public:
-	virtual double count(double x) override { return exp(x); }
+	virtual double calculate(double x) override { return exp(x); }
 };
 
 class TenPowX : public Function
 {
 public:
-	virtual double count(double x) override { return pow(10, x); }
+	virtual double calculate(double x) override { return pow(10, x); }
 };
 
 // Логарифмы
@@ -137,19 +137,19 @@ public:
 class Log2 : public Function
 {
 public:
-	virtual double count(double x) override { return log2(x); }
+	virtual double calculate(double x) override { return log2(x); }
 };
 
 class Loge : public Function
 {
 public:
-	virtual double count(double x) override { return log(x); }
+	virtual double calculate(double x) override { return log(x); }
 };
 
 class Log10 : public Function
 {
 public:
-	virtual double count(double x) override { return log10(x); }
+	virtual double calculate(double x) override { return log10(x); }
 };
 
 // Дробная и целая части 
@@ -157,13 +157,13 @@ public:
 class FractPart : public Function
 {
 public:
-	virtual double count(double x) override { return (x - floor(x)); }
+	virtual double calculate(double x) override { return (x - floor(x)); }
 };
 
 class Floor : public Function
 {
 public:
-	virtual double count(double x) override { return floor(x); }
+	virtual double calculate(double x) override { return floor(x); }
 };
 
 // Модуль числа
@@ -171,5 +171,5 @@ public:
 class Abs : public Function
 {
 public:
-	virtual double count(double x) override	{ return abs(x); }
+	virtual double calculate(double x) override	{ return abs(x); }
 };
