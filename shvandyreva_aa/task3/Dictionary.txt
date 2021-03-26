@@ -1,0 +1,8 @@
+cat кот
+dog собака
+apple €блоко
+orange оранжевый
+potato картофель
+mother мама
+father папа
+work работа
