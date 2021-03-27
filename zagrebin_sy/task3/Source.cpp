@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <conio.h>
 using namespace std;
 
 class Menu {
@@ -40,7 +39,7 @@ public:
 	int get_size() {	// GET SIZE
 		return size;
 	}
-	void set(int index, string &str) {	// SET NAME
+	void set(int index, string str) {	// SET NAME
 		if (index < 1 || index > size)	// numbers are natural 
 			cout << "*Error* Index out of range\n";
 		else
@@ -54,6 +53,20 @@ public:
 		last = i + 1;
 		return i + 1;	// RETURN 0 IF NOT FOUND
 	}
+	void open_menu() {
+		string str = "";
+		int choice = 0;
+		show(5, 5);
+		cout << "Enter x to exit" << endl;
+		while (str != "x") {
+			cin >> str;
+			choice = get(str);
+			if (choice)
+				cout << choice << endl;
+			else
+				cout << "No such option" << endl;
+		}
+	}
 	int Last() {	// LAST CHOSEN
 		return last;
 	}
@@ -64,62 +77,9 @@ int main() {
 	int choice = 0, i = 0, j = 0;
 	string str;
 	Menu menu;
-
-	while (1) {
-		system("cls");
-		cout << "Instruction: \n";
-		cout << "x - exit \n";
-		cout << "1 - Set number of commands \n";
-		cout << "2 - Get number of commands \n";
-		cout << "3 - Set name for i field \n";
-		cout << "4 - Set position of the window and Show \n";
-		cout << "5 - Get field's index by name\n";
-		cout << "6 - Get last chosen \n";
-		cout << "(check your language)\n";
-		cout << "\nPress any corrent button\n";
-
-		choice = _getch();
-		if (choice == 224)	// IF SPECIALS KEYS
-			choice = _getch();
-
-		switch (choice) {
-		case 49:		// 1
-			cout << "Enter size: ";
-			cin >> i;
-			menu.set_size(i);
-			break;
-		case 50:		// 2
-			cout << "Size: " << menu.get_size();
-			break;
-		case 51:		// 3
-			cout << "Enter index: ";
-			cin >> i;
-			cout << "Enter name:\n";
-			cin.ignore();
-			getline(cin, str);
-			menu.set(i, str);
-			break;
-		case 52:		// 4
-			cout << "Enter x: ";
-			cin >> i;
-			cout << "Enter y: ";
-			cin >> j;
-			menu.show(i, j);
-			break;
-		case 53:		// 5
-			cout << "Enter name of field: ";
-			cin >> str;
-			cout << menu.get(str);
-			break;
-		case 54:		// 6
-			cout << "Last chosen: " << menu.Last();
-			break;
-		case 120:		// x-exit
-			return 0;
-		default:
-			cout << "No such option\n";
-		}
-		cout << "\nTap to continue";
-		_getch();
-	}
+	menu.set_size(3);
+	menu.set(1, "First");
+	menu.set(2, "Second");
+	menu.set(3, "Third");
+	menu.open_menu();
 }
