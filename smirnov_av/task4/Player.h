@@ -28,6 +28,7 @@ public:
 	void PrintInFile();
 	void GetFromFile();
 	int GetCountSongs();
+	
 
 };
 

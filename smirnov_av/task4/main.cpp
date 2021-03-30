@@ -29,5 +29,7 @@ void main()
 	}
 	cout << "End" << endl;
 	//a.PrintInConsole();
+	a.PrintInFile();
 	system("pause");
+
 }

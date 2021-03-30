@@ -70,5 +70,25 @@ void Song::PrintSong()
 	cout << "Дата выхода: " << releaseDate << endl;
 }
 
+ostream& operator<<(ostream& os, const Song& song)
+{
+	os << "Название: " << song.name << "\n";
+	os << "Автор текста: " << song.poet << "\n";
+	os << "Композитор: " << song.composer << "\n";
+	os << "Исполнитель: " << song.executor << "\n";
+	os << "Альбом: " << song.album << "\n";
+	os << "Дата выхода: " << song.releaseDate << "\n";
+	return os;
+}
 
+istream& operator>>(istream& in, Song& song)
+{
+	string temp;
+	while (!EOF)
+	{
+		getline(in, temp);
+		strstr()
+
+	}
+}
 

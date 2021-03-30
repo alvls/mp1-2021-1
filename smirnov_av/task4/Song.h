@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string.h>
+#include <string>
 using namespace std;
 /*Разработать класс Песенник.
 Класс должен хранить информацию о песенных композициях. Каждая песня описывается следующими данными: название, поэт (автор стихов), композитор (автор музыки),
@@ -44,5 +45,7 @@ public:
 
 	//functions
 	void PrintSong();
+	friend ostream& operator<<(ostream& os, const Song& song);
+	friend istream& operator>>(istream& in, Song& song);
 };
 

@@ -17,8 +17,14 @@ void Player::PrintInFile()
 	fout.open(nameFile);
 	for (int i = 0; i < songList.size(); i++)
 	{
-		
+		fout << songList[i];
 	}
+	fout.close();
+}
+
+void Player::GetFromFile()
+{
+
 }
 
 int Player::GetCountSongs()
@@ -132,3 +138,4 @@ void Player::DeleteSong(int index)
 {
 	songList.erase(songList.begin() + index);
 }
+
