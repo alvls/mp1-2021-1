@@ -1,4 +1,4 @@
-#include "Song.h"
+ï»¿#include "Song.h"
 
 void Song::SetName(string _name)
 {
@@ -62,33 +62,61 @@ string Song::GetReleaseDate()
 
 void Song::PrintSong()
 {
-	cout << "Íàçâàíèå: "<< name << endl;
-	cout << "Àâòîð òåêñòà: " << poet << endl;
-	cout << "Êîìïîçèòîð: " << composer << endl;
-	cout << "Èñïîëíèòåëü: " << executor << endl;
-	cout << "Àëüáîì: " << album << endl;
-	cout << "Äàòà âûõîäà: " << releaseDate << endl;
+	cout << "ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ: "<< name << endl;
+	cout << "ÐÐ²Ñ‚Ð¾Ñ€ Ñ‚ÐµÐºÑÑ‚Ð°: " << poet << endl;
+	cout << "ÐšÐ¾Ð¼Ð¿Ð¾Ð·Ð¸Ñ‚Ð¾Ñ€: " << composer << endl;
+	cout << "Ð˜ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒ: " << executor << endl;
+	cout << "ÐÐ»ÑŒÐ±Ð¾Ð¼: " << album << endl;
+	cout << "Ð”Ð°Ñ‚Ð° Ð²Ñ‹Ñ…Ð¾Ð´Ð°: " << releaseDate << endl;
 }
 
 ostream& operator<<(ostream& os, const Song& song)
 {
-	os << "Íàçâàíèå: " << song.name << "\n";
-	os << "Àâòîð òåêñòà: " << song.poet << "\n";
-	os << "Êîìïîçèòîð: " << song.composer << "\n";
-	os << "Èñïîëíèòåëü: " << song.executor << "\n";
-	os << "Àëüáîì: " << song.album << "\n";
-	os << "Äàòà âûõîäà: " << song.releaseDate << "\n";
+	os << "ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ: " << endl;
+	os <<song.name << endl;
+	os << "ÐÐ²Ñ‚Ð¾Ñ€ Ñ‚ÐµÐºÑÑ‚Ð°: " << endl;
+	os << song.poet << endl;
+	os << "ÐšÐ¾Ð¼Ð¿Ð¾Ð·Ð¸Ñ‚Ð¾Ñ€: " << endl;
+	os << song.composer << endl;
+	os << "Ð˜ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒ: " << endl;
+	os << song.executor << endl;
+	os << "ÐÐ»ÑŒÐ±Ð¾Ð¼: " << endl;
+	os << song.album << endl;
+	os << "Ð”Ð°Ñ‚Ð° Ð²Ñ‹Ñ…Ð¾Ð´Ð°: " << endl;
+	os << song.releaseDate << endl;
+	os << " " << endl;
 	return os;
 }
 
 istream& operator>>(istream& in, Song& song)
 {
 	string temp;
-	while (!EOF)
+	for (int i = 0; i < 12; i++)
 	{
 		getline(in, temp);
-		strstr()
-
+		switch (i)
+		{
+		case 1:
+			song.name = temp;
+			break;
+		case 3:
+			song.poet = temp;
+			break;
+		case 5:
+			song.composer = temp;
+			break;
+		case 7:
+			song.executor = temp;
+			break;
+		case 9:
+			song.album = temp;
+			break;
+		case 11:
+			song.releaseDate = temp;
+			break;
+		}
 	}
+	getline(in, temp);
+	return in;
 }
 

@@ -1,33 +1,44 @@
-#pragma once
+п»ї#pragma once
 #include "Song.h"
 #include <vector>
 #include <fstream>
-/*Разработать класс Песенник.
-Класс должен хранить информацию о песенных композициях. Каждая песня описывается следующими данными: название, поэт (автор стихов), композитор (автор музыки),
-исполнитель, название альбома (если входит в какой-то альбом), дата выпуска (день, месяц, год).
-Песни хранятся упорядоченно по названию. Данные вводятся на русском языке.
-Класс должен содержать необходимые служебные методы.
-Класс должен предоставлять следующие операции: 1) добавить песню, 2) изменить данные выбранной песни, 3) найти песню по названию и исполнителю,
-4) выдать все песни заданного поэта, 5) выдать все песни заданного композитора, 6) выдать все песни заданного исполнителя, 7) узнать текущее число песен,
-8) удалить песню, 9) сохранить песенник в файл, 10) считать песенник из файла.
-*/
+
 using namespace std;
+
 class Player
 {
 private:
 	vector <Song> songList;
 public:
+	Player()
+	{
+		songList.resize(0);
+	}
+	Player(int count)
+	{
+		songList.resize(count);
+	}
+	~Player()
+	{
+
+	}
+
 	void AddSong(string _name = "unknown", string _poet = "unknown", string _composer = "unknown", string _executor = "unknown", string _album = "unknown", string _releaseDate = "unknown");
-	int FindSong(string _name, string _executor);
+	Song FindSong(string _name, string _executor);
+	int FindIndSong(string _name, string _executor);
 	vector<Song> GetSongsByPoet(string _poet);
 	vector<Song> GetSongsByComposer(string _composer);
 	vector<Song> GetSongsByExecutor(string _executor);
-	void ChangeSongData(int index,string component, string value); //component - тип изменения name/poet/executor...
+	void ChangeSongData(Song& changingSong, string component, string value); //component - С‚РёРї РёР·РјРµРЅРµРЅРёСЏ name/poet/executor...
+	//СѓРґР°Р»СЏРµС‚ РїРµСЃРЅСЋ СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РёРЅРґРµРєСЃРѕРј
 	void DeleteSong(int index);
+	//СѓРґР°Р»СЏРµС‚ СѓРєР°Р·Р°РЅРЅСѓСЋ РїРµСЃРЅСЋ
+	void DeleteSong(Song& _song);
 	void PrintInConsole();
 	void PrintInFile();
 	void GetFromFile();
 	int GetCountSongs();
+	int GetCountSongsInFile(); //Р±РѕР»СЊС€РѕРµ РЅР°Р·РІР°РЅРёРµ Сѓ С„СѓРЅРєС†РёРё, РЅРѕ РєР°Рє СЃРѕРєСЂР°С‚РёС‚СЊ, РЅРµ С‚РµСЂСЏСЏ СЃРјС‹СЃР»Р°, РЅРµ Р·РЅР°СЋ
 	
 
 };
