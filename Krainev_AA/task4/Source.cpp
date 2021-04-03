@@ -11,6 +11,7 @@
 #include <locale>
 using namespace std;
 void printMenu();
+void welcomeMessege();
 struct Date {
 	unsigned short int day;
 	unsigned short int month;
@@ -127,6 +128,7 @@ void floorScales::setTheStartDateOfObservations(unsigned short int day, unsigned
 }
 int main() {
 	setlocale(LC_ALL, "rus");
+	welcomeMessege();
 	int choice;
 	string nameMember;
 	string str = "Scales.txt";
@@ -554,4 +556,9 @@ void printMenu() {
 	cout << "9. Сохранить историю наблюдений в файл" << endl;
 	cout << "10. Удалить файл и всю историю наблюдений!" << endl;
 	cout << "11. Выход" << endl;
+}
+
+void welcomeMessege(){
+	cout <<"Добро пожаловать в программу <Весы напольные>."<< endl;
+	cout << "Считывание из файла происходит при запуске программы, не забудьте сохранить данные в файл по окончании работы." << endl;
 }
