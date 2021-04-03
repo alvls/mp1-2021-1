@@ -15,6 +15,7 @@ private:
 	int n, dynl, inhour,year;
 	Data* mass;
     int CntOfR[12] = {0};
+
 	void operator= (const Termo&){};
     void MemoryAllocator()
     {
@@ -36,7 +37,6 @@ private:
     int i = 0;
     int j = n;
     int pivot = mass[(i + j) / 2].datacode;
-    int temp;
     while (i <= j)
     {
         while (mass[i].datacode < pivot)
@@ -84,6 +84,29 @@ public:
         year = _year;
 		inhour = _hour;
 	}
+	~Termo()
+    {
+        for(int i = 0;i < n;i++){
+            delete [] mass[i].temp;
+        }
+        delete [] mass;
+    }
+    Termo(const Termo& other)
+    {
+        n = other.n;
+        dynl = other.dynl;
+        inhour = other.inhour;
+        year = other.year;
+        mass = new Data [dynl];
+        for(int i = 0;i < n;i++){
+            mass[i].day = other.mass[i].day;
+            mass[i].month = other.mass[i].month;
+            mass[i].datacode = other.mass[i].datacode;
+            for(int z = 0;z < other.n;z++){
+                mass[i].temp[z]=  other.mass[i].temp[z];
+            }
+        }
+    }
     bool Set_In(int _day, int _month, int _hour,int _year)
 	{
         if(n){return false;}
@@ -92,6 +115,7 @@ public:
 		mass[0].temp = new double [24 - _hour];
 		inhour = _hour;
         year = _year;
+        mass[0].datacode = _day + _month * 100;
         return true;
 	}
 	void Get_Init(int& _day, int& _month, int& _hour,int& _year)
@@ -228,34 +252,35 @@ public:
 		fin.open(path);
 		if (!fin) { return -1; }
 		else {
-            //clean
-			delete[] mass;
-            for (int i = 0; i < 12; i++) {
-                CntOfR[i] = 0;
-			}
-            fin >> year >> n >> inhour;
-			mass = new Data[n];
-			int i = 0;
-			while (!fin.eof()) {
-                fin >> day >> month;
-                if ((day!=olday)&&(month!=olmonth)){
-                    i++;
-                }
-                else{
-                    olday = day;
-                    olmonth = month;
-                }
-                mass[i].day = day;
-                mass[i].month = month;
-                CntOfR[month]++;
-                fin >> buf;
-                fin >> mass[i].temp[buf];
-                fin.close();
-			}
-			return 0;
-		}
-		dynl = n;
-		QSort();
+        //clean
+        delete[] mass;
+        for (int i = 0; i < 12; i++) {
+            CntOfR[i] = 0;
+        }
+        fin >> year >> n >> inhour;
+        mass = new Data[n];
+        int i = 0;
+        while (!fin.eof()) {
+            fin >> day >> month;
+            if ((day!=olday)&&(month!=olmonth)){
+                i++;
+            }
+            else{
+                olday = day;
+                olmonth = month;
+            }
+            mass[i].day = day;
+            mass[i].month = month;
+            mass[i].datacode = day + 100*month;
+            CntOfR[month]++;
+            fin >> buf;
+            fin >> mass[i].temp[buf];
+            fin.close();
+            }
+        return 0;
+        }
+        dynl = n;
+        QSort();
     }
 };
 int main() {
