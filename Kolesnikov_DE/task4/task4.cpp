@@ -125,10 +125,10 @@ public:
 		if ((_day > 31) || (_month > 12)) { return false; }
 		int k = 0;
 		for (int i = 0; i < _month; i++) {
-			k+=CntOfR[i];
+			k += CntOfR[i];
 		}
 		for (k++; k < CntOfR[_month]; k++) {
-			if ((mass[k].day == _day) && (mass[k].temp[_hour] != -255)) {
+			if ((mass[k].day == _day) && (mass[k].temp[_hour] < 250.0)) {
 				return mass[k].temp[_hour];
 			}
 		}
@@ -164,6 +164,61 @@ public:
 		fout.close();
 		return 0;
 	}
+    double Get_Av_Day(int _day,int _month)
+    {
+        int k = 0;
+		for (int i = 0; i < _month; i++) {
+			k += CntOfR[i];
+		}
+		for (; k < CntOfR[_month]; k++) {
+			if (mass[k].day == _day) {
+                double av = 0.0;
+                double r = 0.0;
+                for(int z = 0;z < 24;z++){
+                    if(mass[k].temp[z] < 250.0)
+                    {
+                        r++;
+                        av += mass[k].temp[z];
+                    }
+                }
+				return av/r;
+			}
+		}
+    }
+    double Get_Av_Month(int _month)
+    {
+        int k = 0;
+		for (int i = 0; i < _month; i++) {
+			k += CntOfR[i];
+		}
+        double av = 0.0;
+        double r = 0.0;
+		for (int k = 0; k < CntOfR[_month]; k++) {
+            for(int z = 0;z < 24;z++){
+                if(mass[k].temp[z] < 250.0)
+                {
+                    r++;
+                    av+=mass[k].temp[z];
+                }
+				return av/r;
+			}
+		}
+    }
+    double Get_Av_All()
+    {
+        double av = 0.0;
+        int r = 0;
+		for (int k = 0; k < n; k++) {
+            for(int z = 0;z < 24;z++){
+                if(mass[k].temp[z] < 250.0)
+                {
+                    r++;
+                    av+=mass[k].temp[z];
+                }
+				return av/k;
+			}
+		}
+    }
 	int From_File(string path)
 	{
 		int buf;
