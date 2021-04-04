@@ -270,7 +270,6 @@ void setstr(string& s)
 		s.push_back(get);
 	}
 }
-
 class List
 {
 	int k;
@@ -482,7 +481,10 @@ void List::contact_menu(contact& c, const int nomer)
 						else
 							new_c.patronymic = str;
 					if (check(new_c))
+					{
 						c = new_c;
+						//sort(pointer);
+					}
 					else
 					{
 						fio_err();
@@ -528,7 +530,47 @@ void List::contact_menu(contact& c, const int nomer)
 }
 void List::sort(int num)
 {
+	int i;
+	vector <contact> tmp(k);
+	/*for (i = 0; i < k; i++)
+		if (tmp[num] > man[i])
+			break;
+	tmp[i] = tmp[num];
+	int j = i + 1;
+	for (i; i < k; i++)
+		if (man[i] != man[num])
+			tmp[j] = man[i];
+		else
+			i++;*/
+	for (i = 0; i < k; i++)
+		if (man[i] > man[num])
+			tmp[i] = man[i];
+		else
+			if (man[i] == man[num])
+			{
+				for (int j = i + 1; j < k; j++, i++)
+				{
+					if (man[i] > man[num])
+						tmp[i] = man[j];
+					else
+					{
+						tmp[i] = man[j];
 
+					}
+				}
+				break;
+			}
+			else
+			{
+				int j = i + 1;
+				for (i; i < k; i++)
+					if (man[i] != man[num])
+						tmp[j] = man[i];
+					else
+						i++;
+			}
+	man = tmp;
+	tmp.clear();
 }
 void List::menu()
 {
