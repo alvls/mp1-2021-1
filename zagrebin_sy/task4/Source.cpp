@@ -14,6 +14,9 @@ class Date {
 	unsigned int month : 4;
 	unsigned int year : 15;
 public:
+	Date() {
+		day = month = year = 0;
+	}
 	void operator=(string s) {
 		int d, m, y;
 		if (sscanf_s(s.c_str(), "%d.%d.%d", &d, &m, &y) == 3 &&
