@@ -63,15 +63,15 @@ const string month[12] = { "января", "февраля", "марта", "апреля", "мая", "июня"
 //1) создать новый контакт,+
 //2) изменить выбранный контакт, +
 //3) найти контакт по ФИО,+
-//4) найти контакт по телефону, 
+//4) найти контакт по телефону, +
 //5) выдать все контакты на заданную букву, +
 //6) узнать текущее число контактов, +
 //7) внести контакт в список избранных,+
 //8) удалить контакт из списка избранных,+
 //9) выдать все избранные контакты, +
 //10) удалить контакт, +
-//11) сохранить контакты в файл, 
-//12) считать контакты из файла.
+//11) сохранить контакты в файл, +
+//12) считать контакты из файла.+
 //КОНТАКТЫ НЕ ДОЛЖНЫ СОДЕРЖАТЬ ОДНО И ТО ЖЕ ФИО+
 
 class contact
@@ -90,7 +90,7 @@ public:
 	bool operator >(const contact& other);
 	contact& operator =(const contact& other);
 	friend ostream& operator<<(ostream& place, const contact& c);
-	friend istream& operator>>(istream& place, const contact& c);
+	friend istream& operator>>(istream& place, contact& c);
 	void usualprintc(int i = -1);
 	void specialprintc(int i = -1);
 };
@@ -190,7 +190,6 @@ ostream& operator<<(ostream& place, const contact& c)
 	place << c.patronymic << endl;
 	for (int i = 0; i < number; i++)
 		place << c.phone[i];
-	cout << endl;
 	for (int i = 0; i < date; i++)
 		place << c.birth[i];
 	place << endl;
@@ -200,10 +199,23 @@ ostream& operator<<(ostream& place, const contact& c)
 		place << '-' << endl;
 	return place;
 }
-istream& operator>>(istream& place, const contact& c)
+istream& operator>>(istream& place, contact& c)
 {
-	
-	getline(c.surname, 33, '\n');
+	char ch;
+	place >> c.surname;
+	place >> c.name;
+	place >> c.patronymic;
+	for (int i = 0; i < number; i++)
+		place >> c.phone[i];
+	place >> ch;
+	for (int i = 0; i < date; i++)
+		place >> c.birth[i];
+	place >> ch;
+	place >> ch;
+	if (ch == '+')
+		c.favorite = true;
+	else
+		c.favorite = false;
 }
 /////////////////////////////////////////////////////////
 void contact::usualprintc(int i)
@@ -280,7 +292,7 @@ class List
 	bool check(const contact& c);
 	void sort(int num);
 public:
-	List(int _k = 0) :k(_k)
+	List(int _k = 1) :k(_k)
 	{
 		contact c;
 		man.resize(k);
@@ -485,7 +497,7 @@ void List::contact_menu(contact& c, const int nomer)
 					if (check(new_c))
 					{
 						c = new_c;
-						//sort(pointer);
+						sort(pointer);
 					}
 					else
 					{
@@ -589,13 +601,24 @@ void List::menu()
 	char like = 3;
 	const int out = 27;
 	int screen = 0;
+	ifstream fin("list.txt");
+	ofstream fout("list.txt");
+	contact extra;
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, (WORD)((LIGHTGREEN << 4) | YELLOW));
+	cout << "УБЕДИТЕСЬ, ЧТО У ВАС НА КЛАВИАТУРЕ СЕЙЧАС РУССКАЯ РАСКЛАДКА" << endl;
+	cout << "Полезные клавиши:" << endl;
+	cout << "Поиск контакта по ФИО: 0" << endl;
+	string s_[3];
+	cout << "Поиск контакта по номеру телефона: 1" << endl;
+	char ph_[number];
+	cout << "Поиск контактов по букве: 2" << endl;
+	char word;
 	do
 	{
 		SetConsoleTextAttribute(hConsole, (WORD)((LIGHTGREEN << 4) | YELLOW));
 		notnorm = true;
 		system("CLS");
-		cout << "УБЕДИТЕСЬ, ЧТО У ВАС НА КЛАВИАТУРЕ СЕЙЧАС РУССКАЯ РАСКЛАДКА" << endl;
 		for (i = screen; i < pointer; i++)
 			man[i].usualprintc(i);
 		if (i < screen + out && i < k)
@@ -668,6 +691,41 @@ void List::menu()
 				}
 				notnorm = false;
 				break;
+			case '+':
+				system("cls");
+				cout << "Фамилия:" << endl;
+				setstr(extra.surname);
+				cout << "Имя:" << endl;
+				setstr(extra.name);
+				cout << "Отчество:" << endl;
+				setstr(extra.patronymic);
+				_new(extra);
+				notnorm = false;
+			case '0':				
+				system("cls");
+				cout << "Фамилия:" << endl;
+				setstr(s_[0]);
+				cout << "Имя:" << endl;
+				setstr(s_[1]);
+				cout << "Отчество:" << endl;
+				setstr(s_[2]);
+				find_fio(s_);
+				notnorm = false;
+			case '1':
+				system("cls");
+				cout << "Введите номер телефона со знаком \"+\"\n";
+				while ((ph_[0] = _getch()) != '+')
+					;
+				cout << "+";
+				getnums(ph_, 1, number);
+				notnorm = false;
+			case '2':
+				system("cls");
+				cout << "Введите символ, с которого может начинаться фамилия/имя/отчество\n";
+				word = _getch();
+				cout << word << endl;
+
+				notnorm = false;
 			}
 		}
 	} while (repeat);
@@ -744,7 +802,7 @@ int main()
 	setlocale(LC_ALL, "Russian");
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
-	List list(200);
+	List list;
 	list.menu();
 	cout << "\n";
 	system("pause");
