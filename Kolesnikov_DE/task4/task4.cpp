@@ -121,7 +121,7 @@ public:
         for (int i = 0; i < 24; i++) {
             mass[0].temp[i] = 255.0;
         }
-        CntOfR[_month-1] = 1;
+        CntOfR[_month-1]++;
 		inhour = _hour;
         year = _year;
         mass[0].datacode = _day + _month * 100;
@@ -157,12 +157,15 @@ public:
 		if (!n) { return -1.0; }
 		if ((_day > 31) || (_month > 12)) { return -1.0; }
 		int k = 0;
-		for (int i = 0; i < _month; i++) {
+		for (int i = 0; i < _month-1; i++) {
 			k += CntOfR[i];
 		}
-		for (k++; k < CntOfR[_month]; k++) {
-			if ((mass[k].day == _day) && (mass[k].temp[_hour] < 250.0)) {
-				return mass[k].temp[_hour];
+		for (int z = k; z < k+CntOfR[_month-1]; z++) {
+			if (mass[z].day == _day) {
+                if ((mass[z].temp[_hour] > 250) || (mass[z].temp[_hour] < -250)) {}
+                else {
+                    return mass[z].temp[_hour];
+                }
 			}
 		}
 		return 0.0;
@@ -183,39 +186,22 @@ public:
         QSort(0,n-1);
         return true;
 	}
-	bool To_File(string path)
-	{
-		ofstream fout;
-		fout.open(path);
-		if (!fout) { return false; }
-		fout << year << " " << n << " " << inhour<<endl;
-        fout << mass[0].day << " " << mass[0].month << " " << -1 << " " << 255 << endl;
-		for (int i = 0; i < n; i++) {
-			for (int k = 0; k < 24; k++) {
-				if ((mass[i].temp[k] > 250)||(mass[i].temp[k] < -250)){}
-                else {
-                    fout << mass[i].day << " " << mass[i].month << " " << k << " " << mass[i].temp[k] << endl;
-                }
-			}
-		}
-		fout.close();
-		return true;
-	}
+
     double Get_Av_Day(int _day,int _month)
     {
         int k = 0;
-		for (int i = 0; i < _month; i++) {
+		for (int i = 0; i < _month-1; i++) {
 			k += CntOfR[i];
 		}
-		for (; k < CntOfR[_month]; k++) {
-			if (mass[k].day == _day) {
+        for (int z = k; z < k + CntOfR[_month - 1]; z++) {
+			if (mass[z].day == _day) {
                 double av = 0.0;
                 double r = 0.0;
-                for(int z = 0;z < 24;z++){
-                    if(mass[k].temp[z] < 250.0)
-                    {
+                for(int b = 0;b < 24;b++){
+                    if ((mass[z].temp[b] > 250) || (mass[z].temp[b] < -250)) {}
+                    else{
                         r++;
-                        av += mass[k].temp[z];
+                        av += mass[z].temp[b];
                     }
                 }
 				return av/r;
@@ -225,21 +211,21 @@ public:
     double Get_Av_Month(int _month)
     {
         int k = 0;
-		for (int i = 0; i < _month; i++) {
+		for (int i = 0; i < _month-1; i++) {
 			k += CntOfR[i];
 		}
         double av = 0.0;
         double r = 0.0;
-		for (int k = 0; k < CntOfR[_month]; k++) {
-            for(int z = 0;z < 24;z++){
-                if(mass[k].temp[z] < 250.0)
-                {
+		for (int z = k; z < k+ CntOfR[_month-1]; z++) {
+            for(int b = 0;b < 24;b++){
+                if ((mass[z].temp[b] > 250) || (mass[z].temp[b] < -250)) {}
+                else{
                     r++;
                     av+=mass[k].temp[z];
                 }
-				return av/r;
 			}
 		}
+        return av / r;
     }
     double Get_Av_All()
     {
@@ -247,14 +233,32 @@ public:
         int r = 0;
 		for (int k = 0; k < n; k++) {
             for(int z = 0;z < 24;z++){
-                if(mass[k].temp[z] < 250.0)
-                {
+                if ((mass[k].temp[z] > 250) || (mass[k].temp[z] < -250)) {}
+                else {
                     r++;
                     av+=mass[k].temp[z];
                 }
-				return av/k;
 			}
 		}
+        return av / r;
+    }
+    bool To_File(string path)
+    {
+        ofstream fout;
+        fout.open(path);
+        if (!fout) { return false; }
+        fout << year << " " << n << " " << inhour << endl;
+        fout << mass[0].day << " " << mass[0].month << " " << -1 << " " << 255 << endl;
+        for (int i = 0; i < n; i++) {
+            for (int k = 0; k < 24; k++) {
+                if ((mass[i].temp[k] > 250) || (mass[i].temp[k] < -250)) {}
+                else {
+                    fout << mass[i].day << " " << mass[i].month << " " << k << " " << mass[i].temp[k] << endl;
+                }
+            }
+        }
+        fout.close();
+        return true;
     }
 	bool From_File(string path)
 	{
@@ -316,7 +320,6 @@ public:
         }
         fin.close();
         dynl = n;
-        QSort(0,n-1);
         return true;
     }
 };
