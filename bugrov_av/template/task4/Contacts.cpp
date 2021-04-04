@@ -90,6 +90,7 @@ public:
 	bool operator >(const contact& other);
 	contact& operator =(const contact& other);
 	friend ostream& operator<<(ostream& place, const contact& c);
+	friend istream& operator>>(istream& place, const contact& c);
 	void usualprintc(int i = -1);
 	void specialprintc(int i = -1);
 };
@@ -184,24 +185,25 @@ contact& contact::operator=(const contact& other)
 ostream& operator<<(ostream& place, const contact& c)
 {
 	// Достаточно вывести данные, понятные только программе
-	place << c.surname << " ";
-	place << c.name << " ";
-	place << c.patronymic << " ";
+	place << c.surname << endl;
+	place << c.name << endl;
+	place << c.patronymic << endl;
 	for (int i = 0; i < number; i++)
 		place << c.phone[i];
-	/*int b1 = c.birth[2] - '0';
-	int b2 = c.birth[3] - '0';
-	int m = b1 * 10 + b2;
-	cout << "\nДата рождения: ";*/
-	//cout << c.birth[0] << c.birth[1] << " " << month[m] << " ";
+	cout << endl;
 	for (int i = 0; i < date; i++)
-		cout << c.birth[i];
-	cout << " ";// << "года\n";
+		place << c.birth[i];
+	place << endl;
 	if (c.favorite)//cout << "Контакт обавлен в избранные\n";
-		cout << '+';
+		place << '+' << endl;
 	else
-		cout << '-';
+		place << '-' << endl;
 	return place;
+}
+istream& operator>>(istream& place, const contact& c)
+{
+	
+	getline(c.surname, 33, '\n');
 }
 /////////////////////////////////////////////////////////
 void contact::usualprintc(int i)
@@ -554,8 +556,11 @@ void List::sort(int num)
 						tmp[i] = man[j];
 					else
 					{
-						tmp[i] = man[j];
-
+						tmp[i] = man[num];
+						i++;
+						for (i; i < k; i++)
+							tmp[i] = man[i];
+						break;
 					}
 				}
 				break;
@@ -563,7 +568,8 @@ void List::sort(int num)
 			else
 			{
 				int j = i + 1;
-				for (i; i < k; i++)
+				tmp[j] = man[num];
+				for (i; i < k; i++, j++)
 					if (man[i] != man[num])
 						tmp[j] = man[i];
 					else
