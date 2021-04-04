@@ -146,7 +146,7 @@ OneDay Pedometer::MaxInMonth(size_t pos)
     size_t SizeOfVec = tmpvec.size();
     OneDay tmpmax = tmpvec[0];
     for (size_t i = 1; i < SizeOfVec; i++)
-        if (tmpvec[i - 1].GetStepsDay() < tmpvec[i].GetStepsDay())
+        if (tmpmax.GetStepsDay() < tmpvec[i].GetStepsDay())
             tmpmax = tmpvec[i];
     return tmpmax;
 }
@@ -156,7 +156,7 @@ OneDay Pedometer::MaxInDay()
     size_t SizeOfVec = VecOfDays.size();
     OneDay tmponeday = VecOfDays[0];
     for (size_t i = 1; i < SizeOfVec; i++)
-        if (VecOfDays[i - 1].GetStepsDay() < VecOfDays[i].GetStepsDay())
+        if (tmponeday.GetStepsDay() < VecOfDays[i].GetStepsDay())
             tmponeday = VecOfDays[i];
     return tmponeday;
 }
