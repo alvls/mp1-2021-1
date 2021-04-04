@@ -14,7 +14,7 @@ private:
 	};
 	int n, dynl, inhour,year;
 	Data* mass;
-    int CntOfR[12] = {0};
+    int CntOfR[12] = { 0 };
 
 	void operator= (const Termo&){};
     void MemoryAllocator()
@@ -32,10 +32,10 @@ private:
         mass = nmass;
         dynl*=2;
     }
-    void QSort()
+    void QSort(int low,int high)
     {
-    int i = 0;
-    int j = n;
+    int i = low;
+    int j = high;
     int pivot = mass[(i + j) / 2].datacode;
     while (i <= j)
     {
@@ -61,11 +61,11 @@ private:
             j--;
         }
     }
-    if (j > 0){
-        QSort();
+    if (j > low){
+        QSort(low,j);
     }
-    if (i < n){
-        QSort();
+    if (i < high){
+        QSort(i,high);
     }
     }
 
@@ -80,8 +80,12 @@ public:
 		mass = new Data[NUMOFINDATES];
 		mass[0].day = _day;
 		mass[0].month = _month;
-		mass[0].temp = new double[24 - _hour];
-        mass[0].datacode = _day + _month*100;
+		mass[0].temp = new double[24];
+        for (int i = 0; i < 24; i++) {
+            mass[0].temp[i] = 255.0;
+        }
+        mass[0].datacode  =_day + _month*100;
+        CntOfR[_month-1]++;
         year = _year;
 		inhour = _hour;
 	}
@@ -113,7 +117,11 @@ public:
         if(n){return false;}
 		mass[0].day = _day;
 		mass[0].month = _month;
-		mass[0].temp = new double [24 - _hour];
+        mass[0].temp = new double[24];
+        for (int i = 0; i < 24; i++) {
+            mass[0].temp[i] = 255.0;
+        }
+        CntOfR[_month-1] = 1;
 		inhour = _hour;
         year = _year;
         mass[0].datacode = _day + _month * 100;
@@ -141,7 +149,7 @@ public:
 		mass[n].month = _month;
 		mass[n].datacode = _day + _month * 100; 
 		n++;
-        QSort();
+        QSort(0,n-1);
 		return true;
 	}
 	double Get_Obs(int _day, int _month, int _hour)
@@ -172,24 +180,26 @@ public:
 		mass[n].month = _month;
         CntOfR[_month-1]++;
 		n++;
-        QSort();
+        QSort(0,n-1);
         return true;
 	}
 	bool To_File(string path)
 	{
 		ofstream fout;
 		fout.open(path);
-		if (!fout) { return -1; }
+		if (!fout) { return false; }
 		fout << year << " " << n << " " << inhour<<endl;
+        fout << mass[0].day << " " << mass[0].month << " " << -1 << " " << 255 << endl;
 		for (int i = 0; i < n; i++) {
 			for (int k = 0; k < 24; k++) {
-				if (mass[i].temp[k] < 250.0) {
-					fout << mass[i].day << " " << mass[i].month << " " << k << " " << mass[i].temp[k] << endl;
-				}
+				if ((mass[i].temp[k] > 250)||(mass[i].temp[k] < -250)){}
+                else {
+                    fout << mass[i].day << " " << mass[i].month << " " << k << " " << mass[i].temp[k] << endl;
+                }
 			}
 		}
 		fout.close();
-		return 0;
+		return true;
 	}
     double Get_Av_Day(int _day,int _month)
     {
@@ -246,50 +256,76 @@ public:
 			}
 		}
     }
-	int From_File(string path)
+	bool From_File(string path)
 	{
 		int buf;
         int day,month;
-        int olday,olmonth;
+        int oldday, oldmonth,oldt = -1;
 		ifstream fin;
 		fin.open(path);
-		if (!fin) { return -1; }
+		if (!fin) { return false; }
 		else {
         //clean
+        for (int i = 0; i < n; i++) {
+            delete[] mass[i].temp;
+        }
         delete[] mass;
         for (int i = 0; i < 12; i++) {
             CntOfR[i] = 0;
         }
+        //start
         fin >> year >> n >> inhour;
         mass = new Data[n];
         int i = 0;
+        fin >> day >> month;
+        oldday = day;
+        oldmonth = month;
+        mass[0].day = day;
+        mass[0].month = month;
+        mass[0].datacode = day + 100 * month;
+        CntOfR[month-1]++;
+        fin >> buf >> buf;
+        mass[0].temp = new double[24];
+        for (int i = 0; i < 24; i++) {
+            mass[0].temp[i] = 255.0;
+        }
         while (!fin.eof()) {
             fin >> day >> month;
-            if ((day!=olday)&&(month!=olmonth)){
+            if ((day!=oldday)&&(month!=oldmonth)){
                 i++;
+                mass[i].temp = new double[24];
+                for (int z = 0; z < 24; z++) {
+                    mass[i].temp[z] = 255.0;
+                }
             }
             else{
-                olday = day;
-                olmonth = month;
+                oldday = day;
+                oldmonth = month;
             }
+            fin >> buf;
+            if (buf == oldt) {
+                break;
+            }
+            fin >> mass[i].temp[buf];
+            buf = oldt;
             mass[i].day = day;
             mass[i].month = month;
             mass[i].datacode = day + 100*month;
-            CntOfR[month]++;
-            fin >> buf;
-            fin >> mass[i].temp[buf];
-            fin.close();
+            CntOfR[month-1]++;
             }
-        return 0;
         }
+        fin.close();
         dynl = n;
-        QSort();
+        QSort(0,n-1);
+        return true;
     }
 };
 int main() {
     Termo a(1,1,2,2020);;
     a.Set_Obs(2,2,2,20);
     cout << a.Get_Obs(2,2,2);
+    a.To_File("Dict.txt");
+    a.From_File("Dict.txt");
 	return 0;
 }
 
