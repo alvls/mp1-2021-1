@@ -297,12 +297,10 @@ void print(struct Film F)//печатает 1 фильм
 	std::cout << F.director << '\n';
 	std::cout << "Имя сценариста: ";
 	std::cout << F.screenwriter << '\n';
-	std::cout << "Имя сценариста: ";
+	std::cout << "Имя композитора: ";
 	std::cout << F.musician << '\n';
 	std::cout << "Дата выхода в прокат: день, месяц, год ";
-	std::cout << F.year << '\n';
-	std::cout << "год: ";
-	std::cout << F.year << '\n';
+	std::cout << F.day<<"."<<F.month<<"."<<F.year << '\n';
 	std::cout << "сборы: ";
 	std::cout << F.fees << '\n' << '\n'; 
 	string musician;//имя композитора
@@ -314,14 +312,6 @@ void print(vector <struct Film> F)//печатает вектор фильмов
 	int size = F.size();
 	for (int i = 0; i < size; i++)
 	{
-		/*std::cout << "Название фильма: ";
-		std::cout << F[i].film_name << '\n';
-		std::cout << "Имя режиссера: ";
-		std::cout << F[i].director << '\n';
-		std::cout << "год: ";
-		std::cout << F[i].year << '\n';
-		std::cout << "сборы: ";
-		std::cout << F[i].fees << '\n' << '\n';*/
 		print(F[i]);
 	}
 }
@@ -351,9 +341,8 @@ void main()
 	SetConsoleOutputCP(1251);
 	SetConsoleCP(1251);
 	i = 0;
-	while (num != 0)// razmer != 3
+	while (num != 0)
 	{
-		//std::cout << "Введите номер режима (0, если хотите закончить; 1, если хотите добавить строку; 2, если хотите получить все фильмы, 3-если хотите удалить фильм, 4-если хотите узнать все фильмы данного режиссера): ";
 		showmenu();
 		std::cin >> num;
 		if (num == 0)
@@ -366,6 +355,14 @@ void main()
 			std::getline(std::cin, Temp.film_name);
 			std::cout << "Введите имя режиссера: "; //Сталинград  Подольские курсанты Единичка Апостол
 			std::getline(std::cin, Temp.director);
+			std::cout << "Введите имя сценариста: ";
+			std::getline(std::cin, Temp.screenwriter);
+			std::cout << "Введите имя композитора: ";
+			std::getline(std::cin, Temp.musician);
+			std::cout << "Введите день выхода в прокат: ";
+			std::cin >> Temp.day;
+			std::cout << "Введите месяц выхода в прокат: ";
+			std::cin >> Temp.month;
 			std::cout << "Введите год выхода в прокат: ";
 			std::cin >> Temp.year;
 			std::cout << "Введите кассовые сборы фильма: ";
@@ -488,16 +485,10 @@ void main()
 			Filmoteka1.set_in_file(name_of_file);
 			break;
 		case 11://сохранить фильмотеку в файл
-			/*bool flag;
-			std::cout << "Осторожно! Данная операция очистит фильмотеку! Хотите продолжить (если да, введите 1, иначе 0): ";
-			std::cin >> flag;
-			if (flag == true)
-			{*/
 			std::cin.get();
 			std::cout << "Введите имя файла, указывая его расширение (например .txt): "; //Сталинград  Подольские курсанты Единичка Апостол
 			std::getline(std::cin, name_of_file);
 			Filmoteka1.get_from_file(name_of_file);
-			//}
 			break;
 		case 12://вывести на экран все фильмы
 			F.clear();
