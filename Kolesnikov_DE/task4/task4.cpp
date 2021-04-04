@@ -168,7 +168,7 @@ public:
                 }
 			}
 		}
-		return 0.0;
+		throw string("No record with this time,day,month");
     }
 	bool Set_Obs_Serial(int _day, int _month, int _shour, int _ehour, double _temp[])
 	{
@@ -207,6 +207,7 @@ public:
 				return av/r;
 			}
 		}
+		throw string("No record with this day and month");
     }
     double Get_Av_Month(int _month)
     {
@@ -214,6 +215,7 @@ public:
 		for (int i = 0; i < _month-1; i++) {
 			k += CntOfR[i];
 		}
+		int count = 0;
         double av = 0.0;
         double r = 0.0;
 		for (int z = k; z < k+ CntOfR[_month-1]; z++) {
@@ -221,14 +223,17 @@ public:
                 if ((mass[z].temp[b] > 250) || (mass[z].temp[b] < -250)) {}
                 else{
                     r++;
-                    av+=mass[k].temp[z];
+                    av+=mass[z].temp[b];
+                    count++;
                 }
 			}
 		}
-        return av / r;
+        if(!count){throw string("No record with month");}
+        return av/r;
     }
     double Get_Av_All()
     {
+        if(!n){throw string("There are no records");}
         double av = 0.0;
         int r = 0;
 		for (int k = 0; k < n; k++) {
@@ -324,11 +329,32 @@ public:
     }
 };
 int main() {
-    Termo a(1,1,2,2020);;
-    a.Set_Obs(2,2,2,20);
-    cout << a.Get_Obs(2,2,2);
-    a.To_File("Dict.txt");
-    a.From_File("Dict.txt");
-	return 0;
+    try{
+        Termo a(1,1,2,2020);;
+        a.Set_Obs(2,2,2,4);
+        a.Set_Obs(4,5,6,7);
+        a.Set_Obs(8,5,6,14);
+        a.Set_Obs(9,5,6,21);
+        a.Set_Obs(1,2,3,2);
+        a.Set_Obs(4,4,5,-5);
+        a.Set_Obs(12,13,10,43);
+        cout << a.Get_Obs(2,2,2) << endl;
+        cout << a.Get_Obs(9,5,6) << endl;
+        cout << a.Get_Av_Day(8,5) << endl;
+        cout << a.Get_Av_Month(5) << endl;
+        cout << a.Get_Av_All() << endl;
+        a.To_File("Dict.txt");
+        a.From_File("Dict.txt");
+        int day,month,hour,year;
+        a.Get_Init(day,month,hour,year);
+        cout << day<<";"<<month<<";"<<hour<<";"<<year<< ";" << endl;
+        return 0;
+    }
+    catch(string a){
+        cout << "Error:" << a << endl;
+    }
+    catch(bad_alloc& e){
+        cout << "Error: Memory overflow" << endl;
+    }
 }
 
