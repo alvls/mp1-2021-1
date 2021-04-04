@@ -11,22 +11,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main 4.cpp">
+    <ClCompile Include="Contacts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="contact.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="contact.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="All.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="main 4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
