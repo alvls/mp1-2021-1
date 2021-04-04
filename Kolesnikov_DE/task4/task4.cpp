@@ -300,7 +300,7 @@ public:
         }
         while (!fin.eof()) {
             fin >> day >> month;
-            if ((day!=oldday)&&(month!=oldmonth)){
+            if ((day!=oldday)||(month!=oldmonth)){
                 i++;
                 mass[i].temp = new double[24];
                 for (int z = 0; z < 24; z++) {
@@ -345,6 +345,7 @@ int main() {
         cout << a.Get_Av_All() << endl;
         a.To_File("Dict.txt");
         a.From_File("Dict.txt");
+        a.To_File("Dict.txt");
         int day,month,hour,year;
         a.Get_Init(day,month,hour,year);
         cout << day<<";"<<month<<";"<<hour<<";"<<year<< ";" << endl;
