@@ -709,7 +709,11 @@ void List::menu()
 				setstr(s_[1]);
 				cout << "Отчество:" << endl;
 				setstr(s_[2]);
-				find_fio(s_);
+				i = find_fio(s_);
+				if (i > 0)
+					man[i].usualprintc();
+				else
+					cout << "Поиск не дал результатов" << endl;
 				notnorm = false;
 			case '1':
 				system("cls");
@@ -718,13 +722,16 @@ void List::menu()
 					;
 				cout << "+";
 				getnums(ph_, 1, number);
+				if (!find_phone(ph_))
+					cout << "Поиск не дал результатов" << endl;
 				notnorm = false;
 			case '2':
 				system("cls");
 				cout << "Введите символ, с которого может начинаться фамилия/имя/отчество\n";
 				word = _getch();
 				cout << word << endl;
-
+				if (!find_word(word))
+					cout << "Поиск не дал результатов" << endl;
 				notnorm = false;
 			}
 		}
