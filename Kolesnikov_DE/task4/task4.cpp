@@ -81,6 +81,7 @@ public:
 		mass[0].day = _day;
 		mass[0].month = _month;
 		mass[0].temp = new double[24 - _hour];
+        mass[0].datacode = _day + _month*100;
         year = _year;
 		inhour = _hour;
 	}
@@ -145,8 +146,8 @@ public:
 	}
 	double Get_Obs(int _day, int _month, int _hour)
 	{
-		if (!n) { return -1; }
-		if ((_day > 31) || (_month > 12)) { return false; }
+		if (!n) { return -1.0; }
+		if ((_day > 31) || (_month > 12)) { return -1.0; }
 		int k = 0;
 		for (int i = 0; i < _month; i++) {
 			k += CntOfR[i];
@@ -156,9 +157,11 @@ public:
 				return mass[k].temp[_hour];
 			}
 		}
+		return 0.0;
     }
 	bool Set_Obs_Serial(int _day, int _month, int _shour, int _ehour, double _temp[])
 	{
+        if(!n){return false;}
         if(n==dynl){MemoryAllocator();}
 		if ((_day > 31) || (_month > 12)) { return false; }
 		mass[n].temp = new double[24];
@@ -284,6 +287,9 @@ public:
     }
 };
 int main() {
+    Termo a(1,1,2,2020);;
+    a.Set_Obs(2,2,2,20);
+    cout << a.Get_Obs(2,2,2);
 	return 0;
 }
 
