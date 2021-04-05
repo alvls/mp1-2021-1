@@ -1,0 +1,37 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CntOfR	task4.cpp	/^    int CntOfR[12] = { 0 };$/;"	m	class:Termo	file:
+Data	task4.cpp	/^	struct Data$/;"	s	class:Termo	file:
+From_File	task4.cpp	/^	bool From_File(string path)$/;"	f	class:Termo
+Get_Av_All	task4.cpp	/^    double Get_Av_All()$/;"	f	class:Termo
+Get_Av_Day	task4.cpp	/^    double Get_Av_Day(int _day,int _month)$/;"	f	class:Termo
+Get_Av_Month	task4.cpp	/^    double Get_Av_Month(int _month)$/;"	f	class:Termo
+Get_Init	task4.cpp	/^	void Get_Init(int& _day, int& _month, int& _hour,int& _year)$/;"	f	class:Termo
+Get_Obs	task4.cpp	/^	double Get_Obs(int _day, int _month, int _hour)$/;"	f	class:Termo
+MemoryAllocator	task4.cpp	/^    void MemoryAllocator()$/;"	f	class:Termo	file:
+NUMOFINDATES	task4.cpp	4;"	d	file:
+QSort	task4.cpp	/^    void QSort(int low,int high)$/;"	f	class:Termo	file:
+Set_In	task4.cpp	/^    bool Set_In(int _day, int _month, int _hour,int _year)$/;"	f	class:Termo
+Set_Obs	task4.cpp	/^	bool Set_Obs(int _day, int _month, int _hour, double _temp)$/;"	f	class:Termo
+Set_Obs_Serial	task4.cpp	/^	bool Set_Obs_Serial(int _day, int _month, int _shour, int _ehour, double _temp[])$/;"	f	class:Termo
+Termo	task4.cpp	/^	Termo() : n(0),dynl(NUMOFINDATES)$/;"	f	class:Termo
+Termo	task4.cpp	/^	Termo(int _day, int _month, int _hour,int _year) : n(1),dynl(NUMOFINDATES)$/;"	f	class:Termo
+Termo	task4.cpp	/^    Termo(const Termo& other)$/;"	f	class:Termo
+Termo	task4.cpp	/^class Termo$/;"	c	file:
+To_File	task4.cpp	/^    bool To_File(string path)$/;"	f	class:Termo
+datacode	task4.cpp	/^		int datacode;$/;"	m	struct:Termo::Data	file:
+day	task4.cpp	/^		int day, month;$/;"	m	struct:Termo::Data	file:
+dynl	task4.cpp	/^	int n, dynl, inhour,year;$/;"	m	class:Termo	file:
+inhour	task4.cpp	/^	int n, dynl, inhour,year;$/;"	m	class:Termo	file:
+main	task4.cpp	/^int main() {$/;"	f
+mass	task4.cpp	/^	Data* mass;$/;"	m	class:Termo	file:
+month	task4.cpp	/^		int day, month;$/;"	m	struct:Termo::Data	file:
+n	task4.cpp	/^	int n, dynl, inhour,year;$/;"	m	class:Termo	file:
+operator =	task4.cpp	/^	void operator= (const Termo&){};$/;"	f	class:Termo	file:
+temp	task4.cpp	/^		double* temp;$/;"	m	struct:Termo::Data	file:
+year	task4.cpp	/^	int n, dynl, inhour,year;$/;"	m	class:Termo	file:
+~Termo	task4.cpp	/^	~Termo()$/;"	f	class:Termo
