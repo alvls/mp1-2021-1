@@ -132,3 +132,18 @@ void Contact::setFavouriteStatus(bool status)
 {
   favourite = status;
 }
+
+Contact& Contact::operator=(const Contact& object)
+{
+  if(this == &object)
+    return *this;
+  firstName = object.firstName;
+  lastName = object.lastName;
+  patronymic = object.patronymic;
+  day = object.day;
+  month = object.month;
+  year = object.year;
+  phoneNumber = object.phoneNumber;
+  favourite = object.favourite;
+  return *this;
+}

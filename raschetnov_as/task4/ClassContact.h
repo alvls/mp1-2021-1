@@ -38,5 +38,6 @@ public:
   void removeContactFromFavourites();
   void Output();
   void setFavouriteStatus(bool status);
+  Contact& operator=(const Contact& object);
 };
 #endif
