@@ -70,6 +70,7 @@ public:
 	}
 	friend class filmoteka;
 };
+
 int toint(char* a)//преобразование строки в int
 {
 	int b = 0;
@@ -80,6 +81,16 @@ int toint(char* a)//преобразование строки в int
 		i++;
 	}
 	return b;
+}
+
+void delspace(char* a)//преобразование строки, считанной из файла
+{
+	int i = 0;
+	for (i = 0; i < strlen(a); i++)
+	{
+		if ((a[i]==' ')&&(a[i+1]==' '))
+			a[i]='\0';
+	}
 }
 
 class filmoteka//класс фильмотека из вектора и флага(для метода addfilm)
@@ -241,12 +252,16 @@ public:
 			fin.getline(tmp, 30, '|');
 			if (strlen(tmp) == 0)
 				break;
+			delspace(tmp);
 			temp.name = string(tmp);
 			fin.getline(tmp, 30, '|');
+			delspace(tmp);
 			temp.producer = string(tmp);
 			fin.getline(tmp, 30, '|');
+			delspace(tmp);
 			temp.scen = string(tmp);
 			fin.getline(tmp, 30, '|');
+			delspace(tmp);
 			temp.compos = string(tmp);
 			fin.getline(tmp, 30, '|');
 			temp.boxoffice = toint(tmp);
@@ -361,6 +376,7 @@ l:
 			goto q;
 		}
 		cout << "Найден фильм:" << endl;
+		cout << setiosflags(ios::left) << setw(27) << "Название" << setw(25) << "Режиссер " << setw(25) << "Сценарист " << setw(25) << "Композитор" << setw(10) << "Сборы" << "Дата выхода в прокат" << endl;
 		tmp.printconsole();
 		break;
 	case 4://фильмы по режиссеру
@@ -466,6 +482,7 @@ l:
 		cout<<"Выход за пределы фильмотеки" << endl;
 		goto x;
 		}
+		cout << "Фильм удален" << endl;
 		break;
 	case 10://сохранение фильмотеки в файл
 		a.ptrintinfile();
