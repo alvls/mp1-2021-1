@@ -66,7 +66,7 @@ public:
 	}
 	void printconsole()//вывод фильма на консоль для некоторых пунктов работы программы, для удобства выбора определенного фильма по его номеру
 	{
-		cout << setiosflags(ios::left)<< setw(25) << name << setw(25) << producer << setw(25) << scen << setw(25) << compos <<setw(10)<< boxoffice<< ready.day << "." << ready.mon << "." << ready.year << endl;
+		cout << setiosflags(ios::left)<< setw(25) << name << setw(25) << producer << setw(25) << scen << setw(25) << compos <<setw(18)<< boxoffice<< ready.day << "." << ready.mon << "." << ready.year << endl;
 	}
 	friend class filmoteka;
 };
@@ -137,7 +137,7 @@ public:
 	}
 	void ptint()//вывод на консоль фильмотеки для некоторых пунктов работы программы
 	{
-		cout << setiosflags(ios::left) << setw(27) << "  Название" << setw(25) << "Режиссер " << setw(25) << "Сценарист " << setw(25) << "Композитор" << setw(10) << "Сборы" << "Дата выхода в прокат" << endl;
+		cout << setiosflags(ios::left) << setw(27) << "  Название" << setw(25) << "Режиссер " << setw(25) << "Сценарист " << setw(25) << "Композитор" << setw(18) << "Сборы(млн. руб)" << "Дата выхода в прокат" << endl;
 	for (int i = 0; i < vecfilm.size(); i++)
 		{
 			cout << i+1 << ".";
@@ -376,7 +376,7 @@ l:
 			goto q;
 		}
 		cout << "Найден фильм:" << endl;
-		cout << setiosflags(ios::left) << setw(27) << "Название" << setw(25) << "Режиссер " << setw(25) << "Сценарист " << setw(25) << "Композитор" << setw(10) << "Сборы" << "Дата выхода в прокат" << endl;
+		cout << setiosflags(ios::left) << setw(25) << "Название" << setw(25) << "Режиссер " << setw(25) << "Сценарист " << setw(25) << "Композитор" << setw(18) << "Сборы(млн. руб)" << "Дата выхода в прокат" << endl;
 		tmp.printconsole();
 		break;
 	case 4://фильмы по режиссеру
