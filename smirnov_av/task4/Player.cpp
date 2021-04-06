@@ -30,7 +30,7 @@ void Player::PrintInFile()
 		}
 	}
 	else
-		throw string("ќшибка открыти¤ файла!");
+		throw string("Ошибка открытия файла!");
 	fout.close();
 }
 
@@ -44,7 +44,7 @@ void Player::GetFromFile()
 	if (fin.is_open())
 	{
 		Song temp;
-		while (fin.eof()) //вместо этого можно использовать !size и убрать проверку на size == 0 ниже
+		while (!fin.eof()) //вместо этого можно использовать !size и убрать проверку на size == 0 ниже
 		{
 			if (size == 0) //из-за того, что печатаю пустую строку через endl, чтобы раздел¤ть песни в файле, getline считывало \n, и eof не наступало, из-за чего создавалс¤ лишний объект
 				break;
@@ -55,7 +55,7 @@ void Player::GetFromFile()
 		fin.close();
 	}
 	else
-		throw string("ќшибка открыти¤ файла!");
+		throw string("Ошибка открытия файла!");
 	
 }
 
@@ -76,12 +76,12 @@ int Player::GetCountSongsInFile()
 		while (!fin.eof())
 		{
 			getline(fin, temp);
-			if (temp == "Ќазвание: ")
+			if (temp == "Название: ")
 				result++;
 		}
 	}
 	else
-		throw string("ќшибка открыти¤ файла!");
+		throw string("Ошибка открытия файла!");
 	return result;
 }
 
@@ -118,7 +118,7 @@ int Player::FindIndSong(string _name, string _executor)
 		if (songList[i].GetName() == _name && songList[i].GetExecutor() == _executor)
 			return i;
 	}
-	throw string("ѕесн¤ не найдена!");
+	throw string("Песня не найдена!");
 }
 
 vector<Song> Player::GetSongsByPoet(string _poet)
@@ -189,7 +189,7 @@ void Player::ChangeSongData(Song& changingSong, string component, string newValu
 	}
 	else
 	{
-		throw string("ќшибка выбора составл¤ющей песни");
+		throw string("Ошибка выбора составляющей песни");
 	}
 }
 
