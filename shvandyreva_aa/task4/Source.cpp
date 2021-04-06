@@ -43,19 +43,16 @@ public:
 		int day, month, year, hour;
 		double temperature;
 		char str[]("Погода.txt");
-		try
+		if (!in.is_open())
 		{
-			if (!in.is_open())
-			{
-				throw str;
-			}
+			throw "Невозможно открыть файл 'Погода.txt'.Создайте его!";
 		}
-		catch (char* str)
-		{
-			cout << "Невозможно открыть файл " << str << ". Создайте его!" << endl;
-			system("pause");
-			exit(1);
-		}
+		//catch (char* str)
+		//{
+		//	cout << "Невозможно открыть файл " << str << ". Создайте его!" << endl;
+		//	system("pause");
+		//	exit(1);
+		//}
 		int i = 1, j = 0;
 		if (in.peek() == EOF)
 		{
@@ -258,16 +255,62 @@ public:
 		}
 		return (sum / days);
 	}
-
 	double averageTemperatureForMonth(int month, int year) //средняя температура за месяц
 	{
 		double sum = 0;
-		for (int d = 1; d <= sizeMonth[month - 1]; d++)
-		{
-			for (int h = 0; h < 24; h++)
-				sum += getTemperature(d, month, year, h);
+		int count = 0;
+		if (referenceDay.month == month && referenceDay.year == year) 
+		{ 
+			for (int d = referenceDay.day; d <= sizeMonth[month - 1];)
+			{
+				if (count == 0) 
+				{
+					for (int k = referenceDay.hour; k <= 24; k++)
+					{
+						sum += getTemperature(referenceDay.day, month, year, k);
+					}
+					count++;
+				}
+				d++;
+				for (int h = 1; h <= 24; h++) 
+				{
+					sum += getTemperature(d, month, year, h);
+				}
+			}
+			double a = (sum / (24*(sizeMonth[month - 1] - referenceDay.day)));
+			return (a);
 		}
-		return (sum / sizeMonth[month - 1]);
+		count = 0;
+		if (referenceDay.month == month && ((referenceDay.year + 1) == year)) 
+		{
+			for (int d = 1; d < referenceDay.day; d++)
+			{
+				if (count == 0) 
+				{
+					//для последнего дня
+					for (int j = 1; j < referenceDay.hour; j++) 
+					{
+						sum += getTemperature(referenceDay.day, month, year, j);
+					}
+					count++;
+				}
+				for (int h = 1; h <= 24; h++) 
+				{
+					sum += getTemperature(d, month, year, h);
+				}
+			}
+			double a = (sum / (24*referenceDay.day));
+			return (a);
+		}
+		else 
+		{
+			for (int d = 1; d <= sizeMonth[month - 1]; d++)
+			{
+				for (int h = 1; h <= 24; h++)
+					sum += getTemperature(d, month, year, h);
+			}
+			return (sum / (24*sizeMonth[month - 1]));
+		}
 	}
 
 	double averageTemperatureForDay(int day, int month, int year) //средняя температура за день
@@ -311,7 +354,16 @@ int main(void)
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 	Thertometer objThertometer("Погода.txt");
-	objThertometer.readFile("Погода.txt");
+	try
+	{
+		objThertometer.readFile("Погода.txt");
+	}
+	catch (char* str)
+	{
+		cout << str << endl;
+		system("pause");
+		return 404;
+	}
 	Observation start = objThertometer.getReferenceDay();
 	cout << "Добро пожаловать в программу 'Термометр'!\nСчитывание из файла происходит при запуске, не забудьте сохранить данные в файл по окончании работы." << endl;
 	if (start.day < 0)
