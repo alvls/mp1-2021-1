@@ -16,84 +16,86 @@ struct Date {
 	unsigned short int day;
 	unsigned short int month;
 	unsigned short int year;
-	Date& operator=(const Date& date) { //присваивания
-		if (this != &date) {
-			day = date.day;
-			month = date.month;
-			year = date.year;
-		}
-		return *this;
-	}
+	Date& operator=(const Date& date);
 	friend ostream& operator<<(ostream& out, const Date& date) {
 		out << date.day << ' ' << date.month << ' ' << date.year;
-		//out << date.day << ' ' << date.month << ' ' << date.year<<endl;
 		return out;
 	}
-	//construct для задания Date
 	Date(int otherDay = 0, int otherMonth = 0, int otherYear = 0) : year(otherYear), month(otherMonth), day(otherDay){ };
 };
-
+Date& Date::operator=(const Date& date) {
+	if (this != &date) {
+		day = date.day;
+		month = date.month;
+		year = date.year;
+	}
+	return *this;
+}
 struct Weight {
 	Date dateInWeight;
 	double weightMember;
-	//сделаем конструкторы для структуры
 	Weight(Date otherDate, double otherWeight) :dateInWeight(otherDate), weightMember(otherWeight) {};
-	Weight& operator=(const Weight& weight) {
-		if (this != &weight) {
-			dateInWeight = weight.dateInWeight;
-			weightMember = weight.weightMember;
-		}
-		return *this;
-	}
+	Weight& operator=(const Weight& weight);
 	friend ostream& operator<<(ostream& out, Weight& weight) {
 		out << weight.dateInWeight.day << ' ' << weight.dateInWeight.month << ' ' << weight.dateInWeight.year << ' ' << weight.weightMember;
 		return out;
 	}
 };
-Date startDateOfObservations;
-struct memberFamily {
-	string name;
-	vector <Weight> numberOfMemberFamily;
-	memberFamily(string nameMember) { name = nameMember; };
-	memberFamily& operator=(const memberFamily& member) {
-		if (this != &member) {
-			numberOfMemberFamily = member.numberOfMemberFamily;
-			name = member.name;
-		}
-		return *this;
+Weight& Weight::operator=(const Weight& weight) {
+	if (this != &weight) {
+		dateInWeight = weight.dateInWeight;
+		weightMember = weight.weightMember;
 	}
-	friend ostream& operator<<(ostream& out, memberFamily& member) {
+	return *this;
+}
+Date startDateOfObservations;
+struct memberOfFamily {
+	string name;
+	vector <Weight> informationAboutWeightDate;
+	memberOfFamily(string nameMember) { name = nameMember; };
+	memberOfFamily& operator=(const memberOfFamily& member);
+	friend ostream& operator<<(ostream& out, memberOfFamily& member) {
 		out << member.name << endl;
-		for (unsigned int i = 0; i < member.numberOfMemberFamily.size(); i++) {
-			out << member.numberOfMemberFamily[i] << endl;
+		for (unsigned int i = 0; i < member.informationAboutWeightDate.size(); i++) {
+			out << member.informationAboutWeightDate[i] << endl;
 		}
 		return out;
 	}
-	void Observation(unsigned short int otherDay, unsigned short int  otherMonth, unsigned short int otherYear, double otherWeight) {
-		if (searchMember(otherDay, otherMonth, otherYear) == false) {
+	void Observation(unsigned short int otherDay, unsigned short int  otherMonth, unsigned short int otherYear, double otherWeight);
+	int searchMember(unsigned short int otherDay, unsigned short int  otherMonth, unsigned short int otherYear);
+};
+memberOfFamily& memberOfFamily::operator=(const memberOfFamily& member) {
+	if (this != &member) {
+		informationAboutWeightDate = member.informationAboutWeightDate;
+		name = member.name;
+	}
+	return *this;
+
+}
+int memberOfFamily::searchMember(unsigned short int otherDay, unsigned short int otherMonth, unsigned short int otherYear) {
+	for (unsigned int j = 0; j < informationAboutWeightDate.size(); j++) {
+		if (informationAboutWeightDate[j].dateInWeight.day == otherDay
+			&& informationAboutWeightDate[j].dateInWeight.month == otherMonth && informationAboutWeightDate[j].dateInWeight.year == otherYear) {
+			return j;
+		}
+	}
+	return false;
+}
+void memberOfFamily::Observation(unsigned short int otherDay, unsigned short int otherMonth, unsigned short int otherYear, double otherWeight) {
+		unsigned int checkSearchMember = searchMember(otherDay, otherMonth, otherYear);
+		if (checkSearchMember == false) {
 			Date date(otherDay, otherMonth, otherYear);
 			Weight weight(date, otherWeight);
-			numberOfMemberFamily.push_back(weight); //пуляем в конец вектора
+			informationAboutWeightDate.push_back(weight); //пуляем в конец вектора
 		}
-		else { numberOfMemberFamily[searchMember(otherDay, otherMonth, otherYear)].weightMember = otherWeight; }
-	}
-	int searchMember(unsigned short int otherDay, unsigned short int  otherMonth, unsigned short int otherYear) { //если такое уже есть то возвращаем номер члена семьи, иначе ложь
-		for (unsigned int j = 0; j < numberOfMemberFamily.size(); j++) {
-			if (numberOfMemberFamily[j].dateInWeight.day == otherDay\
-				&& numberOfMemberFamily[j].dateInWeight.month == otherMonth && numberOfMemberFamily[j].dateInWeight.year == otherYear) {
-				return j;
-			}
-		}
-		return false;
-	}
-};
+		else { informationAboutWeightDate[checkSearchMember].weightMember = otherWeight; }
+}
 class floorScales { //класс напольные весы
 private:
-	vector <memberFamily> Scale;
+	vector <memberOfFamily> Scale;
 public:
-
 	floorScales() {};
-	floorScales(vector <memberFamily> other) { Scale = other; }
+	floorScales(vector <memberOfFamily> other) { Scale = other; }
 	floorScales(string filename);
 	void setNameMember(string nameMember);
 	void setTheStartDateOfObservations(unsigned short int day, unsigned short int month, unsigned short int year);
@@ -113,7 +115,7 @@ public:
 	void saveFile();
 };
 void floorScales::setNameMember(string nameMember) {
-	memberFamily newMember(nameMember);
+	memberOfFamily newMember(nameMember);
 	//помещаем в конец вектора структуру с новым именем
 	Scale.push_back(newMember);
 }
@@ -159,7 +161,8 @@ int main() {
 		case 3: {
 			cout << "Начальная дата наблюдений: " << endl;
 			cout << Scale.getTheStartDateOfObservations() << endl;
-			break; }
+			break;
+		}
 		case 4: {
 			unsigned short int day, month, year;
 			if (((startDateOfObservations.day == 0 && startDateOfObservations.month == 0) && startDateOfObservations.year == 0)) { cout << "Задайте сначала начальную дату наблюдений." << endl; }
@@ -173,7 +176,7 @@ int main() {
 				cin >> month;
 				cout << "Введите год: ";
 				cin >> year;
-				if ((year < startDateOfObservations.year) || (year == startDateOfObservations.year) && (month < startDateOfObservations.month)\
+				if ((year < startDateOfObservations.year) || (year == startDateOfObservations.year) && (month < startDateOfObservations.month)
 					|| (year == startDateOfObservations.year) && (month == startDateOfObservations.month) && (day < startDateOfObservations.day)) {
 					cout << "Введенная дата раньше начала наблюдений." << endl;
 				}
@@ -184,7 +187,8 @@ int main() {
 					Scale.setObservation(day, month, year, weight, nameMember);
 				}
 			}
-			break; }
+			break;
+		}
 		case 5: {
 			unsigned short int day, month, year;
 			cout << "А сейчас узнаем вес у пользователя в выбранную дату" << endl;
@@ -196,7 +200,7 @@ int main() {
 			cin >> month;
 			cout << "год: ";
 			cin >> year;
-			cout <<"Вес в выбранную дату: "<< Scale.getObservation(day, month, year, nameMember) << " кг." <<endl;
+			cout << "Вес в выбранную дату: " << Scale.getObservation(day, month, year, nameMember) << " кг." << endl;
 			break;
 		}
 		case 6: {
@@ -258,8 +262,7 @@ int main() {
 			cout << "2. В выбранном месяце" << endl;
 			cin >> choice;
 			switch (choice) {
-			case 1:
-			{
+			case 1: {
 				cout << "Максимальный вес за все время наблюдений: " << Scale.getMaximumWeightOfFamilyMember(nameMember) << endl;
 				Scale.printDateOfMaximumWeightOfFamilyMember(nameMember);
 				break;
@@ -274,7 +277,6 @@ int main() {
 				break;
 			}
 			}
-
 			break;
 		}
 		case 9: {
@@ -286,10 +288,10 @@ int main() {
 			else cout << "Файл очищен, перезапустите программу!" << endl;
 			break;
 		}
-		case 11:
-			cout << "До встречи!"<< endl;
+		case 11: {
+			cout << "До встречи!" << endl;
 			return 0;
-
+		}
 		}
 	}
 }
@@ -309,19 +311,13 @@ floorScales::floorScales(string filename) {
 	while (getline(in, line)) {
 		istringstream ist(line);
 		if (countString == 0) {
-			if (((startDateOfObservations.day == 0 && \
-				startDateOfObservations.month == 0) && \
+			if (((startDateOfObservations.day == 0 &&
+				startDateOfObservations.month == 0) &&
 				startDateOfObservations.year == 0)) {
-				//cout << "Запишем дату наблюдений\n";
-				//istringstream ist(line);
 				ist >> str1;
-				//cout << "str1 " << str1 << endl;
 				ist >> str2;
-				//cout << "str2 " << str2 << endl;
 				ist >> str3;
-				//cout << "str3 " << str3 << endl;
 				ist >> str4;
-				//cout << "str4 " << str4 << endl;
 				ist >> startDay;
 				ist >> startMonth;
 				ist >> startYear;
@@ -329,7 +325,6 @@ floorScales::floorScales(string filename) {
 				startDateOfObservations.month = startMonth;
 				startDateOfObservations.year = startYear;
 			}
-			//if (in.peek() == EOF) { cout << "Файл пустой.\n"; } 
 		}
 		if (countString > 0) {
 			ist >> name;
@@ -337,7 +332,7 @@ floorScales::floorScales(string filename) {
 			ist >> month;
 			ist >> year;
 			ist >> weight;
-			memberFamily newMember(name);
+			memberOfFamily newMember(name);
 			//помещаем в конец вектора структуру с новым именем
 			Scale.push_back(newMember);
 			for (int i = 0; i < Scale.size(); i++) {
@@ -364,11 +359,11 @@ double floorScales::getObservation(unsigned short int day, unsigned short int mo
 	if (Scale.size() > 0) { // чтобы хоть что-то было
 		for (unsigned int i = 0; i < Scale.size(); i++) {
 			if (Scale[i].name == nameMember) {
-				//cout << "Число взвешиваний у члена семьи: " << Scale[i].numberOfMemberFamily.size() << endl; //для отладки
-				for (int j = 0; j < Scale[i].numberOfMemberFamily.size(); j++)
-					if (((Scale[i].numberOfMemberFamily[j].dateInWeight.month == month) && (Scale[i].numberOfMemberFamily[j].dateInWeight.year == year)\
-						&& (Scale[i].numberOfMemberFamily[j].dateInWeight.day == day))) {
-						return Scale[i].numberOfMemberFamily[j].weightMember;
+				//cout << "Число взвешиваний у члена семьи: " << Scale[i].informationAboutWeightDate.size() << endl; //для отладки
+				for (int j = 0; j < Scale[i].informationAboutWeightDate.size(); j++)
+					if (((Scale[i].informationAboutWeightDate[j].dateInWeight.month == month) && (Scale[i].informationAboutWeightDate[j].dateInWeight.year == year)
+						&& (Scale[i].informationAboutWeightDate[j].dateInWeight.day == day))) {
+						return Scale[i].informationAboutWeightDate[j].weightMember;
 					}
 
 			}
@@ -382,8 +377,8 @@ double floorScales::getAverageWeightOfFamilyMember(string nameMember) {
 	int countingMeasurement = 0;
 	for (unsigned int i = 0; i < Scale.size(); i++) {
 		if (Scale[i].name == nameMember) {
-			for (unsigned int j = 0; j < Scale[i].numberOfMemberFamily.size(); j++) {
-				averageMeasurement += Scale[i].numberOfMemberFamily[j].weightMember;
+			for (unsigned int j = 0; j < Scale[i].informationAboutWeightDate.size(); j++) {
+				averageMeasurement += Scale[i].informationAboutWeightDate[j].weightMember;
 				countingMeasurement++;
 			}
 
@@ -399,9 +394,9 @@ double floorScales::getAverageWeightOfFamilyMember(string otherNameMember, unsig
 	int countingMeasurement = 0;
 	for (unsigned int i = 0; i < Scale.size(); i++) {
 		if (Scale[i].name == otherNameMember) {
-			for (unsigned int j = 0; j < Scale[i].numberOfMemberFamily.size(); j++) {
-				if ((Scale[i].numberOfMemberFamily[j].dateInWeight.month == otherMonth) && (Scale[i].numberOfMemberFamily[j].dateInWeight.year == otherYear)) {
-					averageMeasurement += Scale[i].numberOfMemberFamily[j].weightMember;
+			for (unsigned int j = 0; j < Scale[i].informationAboutWeightDate.size(); j++) {
+				if ((Scale[i].informationAboutWeightDate[j].dateInWeight.month == otherMonth) && (Scale[i].informationAboutWeightDate[j].dateInWeight.year == otherYear)) {
+					averageMeasurement += Scale[i].informationAboutWeightDate[j].weightMember;
 					countingMeasurement++;
 				}
 			}
@@ -415,9 +410,9 @@ double floorScales::getMinimumWeightOfFamilyMember(string nameMember) {
 	double min = 200;// пусть весы будут до 200 кг
 	for (unsigned int i = 0; i < Scale.size(); i++) {
 		if (Scale[i].name == nameMember) {
-			for (unsigned int j = 0; j < Scale[i].numberOfMemberFamily.size(); j++) {
-				if (Scale[i].numberOfMemberFamily[j].weightMember < min) {
-					min = Scale[i].numberOfMemberFamily[j].weightMember;
+			for (unsigned int j = 0; j < Scale[i].informationAboutWeightDate.size(); j++) {
+				if (Scale[i].informationAboutWeightDate[j].weightMember < min) {
+					min = Scale[i].informationAboutWeightDate[j].weightMember;
 					return min;
 				}
 			}
@@ -431,9 +426,9 @@ double floorScales::getMinimumWeightOfFamilyMember(string otherNameMember, unsig
 	double min = 1000;
 	for (unsigned int i = 0; i < Scale.size(); i++) {
 		if (Scale[i].name == otherNameMember) {
-			for (unsigned int j = 0; j < Scale[i].numberOfMemberFamily.size(); j++) {
-				if ((Scale[i].numberOfMemberFamily[j].dateInWeight.month == otherMonth) && (Scale[i].numberOfMemberFamily[j].dateInWeight.year == otherYear)) {
-					if (Scale[i].numberOfMemberFamily[j].weightMember < min) { min = Scale[i].numberOfMemberFamily[j].weightMember; }
+			for (unsigned int j = 0; j < Scale[i].informationAboutWeightDate.size(); j++) {
+				if ((Scale[i].informationAboutWeightDate[j].dateInWeight.month == otherMonth) && (Scale[i].informationAboutWeightDate[j].dateInWeight.year == otherYear)) {
+					if (Scale[i].informationAboutWeightDate[j].weightMember < min) { min = Scale[i].informationAboutWeightDate[j].weightMember; }
 				}
 			}
 		}
@@ -445,8 +440,8 @@ double floorScales::getMaximumWeightOfFamilyMember(string nameMember) {
 	double max = 0; // ну и соотвественно с 0
 	for (unsigned int i = 0; i < Scale.size(); i++) {
 		if (Scale[i].name == nameMember) {
-			for (unsigned int j = 0; j < Scale[i].numberOfMemberFamily.size(); j++) {
-				if (Scale[i].numberOfMemberFamily[j].weightMember > max) { max = Scale[i].numberOfMemberFamily[j].weightMember; }
+			for (unsigned int j = 0; j < Scale[i].informationAboutWeightDate.size(); j++) {
+				if (Scale[i].informationAboutWeightDate[j].weightMember > max) { max = Scale[i].informationAboutWeightDate[j].weightMember; }
 			}
 		}
 	}
@@ -457,9 +452,9 @@ double floorScales::getMaximumWeightOfFamilyMember(string otherNameMember, unsig
 	double max = 0;
 	for (unsigned int i = 0; i < Scale.size(); i++) {
 		if (Scale[i].name == otherNameMember) {
-			for (unsigned int j = 0; j < Scale[i].numberOfMemberFamily.size(); j++) {
-				if ((Scale[i].numberOfMemberFamily[j].dateInWeight.month == otherMonth) && (Scale[i].numberOfMemberFamily[j].dateInWeight.year == otherYear)) {
-					if (Scale[i].numberOfMemberFamily[j].weightMember > max) { max = Scale[i].numberOfMemberFamily[j].weightMember; }
+			for (unsigned int j = 0; j < Scale[i].informationAboutWeightDate.size(); j++) {
+				if ((Scale[i].informationAboutWeightDate[j].dateInWeight.month == otherMonth) && (Scale[i].informationAboutWeightDate[j].dateInWeight.year == otherYear)) {
+					if (Scale[i].informationAboutWeightDate[j].weightMember > max) { max = Scale[i].informationAboutWeightDate[j].weightMember; }
 				}
 			}
 		}
@@ -472,12 +467,12 @@ void floorScales::printDateOfMinimumWeightOfFamilyMember(string nameMember) {
 	int x = -1, y = -1;
 	for (unsigned int i = 0; i < Scale.size(); i++) {
 		if (Scale[i].name == nameMember) {
-			for (unsigned int j = 0; j < Scale[i].numberOfMemberFamily.size(); j++) {
-				if (Scale[i].numberOfMemberFamily[j].weightMember < min) { min = Scale[i].numberOfMemberFamily[j].weightMember; x = i; y = j; }
+			for (unsigned int j = 0; j < Scale[i].informationAboutWeightDate.size(); j++) {
+				if (Scale[i].informationAboutWeightDate[j].weightMember < min) { min = Scale[i].informationAboutWeightDate[j].weightMember; x = i; y = j; }
 			}
 		}
 	}
-	cout << "Дата этого наблюдения: " << Scale[x].numberOfMemberFamily[y].dateInWeight << endl;
+	cout << "Дата этого наблюдения: " << Scale[x].informationAboutWeightDate[y].dateInWeight << endl;
 }
 
 void floorScales::printDateOfMinimumWeightOfFamilyMember(string otherNameMember, unsigned short int otherMonth, unsigned short int otherYear) {
@@ -485,14 +480,14 @@ void floorScales::printDateOfMinimumWeightOfFamilyMember(string otherNameMember,
 	int x = -1; int y = -1;
 	for (unsigned int i = 0; i < Scale.size(); i++) {
 		if (Scale[i].name == otherNameMember) {
-			for (unsigned int j = 0; j < Scale[i].numberOfMemberFamily.size(); j++) {
-				if ((Scale[i].numberOfMemberFamily[j].dateInWeight.month == otherMonth) && (Scale[i].numberOfMemberFamily[j].dateInWeight.year == otherYear)) {
-					if (Scale[i].numberOfMemberFamily[j].weightMember < min) { min = Scale[i].numberOfMemberFamily[j].weightMember; x = i; y = j; }
+			for (unsigned int j = 0; j < Scale[i].informationAboutWeightDate.size(); j++) {
+				if ((Scale[i].informationAboutWeightDate[j].dateInWeight.month == otherMonth) && (Scale[i].informationAboutWeightDate[j].dateInWeight.year == otherYear)) {
+					if (Scale[i].informationAboutWeightDate[j].weightMember < min) { min = Scale[i].informationAboutWeightDate[j].weightMember; x = i; y = j; }
 				}
 			}
 		}
 	}
-	cout << "Дата этого наблюдения: " << Scale[x].numberOfMemberFamily[y].dateInWeight << endl;
+	cout << "Дата этого наблюдения: " << Scale[x].informationAboutWeightDate[y].dateInWeight << endl;
 }
 
 void floorScales::printDateOfMaximumWeightOfFamilyMember(string nameMember) {
@@ -500,12 +495,12 @@ void floorScales::printDateOfMaximumWeightOfFamilyMember(string nameMember) {
 	int x = -1; int y = -1;
 	for (unsigned int i = 0; i < Scale.size(); i++) {
 		if (Scale[i].name == nameMember) {
-			for (unsigned int j = 0; j < Scale[i].numberOfMemberFamily.size(); j++) {
-				if (Scale[i].numberOfMemberFamily[j].weightMember > max) { max = Scale[i].numberOfMemberFamily[j].weightMember; x = i; y = j; }
+			for (unsigned int j = 0; j < Scale[i].informationAboutWeightDate.size(); j++) {
+				if (Scale[i].informationAboutWeightDate[j].weightMember > max) { max = Scale[i].informationAboutWeightDate[j].weightMember; x = i; y = j; }
 			}
 		}
 	}
-	cout << "Дата этого наблюдения: " << Scale[x].numberOfMemberFamily[y].dateInWeight << endl;
+	cout << "Дата этого наблюдения: " << Scale[x].informationAboutWeightDate[y].dateInWeight << endl;
 }
 
 void floorScales::printDateOfMaximumWeightOfFamilyMember(string otherNameMember, unsigned short int otherMonth, unsigned short int otherYear) {
@@ -513,14 +508,14 @@ void floorScales::printDateOfMaximumWeightOfFamilyMember(string otherNameMember,
 	int x = -1; int y = -1;
 	for (unsigned int i = 0; i < Scale.size(); i++) {
 		if (Scale[i].name == otherNameMember) {
-			for (unsigned int j = 0; j < Scale[i].numberOfMemberFamily.size(); j++) {
-				if ((Scale[i].numberOfMemberFamily[j].dateInWeight.month == otherMonth) && (Scale[i].numberOfMemberFamily[j].dateInWeight.year == otherYear)) {
-					if (Scale[i].numberOfMemberFamily[j].weightMember > max) { max = Scale[i].numberOfMemberFamily[j].weightMember; x = i; y = j; }
+			for (unsigned int j = 0; j < Scale[i].informationAboutWeightDate.size(); j++) {
+				if ((Scale[i].informationAboutWeightDate[j].dateInWeight.month == otherMonth) && (Scale[i].informationAboutWeightDate[j].dateInWeight.year == otherYear)) {
+					if (Scale[i].informationAboutWeightDate[j].weightMember > max) { max = Scale[i].informationAboutWeightDate[j].weightMember; x = i; y = j; }
 				}
 			}
 		}
 	}
-	cout << "Дата этого наблюдения: " << Scale[x].numberOfMemberFamily[y].dateInWeight << endl;
+	cout << "Дата этого наблюдения: " << Scale[x].informationAboutWeightDate[y].dateInWeight << endl;
 }
 
 
@@ -537,8 +532,8 @@ void floorScales::saveFile() {
 	}
 	file << "Задана начальная дата наблюдений: " << " " << startDateOfObservations << endl;
 	for (unsigned int i = 0; i < Scale.size(); i++) {
-		for (unsigned int j = 0; j < Scale[i].numberOfMemberFamily.size(); j++) {
-			file << Scale[i].name << " " << Scale[i].numberOfMemberFamily[j] << endl;
+		for (unsigned int j = 0; j < Scale[i].informationAboutWeightDate.size(); j++) {
+			file << Scale[i].name << " " << Scale[i].informationAboutWeightDate[j] << endl;
 		}
 	}
 	file.close();
@@ -558,7 +553,9 @@ void printMenu() {
 	cout << "11. Выход" << endl;
 }
 
-void welcomeMessege(){
-	cout <<"Добро пожаловать в программу <Весы напольные>."<< endl;
+void welcomeMessege() {
+	cout << "Добро пожаловать в программу <Весы напольные>." << endl;
 	cout << "Считывание из файла происходит при запуске программы, не забудьте сохранить данные в файл по окончании работы." << endl;
 }
+
+
