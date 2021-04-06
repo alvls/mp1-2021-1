@@ -151,19 +151,19 @@ bool contact:: operator==(const contact& other)
 }
 bool contact::operator>(const contact& other)
 {
-	if (surname > other.surname)
+	if (surname < other.surname)
 		return true;
 	else
-		if (surname < other.surname)
+		if (surname > other.surname)
 			return false;
 		else
-			if (name > other.name)
+			if (name < other.name)
 				return true;
 			else
-				if (name < other.name)
+				if (name > other.name)
 					return false;
 				else
-					if (patronymic > other.patronymic)
+					if (patronymic < other.patronymic)
 						return true;
 					else
 						return false;
@@ -201,10 +201,10 @@ ostream& operator<<(ostream& place, const contact& c)
 istream& operator>>(istream& place, contact& c)
 {
 	char ch;
-	place >> ch;
+	place.get();
 	getline(place, c.surname);
 	getline(place, c.name);
-	getline(place, c.name);
+	getline(place, c.patronymic);
 	for (int i = 0; i < number; i++)
 		place >> c.phone[i];
 	for (int i = 0; i < date; i++)
@@ -283,14 +283,15 @@ class List
 {
 	int k;
 	vector <contact> man;
-	void contact_menu(contact& c, const int nomer);
+	int contact_menu(contact& c, const int nomer);
 	bool check(const contact& c);
 	int sort(int num);
+	int _new(contact extra);
+	void _delete(int i);
 public:
 	List(int _k = 0) :k(_k)
 	{
-		//contact tmp;
-		//man.push_back(tmp);
+
 	}
 	~List()
 	{
@@ -298,8 +299,6 @@ public:
 		man.clear();
 	}
 	//Создаёт новый контакт +
-	void _new(contact extra);
-	void _delete(int i);
 	//Вывести число контактов +
 	int getk()
 	{
@@ -316,30 +315,33 @@ public:
 	void getlist();//получить данне из файла
 
 	bool find_word(const char ch);// найти контакты на заданную букву
-	int  find_fio(const string* fio);// найти контакт по фио (полное совпадение)
+	int find_fio(const string* fio);// найти контакт по фио (полное совпадение)
 	bool find_phone(const char* phone_num);
-	void menu();
+	void menu(bool isbasic);
 	bool exitmenu();
 };
 bool List::find_word(const char ch)
 {
 	bool found = false;
+	List list_word;
 	for (int i = 0; i < k; i++)
 		if (man[i].surname[0] == ch || man[i].name[0] == ch || man[i].patronymic[0] == ch)
 		{
 			found = true;
-			man[i].usualprintc(i);
+			list_word._new(man[i]);
 		}
+	list_word.menu(false);
 	return found;
 }
 int List::find_fio(const string* fio)
 {
 	int i;
-	for (i = 0; i < k; i++)
-		if (fio[0] == man[i].surname)
-			if (fio[1] == man[i].name)
-				if (fio[2] == man[i].patronymic)
-					return i;
+	for(i=0;i<k;i++)
+		if (fio[0] == man[i].surname && fio[1] == man[i].name && fio[2] == man[i].patronymic)
+		{			
+			return i;
+			break;
+		}
 	if (i == k)
 		return -1;
 }
@@ -347,6 +349,8 @@ bool List::find_phone(const char* phone_num)
 {
 	int i, j;
 	bool found = false;
+	int count = 0;
+	List list_phone;
 	for (i = 0; i < k; i++)
 		for (j = 0; j < number; j++)
 			if (man[i].phone[j] != phone_num[j])
@@ -356,12 +360,13 @@ bool List::find_phone(const char* phone_num)
 			else
 				if ((j == number - 1) && man[i].phone[j] == phone_num[j])
 				{
-					man[i].usualprintc(i);
+					list_phone._new(man[i]);
 					found = true;
 				}
+	list_phone.menu(false);
 	return found;
 }
-void List::_new(contact extra)
+int List::_new(contact extra)
 {
 	k++;
 	int i;
@@ -371,6 +376,7 @@ void List::_new(contact extra)
 			break;
 	}
 	man.insert(man.begin() + i, extra);
+	return i;
 }
 void List::_delete(int i)
 {
@@ -384,7 +390,7 @@ void List::_delete(int i)
 		tmp[j] = man[m];
 	man = tmp;
 }
-void List::contact_menu(contact& c, int nomer)
+int List::contact_menu(contact& c, int nomer)
 {
 	bool repeat = true;
 	bool badsymb = true;
@@ -460,7 +466,7 @@ void List::contact_menu(contact& c, int nomer)
 				break;
 			case esc:
 				system("cls");
-				return;
+				return nomer;
 			case _n:
 				switch (pointer)
 				{
@@ -469,14 +475,20 @@ void List::contact_menu(contact& c, int nomer)
 					if (pointer == 0)
 						setstr(new_c.surname);
 					else
-						if (input == 1)
+						if (pointer == 1)
 							setstr(new_c.name);
 						else
 							setstr(new_c.patronymic);
 					if (check(new_c))
 					{
-						c = new_c;
-						nomer = sort(nomer);
+						string sssr[3];
+						sssr[0] = c.surname;
+						sssr[1] = c.name;
+						sssr[2] = c.patronymic;
+						_delete(find_fio(sssr));
+						nomer = _new(new_c);
+						contact_menu(man[nomer], nomer);
+						return nomer;
 					}
 					else
 					{
@@ -511,7 +523,7 @@ void List::contact_menu(contact& c, int nomer)
 					{
 						_delete(nomer);
 						cout << "Номер удалён\n";
-						return;
+						return nomer - 1;
 					}
 					else
 						badsymb = false;
@@ -521,6 +533,7 @@ void List::contact_menu(contact& c, int nomer)
 			}
 		}
 	} while (repeat);
+	return nomer;
 }
 int List::sort(int num)
 {
@@ -562,36 +575,32 @@ int List::sort(int num)
 	tmp.clear();
 	return num;
 }
-void List::menu()
+void List::menu(bool isbasic)
 {
 	ifstream fin;//
-	fin.open("list.txt");
 	char word;
-	if (fin.is_open())
+	if (isbasic)
 	{
-		contact in;
-		fin >> k;
-		for (int i = 0; i < k; i++)
-			if (!fin.eof())
-			{
-				fin >> in;
-				man.push_back(in);
-			}
+		fin.open("list.txt");
+		if (fin.is_open())
+		{
+			contact in;
+			fin >> k;
+			for (int i = 0; i < k; i++)
+				if (!fin.eof())
+				{
+					fin >> in;
+					man.push_back(in);
+				}
+		}
+		fin.close();
 	}
-	fin.close();
+	string s_[3];
+	char ph_[number];
 	contact extra;
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, (WORD)((LIGHTGREEN << 4) | YELLOW));
 	system("cls");
-	cout << "УБЕДИТЕСЬ, ЧТО У ВАС НА КЛАВИАТУРЕ СЕЙЧАС РУССКАЯ РАСКЛАДКА" << endl;
-	cout << "Полезные клавиши:" << endl;
-	cout << "Поиск контакта по ФИО: 0" << endl;
-	string s_[3];
-	cout << "Поиск контакта по номеру телефона: 1" << endl;
-	char ph_[number];
-	cout << "Поиск контактов по букве: 2" << endl;
-	cout << "Добавить новый контакт: +" << endl;
-	system("pause");
 	int i;
 	int pointer = 0;
 	int c;
@@ -639,13 +648,16 @@ void List::menu()
 				notnorm = false;
 				break;
 			case _n:
-				contact_menu(man[pointer], pointer);
+				pointer = contact_menu(man[pointer], pointer);
 				notnorm = false;
 				break;
 			case esc:
-				repeat = exitmenu();
-				if (!repeat)
-				{
+				if (isbasic)
+					repeat = exitmenu();
+				else
+					return;
+				if ((!repeat) && isbasic)
+				{					
 					ofstream fout;
 					fout.open("list.txt");
 					fout << k << endl;
@@ -817,8 +829,15 @@ int main()
 	setlocale(LC_ALL, "Russian");
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
+	system("color AE");
 	List list;
-	list.menu();
-	cout << "\n";
+	cout << "УБЕДИТЕСЬ, ЧТО У ВАС НА КЛАВИАТУРЕ СЕЙЧАС РУССКАЯ РАСКЛАДКА" << endl;
+	cout << "Полезные клавиши:" << endl;
+	cout << "Поиск контакта по ФИО: 0" << endl;
+	cout << "Поиск контакта по номеру телефона: 1" << endl;
+	cout << "Поиск контактов по букве: 2" << endl;
+	cout << "Добавить новый контакт: +" << endl;
+	system("pause");
+	list.menu(true);
 	system("pause");
 }
