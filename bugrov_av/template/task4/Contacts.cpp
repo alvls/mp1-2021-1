@@ -126,28 +126,10 @@ bool contact::operator!=(const contact& other)
 }
 bool contact:: operator==(const contact& other)
 {
-	bool ans = true;
 	if (name == other.name && surname == other.surname && patronymic == other.patronymic)
-	{
-		/*for (int i = 0; i < number; i++)
-		{
-			if (phone[i] != other.phone[i])
-			{
-				ans = false;
-				break;
-			}
-		}
-		for (int i = 0; i < date && ans; i++)
-		{
-			if(birth[i]!=other.birth[i])
-			{
-				ans = false;
-				break;
-			}
-		}*/
-		return ans;
-	}
-	return false;
+		return true;
+	else
+		return false;
 }
 bool contact::operator>(const contact& other)
 {
@@ -285,9 +267,12 @@ class List
 	vector <contact> man;
 	int contact_menu(contact& c, const int nomer);
 	bool check(const contact& c);
-	int sort(int num);
 	int _new(contact extra);
 	void _delete(int i);
+	bool find_word(const char ch);// найти контакты на заданную букву
+	int find_fio(const string* fio);// найти контакт по фио (полное совпадение)
+	bool find_phone(const char* phone_num);
+	bool exitmenu();
 public:
 	List(int _k = 0) :k(_k)
 	{
@@ -298,27 +283,7 @@ public:
 		k = 0;
 		man.clear();
 	}
-	//Создаёт новый контакт +
-	//Вывести число контактов +
-	int getk()
-	{
-		return k;
-	}
-	//Вывести все избранные контакты
-	void getfav()
-	{
-		for (int i = 0; i < k; i++)
-			if (man[i].favorite)
-				man[i].specialprintc(i);
-	}
-	void setlist();//вывести данные в файл
-	void getlist();//получить данне из файла
-
-	bool find_word(const char ch);// найти контакты на заданную букву
-	int find_fio(const string* fio);// найти контакт по фио (полное совпадение)
-	bool find_phone(const char* phone_num);
 	void menu(bool isbasic);
-	bool exitmenu();
 };
 bool List::find_word(const char ch)
 {
@@ -443,7 +408,6 @@ int List::contact_menu(contact& c, int nomer)
 			for (i = pointer + 1; i < maxlist; i++)
 				cout << menu_list[i];
 		}
-		string str;
 		contact new_c = c;
 		while (badsymb)
 		{
@@ -522,7 +486,6 @@ int List::contact_menu(contact& c, int nomer)
 					if (!(ans = _getch() - '0'))
 					{
 						_delete(nomer);
-						cout << "Номер удалён\n";
 						return nomer - 1;
 					}
 					else
@@ -535,49 +498,9 @@ int List::contact_menu(contact& c, int nomer)
 	} while (repeat);
 	return nomer;
 }
-int List::sort(int num)
-{
-	int i;
-	vector <contact> tmp(k);
-	for (i = 0; i < k; i++)
-		if (man[i] > man[num])
-			tmp[i] = man[i];
-		else
-			if (man[i] == man[num])
-			{
-				for (int j = i + 1; j < k; j++, i++)
-				{
-					if (man[i] > man[num])
-						tmp[i] = man[j];
-					else
-					{
-						tmp[i] = man[num];
-						num = i;
-						i++;
-						for (i; i < k; i++)
-							tmp[i] = man[i];
-						break;
-					}
-				}
-				break;
-			}
-			else
-			{
-				int j = i + 1;
-				tmp[j] = man[num];
-				for (i; i < k; i++, j++)
-					if (man[i] != man[num])
-						tmp[j] = man[i];
-					else
-						i++;
-			}
-	man = tmp;
-	tmp.clear();
-	return num;
-}
 void List::menu(bool isbasic)
 {
-	ifstream fin;//
+	ifstream fin;
 	char word;
 	if (isbasic)
 	{
@@ -606,8 +529,6 @@ void List::menu(bool isbasic)
 	int c;
 	bool repeat = true;
 	bool notnorm;
-	const char arrow = 17;
-	char like = 3;
 	const int out = 27;
 	int screen = 0;
 	do
@@ -624,7 +545,7 @@ void List::menu(bool isbasic)
 				man[i].usualprintc(i);
 			SetConsoleTextAttribute(hConsole, (WORD)((LIGHTGREEN << 4) | YELLOW));
 		}
-		cout << " Общее число контактов: " << getk() << ". Если контактов больше " << out - 1 << ", можете переходить между страницами влево и вправо" << endl;
+		cout << " Общее число контактов: " << k << ". Если контактов больше " << out - 1 << ", можете переходить между страницами влево и вправо" << endl;
 		while (notnorm)
 		{
 			c = _getch();
@@ -709,7 +630,13 @@ void List::menu(bool isbasic)
 				setstr(extra.name);
 				cout << "Отчество:" << endl;
 				setstr(extra.patronymic);
-				_new(extra);
+				if (check(extra))
+					_new(extra);
+				else
+				{
+					fio_err();
+					_getch();
+				}
 				notnorm = false;
 				break;
 			case '0':				
@@ -758,13 +685,9 @@ void List::menu(bool isbasic)
 }
 bool List::check(const contact& c)//возвращает true, если всё хорошо
 {
-	int j = 0;
 	for (int i = 0; i < k; i++)
 		if (man[i] == c)
-			if (j < 1)
-				j++;
-			else
-				return false;
+			return false;
 	return true;
 }
 bool List::exitmenu()
