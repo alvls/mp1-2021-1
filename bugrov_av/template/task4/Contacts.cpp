@@ -181,7 +181,6 @@ contact& contact::operator=(const contact& other)
 	favorite = other.favorite;
 	return *this;
 }
-////////////////////////////////////////////////
 ostream& operator<<(ostream& place, const contact& c)
 {
 	// Достаточно вывести данные, понятные только программе
@@ -208,10 +207,8 @@ istream& operator>>(istream& place, contact& c)
 	getline(place, c.name);
 	for (int i = 0; i < number; i++)
 		place >> c.phone[i];
-	//place >> ch;
 	for (int i = 0; i < date; i++)
 		place >> c.birth[i];
-	//place >> ch;
 	place >> ch;
 	if (ch == '1')
 		c.favorite = true;
@@ -219,7 +216,6 @@ istream& operator>>(istream& place, contact& c)
 		c.favorite = false;
 	return place;
 }
-/////////////////////////////////////////////////////////
 void contact::usualprintc(int i)
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -282,8 +278,6 @@ void setstr(string& s)
 			break;
 		s.push_back(get);
 	}
-	cout << s;
-	system("pause");
 }
 class List
 {
@@ -370,18 +364,13 @@ bool List::find_phone(const char* phone_num)
 void List::_new(contact extra)
 {
 	k++;
-	vector<contact> ext_vec(k);
-	int i = 0;
-	while ((ext_vec[i] = man[i]) > extra)
-		i++;
-	ext_vec[i] = extra;
-	i++;
-	int j = i - 1;
-	for (i; i < k; i++, j++)
+	int i;
+	for (i = 0; i < k - 1; i++)
 	{
-		ext_vec[i] = man[j];
+		if (extra > man[i])
+			break;
 	}
-	man = ext_vec;
+	man.insert(man.begin() + i, extra);
 }
 void List::_delete(int i)
 {
@@ -575,14 +564,13 @@ int List::sort(int num)
 }
 void List::menu()
 {
-	ifstream fin;//("list.txt");
+	ifstream fin;//
 	fin.open("list.txt");
 	char word;
 	if (fin.is_open())
 	{
 		contact in;
 		fin >> k;
-		fin >> word;
 		for (int i = 0; i < k; i++)
 			if (!fin.eof())
 			{
@@ -721,6 +709,7 @@ void List::menu()
 				cout << "Отчество:" << endl;
 				setstr(s_[2]);
 				i = find_fio(s_);
+				cout << endl;
 				if (i > 0)
 					man[i].usualprintc();
 				else
@@ -735,9 +724,10 @@ void List::menu()
 					;
 				cout << "+";
 				getnums(ph_, 1, number);
+				cout << endl;
 				if (!find_phone(ph_))
 					cout << "Поиск не дал результатов" << endl;
-				word=_getch();
+				word = _getch();
 				notnorm = false;
 				break;
 			case '2':
@@ -785,7 +775,7 @@ bool List::exitmenu()
 			SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | CYAN));
 			cout << "Да";
 			SetConsoleTextAttribute(hConsole, (WORD)((LIGHTGREEN << 4) | YELLOW));
-			cout << " Нет";
+			cout << " Нет" << endl;
 		}
 		else
 		{
@@ -794,6 +784,7 @@ bool List::exitmenu()
 			SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | CYAN));
 			cout << "Нет";
 			SetConsoleTextAttribute(hConsole, (WORD)((LIGHTGREEN << 4) | YELLOW));
+			cout << endl;
 		}
 		do
 		{
