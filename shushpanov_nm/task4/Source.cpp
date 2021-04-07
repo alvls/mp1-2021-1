@@ -120,17 +120,17 @@ public:
 		}
 		return false;
 	}
-	int CheckFamilyMember(string name)
+	bool CheckFamilyMember(string name)
 	{
 		int i;
 		for (i = 0; i < dimension.size();i++)
 		{
 			if (dimension[i].name == name)
 			{
-				return 1;
+				return true;
 			}
 		}
-		return 0;
+		return false;
 	}
 	void SetFamilyMember(string name)
 	{
@@ -254,7 +254,7 @@ public:
 				{
 					for (j = 0; j < dimension[i].familyNumberMember.size(); j++)
 					{
-						if (count = 1)
+						if (count == 1)
 						{
 							minimalWeight = dimension[i].familyNumberMember[j].weight;
 							count = 0;
@@ -311,7 +311,7 @@ public:
 				{
 					for (j = 0; j < dimension[i].familyNumberMember.size(); j++)
 					{
-						if (count = 1)
+						if (count == 1)
 						{
 							maximumWeight = dimension[i].familyNumberMember[j].weight;
 							count = 0;
@@ -416,7 +416,7 @@ public:
 				year = stoi(subStr);
 				countDate = 0;
 				subStr.clear();
-				if (CheckFamilyMember(strName) != 1)
+				if (CheckFamilyMember(strName) != true)
 				{
 					SetFamilyMember(strName);
 				}
@@ -503,7 +503,7 @@ int main()
 				{
 					cout << "Введите имя члена семьи: ";
 					cin >> name;
-					if (weightScale.CheckFamilyMember(name) == 1)
+					if (weightScale.CheckFamilyMember(name) == true)
 					{
 						cout << "Введите дату формата (dd.mm.year/08.03.2000): ";
 						cin >> day;
@@ -542,7 +542,7 @@ int main()
 				{
 					cout << "Введите имя члена семьи: ";
 					cin >> name;
-					if (weightScale.CheckFamilyMember(name) == 1)
+					if (weightScale.CheckFamilyMember(name) == true)
 					{
 						cout << "Введите дату формата (dd.mm.year/08.03.2000): ";
 						cin >> day;
@@ -572,7 +572,7 @@ int main()
 			{
 				cout << "Введите имя члена семьи: ";
 				cin >> name;
-				if (weightScale.CheckFamilyMember(name) == 1)
+				if (weightScale.CheckFamilyMember(name) == true)
 				{
 					cout << "\nВыберите метод: \n" << "1. Найти за выбранный месяц;\n" << "2. Найти за всю историю наблюдений;\n" << endl;
 					cout << "Введите метод: ";
@@ -618,7 +618,7 @@ int main()
 			{
 				cout << "Введите имя члена семьи: ";
 				cin >> name;
-				if (weightScale.CheckFamilyMember(name) == 1)
+				if (weightScale.CheckFamilyMember(name) == true)
 				{
 					cout << "\nВыберите метод: \n" << "1. Найти за выбранный месяц;\n" << "2. Найти за всю историю наблюдений;\n" << endl;
 					cout << "Введите метод: ";
@@ -664,7 +664,7 @@ int main()
 			{
 				cout << "Введите имя члена семьи: ";
 				cin >> name;
-				if (weightScale.CheckFamilyMember(name) == 1)
+				if (weightScale.CheckFamilyMember(name) == true)
 				{
 					cout << "\nВыберите метод: \n" << "1. Найти за выбранный месяц;\n" << "2. Найти за всю историю наблюдений;\n" << endl;
 					cout << "Введите метод: ";
