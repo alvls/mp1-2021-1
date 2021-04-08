@@ -18,14 +18,7 @@ public:
 		day = month = year = 0;
 	}
 	void operator=(string s) {
-		int d, m, y;
-		if (sscanf_s(s.c_str(), "%d.%d.%d", &d, &m, &y) == 3 &&
-		y > 0 && m > 0 && m < 13 && d > 0 && d <= months[m - 1]) {
-			day = d;
-			month = m;
-			year = y;
-		}else
-			throw err::wrong_date;
+		*this = s.c_str();
 	}
 	void operator=(const char* s) {
 		int d, m, y;
@@ -50,27 +43,27 @@ struct Song {
 	Date date;
 };
 class Player {			// Player
-	list<Song> l;
+	list<Song> songs;
 public:
 	~Player() {
-		l.clear();
+		songs.clear();
 	}
 	void add(Song s) {
 		bool f = true;
-		for (list<Song>::iterator i = l.begin(); i != l.end(); ++i)
+		for (list<Song>::iterator i = songs.begin(); i != songs.end(); ++i)
 			if (i->parameter[0] > s.parameter[0]) {
-				l.insert(i, s);
+				songs.insert(i, s);
 				f = false;
 				break;
 			}
 		if (f)
-			l.push_back(s);
+			songs.push_back(s);
 	}
 	void set(int ind, params param, string s) {
-		if (ind < 0 || ind > l.size())
+		if (ind < 0 || ind > songs.size())
 			throw err::out_of_range;
 		else {
-			list<Song>::iterator it = l.begin();
+			list<Song>::iterator it = songs.begin();
 			advance(it, ind - 1);
 			if (param == date)
 				it->date = s;
@@ -79,7 +72,7 @@ public:
 		}
 	}
 	Song* search(string _name, string _composer) {
-		for (list<Song>::iterator i = l.begin(); i != l.end(); ++i)
+		for (list<Song>::iterator i = songs.begin(); i != songs.end(); ++i)
 			if ((i->parameter[0] == _name) && (i->parameter[2] == _composer))
 				return &(*i);
 		return nullptr;
@@ -88,25 +81,25 @@ public:
 		vector<Song*> tmp;
 		if (param < 1 || param > 3)
 			throw err::wrong_parameter;
-		for (list<Song>::iterator i = l.begin(); i != l.end(); ++i)
+		for (list<Song>::iterator i = songs.begin(); i != songs.end(); ++i)
 			if (i->parameter[param] == s)
 				tmp.push_back(&(*i));
 		return tmp;
 	}
 	int get_size() {
-		return l.size();
+		return songs.size();
 	}
 	void del(int i) {
-		if (i < 0 || i > l.size() - 1)
+		if (i < 0 || i > songs.size() - 1)
 			throw err::out_of_range;
-		list<Song>::iterator it = l.begin();
+		list<Song>::iterator it = songs.begin();
 		advance(it, i - 1);
-		l.erase(it);
+		songs.erase(it);
 	}
 	void save(string s) {
 		ofstream f(s);
 		int j;
-		for (list<Song>::iterator i = l.begin(); i != l.end(); ++i) {
+		for (list<Song>::iterator i = songs.begin(); i != songs.end(); ++i) {
 			for (j = 0; j < 5; j++)
 				f << i->parameter[j] << '\n';
 			f << i->date.get();
@@ -115,14 +108,14 @@ public:
 	}
 	void load(string s) {
 		ifstream f(s); string str; Song song; int i;
-		l.clear();
+		songs.clear();
 		while (getline(f, str)) {
 			for (i = 0; i < 5; i++) {
 				song.parameter[i] = str;
 				getline(f, str);
 			}
 			song.date = str;
-			l.push_back(song);
+			songs.push_back(song);
 		}
 	}
 };
