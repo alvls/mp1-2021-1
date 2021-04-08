@@ -3,53 +3,15 @@
 
 bool menu(Pedometer& pedometer)
 {
-    int choice = -1;
+    static void(*modeptr[11])(Pedometer & pedometer) = { mode1, mode2, mode3, mode4, mode5, mode6, mode7, mode8, mode9, mode10, mode11 };
     cout << "\n Сейчас Вы находитесь в меню. Выберите, что нужно сделать:\n\t(1) Узнать дату начала подсчетов\n\t(2) Задать подсчеты\n\t(3) Получить информацию о выбранном подсчете\n\t(4) Найти среднее число шагов в выбранном месяце\n\t(5) Найти среднее число шагов за всю историю наблюдений\n\t(6) Найти среднее число шагов в выбранный день недели\n\t    за всю историю наблюдений\n\t(7) Найти максимальное число шагов в день в выбранном\n\t    месяце и дату, когда оно было достигнуто\n\t(8) Найти максимальное число шагов в день за всю\n\t    историю наблюдений и дату, когда оно было достигнуто\n\t(9) Сохранить историю подсчетов в файл\n\t10) Считать историю подсчетов из файла\n\t11) Режим тестировщика\n\t(0) Выйти из программы" << endl;
-    choice = check(0, 11);
+    int choice = check(0, 11);
     system("cls");
+    if (choice == 0)
+        return false;
     try
     {
-        switch (choice)
-        {
-        case 1:
-            mode1(pedometer);
-            break;
-        case 2:
-            mode2(pedometer);
-            break;
-        case 3:
-            mode3(pedometer);
-            break;
-        case 4:
-            mode4(pedometer);
-            break;
-        case 5:
-            mode5(pedometer);
-            break;
-        case 6:
-            mode6(pedometer);
-            break;
-        case 7:
-            mode7(pedometer);
-            break;
-        case 8:
-            mode8(pedometer);
-            break;
-        case 9:
-            mode9(pedometer);
-            break;
-        case 10:
-            mode10(pedometer);
-            break;
-        case 11:
-            mode11(pedometer);
-            break;
-        case 0:
-            system("cls");
-            return false;
-        default:
-            throw exception("Ошибка выбора действия в меню");
-        }
+        modeptr[choice - 1](pedometer);
     }
     catch (const exception &ex)
     {
