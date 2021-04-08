@@ -1,3 +1,14 @@
+//Разработать класс Шагомер.
+//Класс должен хранить историю подсчета шагов владельца.
+//Каждый подсчет описывается датой(день, месяц, год) и интервалом времени(час, минута начала движения, час, минута окончания движения).
+//Подсчет ведется в шагах с точностью до единицы.
+//Класс должен содержать необходимые служебные методы.
+//Класс должен предоставлять следующие операции : 1) установить дату начала подсчетов, 2) узнать дату начала подсчетов, 
+//3) задать подсчет, 4) получить информацию о выбранном подсчете, 5) найти среднее число шагов в выбранном месяце или за всю историю наблюдений, 
+//6) найти среднее число шагов в выбранный день недели за всю историю наблюдений, 
+//7) найти максимальное число шагов в день в выбранном месяце или за всю историю наблюдений и дату, когда оно было достигнуто, 
+//8) сохранить историю подсчетов в файл, 9) считать историю подсчетов из файла.
+
 #include <iostream>
 #include <string>
 #include <Windows.h>
@@ -6,11 +17,9 @@
 
 using namespace std;
 
-
-
-struct Date_and_MaxNumSteps
+struct DateandMaxSteps
 {
-	int maxday;
+	int maxsteps;
 	string date_day;
 };
 
@@ -29,7 +38,6 @@ struct NumDayCounter
 struct Counter
 {
 	int lefthour,leftminute, righthour, rightminute, countersteps;
-	
 };
 
 ostream& operator<<(ostream& out, const Counter& counter)
@@ -37,6 +45,7 @@ ostream& operator<<(ostream& out, const Counter& counter)
 	out << "Время - " << counter.lefthour << ":" << counter.leftminute << " - " << counter.righthour << ":" << counter.rightminute << "\n" << "Количество шагов - " << counter.countersteps << endl;;
 	return out;
 }
+
 ostream& operator<<(ostream& out, const Date& date)
 {
 	out << "Дата - " << date.day << "." << date.month << "." << date.year;
@@ -49,15 +58,18 @@ private:
 	Date nday;
 	Counter* arrcounters;
 	int steps, numcounters;
+
 	void CreateArrCounters() 
 	{
 		arrcounters = new Counter[numcounters + 1];
 	}
+
 	void DeleteArrCounters()
 	{
 		delete[] arrcounters;
 		arrcounters = nullptr;
 	}
+
 	void IncreaseArrCounters()
 	{
 		Counter* temp;
@@ -74,55 +86,118 @@ private:
 		}
 		delete[] temp;
 	}
+
 public:
 	Day() :nday{ 18,5,2002 }, arrcounters(nullptr), steps(0),numcounters(0)
 	{
 		CreateArrCounters();
 	}
+
 	void SetDate(int s_day, int s_month, int s_year)
 	{
 		nday.day = s_day;
 		nday.month = s_month;
 		nday.year = s_year;
 	}
-	int GetNumCounters()
-	{
-		return numcounters;
-	}
+
 	void SetDate(Date s_date)
 	{
 		nday.day = s_date.day;
 		nday.month = s_date.month;
 		nday.year = s_date.year;
 	}
-	void PrintDates(int count)
+
+	void SetCounter(int s_lefthour, int s_leftminute, int s_righthour, int s_rightminute, int s_countersteps)
 	{
-		cout << "Ваша дата запись (" << count + 1 <<  "): " << nday.day << "." << nday.month << "." << nday.year << endl;
+		arrcounters[numcounters].lefthour = s_lefthour;
+		arrcounters[numcounters].leftminute = s_leftminute;
+		arrcounters[numcounters].righthour = s_righthour;
+		arrcounters[numcounters].rightminute = s_rightminute;
+		arrcounters[numcounters].countersteps = s_countersteps;
+		numcounters++;
+		IncreaseArrCounters();
 	}
-	void PrintDate()
+
+	void SetCounter(Counter s_counter)
 	{
-		cout << "Ваша начальная дата: " << nday.day << "." << nday.month << "." << nday.year << endl;
+		arrcounters[numcounters].lefthour = s_counter.lefthour;
+		arrcounters[numcounters].leftminute = s_counter.leftminute;
+		arrcounters[numcounters].righthour = s_counter.righthour;
+		arrcounters[numcounters].rightminute = s_counter.rightminute;
+		arrcounters[numcounters].countersteps = s_counter.countersteps;
+		numcounters++;
+		IncreaseArrCounters();
 	}
+
+	int GetNumCounters()
+	{
+		return numcounters;
+	}
+
 	Date GetDate()
 	{
 		return nday;
 	}
 
-	void PrintInfoCounters()
-	{
-		for (int i = 0; i < numcounters; i++)
-		{
-			cout << "Подсчёт (" << i + 1 << ")" << endl;;
-			//cout << "Время:  " << arrcounters[i].lefthour << ":" << arrcounters[i].leftminute << " - " << arrcounters[i].righthour << ":" << arrcounters[i].rightminute;
-			//cout << "Количество шагов: " << arrcounters[i].countersteps << endl;
-		}
-	}
 	int GetNumSteps()
 	{
 		steps = 0;
 		CountNumStepsPerDay();
 		return steps;
 	}
+
+	int GetMonthOfDate()
+	{
+		return nday.month;
+	}
+
+	int GetYearOfDate()
+	{
+		return nday.year;
+	}
+
+	int GetDayOfDate()
+	{
+		return nday.day;
+	}
+
+	Counter GetInfoCounter(int countc)
+	{
+		return arrcounters[countc];
+	}
+
+	int GetCodeOfYear()
+	{
+		int code;
+		CountCodeOfYear(code);
+		return code;
+	}
+
+	int GetCodeMonth()
+	{
+		int code;
+		CountCodeMonth(code);
+		return code;
+	}
+	
+	void PrintDates(int count)
+	{
+		cout << "Ваша дата запись (" << count + 1 << "): " << nday.day << "." << nday.month << "." << nday.year << endl;
+	}
+
+	void PrintDate()
+	{
+		cout << "Ваша начальная дата: " << nday.day << "." << nday.month << "." << nday.year << endl;
+	}
+
+	void PrintInfoCounters()
+	{
+		for (int i = 0; i < numcounters; i++)
+		{
+			cout << "Подсчёт (" << i + 1 << ")" << endl;
+		}
+	}
+
 	void CountNumStepsPerDay()
 	{
 		for (int i = 0; i < numcounters; i++)
@@ -130,22 +205,7 @@ public:
 			steps += arrcounters[i].countersteps;
 		}
 	}
-	int GetMonthOfDate()
-	{
-		return nday.month;
-	}
-	int GetYearOfDate()
-	{
-		return nday.year;
-	}
-	int GetDayOfDate()
-	{
-		return nday.day;
-	}
-	Counter GetInfoCounter(int countc)
-	{
-		return arrcounters[countc];
-	}
+
 	void CountCodeMonth(int& code)
 	{
 		if ((nday.month == 1) || (nday.month == 10))
@@ -177,12 +237,7 @@ public:
 			code = 6;
 		}
 	}
-	int GetCodeMonth()
-	{
-		int code;
-		CountCodeMonth(code);
-		return code;
-	}
+
 	void CountCodeOfYear(int& code)
 	{
 		int centuary,codecentuary,lastnum;
@@ -202,32 +257,7 @@ public:
 		lastnum = nday.year % 100;
 		code = (codecentuary + lastnum + (lastnum / 4)) % 7;
 	}
-	int GetCodeOfYear()
-	{
-		int code;
-		CountCodeOfYear(code);
-		return code;
-	}
-	void SetCounter(int s_lefthour, int s_leftminute, int s_righthour, int s_rightminute, int s_countersteps)
-	{
-		arrcounters[numcounters].lefthour = s_lefthour;
-		arrcounters[numcounters].leftminute = s_leftminute;
-		arrcounters[numcounters].righthour = s_righthour;
-		arrcounters[numcounters].rightminute = s_rightminute;
-		arrcounters[numcounters].countersteps = s_countersteps;
-		numcounters++;
-		IncreaseArrCounters();
-	}
-	void SetCounter(Counter s_counter)
-	{
-		arrcounters[numcounters].lefthour = s_counter.lefthour;
-		arrcounters[numcounters].leftminute = s_counter.leftminute;
-		arrcounters[numcounters].righthour = s_counter.righthour;
-		arrcounters[numcounters].rightminute = s_counter.rightminute;
-		arrcounters[numcounters].countersteps = s_counter.countersteps;
-		numcounters++;
-		IncreaseArrCounters();
-	}
+	
 	Day& operator= (const Day& t_day)
 	{
 		nday = t_day.nday;
@@ -238,23 +268,27 @@ public:
 		steps = t_day.steps;
 		return *this;
 	}
+
 };
-//А что если сделать такую структуру программы: Класс шагомер, класс день, структура дата, структура подсчёт
+
 class Pedometer
 {
 private:
 	Day* arrdays;//Пусть начальная дата - нулевой элемент массива, 
 	int countd;
 	int numd;
+
 	void CreateArrDays()
 	{
 		arrdays = new Day[countd + 1];
 	}
+
 	void DeleteArrDays()
 	{
 		delete[] arrdays;
 		arrdays = nullptr;
 	}
+
 	void IncreaseArrDays()
 	{
 		Day* temp;
@@ -271,6 +305,7 @@ private:
 		}
 		delete[] temp;
 	}
+
 	Counter GetCounterFromStr(string& str)
 	{
 		Counter tem = { 0,0,0,0,0 };
@@ -312,6 +347,7 @@ private:
 		}
 		return tem;
 	}
+
 	int CountWhiteSymbols(string str)
 	{
 		int num = 0;
@@ -326,6 +362,7 @@ private:
 		}
 		return num;
 	}
+
 	Date GetDateFromStr(string& str)
 	{
 		int k = 0;
@@ -359,6 +396,7 @@ private:
 		}
 		return tem;
 	}
+
 	NumDayCounter GetNumFromStr(string& str)
 	{
 		int res, k = 0;
@@ -379,7 +417,7 @@ private:
 				{
 					tem.quantitycounters = res;
 				}
-				temp = "     ";
+				temp = "Пустая строка";
 				k++;
 				j = 0;
 				i++;
@@ -388,33 +426,50 @@ private:
 		}
 		return tem;
 	}
+
 public:
+
 	Pedometer(int d_coutd = 0) :arrdays(nullptr), countd(d_coutd), numd(0)
 	{ 
 		CreateArrDays();
 	}
+
 	void SetDayDate(int s_day, int s_month, int s_year)
 	{
 		arrdays[countd].SetDate(s_day, s_month, s_year);
 		countd++;
 		IncreaseArrDays();
 	}
+
 	void SetDayDate(Date s_date)
 	{
 		arrdays[countd].SetDate(s_date);
 		countd++;
 		IncreaseArrDays();
 	}
-	void PrintStartDayDate()
+
+	void SetNumOfDay(int num)
 	{
-		arrdays[0].PrintDate();
+		numd = num;
 	}
+
+	void SetDayCounter(int s_lefthour, int s_leftminute, int s_righthour, int s_rightminute, int s_countersteps)
+	{
+		arrdays[numd - 1].SetCounter(s_lefthour, s_leftminute, s_righthour, s_rightminute, s_countersteps);
+	}
+
+	void SetDayCounter(Counter s_counter, NumDayCounter s_num)
+	{
+		arrdays[s_num.numelem].SetCounter(s_counter);
+	}
+
 	Date GetStartDayDate()
 	{
 		Date temp;
 		temp = arrdays[0].GetDate();
 		return temp;
 	}
+
 	void PrintDaysDate()
 	{
 		for (int i = 0; i < countd; i++)
@@ -422,28 +477,24 @@ public:
 			arrdays[i].PrintDates(i);
 		}
 	}
+
+	void PrintStartDayDate()
+	{
+		arrdays[0].PrintDate();
+	}
+
 	void PrintDayCounter()
 	{
 		arrdays[numd - 1].PrintInfoCounters();
 	}
-	void SetNumOfDay(int num)
-	{
-		numd = num;
-	}
-	void SetDayCounter(int s_lefthour, int s_righthour, int s_leftminute, int s_rightminute, int s_countersteps)
-	{
-		arrdays[numd - 1].SetCounter(s_lefthour, s_righthour, s_leftminute, s_rightminute, s_countersteps);
-	}
-	void SetDayCounter(Counter s_counter, NumDayCounter s_num)
-	{
-		arrdays[s_num.numelem].SetCounter(s_counter);
-	}
+	
 	Counter GetInfoAboutCounter(int i)
 	{
 		Counter temp;
 		temp = arrdays[numd -1].GetInfoCounter(i - 1);
 		return temp;
 	}
+
 	int FindAverageNumofMonth(int month,int year)
 	{
 		int month_day, year_day;
@@ -469,6 +520,7 @@ public:
 			return avernum;
 		}
 	}
+
 	int FindAveNumStepsOfAllTime()
 	{
 		int avernum = 0, j = 0, numsteps = 0;
@@ -488,6 +540,7 @@ public:
 			return avernum;
 		}
 	}
+
 	int ConvertNumIntoCode(int num_day)
 	{
 		int codeday = -1;
@@ -521,6 +574,7 @@ public:
 		}
 		return codeday;
 	}
+
 	int FindAveNumStepsInDayOfWeek(int num_day)
 	{
 		int codeday,numsteps = 0,j = 0,averagenum = 0,year,month;
@@ -558,9 +612,10 @@ public:
 			return averagenum;
 		}
 	}
-	Date_and_MaxNumSteps FindMaxNumStepsInMonth(int month, int year)
+
+	DateandMaxSteps FindMaxNumStepsInMonth(int month, int year)
 	{
-		Date_and_MaxNumSteps temp;
+		DateandMaxSteps temp;
 		int month_day, year_day,day_day;
 		int maxnumsteps = 0, numsteps = 0;
 		string name;
@@ -575,7 +630,7 @@ public:
 				if (numsteps > maxnumsteps)
 				{
 					maxnumsteps = numsteps;
-					temp.maxday = maxnumsteps;
+					temp.maxsteps = maxnumsteps;
 					name = to_string(day_day) + "." + to_string(month_day) + "." + to_string(year_day);
 					temp.date_day = name;
 				}
@@ -583,9 +638,10 @@ public:
 		}
 		return temp;
 	}
-	Date_and_MaxNumSteps FindMaxNumStepsAllTime()
+
+	DateandMaxSteps FindMaxNumStepsAllTime()
 	{
-		Date_and_MaxNumSteps temp;
+		DateandMaxSteps temp;
 		int month_day, year_day, day_day;
 		int maxnumsteps = 0, numsteps = 0;
 		string name;
@@ -598,13 +654,14 @@ public:
 			if (numsteps > maxnumsteps)
 			{
 				maxnumsteps = numsteps;
-				temp.maxday = maxnumsteps;
+				temp.maxsteps = maxnumsteps;
 				name = to_string(day_day) + "." + to_string(month_day) + "." + to_string(year_day);
 				temp.date_day = name;
 			}
 		}
 		return temp;
 	}
+
 	void ReadHisOfCountersIntoFail()
 	{
 		int countpr = 0;
@@ -647,14 +704,15 @@ public:
 		//Первая строка - дата начала, затем следующая дата, число строк что будет выделено для дат файла, строки с датами
 		//номер записи в которую хочу поместить подсчёты, их число, данные подсчётов
 	}
+
 	void SaveInFile()
 	{
-		string a;//////////////
+		string a;
 		Date date1;
 		int numel;
 		Counter counter1;
 		ofstream fout("РезультатыПодсчётов.txt");
-		if (!fout)//fout.is_open
+		if (!fout)
 		{
 			cout << "Случилась непредвиденная ошибка!" << endl;
 			exit(1);
@@ -677,18 +735,12 @@ public:
 			fout.close();
 		}
 	}
-};
 
-//Разработать класс Шагомер.
-//Класс должен хранить историю подсчета шагов владельца.
-//Каждый подсчет описывается датой(день, месяц, год) и интервалом времени(час, минута начала движения, час, минута окончания движения).
-//Подсчет ведется в шагах с точностью до единицы.
-//Класс должен содержать необходимые служебные методы.
-//Класс должен предоставлять следующие операции : 1) установить дату начала подсчетов, 2) узнать дату начала подсчетов, 
-//3) задать подсчет, 4) получить информацию о выбранном подсчете, 5) найти среднее число шагов в выбранном месяце или за всю историю наблюдений, 
-//6) найти среднее число шагов в выбранный день недели за всю историю наблюдений, 
-//7) найти максимальное число шагов в день в выбранном месяце или за всю историю наблюдений и дату, когда оно было достигнуто, 
-//8) сохранить историю подсчетов в файл, 9) считать историю подсчетов из файла.
+	~Pedometer()
+	{
+		delete[] arrdays;
+	}
+};
 
 void GetDaysOfMonth(int month, int& day, bool checkv);
 void Menu();
@@ -700,10 +752,10 @@ int main()
 	Counter counter;
 	Date date;
 	int dayofweek;
-	Date_and_MaxNumSteps dmax;
+	DateandMaxSteps dmax;
 	int day, month, year, choice, number;
 	int year1, month1;
-	int lefth, leftmin, righth, rightmim, numsteps;
+	int lefth, leftmin, righth, rightmin, numsteps;
 	bool exit1 = true;
 	int chnumday;
 	setlocale(LC_ALL, "Rus");
@@ -735,8 +787,8 @@ int main()
 			cin >> chnumday;
 			pedom.SetNumOfDay(chnumday);
 			cout << "Введите данные для подсчёта: \"Час начала подсчёта\" \"Минута начала подсчёта\":\"Час окончания подсчёта \" \"Минута окончания подсчёта \" \"Количество шагов\"" << endl;
-			cin >> lefth >> leftmin >> righth >> rightmim >> numsteps;
-			pedom.SetDayCounter(lefth, righth, leftmin, rightmim, numsteps);
+			cin >> lefth >> leftmin >> righth >> rightmin >> numsteps;
+			pedom.SetDayCounter(lefth, leftmin, righth, rightmin, numsteps);
 			cout << "Подсчёт успешно установлен" << endl;
 			break;
 		case 3:
@@ -770,11 +822,11 @@ int main()
 			cout << "Введите месяц и год, за который хотите узнвть статистику: " << endl;
 			cin >> month1 >> year1;
 			dmax = pedom.FindMaxNumStepsInMonth(month1, year1);
-			cout << "Ваше максимальное число шагов за выбранный месяц = " << dmax.maxday << endl << "Дата этого дня: " << dmax.date_day << endl;
+			cout << "Ваше максимальное число шагов за выбранный месяц = " << dmax.maxsteps << endl << "Дата этого дня: " << dmax.date_day << endl;
 			break;
 		case 8:
 			dmax = pedom.FindMaxNumStepsAllTime();
-			cout << "Ваше максимальное число шагов за всё время = " << dmax.maxday << endl << "Дата этого дня: " << dmax.date_day << endl;
+			cout << "Ваше максимальное число шагов за всё время = " << dmax.maxsteps << endl << "Дата этого дня: " << dmax.date_day << endl;
 			break;
 		case 9:
 			pedom.SaveInFile();
@@ -832,12 +884,6 @@ void GetDate(int& year, int& day, int& month)
 	}
 	GetDaysOfMonth(month, day, checkv);
 }
-//Класс должен предоставлять следующие операции : 1) установить дату начала подсчетов, 2) узнать дату начала подсчетов, 
-//3) задать подсчет, 4) получить информацию о выбранном подсчете, 5) найти среднее число шагов в выбранном месяце или за всю историю наблюдений, 
-//6) найти среднее число шагов в выбранный день недели за всю историю наблюдений, 
-//7) найти максимальное число шагов в день в выбранном месяце или за всю историю наблюдений и дату, когда оно было достигнуто, 
-//8) сохранить историю подсчетов в файл, 9) считать историю подсчетов из файла.
-
 
 void Menu()
 {
