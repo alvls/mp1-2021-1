@@ -1,6 +1,45 @@
 #include <iostream>
 #include <string>
+#include <conio.h>
+#include <Windows.h>
+#include <vector>
+#include <fstream>
+#define number 12//число символов в номере телефона
+#define date 8//число символов в дате рождения
 using namespace std;
+enum choice
+{
+	W = 214,
+	w = 246,
+	A = 212,
+	a = 244,
+	S = 219,
+	s = 251,
+	D = 194,
+	d = 226,
+	_n = 13,
+	esc = 27
+};
+enum TColor
+{
+	BLACK = 0,
+	BLUE = 1,
+	GREEN = 2,
+	CYAN = 3,
+	RED = 4,
+	MAGENTA = 5,
+	BROWN = 6,
+	LIGHTGRAY = 7,
+	DARKGRAY = 8,
+	LIGHTBLUE = 9,
+	LIGHTGREEN = 10,
+	LIGHTCYAN = 11,
+	LIGHTRED = 12,
+	LIGHTMAGENTA = 13,
+	YELLOW = 14,
+	WHITE = 15
+};
+const string month[12] = { "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря" };
 //Разработать класс Контакты.
 //Класс должен хранить информацию о контактах владельца.
 //Каждый контакт содержит следующие данные : 
@@ -11,212 +50,717 @@ using namespace std;
 //день рождения(день, месяц, год);
 //признак, относится ли контакт к избранным.
 //Контакты хранятся упорядоченно по фамилии, имени, отчеству.
-//Фамилия, имя, отчество(ФИО) являются обязательными полями.Данные вводятся на русском языке.
+//Фамилия, имя, отчество(ФИО) являются обязательными полями.
+//Данные вводятся на русском языке.
 //Класс должен содержать необходимые служебные методы.
 //Класс должен предоставлять следующие операции : 
-//1) создать новый контакт,
-//2) изменить выбранный контакт, 
-//3) найти контакт по ФИО,
-//4) найти контакт по телефону, 
-//5) выдать все контакты на заданную букву, 
-//6) узнать текущее число контактов, 
-//7) внести контакт в список избранных,
-//8) удалить контакт из списка избранных,
-//9) выдать все избранные контакты, 
-//10) удалить контакт, 
-//11) сохранить контакты в файл, 
-//12) считать контакты из файла.
-//КОНТАКТЫ НЕ ДОЛЖНЫ СОДЕРЖАТЬ ОДНО И ТО ЖЕ ФИО	
-const string month[12] = { "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" };
-const int number = 12;//число символов в номере телефона
-const int date = 8;//число символов в дате рождения
-struct contact
+/// 
+/// поиск:
+/// контакт по фио
+/// контакт по телефону
+/// все контакты на эту букву
+/// 
+//1) создать новый контакт,+
+//2) изменить выбранный контакт, +
+//3) найти контакт по ФИО,+
+//4) найти контакт по телефону, +
+//5) выдать все контакты на заданную букву, +
+//6) узнать текущее число контактов, +
+//7) внести контакт в список избранных,+
+//8) удалить контакт из списка избранных,+
+//9) выдать все избранные контакты, +
+//10) удалить контакт, +
+//11) сохранить контакты в файл, +
+//12) считать контакты из файла.+
+//КОНТАКТЫ НЕ ДОЛЖНЫ СОДЕРЖАТЬ ОДНО И ТО ЖЕ ФИО+
+
+class contact
 {
-	string name;
 	string surname;
+	string name;
 	string patronymic;
 	char phone[number];
-	bool favorite = false;
 	char birth[date];
-	bool operator==(const contact& other)
-	{
-		bool ans = true;
-		if (name == other.name && surname == other.surname && patronymic == other.patronymic)
-		{
-			/*for (int i = 0; i < number; i++)
-			{
-				if (phone[i] != other.phone[i])
-				{
-					ans = false;
-					break;
-				}
-			}
-			for (int i = 0; i < date && ans; i++)
-			{
-				if(birth[i]!=other.birth[i])
-				{
-					ans = false;
-					break;
-				}
-			}*/
-			return ans;
-		}
-		return false;
-	}
-	bool operator!=(const contact& other)
-	{
-		if (name != other.name || surname != other.surname || patronymic != other.patronymic)
-			return true;
-		else
-			return false;
-	}
-};
-//Нужна проверка для номеров месяцев, числа дней в месяце, проверка на год
-class Contacts
-{
-	/*string* name;
-	string* surname;
-	string* patronymic;
-	char* phone;
-	bool* favorite;
-	int birth[8];*/
-	contact* man;
-	int k;
-	void sort();
+	bool favorite;
 public:
-	Contacts()
+	contact(string sur = "Ваш", string nam = "Безымянный", string pat = "Контакт", char* _phone = nullptr, char* _birth = nullptr);
+	friend class List;
+	bool operator==(const contact& other);
+	bool operator!=(const contact& other);
+	bool operator >(const contact& other);
+	contact& operator =(const contact& other);
+	friend ostream& operator<<(ostream& place, const contact& c);
+	friend istream& operator>>(istream& place, contact& c);
+	void usualprintc(int i = -1);
+	void specialprintc(int i = -1);
+};
+contact::contact(string sur, string nam, string pat, char* _phone, char* _birth) : name(nam), surname(sur), patronymic(pat)
+{
+	if (_phone == nullptr)
 	{
-		k = 0;
-		man = nullptr;
-		//name = surname = patronymic = nullptr;
+		phone[0] = '+';
+		for (int i = 1; i < number; i++)
+			phone[i] = '0';
 	}
-	~Contacts()
+	else
+		for (int i = 0; i < number; i++)
+			phone[i] = _phone[i];
+	if (_birth == nullptr)
 	{
-		k = 0;
-		delete[] man;
+		birth[0] = '0';
+		birth[1] = '1';
+		for (int i = 2; i < date; i++)
+			birth[i] = '0';
 	}
-	//Создаёт новый контакт
-	void newcontact(contact extra)
+	else
+		for (int i = 0; i < date; i++)
+			birth[i] = _birth[i];
+	favorite = false;
+}
+bool contact::operator!=(const contact& other)
+{
+	if (name != other.name || surname != other.surname || patronymic != other.patronymic)
+		return true;
+	else
+		return false;
+}
+bool contact:: operator==(const contact& other)
+{
+	if (name == other.name && surname == other.surname && patronymic == other.patronymic)
+		return true;
+	else
+		return false;
+}
+bool contact::operator>(const contact& other)
+{
+	if (surname < other.surname)
+		return true;
+	else
+		if (surname > other.surname)
+			return false;
+		else
+			if (name < other.name)
+				return true;
+			else
+				if (name > other.name)
+					return false;
+				else
+					if (patronymic < other.patronymic)
+						return true;
+					else
+						return false;
+}// для сортировки
+contact& contact::operator=(const contact& other)
+{
+	surname = other.surname;
+	name = other.name;
+	patronymic = other.patronymic;
+	int i;
+	for (i = 0; i < number; i++)
+		phone[i] = other.phone[i];
+	for (i = 0; i < date; i++)
+		birth[i] = other.birth[i];
+	favorite = other.favorite;
+	return *this;
+}
+ostream& operator<<(ostream& place, const contact& c)
+{
+	// Достаточно вывести данные, понятные только программе
+	place << c.surname << endl;
+	place << c.name << endl;
+	place << c.patronymic << endl;
+	for (int i = 0; i < number; i++)
+		place << c.phone[i];
+	for (int i = 0; i < date; i++)
+		place << c.birth[i];
+	place << endl;
+	if (c.favorite)
+		place << '1' << endl;
+	else
+		place << '0' << endl;
+	return place;
+}
+istream& operator>>(istream& place, contact& c)
+{
+	char ch;
+	place.get();
+	getline(place, c.surname);
+	getline(place, c.name);
+	getline(place, c.patronymic);
+	for (int i = 0; i < number; i++)
+		place >> c.phone[i];
+	for (int i = 0; i < date; i++)
+		place >> c.birth[i];
+	place >> ch;
+	if (ch == '1')
+		c.favorite = true;
+	else
+		c.favorite = false;
+	return place;
+}
+void contact::usualprintc(int i)
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	if (favorite)
+		SetConsoleTextAttribute(hConsole, (WORD)((LIGHTGREEN << 4) | RED));
+	else
+		SetConsoleTextAttribute(hConsole, (WORD)((LIGHTGREEN << 4) | YELLOW));
+	if (i > -1)
+		cout << i << " ";
+	cout << surname << " ";
+	cout << name << " ";
+	cout << patronymic << " ";
+	for (int i = 0; i < number; i++)
+		cout << phone[i];
+	cout << endl;
+}
+void contact::specialprintc(int i)
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	if (favorite)
+		SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | RED));
+	else
+		SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | CYAN));
+	if (i > -1)
+		cout << i << " ";
+	cout << surname << " ";
+	cout << name << " ";
+	cout << patronymic << " ";
+	for (int i = 0; i < number; i++)
+		cout << phone[i];
+	cout << endl;
+}
+
+void getnums(char* s, const int l, const int r, const char ending = '9', const char opening = '0')//[l;r), [opening; ending]
+{
+	char c;
+	for (int i = l; i < r; i++)
 	{
-		int i;
-		contact* tmp = new contact[k + 1];
-		for (i = 0; i < k; i++)
+		do
 		{
-			tmp[i] = man[i];
-		}
-		tmp[i] = extra;
-		k++;
-		man = new contact[k];
-		for (i = 0; i < k; i++)
-		{
-			man[i] = tmp[i];
-		}
-		delete[] tmp;
+			c = _getch();
+		} while (c < opening || c>ending);
+		s[i] = c;
+		cout << c;
 	}
-	//Изменить выбранный контакт
-	void change_contact(contact dif)
+}
+inline void fio_err()
+{
+	cout << "Нельзя иметь два контакта с одинаковыми ФИО\n";
+}
+void setstr(string& s)
+{
+	s.clear();
+	cout << "Введите строку, не превышающую 32 символа без пробелов и иных разделителей, затем нажмите Enter\n";
+	char get;
+	for (int i = 0; i < 32; i++)
+	{
+		get = getchar();
+		if (get == '\0' || get == '\n' || get == '\r' || get == ' ')
+			break;
+		s.push_back(get);
+	}
+}
+class List
+{
+	int k;
+	vector <contact> man;
+	int contact_menu(contact& c, const int nomer);
+	bool check(const contact& c);
+	int _new(contact extra);
+	void _delete(int i);
+	bool find_word(const char ch);// найти контакты на заданную букву
+	int find_fio(const string* fio);// найти контакт по фио (полное совпадение)
+	bool find_phone(const char* phone_num);
+	bool exitmenu();
+public:
+	List(int _k = 0) :k(_k)
 	{
 
 	}
-	//Найти контакт по ФИО
-	contact& findfio(string*, int quan = 3)
+	~List()
 	{
-		switch (quan)
-		{
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		default:
-		}
+		k = 0;
+		man.clear();
 	}
-	//Найти контакт по телефону
-	contact find_phone(char* _phone)
-	{
-		int j;
-		int i;
-		bool found = false;
-		for (i = 0; i < k; i++)
+	void menu(bool isbasic);
+};
+bool List::find_word(const char ch)
+{
+	bool found = false;
+	List list_word;
+	for (int i = 0; i < k; i++)
+		if (man[i].surname[0] == ch || man[i].name[0] == ch || man[i].patronymic[0] == ch)
 		{
-			for (j = 0; j < number; j++)
-				if (man[i].phone[j] != _phone[j])
-					break;
-			if (j >= number)
+			found = true;
+			list_word._new(man[i]);
+		}
+	list_word.menu(false);
+	return found;
+}
+int List::find_fio(const string* fio)
+{
+	int i;
+	for(i=0;i<k;i++)
+		if (fio[0] == man[i].surname && fio[1] == man[i].name && fio[2] == man[i].patronymic)
+		{			
+			return i;
+			break;
+		}
+	if (i == k)
+		return -1;
+}
+bool List::find_phone(const char* phone_num)
+{
+	int i, j;
+	bool found = false;
+	int count = 0;
+	List list_phone;
+	for (i = 0; i < k; i++)
+		for (j = 0; j < number; j++)
+			if (man[i].phone[j] != phone_num[j])
 			{
-				found = true;
+				break;
+			}
+			else
+				if ((j == number - 1) && man[i].phone[j] == phone_num[j])
+				{
+					list_phone._new(man[i]);
+					found = true;
+				}
+	list_phone.menu(false);
+	return found;
+}
+int List::_new(contact extra)
+{
+	k++;
+	int i;
+	for (i = 0; i < k - 1; i++)
+	{
+		if (extra > man[i])
+			break;
+	}
+	man.insert(man.begin() + i, extra);
+	return i;
+}
+void List::_delete(int i)
+{
+	int j;
+	k--;
+	vector<contact> tmp(k);
+	for (j = 0; j < i; j++)
+		tmp[j] = man[j];
+	int m = j + 1;
+	for (j; j < k; j++, m++)
+		tmp[j] = man[m];
+	man = tmp;
+}
+int List::contact_menu(contact& c, int nomer)
+{
+	bool repeat = true;
+	bool badsymb = true;
+	int pointer = 0;
+	int input;
+	const int maxlist = 7;
+	int ans;
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, (WORD)((LIGHTGREEN << 4) | YELLOW));
+	const string menu_list[maxlist] = { "Фамилия\n",  "Имя\n", "Отчество\n",  "Номер телефона\n", "Дата рождения\n", "Добавить в избранное/удалить из избранного\n", "Удалить контакт\n" };
+	do
+	{
+		system("CLS");
+		badsymb = true;
+		for (int i = 0; i < 103; i++)
+			cout << "=";
+		cout << "\nФИО: ";
+		cout << c.surname << " ";
+		cout << c.name << " ";
+		cout << c.patronymic << "\n";
+		cout << "Номер телефона: ";
+		for (int i = 0; i < number; i++)
+			cout << c.phone[i];
+		int b1 = c.birth[2] - '0';
+		int b2 = c.birth[3] - '0';
+		int m = b1 * 10 + b2 - 1;
+		cout << "\nДата рождения: ";
+		if (m < 12 && m>-1)
+			cout << c.birth[0] << c.birth[1] << " " << month[m] << " ";
+		else
+			cout << c.birth[0] << c.birth[1] << " " << "неизвестного месяца" << " ";
+		for (int i = 4; i < date; i++)
+			cout << c.birth[i];
+		cout << " " << "года\n";
+		if (c.favorite)
+			cout << "Контакт добавлен в избранные\n";
+		else
+			cout << "Контакт не добавлен в избранные\n";
+		for (int i = 0; i < 103; i++)
+			cout << "=";
+		cout << "\nЕсли вы хотите внести изменения, выберите соответствующий пункт: \n";
+		int i;
+		for (i = 0; i < pointer; i++)
+			cout << menu_list[i];
+		if (i < maxlist)
+		{
+			SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | CYAN));
+			cout << menu_list[i];
+			SetConsoleTextAttribute(hConsole, (WORD)((LIGHTGREEN << 4) | YELLOW));
+			for (i = pointer + 1; i < maxlist; i++)
+				cout << menu_list[i];
+		}
+		contact new_c = c;
+		while (badsymb)
+		{
+			input = _getch();
+			switch (input)
+			{
+			case w: case W:
+				if (pointer > 0)
+					pointer--;
+				else
+					pointer = maxlist - 1;
+				badsymb = false;
+				break;
+			case s: case S:
+				if (pointer < maxlist - 1)
+					pointer++;
+				else
+					pointer = 0;
+				badsymb = false;
+				break;
+			case esc:
+				system("cls");
+				return nomer;
+			case _n:
+				switch (pointer)
+				{
+				case 0:case 1: case 2:
+					
+					if (pointer == 0)
+						setstr(new_c.surname);
+					else
+						if (pointer == 1)
+							setstr(new_c.name);
+						else
+							setstr(new_c.patronymic);
+					if (check(new_c))
+					{
+						string sssr[3];
+						sssr[0] = c.surname;
+						sssr[1] = c.name;
+						sssr[2] = c.patronymic;
+						_delete(find_fio(sssr));
+						nomer = _new(new_c);
+						contact_menu(man[nomer], nomer);
+						return nomer;
+					}
+					else
+					{
+						fio_err();
+						ans = _getch();
+					}
+					badsymb = false;
+					break;
+				case 3:
+					cout << "Введите номер телефона со знаком \"+\"\n";
+					while ((c.phone[0] = _getch()) != '+')
+						;
+					cout << "+";
+					getnums(c.phone, 1, number);
+					break;
+				case 4:
+					cout << "Введите число, месяц, год в виде чисел без разделителей.\nЕсли число или номер месяца меньше 10, ставить вначале 0.\nГод вводить в виде четырёх цифр\n";
+					getnums(c.birth, 0, 1, '3');
+					getnums(c.birth, 1, 2);
+					getnums(c.birth, 2, 3, '1');
+					getnums(c.birth, 3, 4);
+					getnums(c.birth, 4, 5, '2', '1');
+					getnums(c.birth, 5, date);
+					badsymb = false;
+					break;
+				case 5:
+					c.favorite = !c.favorite;
+					break;
+				case 6:
+					cout << "Если вы точно хотите удалить контакт, нажмите 0\n";
+					if (!(ans = _getch() - '0'))
+					{
+						_delete(nomer);
+						return nomer - 1;
+					}
+					else
+						badsymb = false;
+				}
+				badsymb = false;
 				break;
 			}
 		}
-		if (found)
-			return man[i];
-		//else//////////////////////////////////////////
-	}
-	//Выдать контакты на данную букву
-	string* letter_get()
+	} while (repeat);
+	return nomer;
+}
+void List::menu(bool isbasic)
+{
+	ifstream fin;
+	char word;
+	if (isbasic)
 	{
-
-	}
-	//Вывести число контактов
-	int getk()
-	{
-		return k;
-	}
-	/// <summary>
-	///
-	/// </summary>
-	/// Сделать контакт избранным
-	void favour(contact )
-	{
-		
-	}
-	//Удалить из избранных
-	void dis_favor(contact dis)
-	{
-		for (int i = 0; i < k; i++)
+		fin.open("list.txt");
+		if (fin.is_open())
 		{
-			if (man[i] == dis)
+			contact in;
+			fin >> k;
+			for (int i = 0; i < k; i++)
+				if (!fin.eof())
+				{
+					fin >> in;
+					man.push_back(in);
+				}
+		}
+		fin.close();
+	}
+	string s_[3];
+	char ph_[number];
+	contact extra;
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, (WORD)((LIGHTGREEN << 4) | YELLOW));
+	system("cls");
+	int i;
+	int pointer = 0;
+	int c;
+	bool repeat = true;
+	bool notnorm;
+	const int out = 27;
+	int screen = 0;
+	do
+	{
+		SetConsoleTextAttribute(hConsole, (WORD)((LIGHTGREEN << 4) | YELLOW));
+		notnorm = true;
+		system("CLS");
+		for (i = screen; i < pointer; i++)
+			man[i].usualprintc(i);
+		if (i < screen + out && i < k)
+		{
+			man[i].specialprintc(i);
+			for (i = pointer + 1; i < k && i < screen + out; i++)
+				man[i].usualprintc(i);
+			SetConsoleTextAttribute(hConsole, (WORD)((LIGHTGREEN << 4) | YELLOW));
+		}
+		cout << " Общее число контактов: " << k << ". Если контактов больше " << out - 1 << ", можете переходить между страницами влево и вправо" << endl;
+		while (notnorm)
+		{
+			c = _getch();
+			switch (c)
 			{
-				man[i].favorite = false;
+			case w:case W:
+				if (pointer == screen)
+					if (screen + out < k)
+						pointer = screen + out - 1;
+					else
+						pointer = k - 1;
+				else
+					pointer--;
+				notnorm = false;
+				break;
+			case s: case S:
+				if (pointer < screen + out - 1 && pointer < k - 1)
+					pointer++;
+				else
+					pointer = screen;
+				notnorm = false;
+				break;
+			case _n:
+				pointer = contact_menu(man[pointer], pointer);
+				notnorm = false;
+				break;
+			case esc:
+				if (isbasic)
+					repeat = exitmenu();
+				else
+					return;
+				if ((!repeat) && isbasic)
+				{					
+					ofstream fout;
+					fout.open("list.txt");
+					fout << k << endl;
+					for (int i = 0; i < k; i++)
+						fout << man[i];
+					fout.close();
+					cout << "Данные успешно сохранены в файл" << endl;
+				}
+				notnorm = false;
+				break;
+			case a: case A:
+				if (screen >= out)
+				{
+					pointer -= out;
+					screen -= out;
+				}
+				else
+				{
+					screen = k / out;
+					screen *= out;
+					if (pointer + screen < k)
+						pointer += screen;
+					else
+						pointer = k - 1;
+				}
+				notnorm = false;
+				break;
+			case D: case d:
+				if (screen + out < k)
+				{
+					screen += out;
+					if (pointer + out < k)
+						pointer += out;
+					else
+						pointer = screen;
+				}
+				else
+				{
+					pointer -= screen;
+					screen = 0;
+				}
+				notnorm = false;
+				break;
+			case '+':
+				system("cls");
+				cout << "Фамилия:" << endl;
+				setstr(extra.surname);
+				cout << "Имя:" << endl;
+				setstr(extra.name);
+				cout << "Отчество:" << endl;
+				setstr(extra.patronymic);
+				if (check(extra))
+					_new(extra);
+				else
+				{
+					fio_err();
+					_getch();
+				}
+				notnorm = false;
+				break;
+			case '0':				
+				system("cls");
+				cout << "Фамилия:" << endl;
+				setstr(s_[0]);
+				cout << "Имя:" << endl;
+				setstr(s_[1]);
+				cout << "Отчество:" << endl;
+				setstr(s_[2]);
+				i = find_fio(s_);
+				cout << endl;
+				if (i > 0)
+					man[i].usualprintc();
+				else
+					cout << "Поиск не дал результатов" << endl;
+				word = _getch();
+				notnorm = false;
+				break;
+			case '1':
+				system("cls");
+				cout << "Введите номер телефона со знаком \"+\"\n";
+				while ((ph_[0] = _getch()) != '+')
+					;
+				cout << "+";
+				getnums(ph_, 1, number);
+				cout << endl;
+				if (!find_phone(ph_))
+					cout << "Поиск не дал результатов" << endl;
+				word = _getch();
+				notnorm = false;
+				break;
+			case '2':
+				system("cls");
+				cout << "Введите символ, с которого может начинаться фамилия/имя/отчество\n";
+				word = _getch();
+				cout << word << endl;
+				if (!find_word(word))
+					cout << "Поиск не дал результатов" << endl;
+				word = _getch();
+				notnorm = false;
+				break;
 			}
 		}
-	}
-	//Вывести все избранные контакты???
-	contact* getfav()
+	} while (repeat);
+}
+bool List::check(const contact& c)//возвращает true, если всё хорошо
+{
+	for (int i = 0; i < k; i++)
+		if (man[i] == c)
+			return false;
+	return true;
+}
+bool List::exitmenu()
+{
+	enum point
 	{
-		int i;
-		int n=0;//количество избранных контактов
-		for (i = 0; i < k; i++)
+		yes, no
+	};
+	int c;
+	bool repeat = true;
+	bool badsymb = true;
+	point choice = yes;
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	do
+	{
+		system("CLS");
+		cout << "Вы уверены, что хотите выйти?" << endl;
+		if (choice == yes)
 		{
-			if (man[i].favorite)
-				n++;
+			SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | CYAN));
+			cout << "Да";
+			SetConsoleTextAttribute(hConsole, (WORD)((LIGHTGREEN << 4) | YELLOW));
+			cout << " Нет" << endl;
 		}
-
-	}
-	//Удалить контакт
-	void _delete(contact deleted)
-	{
-		int i, j = 0, num;
-		contact* tmp = new contact[k-1];
-		for (i = 0; i < k; i++)
-			if (man[i] != deleted)
+		else
+		{
+			SetConsoleTextAttribute(hConsole, (WORD)((LIGHTGREEN << 4) | YELLOW));
+			cout << "Да ";
+			SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | CYAN));
+			cout << "Нет";
+			SetConsoleTextAttribute(hConsole, (WORD)((LIGHTGREEN << 4) | YELLOW));
+			cout << endl;
+		}
+		do
+		{
+			c = _getch();
+			switch (c)
 			{
-				tmp[j] = man[i];
-				j++;
+			case a: case A:
+			case d: case D:
+				if (choice == yes)
+					choice = no;
+				else
+					choice = yes;
+				badsymb = false;
+				break;
+			case _n:
+				if (choice == yes)
+					return false;//перемещает булевую переменную продолжения в значение false
+				else
+					return true;//перемещает булевую переменную продолжения в значение true
+			case esc:
+				return true;//перемещает булевую переменную продолжения в значение false
+			default:
+				badsymb = true;
 			}
-			else
-				num = i;
-		k--;
-		man = new contact[k];
-		for (i = 0; i < k; i++)
-		{
-			man[i] = tmp[i];
-		}
-		delete[] tmp;
-	}
-};
+		} while (badsymb);
+	} while (repeat);
+}
 int main()
 {
 	setlocale(LC_ALL, "Russian");
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+	system("color AE");
+	List list;
+	cout << "УБЕДИТЕСЬ, ЧТО У ВАС НА КЛАВИАТУРЕ СЕЙЧАС РУССКАЯ РАСКЛАДКА" << endl;
+	cout << "Полезные клавиши:" << endl;
+	cout << "Поиск контакта по ФИО: 0" << endl;
+	cout << "Поиск контакта по номеру телефона: 1" << endl;
+	cout << "Поиск контактов по букве: 2" << endl;
+	cout << "Добавить новый контакт: +" << endl;
+	system("pause");
+	list.menu(true);
+	system("pause");
 }
