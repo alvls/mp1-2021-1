@@ -2,126 +2,131 @@
 #include <fstream>
 #include <cstdio>
 #include <list>
+#include <vector>
 #include <string>
 #include <clocale>
 using namespace std;
 
 enum err{out_of_range, wrong_date, wrong_parameter};	//	errors
-struct Date_struct {	// date
-	unsigned int day    : 5;
-	unsigned int month : 4;
-	unsigned int year   : 15;
-};
-int months[] = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+int months[] = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };	// Date
 class Date {
-	Date_struct date;
+	unsigned int day : 5;
+	unsigned int month : 4;
+	unsigned int year : 15;
 public:
-	void set(string s) {
+	Date() {
+		day = month = year = 0;
+	}
+	void operator=(string s) {
+		*this = s.c_str();
+	}
+	void operator=(const char* s) {
 		int d, m, y;
-		if (sscanf(s.c_str(), "%02d.%02d.%d", &d, &m, &y) == 3)
-			if (y > 0 && y < 10000 && m > 0 && m < 13 && d > 0 && d <= months[m - 1]) {
-				date.year = y;
-				date.month = m;
-				date.day = d;
-			}
+		if (sscanf_s(s, "%d.%d.%d", &d, &m, &y) == 3 &&
+			y > 0 && m > 0 && m < 13 && d > 0 && d <= months[m - 1]) {
+			day = d;
+			month = m;
+			year = y;
+		}
+		else
+			throw err::wrong_date;
 	}
 	string get() {
-		string s = to_string(date.day) + '.' + to_string(date.month)
-			+ '.' + to_string(date.year);
+		string s = to_string(day) + '.' + to_string(month)
+			+ '.' + to_string(year);
 		return s;
 	}
 };
-struct Song {			// song
-	string parameter[6];
+enum params{name, poet, composer, executor, album, date};// Song 0 - 5
+struct Song {			
+	string parameter[5];
 	Date date;
 };
-enum params{name, poet, composer, executor, album, date};// 0 - 5
 class Player {			// Player
-	list<Song> l;
+	list<Song> songs;
 public:
 	~Player() {
-		l.clear();
+		songs.clear();
 	}
 	void add(Song s) {
 		bool f = true;
-		for (list<Song>::iterator i = l.begin(); i != l.end(); ++i)
+		for (list<Song>::iterator i = songs.begin(); i != songs.end(); ++i)
 			if (i->parameter[0] > s.parameter[0]) {
-				l.insert(i, s);
+				songs.insert(i, s);
 				f = false;
+				break;
 			}
 		if (f)
-			l.push_back(s);
+			songs.push_back(s);
 	}
-	void set(int ind, params j, string s) {
-		if (ind < 0 || ind > l.size())
+	void set(int ind, params param, string s) {
+		if (ind < 0 || ind > songs.size())
 			throw err::out_of_range;
 		else {
-			list<Song>::iterator it = l.begin();
+			list<Song>::iterator it = songs.begin();
 			advance(it, ind - 1);
-			if (j == date) {
-				it->date.set(s);
-			}else {
-			it->parameter[j] = s;
-			}
+			if (param == date)
+				it->date = s;
+			else
+				it->parameter[param] = s;
 		}
 	}
-	Song search(string _name, string _composer) {	// erase
-		Song i;
-		for (Song i : l)
-			if ((i.parameter[0] == _name) && (i.parameter[2] == _composer))
-				break;
-		return i;
+	Song* search(string _name, string _composer) {
+		for (list<Song>::iterator i = songs.begin(); i != songs.end(); ++i)
+			if ((i->parameter[0] == _name) && (i->parameter[2] == _composer))
+				return &(*i);
+		return nullptr;
 	}
-	list<Song*> get_by_param(params param, string s) {
-		list<Song*> tmp;
+	vector<Song*> get_by_param(params param, string s) {
+		vector<Song*> tmp;
 		if (param < 1 || param > 3)
-			throw wrong_parameter;
-		else {
-			for (list<Song>::iterator i = l.begin(); i != l.end(); ++i)
-				if (i->parameter[param] == s)
-					tmp.push_back(&(*i));
-		}
+			throw err::wrong_parameter;
+		for (list<Song>::iterator i = songs.begin(); i != songs.end(); ++i)
+			if (i->parameter[param] == s)
+				tmp.push_back(&(*i));
 		return tmp;
 	}
 	int get_size() {
-		return l.size();
+		return songs.size();
 	}
 	void del(int i) {
-		list<Song>::iterator it = l.begin();
+		if (i < 0 || i > songs.size() - 1)
+			throw err::out_of_range;
+		list<Song>::iterator it = songs.begin();
 		advance(it, i - 1);
-		l.erase(it);
+		songs.erase(it);
 	}
 	void save(string s) {
 		ofstream f(s);
 		int j;
-		for (list<Song>::iterator i = l.begin(); i != l.end(); ++i) {
-			for (j = 0; j < 6; j++)
+		for (list<Song>::iterator i = songs.begin(); i != songs.end(); ++i) {
+			for (j = 0; j < 5; j++)
 				f << i->parameter[j] << '\n';
-			f << i->date.get() << '\n';
+			f << i->date.get();
 		}
 		f.close();
 	}
 	void load(string s) {
 		ifstream f(s); string str; Song song; int i;
-		l.clear();
-		while (true) {
-			for (i = 0; i < 7; i++) {
-				if (getline(f, str))
-					if (i != 7)
-						song.parameter[i] = str;
-					else
-						song.date.set(str);
-			}			
-
+		songs.clear();
+		while (getline(f, str)) {
+			for (i = 0; i < 5; i++) {
+				song.parameter[i] = str;
+				getline(f, str);
+			}
+			song.date = str;
+			songs.push_back(song);
 		}
 	}
 };
 
 int main() {
 	setlocale(LC_ALL, "Russian");
-	Player box;
-
-
-
+	Player box; Song song; string s = "";
+	box.load("player.txt");
+	song = {"Автор", "Поэт", "Композитор", "Исполнитель", "Альбом"};
+	song.date = "14.11.2002";
+	box.add(song);
+	box.save("player.txt");
 	system("pause");
 }
