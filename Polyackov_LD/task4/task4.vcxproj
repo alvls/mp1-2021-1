@@ -111,6 +111,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Class Count.cpp" />
+    <ClCompile Include="Class OneDay.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Class Date.cpp" />
+    <ClCompile Include="Class Pedometer.cpp" />
+    <ClCompile Include="Information processing.cpp" />
+    <ClCompile Include="menu.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Class Count.h" />
+    <ClInclude Include="Class OneDay.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="Class Date.h" />
+    <ClInclude Include="Class Pedometer.h" />
+    <ClInclude Include="Information processing.h" />
+    <ClInclude Include="menu.h" />
+    <ClInclude Include="all.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
