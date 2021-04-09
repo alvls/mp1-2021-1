@@ -21,7 +21,7 @@ struct Film
 class Filmoteka
 {
 	int size;//число фильмов в фильмотеке
-	std::vector<struct Film> F;
+	std::vector<Film> F;
 public:
 	Filmoteka(int razmer)
 	{
@@ -72,36 +72,31 @@ public:
 		size = F.size();//меняем размер фильмотеки
 		fin.close();
 	}
-	void delete_film(string name, int year)//удалить фильм
+	bool delete_film(string name, int year)//удалить фильм
 	{
-		int i = 0, delete_num;
-		std::vector<struct Film> TMP;
+		bool flag=false;//false - если фильмы не найдены 
+		int i = 0;
+		vector<Film>::iterator it;
+		it = F.begin();
 		while (i < size)//находим номер этого элемента 
 		{
 			if ((F[i].film_name == name) && (F[i].year == year))
 			{
+				it++;
+				flag = true;
 				break;
 			}
 			i++;
 		}
-		delete_num = i;
-		size--;//уменьшаем на 1 размер
-		for (i = 0; i < delete_num; i++)//переносим в tmp все члены массива F ДО номера tmp_num
+		if (flag == false)
 		{
-			TMP.push_back(F[i]);// = F[i];
+			return(flag);
 		}
-		for (i = delete_num + 1; i < size; i++)//переносим в tmp все члены массива F ПОСЛЕ номера tmp_num
-		{
-			TMP.push_back(F[i - 1]);
-		}
-		F.clear();//затем чистим массив F и перекатываем в него все элементы tmp
-		for (i = 0; i < size; i++)
-		{
-			F.push_back(TMP[i]);
-		}
-		TMP.clear();//очищаем память временного массива
+		F.erase(it);
+		size = F.size();
+		return (flag);
 	}
-	void setfilm(struct Film Temp)//добавить фильм
+	void setfilm(Film Temp)//добавить фильм
 	{
 		int i;
 		if (F.empty() == true)// если вектор еще пуст
@@ -110,7 +105,7 @@ public:
 			F.push_back(Temp);
 		}
 		else {
-			std::vector<struct Film> TMP;
+			std::vector<Film> TMP;
 			i = 0;
 			while ((F[i].film_name > Temp.film_name) && (i < size))//находим номер этого элемента    (s[i] >temp)
 			{
@@ -144,53 +139,87 @@ public:
 			TMP.clear();//очищаем память временного массива на каждой итерации
 		}
 	}
-	vector <struct Film> get_films_of_director(string director)//выдать все фильмы заданного режиссера
+	vector <Film> get_films_of_director(string director)//выдать все фильмы заданного режиссера
 	{
 		int i;
-		std::vector<struct Film> TMP;
+		std::vector<Film> TMP;
+		bool flag = false;//false-не нашли фильм, true-нашли
+		Film Temp;
 		for (i = 0; i < size; i++)//ищем все подходящие элементы и записываем их в TMP
 		{
 			if (F[i].director == director)
 			{
+				flag = true;
 				TMP.push_back(F[i]);
 			}
+		}
+		if (flag == false)
+		{
+			Temp.year = 0;//если фильм не найден, то год выхода в прокат равен 0
+			Temp.film_name = "0";//иначе программа умирает
+			Temp.director = "0";//иначе программа умирает
+			Temp.screenwriter = "0";//иначе программа умирает
+			Temp.musician = "0";//иначе программа умирает
+			TMP.push_back(Temp);
 		}
 		return(TMP);
 		TMP.clear();
 	}
-	vector <struct Film> get_films_in_year(int year)
+	vector <Film> get_films_in_year(int year)
 	{
 		int i;
-		std::vector<struct Film> TMP;
+		std::vector<Film> TMP;
+		Film Temp;
+		bool flag = false;//false-не нашли фильм, true-нашли
 		for (i = 0; i < size; i++)//ищем все подходящие элементы и записываем их в TMP
 		{
 			if (F[i].year == year)
 			{
+				flag = true;
 				TMP.push_back(F[i]);
 			}
+		}
+		if (flag == false)
+		{
+			Temp.year = 0;//если фильм не найден, то год выхода в прокат равен 0
+			Temp.film_name = "0";//иначе программа умирает
+			Temp.director = "0";//иначе программа умирает
+			Temp.screenwriter = "0";//иначе программа умирает
+			Temp.musician = "0";//иначе программа умирает
+			TMP.push_back(Temp);
 		}
 		return(TMP);
 		TMP.clear();
 	}
-	struct Film find_film_by_name_and_year(string name, int year)//найти фильм по названию и году
+	Film find_film_by_name_and_year(string name, int year)//найти фильм по названию и году
 	{
 		int i;
-		struct Film film;
+		bool flag = false;//false-не нашли фильм, true-нашли
+	    Film film;
 		for (i = 0; i < size; i++)//ищем подходящий элемент и записываем его в film
 		{
 			if ((F[i].year == year)&&(F[i].film_name==name))
 			{
 				film= F[i];
+				flag = true;
 				break;
 			}
 		}
+		if (flag == false)
+		{
+			film.year = 0;//если фильм не найден, то год выхода в прокат равен 0
+			film.film_name = "0";//иначе программа умирает
+			film.director = "0";//иначе программа умирает
+			film.screenwriter = "0";//иначе программа умирает
+			film.musician = "0";//иначе программа умирает
+		}
 		return(film);
 	}
-	vector <struct Film> get_films_with_max_fees(int num_films_with_max_fees)
+	vector <Film> get_films_with_max_fees(int num_films_with_max_fees)
 	{
 		int i, size_copy = size, j, max_fees, elem_num;//elem_num-номер искомого элемента
-		std::vector<struct Film> COPY;//COPY-копия массива F  
-		std::vector<struct Film> MAX_FEES;//массив искомых фильмов
+		std::vector<Film> COPY;//COPY-копия массива F  
+		std::vector<Film> MAX_FEES;//массив искомых фильмов
 		COPY = F;
 		for (i = 0; i < num_films_with_max_fees; i++)//   while (MAX_FEES.size() < num_films_with_max_fees)
 		{
@@ -221,67 +250,69 @@ public:
 		MAX_FEES.clear();
 
 	}
-	vector <struct Film> get_films_with_max_fees_in_year(int num_films_with_max_fees, int year)
+	vector <Film> get_films_with_max_fees_in_year(int num_films_with_max_fees, int year)
 	{
-		int i, size_copy, j, max_fees, elem_num;
-		std::vector<struct Film> COPY;//COPY-копия массива F  
-		std::vector<struct Film> MAX_FEES;//массив искомых фильмов
+		int i, size_copy, j, max_fees, elem_num, size_copy_fix;
+		std::vector<Film> COPY;//COPY-копия массива F  
+		std::vector<Film> MAX_FEES;//массив искомых фильмов
+		Film Temp;
+		bool flag = false;//false-не нашли фильм, true-нашли
 		for (i = 0; i < size; i++)//заполняе массив COPY 
 		{
 			if (F[i].year == year)
+			{
+				flag = true;
 				COPY.push_back(F[i]);
-		}
-		size_copy = COPY.size();
-		for (i = 0; i < num_films_with_max_fees; i++)//
-		{
-			max_fees = 0;
-			size_copy = COPY.size();
-			for (j = 0; j < size_copy; j++)//ищем элемент с максимальными сборами
-			{
-				if (COPY[j].fees > max_fees)//>
-				{
-					max_fees = COPY[j].fees;
-				}
-			}//нашли значение элемента
-			for (j = 0; j < size_copy; j++)//находим номер этого элемента 
-			{
-				if (COPY[j].fees == max_fees)
-				{
-					break;
-				}
-				j++;
 			}
-			elem_num = j;
-			MAX_FEES.push_back(COPY[elem_num]);//записываем найденный элемент в массив искомых фильмов 
-			swap(COPY[elem_num], COPY.back());//удаляем из COPY элемент с номером elem_num, ставя на его место последний элемент COPY (порядок фильмов в COPY нам неважен)
-			COPY.pop_back();
 		}
-		COPY.clear();
-		return(MAX_FEES);
-		MAX_FEES.clear();
+		if (flag == false)
+		{
+			Temp.year = 0;//если фильм не найден, то год выхода в прокат равен 0
+			Temp.film_name = "0";//иначе программа умирает
+			Temp.director = "0";//иначе программа умирает
+			Temp.screenwriter = "0";//иначе программа умирает
+			Temp.musician = "0";//иначе программа умирает
+			MAX_FEES.push_back(Temp);
+			return (MAX_FEES);
+			MAX_FEES.clear();
+		}
+		else
+		{
 
-	}
-	int search_num_of_film(struct Film Temp)//найти номер элемента в массиве (нужно для реализации 2 пункта в main)
-	{
-		int film_num, i=0;
-		while ((F[i].film_name == Temp.film_name) && (i < size))
-		{
-			if (F[i].year > Temp.year)
+			size_copy = COPY.size();
+			size_copy_fix = size_copy;
+			for (i = 0; i < num_films_with_max_fees; i++)
 			{
-				break;
+				if (i >= size_copy)
+					break;
+				max_fees = 0;
+				size_copy = COPY.size();
+				for (j = 0; j < size_copy; j++)//ищем элемент с максимальными сборами
+				{
+					if (COPY[j].fees > max_fees)//>
+					{
+						max_fees = COPY[j].fees;
+					}
+				}//нашли значение элемента
+				for (j = 0; j < size_copy; j++)//находим номер этого элемента 
+				{
+					if (COPY[j].fees == max_fees)
+					{
+						break;
+					}
+					j++;
+				}
+				elem_num = j;
+				MAX_FEES.push_back(COPY[elem_num]);//записываем найденный элемент в массив искомых фильмов 
+				swap(COPY[elem_num], COPY.back());//удаляем из COPY элемент с номером elem_num, ставя на его место последний элемент COPY (порядок фильмов в COPY нам неважен)
+				COPY.pop_back();
 			}
-			i++;
+			COPY.clear();
+			return(MAX_FEES);
+			MAX_FEES.clear();
 		}
-		film_num = i;
-		return(film_num);
 	}
-	void change_data_film(struct Film Temp, int film_num)
-	{
-		F.push_back(Temp);//добавляем в конец исправленный фильм
-		swap(F[film_num], F.back());//меняем его местами с предыдущей версией
-		F.pop_back();//затираем предыдущую версию
-	}
-	vector <struct Film> get_all_films()//выдать все фильмы
+	vector <Film> get_all_films()//выдать все фильмы
 	{
 		return(F);
 	}
@@ -290,12 +321,8 @@ public:
 		size = F.size();
 		return (size);
 	}
-	~Filmoteka()//деструктор
-	{
-		F.clear();
-	}
 };
-void print(struct Film F)//печатает 1 фильм
+void print(Film F)//печатает 1 фильм
 {
 	std::cout << "Название фильма: ";
 	std::cout << F.film_name << '\n';
@@ -307,10 +334,9 @@ void print(struct Film F)//печатает 1 фильм
 	std::cout << F.musician << '\n';
 	std::cout << "Дата выхода в прокат: ";
 	std::cout << F.day<<"."<<F.month<<"."<<F.year << '\n';
-	std::cout << "сборы: "<< " руб";
-	std::cout << F.fees << '\n' << '\n'; 
+	std::cout << "сборы: "<< F.fees << " руб" << '\n' << '\n'; ;
 }
-void print(vector <struct Film> F)//печатает вектор фильмов
+void print(vector <Film> F)//печатает вектор фильмов
 {
 	int size = F.size();
 	for (int i = 0; i < size; i++)
@@ -337,9 +363,11 @@ void main()
 {
 	int i, num = 1, size = 0, num_films_with_max_fees, num_operation = 1, film_num;//num - номер операции в главном цикле программы;  num_operation - номер операции (нужен для 2 режима); film_num - номер фильма в фильмотеке, нужен для 2 режима
 	class Filmoteka Filmoteka1(size);
-	struct Film Temp, film;//film-нужен для 3 режима
+	bool flag = false;//нужен для 3 режима
+	bool f=false;//нужен для 9 режима
+	Film Temp, film;//film-нужен для 3 режима
 	string name_of_file;
-	vector <struct Film> F;//массив, в который записываются фильмы при помощи методов класса 
+	vector <Film> F;//массив, в который записываются фильмы при помощи методов класса 
 	setlocale(LC_ALL, "Russian");
 	SetConsoleOutputCP(1251);
 	SetConsoleCP(1251);
@@ -373,16 +401,24 @@ void main()
 			Filmoteka1.setfilm(Temp);
 			break;
 		case 2://изменить данные фильма
-			std::cin.get();
-			std::cout << "Введите название фильма, который необходимо изменить: ";
-			std::getline(std::cin, Temp.film_name);
-			std::cout << "Введите год выхода в прокат: ";
-			std::cin >> Temp.year;//тут нужно найти фильм и присвоить его Temp
-			Temp = Filmoteka1.find_film_by_name_and_year(Temp.film_name, Temp.year);
-			film_num = Filmoteka1.search_num_of_film(Temp);
+			flag = false;
+			do {
+				std::cin.get();
+				if (flag == true)
+				{
+					std::cout << "Фильм не найден. Попытайтесь заново" << '\n';
+				}
+				std::cout << "Введите название фильма, который необходимо изменить: ";
+				std::getline(std::cin, Temp.film_name);
+				std::cout << "Введите год выхода в прокат: ";
+				std::cin >> Temp.year;//тут нужно найти фильм и присвоить его Temp
+				flag = true;
+				Temp = Filmoteka1.find_film_by_name_and_year(Temp.film_name, Temp.year);
+			} while (Temp.year == 0);
+			Filmoteka1.delete_film(Temp.film_name, Temp.year);
 			while (num_operation!=0)
 			{
-				std::cout << "Введите 0, если хотите закончить выбор";
+				std::cout << "Введите 0, если хотите закончить выбор" << '\n';
 				std::cout << "Введите 1, если хотите изменить название фильма" << '\n';
 				std::cout << "Введите 2, если хотите изменить имя режиссера" << '\n';
 				std::cout << "Введите 3, если хотите изменить имя сценариста" << '\n';
@@ -425,30 +461,54 @@ void main()
 					std::cin >> Temp.fees;
 				}
 			}
-			Filmoteka1.change_data_film(Temp, film_num);
+			Filmoteka1.setfilm(Temp);
 			break;
 		case 3://найти фильм по названию и году
-			std::cin.get();
-			std::cout << "Введите название фильма, который необходимо найти: "; 
-			std::getline(std::cin, Temp.film_name);
-			std::cout << "Введите год выхода в прокат: ";
-			std::cin >> Temp.year;
-			film=Filmoteka1.find_film_by_name_and_year(Temp.film_name, Temp.year);
+			flag = false;
+			do {
+				std::cin.get();
+				if (flag == true)
+				{
+					std::cout << "Фильм не найден. Попытайтесь заново" << '\n';
+				}
+				std::cout << "Введите название фильма, который хотите найти: ";
+				std::getline(std::cin, Temp.film_name);
+				std::cout << "Введите год фильма, который хотите найти: ";
+				std::cin >> Temp.year;
+				flag = true;
+				film = Filmoteka1.find_film_by_name_and_year(Temp.film_name, Temp.year);
+			} while (film.year == 0);
 			print(film);
 			break;
 		case 4://выдать все фильмы заданного режиссера 
 			F.clear();
+			flag = false;
 			std::cin.get();
-			std::cout << "Введите имя режиссера: "; //Сталинград  Подольские курсанты Единичка Апостол
-			std::getline(std::cin, Temp.director);
-			F = Filmoteka1.get_films_of_director(Temp.director);
+			do {
+				if (flag == true)
+				{
+					std::cout << "Ни один фильм не найден. Попытайтесь заново" << '\n';
+				}
+				std::cout << "Введите имя режиссера: ";
+				std::getline(std::cin, Temp.director);
+				flag = true;
+				F = Filmoteka1.get_films_of_director(Temp.director);
+			} while (F[0].year == 0);
 			print(F);
 			break;
 		case 5://выдать все фильмы, вышедшие в прокат в выбранном году
 			F.clear();
-			std::cout << "Введите год выхода фильма в прокат: ";
-			std::cin >> Temp.year;
-			F = Filmoteka1.get_films_in_year(Temp.year);
+			flag = false;
+			do {
+				if (flag == true)
+				{
+					std::cout << "Ни один фильм не найден. Попытайтесь заново" << '\n';
+				}
+				std::cout << "Введите год выхода фильма в прокат: ";
+				std::cin >> Temp.year;
+				flag = true;
+				F = Filmoteka1.get_films_in_year(Temp.year);
+			} while (F[0].year == 0);
 			print(F);
 			break;
 		case 6: //выдать заданное число фильмов с max сборами
@@ -461,11 +521,19 @@ void main()
 		case 7://выдать заданное число фильмов с max сборами в выбранном году
 			F.clear();
 			int year;
-			std::cout << "Введите число фильмов с максимальными сборами: ";
-			std::cin >> num_films_with_max_fees;
-			std::cout << "Введите год, за который хотите получить данные: ";
-			std::cin >> year;
-			F=Filmoteka1.get_films_with_max_fees_in_year(num_films_with_max_fees, year);
+			flag = false;
+			do {
+				if (flag == true)
+				{
+					std::cout << "Ни один фильм не найден. Попытайтесь заново" << '\n';
+				}
+				std::cout << "Введите число фильмов с максимальными сборами: ";
+				std::cin >> num_films_with_max_fees;
+				std::cout << "Введите год, за который хотите получить данные: ";
+				std::cin >> year;
+				flag = true;
+				F = Filmoteka1.get_films_with_max_fees_in_year(num_films_with_max_fees, year);
+			} while (F[0].year == 0);
 			print(F);
 			break;
 		case 8: //узнать размер
@@ -473,12 +541,19 @@ void main()
 			std::cout << "Текущее число фильмов: " << size<<'\n';
 			break;
 		case 9://удалить фильм
-			std::cin.get();
-			std::cout << "Введите название фильма: "; 
-			std::getline(std::cin, Temp.film_name);
-			std::cout << "Введите год выхода фильма в прокат: ";
-			std::cin >> Temp.year;//используем поля структуры Temp, чтобы не выделять память под строку с названием фильма и число типа int - год
-			Filmoteka1.delete_film(Temp.film_name, Temp.year);
+			do {
+				std::cin.get();
+				if (flag == true)
+				{
+					std::cout << "Фильм не найден. Попытайтесь заново" << '\n';
+				}
+				std::cout << "Введите название фильма, который хотите удалить: ";
+				std::getline(std::cin, Temp.film_name);
+				std::cout << "Введите год фильма, который хотите удалить: ";
+				std::cin >> Temp.year;//используем поля структуры Temp, чтобы не выделять память под строку с названием фильма и число типа int - год
+				flag = true;
+				f=Filmoteka1.delete_film(Temp.film_name, Temp.year);
+			} while (f == false);
 			break;
 		case 10://сохранить фильмотеку в файл
 			std::cin.get();
