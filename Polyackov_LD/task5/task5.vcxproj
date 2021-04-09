@@ -18,6 +18,23 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Class CashMachine.cpp" />
+    <ClCompile Include="Class OneCard.cpp" />
+    <ClCompile Include="Information processing.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="menu.cpp" />
+    <ClCompile Include="Class ProcessingCenter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="all.h" />
+    <ClInclude Include="Class CashMachine.h" />
+    <ClInclude Include="Class OneCard.h" />
+    <ClInclude Include="Information processing.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="menu.h" />
+    <ClInclude Include="Class ProcessingCenter.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{D88FF6EA-A645-4F40-98F3-A9EC3970D22F}</ProjectGuid>
@@ -110,8 +127,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
