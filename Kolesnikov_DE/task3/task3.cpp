@@ -185,3 +185,5 @@ catch(string a){
     cout << "ERROR:" << a << endl;
 }
 }
+
+virtual void f() = 0; //теперь этот класс абстрактный
