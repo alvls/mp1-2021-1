@@ -7,12 +7,11 @@ ProcessingCenter::ProcessingCenter()
 	fs.open("Data.txt", fstream::in);
 	if (!fs.is_open())
 		throw exception("Не удалось связаться с сервером для получения информации!");
-	while (true)
+	while (!fs.eof())
 	{
 		OneCard tmpcard;
+		fs.clear();
 		fs >> tmpcard;
-		if (fs.eof())
-			break;
 		DataCenter.push_back(tmpcard);
 	}
 	fs.close();

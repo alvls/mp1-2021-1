@@ -14,8 +14,8 @@ OneCard::OneCard()
 
 istream& operator>> (istream& in, OneCard& CharactOfPers)
 {
-    in >> CharactOfPers.fullname.name;
     in >> CharactOfPers.fullname.surname;
+    in >> CharactOfPers.fullname.name;
     in >> CharactOfPers.fullname.patronymic;
     in >> CharactOfPers.cardID;
     in >> CharactOfPers.PINcode;
