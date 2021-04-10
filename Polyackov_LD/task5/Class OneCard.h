@@ -19,6 +19,6 @@ public:
     unsigned int GetMoney() { return money; }
 
     //Оператор
-    friend istream& operator>> (istream& in, OneCard datacenter);
+    friend istream& operator>> (istream& in, OneCard& datacenter);
 };
 

@@ -1,18 +1,9 @@
 #pragma once
 
-template <typename T> T check(T a, T b)
-{
-    T choice = -1;
-    while ((choice < a) || (choice > b))
-    {
-        cin >> choice;
-        if ((choice < a) || (choice > b))
-        {
-            cout << "Введено неверное число. Попробуйте ввести снова." << endl;
-            cleaner();
-        }
-    }
-    return choice;
-}
-
 void cleaner(); // Очищает поток ввода
+
+int GetDigit(const char LeftBound = '0', const char RightBound = '9');
+
+int GetNumber(const int NumberOfDigits, const int TypeOfRead = 0);
+
+void gotoxy(const int x, const int y);

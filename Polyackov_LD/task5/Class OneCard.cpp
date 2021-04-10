@@ -12,7 +12,7 @@ OneCard::OneCard()
     locked = false;
 }
 
-istream& operator>> (istream& in, OneCard CharactOfPers)
+istream& operator>> (istream& in, OneCard& CharactOfPers)
 {
     in >> CharactOfPers.fullname.name;
     in >> CharactOfPers.fullname.surname;

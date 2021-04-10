@@ -3,39 +3,28 @@
 
 bool menu(CashMachine& box)
 {
-    //Добавить GetStatus и вывод в зависимости от него предлагаемых пользователю штук
-    if (!box.GetStatus())
-        mode0(box);
-    else
-    {
-
-    }
-    cout << "\n Выберите, что нужно сделать:\n\t (1) Распечатать состояние счета клиента\n\t (2) Выдать клиенту наличные (списав выданную сумму со счета)\n\t (3) Принять от клиента наличные\n\t (4) Вернуть карту клиенту\n\t";
-    int choice = check(0, 11);
-    system("cls");
+    static void(*modeptr[5])(CashMachine & box) = { mode0, mode1, mode2, mode3, mode4 };
+    cout << "\n  _____________\n |\\  _________ \\\n | \\ \\        \\_\\\n |  \\ \\        \\_\\\n |   \\ \\________\\ \\\n |    \\____\\\\\\\\____\\\n |    |  ________  |\n |    | |________| |\n |    |            |\n |    |            |\n |    |  Банкомат  |\n |    |    24/7    |\n |____|____________|\n ";
     try
     {
-        switch (choice)
+        if (!box.IsOpenCard())
         {
-        case 1:
-            mode1(box);
-            break;
-        case 2:
-            mode2(box);
-            break;
-        case 3:
-            mode3(box);
-            break;
-        case 4:
-            mode4(box);
-            break;
-        default:
-            throw exception("Ошибка выбора действия в меню");
+            modeptr[0](box);
+            system("cls");
+            return true;
         }
+        cout << "\n Выберите, что нужно сделать:\n\t (1) Распечатать состояние счета клиента\n\t (2) Выдать клиенту наличные (списав выданную сумму со счета)\n\t (3) Принять от клиента наличные\n\t (4) Вернуть карту клиенту\n\t";
+        int choice = GetDigit('1', '4');
+        cout << choice;
+        modeptr[choice](box);
+        system("cls");
     }
     catch (const exception &ex)
     {
         cout << "\n" << ex.what() << "\n\n";
+        if (string(" Ошибка считывания id карты") == ex.what())
+            //вытащить карту из банкомата
+            ;
     }
     system("pause");
     system("cls");
@@ -45,8 +34,9 @@ bool menu(CashMachine& box)
 void mode0(CashMachine& box)
 {
     cout << "\n Ожиданние карты клиента (введите ID карты)\n\n";
-    box.SetCard(check(1, 9999));
-    //Добавить PIN-code
+    int CardID = GetNumber(4);
+    box.SetCard(CardID);
+    system("pause");
 }
 
 void mode1(CashMachine& box)
