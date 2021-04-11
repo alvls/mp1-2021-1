@@ -24,3 +24,14 @@ OneCard* ProcessingCenter::GetCard(int id)
 			return &DataCenter[i];
 	return nullptr;
 }
+
+void ProcessingCenter::BlockCard(OneCard* card)
+{
+	card->ChangeLockedStatus();
+}
+
+//Проверить PIN-код
+bool ProcessingCenter::CheckPIN(int tmpPIN,OneCard* card)
+{
+	return card->GetPINcode() == tmpPIN ? true : false;
+}

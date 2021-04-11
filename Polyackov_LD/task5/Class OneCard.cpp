@@ -23,3 +23,18 @@ istream& operator>> (istream& in, OneCard& CharactOfPers)
     in >> CharactOfPers.locked;
     return in;
 }
+
+void OneCard::AddMoney(const unsigned int value)
+{
+    money += value;
+}
+
+void OneCard::DeductMoney(const unsigned int value)
+{
+    money -= value;
+}
+
+void OneCard::ChangeLockedStatus()
+{
+    locked == false ? locked = true : locked = false;
+}

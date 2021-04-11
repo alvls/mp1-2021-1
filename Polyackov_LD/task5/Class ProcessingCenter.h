@@ -11,6 +11,12 @@ public:
 	// Поиск карты
 	OneCard* GetCard(int);
 
+	// Заблокировать карту
+	void BlockCard(OneCard*);
+
+	//Проверить PIN-код
+	bool CheckPIN(int, OneCard*);
+
 	// Геттер
 	vector<OneCard> GetDataCenter() { return DataCenter; }
 	// Оператор

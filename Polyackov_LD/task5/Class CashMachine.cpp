@@ -21,3 +21,9 @@ void CashMachine::SetCard(int id)
 	if (pCard == nullptr)
 		throw exception(" Ошибка считывания id карты");
 }
+
+void CashMachine::CheckPINcode(int code)
+{
+
+}
+

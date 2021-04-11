@@ -15,6 +15,8 @@ public:
 
 	void SetCard(int);
 
+	void CheckPINcode(int);
+
 	//Получить карту
 
 	//Деструктор
