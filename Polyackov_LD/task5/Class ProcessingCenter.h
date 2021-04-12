@@ -11,6 +11,8 @@ public:
 	// Поиск карты
 	OneCard* GetCard(int);
 
+	bool IsBlockedCard(OneCard* card) { return card->GetLocked(); }
+
 	// Заблокировать карту
 	void BlockCard(OneCard* card) { card->BlockCard(); }
 

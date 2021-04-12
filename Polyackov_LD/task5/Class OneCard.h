@@ -17,6 +17,7 @@ public:
     int GetCardID() { return cardID; }
     int GetPINcode() { return PINcode; }
     unsigned int GetMoney() { return money; }
+    bool GetLocked() { return locked; }
 
     // Изменение денежных средств
     void AddMoney(const unsigned int value) { money += value; }

@@ -5,28 +5,31 @@ class CashMachine
 private:
 	enum { MAXQUANTITY = 40 , SIZECASSETTE = 2000 };
 	int size100, size200, size500, size1000, size2000, size5000, AdditionalSize;
-	ProcessingCenter* pData;
+	ProcessingCenter* pCenter;
 	OneCard* pCard;
+	bool AccessToFunct; // Доступ к функционалу
 public:
 	//Конструктор
 	CashMachine(ProcessingCenter* _data);
 
 	bool IsOpenCard() { return pCard == nullptr ? false : true; } // Возвращает есть ли карта в банкомате
+	bool IsCodeEntered() { return AccessToFunct; }
+	bool IsBlockedCard() { return pCenter->IsBlockedCard(pCard); }
 
-	void SetCard(int);
+	void SetCard(int id);
 
 	//Проверка PIN-кода
-	bool CheckPINcode(int);
+	bool CheckPINcode(int code, int & CurrentAttempts);
 
 	// Вернуть карту клиенту
-	void BackCard() { pCard = nullptr; }
+	void BackCard();
 
 	// Заблокировать карту
-	void BlockCard() { pData->BlockCard(pCard); }
+	void BlockCard() { pCenter->BlockCard(pCard); }
 
 	// Изменение денежных средств
-	void AddMoney(const unsigned int value) { pData->AddMoney(value, pCard); } // Добавить реализацию получения купюр
-	void DeductMoney(const unsigned int value) { pData->DeductMoney(value, pCard); } // Добавить реализацию получения купюр
+	void AddMoney(const unsigned int value) { pCenter->AddMoney(value, pCard); } // Добавить реализацию получения купюр
+	void DeductMoney(const unsigned int value) { pCenter->DeductMoney(value, pCard); } // Добавить реализацию получения купюр
 
 	//Получить карту
 

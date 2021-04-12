@@ -3,20 +3,36 @@
 
 bool menu(CashMachine& box)
 {
-    static void(*modeptr[5])(CashMachine & box) = { mode0, mode1, mode2, mode3, mode4 };
+    static void(*modeptr[4])(CashMachine & box) = { mode1, mode2, mode3, mode4 };
     cout << "\n  _____________\n |\\  _________ \\\n | \\ \\        \\_\\\n |  \\ \\        \\_\\\n |   \\ \\________\\ \\\n |    \\____\\\\\\\\____\\\n |    |  ________  |\n |    | |________| |\n |    |            |\n |    |            |\n |    |  Банкомат  |\n |    |    24/7    |\n |____|____________|\n ";
     try
     {
         if (!box.IsOpenCard())
         {
-            modeptr[0](box);
+            OpenCard(box);
+            system("pause");
+            system("cls");
+            return true;
+        }
+        if (box.IsBlockedCard())
+        {
+            cout << "\n Невозможно обращаться к заблокированной карте";
+            box.BackCard();
+            system("pause");
+            system("cls");
+            return true;
+        }
+        if (!box.IsCodeEntered())
+        {
+            EnterPINcode(box);
+            system("pause");
             system("cls");
             return true;
         }
         cout << "\n Выберите, что нужно сделать:\n\t (1) Распечатать состояние счета клиента\n\t (2) Выдать клиенту наличные (списав выданную сумму со счета)\n\t (3) Принять от клиента наличные\n\t (4) Вернуть карту клиенту\n\t";
         int choice = GetDigit('1', '4');
         cout << choice;
-        modeptr[choice](box);
+        modeptr[--choice](box);
         system("cls");
     }
     catch (const exception &ex)
@@ -30,13 +46,30 @@ bool menu(CashMachine& box)
     return true;
 }
 
-void mode0(CashMachine& box)
+void OpenCard(CashMachine& box)
 {
-    cout << "\n Ожиданние карты клиента (введите ID карты)\n\n";
+    cout << "\n Ожидание карты клиента (введите ID карты)\n\n";
     int CardID = GetNumber(4);
     box.SetCard(CardID);
     cout << "\n";
-    system("pause");
+}
+
+void EnterPINcode(CashMachine& box)
+{
+    cout << "\n Введите PIN-код\n\n";
+    int tmpPIN = GetNumber(4, 1);
+    int CurrentAttempts = 0;
+    if (!box.CheckPINcode(tmpPIN, CurrentAttempts))
+    {
+        if (!box.IsOpenCard())
+        {
+            cout << "\n Ваша карта заблокирована!";
+            return;
+        }
+        cout << "\n Введён неверный PIN-код\n Осталось попыток: " << 3 - CurrentAttempts;
+    }
+    else
+        cout << "\n Вы успешно ввели PIN-код\n";
 }
 
 void mode1(CashMachine& box)
@@ -71,5 +104,4 @@ void mode4(CashMachine& box)
     box.BlockCard();
     box.BackCard();
     cout << "\n Ваша карта заблокирована!";
-    system("pause");
 }

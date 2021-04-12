@@ -20,6 +20,6 @@ istream& operator>> (istream& in, OneCard& information)
 
 ostream& operator<< (ostream& out, const OneCard& information)
 {
-    out << information.fullname.surname << " " << information.fullname.name << " " << information.fullname.patronymic << " " << information.cardID << " " << information.PINcode << " " << information.money << " " << information.locked;
+    out << information.fullname.surname << " " << information.fullname.name << " " << information.fullname.patronymic << " " << information.cardID << " " << information.PINcode << " " << information.money << " " << information.locked << "\n";
     return out;
 }
