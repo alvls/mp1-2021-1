@@ -12,29 +12,14 @@ OneCard::OneCard()
     locked = false;
 }
 
-istream& operator>> (istream& in, OneCard& CharactOfPers)
+istream& operator>> (istream& in, OneCard& information)
 {
-    in >> CharactOfPers.fullname.surname;
-    in >> CharactOfPers.fullname.name;
-    in >> CharactOfPers.fullname.patronymic;
-    in >> CharactOfPers.cardID;
-    in >> CharactOfPers.PINcode;
-    in >> CharactOfPers.money;
-    in >> CharactOfPers.locked;
+    in >> information.fullname.surname >> information.fullname.name >> information.fullname.patronymic >> information.cardID >> information.PINcode >> information.money >> information.locked;
     return in;
 }
 
-void OneCard::AddMoney(const unsigned int value)
+ostream& operator<< (ostream& out, const OneCard& information)
 {
-    money += value;
-}
-
-void OneCard::DeductMoney(const unsigned int value)
-{
-    money -= value;
-}
-
-void OneCard::ChangeLockedStatus()
-{
-    locked == false ? locked = true : locked = false;
+    out << information.fullname.surname << " " << information.fullname.name << " " << information.fullname.patronymic << " " << information.cardID << " " << information.PINcode << " " << information.money << " " << information.locked;
+    return out;
 }

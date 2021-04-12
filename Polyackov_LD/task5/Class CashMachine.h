@@ -15,7 +15,18 @@ public:
 
 	void SetCard(int);
 
-	void CheckPINcode(int);
+	//Проверка PIN-кода
+	bool CheckPINcode(int);
+
+	// Вернуть карту клиенту
+	void BackCard() { pCard = nullptr; }
+
+	// Заблокировать карту
+	void BlockCard() { pData->BlockCard(pCard); }
+
+	// Изменение денежных средств
+	void AddMoney(const unsigned int value) { pData->AddMoney(value, pCard); } // Добавить реализацию получения купюр
+	void DeductMoney(const unsigned int value) { pData->DeductMoney(value, pCard); } // Добавить реализацию получения купюр
 
 	//Получить карту
 

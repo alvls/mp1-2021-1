@@ -23,8 +23,7 @@ bool menu(CashMachine& box)
     {
         cout << "\n" << ex.what() << "\n\n";
         if (string(" Ошибка считывания id карты") == ex.what())
-            //вытащить карту из банкомата
-            ;
+            cout << "Да";
     }
     system("pause");
     system("cls");
@@ -36,6 +35,7 @@ void mode0(CashMachine& box)
     cout << "\n Ожиданние карты клиента (введите ID карты)\n\n";
     int CardID = GetNumber(4);
     box.SetCard(CardID);
+    cout << "\n";
     system("pause");
 }
 
@@ -56,5 +56,20 @@ void mode3(CashMachine& box)
 
 void mode4(CashMachine& box)
 {
-    // Как-то вытащить карту
+    // Добавить 45 сек отсчёт до блокировки карты
+    system("cls");
+    cout << "\n Возьмите вашу карту в течение пяти секунд";
+    for (int i = 0; i < 5; i++)
+    {
+        _sleep(1000);
+        if (_kbhit())
+        {
+            box.BackCard();
+            return;
+        }
+    }
+    box.BlockCard();
+    box.BackCard();
+    cout << "\n Ваша карта заблокирована!";
+    system("pause");
 }

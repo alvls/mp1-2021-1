@@ -18,12 +18,16 @@ public:
     int GetPINcode() { return PINcode; }
     unsigned int GetMoney() { return money; }
 
-    void AddMoney(const unsigned int value);
-    void DeductMoney(const unsigned int value);
+    // Изменение денежных средств
+    void AddMoney(const unsigned int value) { money += value; }
+    void DeductMoney(const unsigned int value) { money -= value; }
 
-    void ChangeLockedStatus();
+    //Блокировка карты
+    void BlockCard() { locked = true; }
 
     //Оператор
-    friend istream& operator>> (istream& in, OneCard& datacenter);
+    friend istream& operator>> (istream& in, OneCard& information);
+    friend ostream& operator<< (ostream& out, const OneCard& information);
+
 };
 

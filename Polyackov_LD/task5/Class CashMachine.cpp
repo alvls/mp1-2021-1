@@ -15,15 +15,23 @@ CashMachine::~CashMachine()
 	delete pCard;
 }
 
-void CashMachine::SetCard(int id)
+void CashMachine::SetCard(int id) // Проверка на заблокированность карты
 {
 	pCard = pData->GetCard(id);
 	if (pCard == nullptr)
 		throw exception(" Ошибка считывания id карты");
 }
 
-void CashMachine::CheckPINcode(int code)
+bool CashMachine::CheckPINcode(int code)
 {
-
+	static int attempts = 1;
+	if (pData->CheckPIN(code, pCard))
+	{
+		attempts = 1;
+		return true;
+	}
+	else
+		attempts++;
+	if (attempts == 3)
+		BlockCard();
 }
-
