@@ -15,11 +15,6 @@ size_t contactsStorage::getAmountOfContacts()
  return contacts.size();
 }
 
-/*void contactsStorage::deleteContact(const Contact& object)
-{
-  
-}*/
-
 void contactsStorage::destroyStorage()
 {
   contacts.clear();
@@ -42,18 +37,18 @@ Contact& contactsStorage::operator[](const int& i)
  если такого контакта нет, то точно нужно что-то вернуть, а возвращать ссылку нет смысла,
  так как объект удалиться после выполнения функции.
  */
-Contact contactsStorage::contactByFullName(string _firstName, string _lastName, string _patronymic)
+Contact contactsStorage::contactByFullName(string _firstName, string _lastName, string _patronymic, bool& indicator)
 {
   int i = 0;
-  bool flag = 0;
+  indicator = 0;
   for(i = 0; i < contacts.size(); i++)
     if(contacts[i].getFirstName() == _firstName && contacts[i].getLastName() == _lastName && contacts[i].getPatronymic() == _patronymic)
     {
-      flag = 1;
+      indicator = 1;
       contacts[i].Output();
       return contacts[i];
     }  
-  if(!flag)
+  if(!indicator)
   { 
     Contact notExistingContact;
     cout << "No such contact!" << endl;
@@ -61,18 +56,18 @@ Contact contactsStorage::contactByFullName(string _firstName, string _lastName, 
   }
 }
 
-Contact contactsStorage::contactByPhoneNumber(string _phoneNumber)
+Contact contactsStorage::contactByPhoneNumber(string _phoneNumber, bool& indicator)
 {
   int i = 0;
-  bool flag = 0;
+  indicator = 0;
   for(i = 0; i < contacts.size(); i++)
     if(contacts[i].getPhoneNumber() == _phoneNumber)
     {
-      flag = 1;
+      indicator = 1;
       contacts[i].Output();
       return contacts[i];
     }
-  if(!flag)
+  if(!indicator)
   {
     Contact notExistingContact;
     cout << "No such contact!" << endl;
@@ -80,9 +75,10 @@ Contact contactsStorage::contactByPhoneNumber(string _phoneNumber)
   }
 } 
 
-vector <Contact> contactsStorage::everyContactByFirstLetter(char _letter)
+vector <Contact> contactsStorage::everyContactByFirstLetter(char _letter, bool& indicator)
 {
   int i = 0;
+  indicator = 0;
   vector <Contact> tempVector;
   for(i = 0; i < contacts.size(); i++)
     if(contacts[i].getFirstName()[0] == _letter)
@@ -90,6 +86,8 @@ vector <Contact> contactsStorage::everyContactByFirstLetter(char _letter)
       contacts[i].Output();
       tempVector.push_back(contacts[i]);
     }
+  if(tempVector.size())
+    indicator = 1;
   return tempVector;
 }
 
@@ -167,7 +165,7 @@ void contactsStorage::storageOutput()
   }
 }
 
-void contactsStorage::deleteContact(const int& index)
+void contactsStorage::deleteContact(const int index)
 {
   contacts.erase(contacts.begin() + index);
 }
@@ -184,3 +182,11 @@ void contactsStorage::changeContact(const int& index, string _firstName, string 
   contacts[index].setPhoneNumber(_phoneNumber);
   contacts[index].setFavouriteStatus(_favourite);
   }
+
+size_t contactsStorage::getIndex(const Contact& object)
+{
+  int i = 0;
+  for(i = 0; i < contacts.size(); i++)
+    if(object.getPhoneNumber() == contacts[i].getPhoneNumber())
+      return i;
+}

@@ -73,7 +73,7 @@ string Contact::getPatronymic()
   return patronymic;
 }
 
-string Contact::getPhoneNumber()
+string Contact::getPhoneNumber() const
 {
   return phoneNumber;
 }

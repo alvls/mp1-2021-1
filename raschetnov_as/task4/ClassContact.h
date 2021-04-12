@@ -25,7 +25,7 @@ public:
   void setLastName(string _lastName);
   string getPatronymic();
   void setPatronymic(string _patronymic);
-  string getPhoneNumber();
+  string getPhoneNumber() const;
   void setPhoneNumber(string _phoneNumber);
   string getBirthDay();
   void setBirthDay(string _day);
