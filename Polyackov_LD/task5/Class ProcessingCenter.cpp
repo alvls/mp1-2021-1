@@ -1,20 +1,26 @@
 
 #include "all.h"
 
+istream& ProcessingCenter::ReadFromStream(istream& in)
+{
+	while (true)
+	{
+		OneCard tmpcard;
+		in >> tmpcard;
+		if (in.eof())
+			break;
+		DataCenter.push_back(tmpcard);
+	}
+	return in;
+}
+
 ProcessingCenter::ProcessingCenter()
 {
 	fstream fs;
 	fs.open("Data.txt", fstream::in);
 	if (!fs.is_open())
 		throw exception("Не удалось связаться с сервером для получения информации!");
-	while (true)
-	{
-		OneCard tmpcard;
-		fs >> tmpcard;
-		if (fs.eof())
-			break;
-		DataCenter.push_back(tmpcard);
-	}
+	ReadFromStream(fs);
 	fs.close();
 }
 
@@ -31,7 +37,7 @@ void ProcessingCenter::SaveInFile()
 	fstream fs;
 	fs.open("Pedometer.txt", fstream::out);
 	if (!fs.is_open())
-		throw exception("Не удалось связаться с сервером для получения информации!");
+		throw exception("Не удалось связаться с сервером для обработки информации!");
 	fs << this;
 	fs.close();
 }
@@ -46,13 +52,5 @@ ostream& operator<<(ostream& out, const ProcessingCenter& data)
 istream& operator>> (istream& in, ProcessingCenter& data)
 {
 	data.DataCenter.clear();
-	while (true)
-	{
-		OneCard tmpcard;
-		in >> tmpcard;
-		if (EOF)
-			break;
-		data.DataCenter.push_back(tmpcard);
-	}
-	return in;
+	return data.ReadFromStream(in);
 }

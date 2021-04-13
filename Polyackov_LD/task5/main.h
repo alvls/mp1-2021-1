@@ -21,6 +21,12 @@ struct Name
     string patronymic;
 };
 
+struct QuantityOfMoney
+{
+    int ValueOfMoney;
+    int quantity;
+};
+
 /*enum ConsoleColor {
     Black = 0,
     Blue = 1,

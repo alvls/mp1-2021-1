@@ -5,8 +5,15 @@ CashMachine::CashMachine(ProcessingCenter* _data)
 {
 	pCenter = _data;
 	pCard = nullptr;
+	int tmpNominalValues[6] = { 100, 200, 500, 1000, 2000, 5000 };
+	for (size_t i = 0; i < 6; i++)
+	{
+		QuantityOfMoney tmp;
+		tmp.ValueOfMoney = tmpNominalValues[i];
+		tmp.quantity = SIZECASSETTE;
+		sizes.push_back(tmp);
+	}
 	AdditionalSize = 0;
-	size100 = size200 = size500 = size1000 = size2000 = size5000 = SIZECASSETTE;
 	AccessToFunct = false;
 }
 

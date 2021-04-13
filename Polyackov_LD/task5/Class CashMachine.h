@@ -4,9 +4,10 @@ class CashMachine
 {
 private:
 	enum { MAXQUANTITY = 40 , SIZECASSETTE = 2000 };
-	int size100, size200, size500, size1000, size2000, size5000, AdditionalSize;
+	vector<QuantityOfMoney> sizes;
 	ProcessingCenter* pCenter;
 	OneCard* pCard;
+	int AdditionalSize; // Дополнительная кассета, в которую будут сохраняться деньги 
 	bool AccessToFunct; // Доступ к функционалу
 public:
 	//Конструктор
