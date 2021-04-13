@@ -1,36 +1,40 @@
 #pragma once
-#include <iostream>
-#include <string>
-using namespace std;
+#include "Event.h"
+#include <vector>
 
-struct _time
+#define RAWS 10
+#define SEATSINRAWS 10
+struct hall
 {
-	int hours;
-	int minutes;
+	int numberHall;
+	int vipPrice;
+	int defaultPrice;
 };
-
-struct date
-{
-	int day;
-	int mounth;
-	int year;
-};
-
 class Session
 {
 private:
-	date sessionDate;
-	_time startSession;
-	string nameFilm;
-	int hallNumber;
-	int regularPrice;
-	int vipPrice;
+	Event dataAboutEvent;
+	vector <vector<bool>> places;
 public:
-	Session(date _sessionDate, _time _startSession, string _nameFilm, int _hallNumber, int _regularPrice, int _vipPrice) : sessionDate(_sessionDate), startSession(_startSession), nameFilm(_nameFilm),
-		hallNumber(_hallNumber), regularPrice(_regularPrice), vipPrice(_vipPrice)
+	Session(const Event& otherData)
 	{
-
+		dataAboutEvent = otherData;
+		places.resize(RAWS);
+		for (size_t i = 0; i < places.size(); i++)
+		{
+			places[i].resize(10);
+		}
 	}
+
+	vector <vector<bool>> GetPlaces();
+
+	bool operator==(Session otherSession)
+	{
+		if (dataAboutEvent == otherSession.dataAboutEvent)
+			return true;
+		return false;
+	}
+
 
 };
 
