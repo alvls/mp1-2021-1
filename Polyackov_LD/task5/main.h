@@ -14,35 +14,27 @@
 
 using namespace std;
 
-struct Name
-{
-    string surname;
-    string name;
-    string patronymic;
+enum ConsoleColor {
+    BLACK = 0,
+    BLUE = 1,
+    GREEN = 2,
+    CYAN = 3,
+    RED = 4,
+    MAGENTA = 5,
+    BROWN = 6,
+    LIGHTGRAY = 7,
+    DARKGRAY = 8,
+    LIGHTBLUE = 9,
+    LIGHTGREEN = 10,
+    LIGHTCYAN = 11,
+    LIGHTRED = 12,
+    LIGHTMAGENTA = 13,
+    YELLOW = 14,
+    WHITE = 15
 };
 
-struct QuantityOfMoney
+enum KeyCodes
 {
-    int ValueOfMoney;
-    int quantity;
+    BACKSPACE = 8,
+    ENTER = 13
 };
-
-/*enum ConsoleColor {
-    Black = 0,
-    Blue = 1,
-    Green = 2,
-    Cyan = 3,
-    Red = 4,
-    Magenta = 5,
-    Brown = 6,
-    LightGray = 7,
-    DarkGray = 8,
-    LightBlue = 9,
-    LightGreen = 10,
-    LightCyan = 11,
-    LightRed = 12,
-    LightMagenta = 13,
-    Yellow = 14,
-    White = 15
-};
-*/

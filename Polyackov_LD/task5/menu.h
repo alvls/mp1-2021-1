@@ -4,6 +4,7 @@ bool menu(CashMachine&); //Меню
 
 void OpenCard(CashMachine& box);
 void EnterPINcode(CashMachine& box);
+void BlockedCardInf(CashMachine& box);
 
 //Реализация режимов
 

@@ -1,6 +1,9 @@
 
 #include "all.h"
 
+// private:
+// Считать из потока
+
 istream& ProcessingCenter::ReadFromStream(istream& in)
 {
 	while (true)
@@ -14,6 +17,8 @@ istream& ProcessingCenter::ReadFromStream(istream& in)
 	return in;
 }
 
+// Конструктор
+
 ProcessingCenter::ProcessingCenter()
 {
 	fstream fs;
@@ -24,6 +29,8 @@ ProcessingCenter::ProcessingCenter()
 	fs.close();
 }
 
+// Поиск карты
+
 OneCard* ProcessingCenter::GetCard(int id)
 {
 	for (size_t i = 0; i < DataCenter.size(); i++)
@@ -32,20 +39,53 @@ OneCard* ProcessingCenter::GetCard(int id)
 	return nullptr;
 }
 
+// Заблокировать карту
+
+void ProcessingCenter::BlockCard(OneCard* card)
+{
+	card->BlockCard();
+	SaveInFile();
+}
+
+// Изменение денежных средств
+
+void ProcessingCenter::AddMoney(const int value, OneCard* card)
+{
+	card->AddMoney(value);
+	SaveInFile();
+}
+
+void ProcessingCenter::CheckDeductMoney(const int value, OneCard* card)
+{
+	if (card->GetMoney() < value)
+		throw exception(" Недостаточно средств на счёте для проведения данной операции!");
+}
+
+void ProcessingCenter::DeductMoney(const int value, OneCard* card)
+{
+	card->DeductMoney(value);
+	SaveInFile();
+}
+//Добавить обработку возможности вычитания суммы // Добавить сохранение в файл
+
+// Сохранить в файл
+
 void ProcessingCenter::SaveInFile()
 {
 	fstream fs;
-	fs.open("Pedometer.txt", fstream::out);
+	fs.open("Datatmp.txt", fstream::out);
 	if (!fs.is_open())
 		throw exception("Не удалось связаться с сервером для обработки информации!");
-	fs << this;
+	fs << *this;
 	fs.close();
 }
 
-ostream& operator<<(ostream& out, const ProcessingCenter& data)
+// Операторы
+
+ostream& operator<< (ostream& out, const ProcessingCenter& data)
 {
 	for (size_t i = 0; i < data.DataCenter.size(); i++)
-		out << data.DataCenter[i] << "\n";
+		out << data.DataCenter[i];
 	return out;
 }
 

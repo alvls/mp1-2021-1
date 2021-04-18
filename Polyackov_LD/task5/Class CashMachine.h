@@ -4,10 +4,10 @@ class CashMachine
 {
 private:
 	enum { MAXQUANTITY = 40 , SIZECASSETTE = 2000 };
-	vector<QuantityOfMoney> sizes;
+	NominalValues cassettes;
 	ProcessingCenter* pCenter;
 	OneCard* pCard;
-	int AdditionalSize; // Дополнительная кассета, в которую будут сохраняться деньги 
+	NominalValues AdditionalSize; // Дополнительная кассета, в которую будут сохраняться деньги 
 	bool AccessToFunct; // Доступ к функционалу
 public:
 	//Конструктор
@@ -17,9 +17,10 @@ public:
 	bool IsCodeEntered() { return AccessToFunct; }
 	bool IsBlockedCard() { return pCenter->IsBlockedCard(pCard); }
 
+	// Получить карту от клиента 
 	void SetCard(int id);
 
-	//Проверка PIN-кода
+	// Проверка PIN-кода
 	bool CheckPINcode(int code, int & CurrentAttempts);
 
 	// Вернуть карту клиенту
@@ -28,16 +29,13 @@ public:
 	// Заблокировать карту
 	void BlockCard() { pCenter->BlockCard(pCard); }
 
-	// Изменение денежных средств
-	void AddMoney(const unsigned int value) { pCenter->AddMoney(value, pCard); } // Добавить реализацию получения купюр
-	void DeductMoney(const unsigned int value) { pCenter->DeductMoney(value, pCard); } // Добавить реализацию получения купюр
+	// Выдать чек в нужный поток
+	ostream& cheque(ostream& out);
 
-	//Получить карту
+	// Изменение денежных средств
+	void TakeMoney(const NominalValues add);
+	NominalValues GiveMoney(const unsigned int value);
 
 	//Деструктор
 	~CashMachine();
 };
-
-// Создать в процессинговом центре нужные функции, отправлять в него указатель на нужную карту
-// У нас же процессинговый центр обрабатывает все процессы, а не банкомат
-// Банкомат посылает лишь запрос на какие-то действия

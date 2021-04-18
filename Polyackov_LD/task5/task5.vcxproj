@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Class CashMachine.cpp" />
+    <ClCompile Include="Class NominalValues.cpp" />
     <ClCompile Include="Class OneCard.cpp" />
     <ClCompile Include="Information processing.cpp" />
     <ClCompile Include="main.cpp" />
@@ -29,6 +30,7 @@
   <ItemGroup>
     <ClInclude Include="all.h" />
     <ClInclude Include="Class CashMachine.h" />
+    <ClInclude Include="Class NominalValues.h" />
     <ClInclude Include="Class OneCard.h" />
     <ClInclude Include="Information processing.h" />
     <ClInclude Include="main.h" />

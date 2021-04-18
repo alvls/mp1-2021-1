@@ -4,33 +4,35 @@ class ProcessingCenter
 {
 private:
 	vector<OneCard> DataCenter;
-	//Считать из файла
+	//Считать из потока
 	istream& ReadFromStream(istream& in);
+	ProcessingCenter(const ProcessingCenter&) = delete; 
+	void operator= (const ProcessingCenter&) = delete;
 public:
 	// Конструктор
 	ProcessingCenter();
 
 	// Поиск карты
-	OneCard* GetCard(int);
+	OneCard* GetCard(int id);
 
+	//Проверка на заблокированность карты
 	bool IsBlockedCard(OneCard* card) { return card->GetLocked(); }
 
 	// Заблокировать карту
-	void BlockCard(OneCard* card) { card->BlockCard(); } // Добавить сохранение в файл
+	void BlockCard(OneCard* card);
 
-	//Проверить PIN-код
+	// Проверить PIN-код
 	bool CheckPIN(int tmpPIN, OneCard* card) { return card->GetPINcode() == tmpPIN ? true : false; }
 
 	// Изменение денежных средств
-	void AddMoney(const unsigned int value, OneCard* card) { card->AddMoney(value); } // Добавить сохранение в файл
-	void DeductMoney(const unsigned int value, OneCard* card) { card->DeductMoney(value); } //Добавить обработку возможности вычитания суммы // Добавить сохранение в файл
+	void AddMoney(const int value, OneCard* card);
+	void CheckDeductMoney(const int value, OneCard* card);
+	void DeductMoney(const int value, OneCard* card);
 
 	// Сохранить в файл
 	void SaveInFile();
 
-	// Геттер
-	vector<OneCard> GetDataCenter() { return DataCenter; }
-	// Оператор
+	// Операторы
 	OneCard& operator[] (const int index) { return DataCenter.at(index); }
 	friend ostream& operator<< (ostream& out, const ProcessingCenter& data);
 	friend istream& operator>> (istream& in, ProcessingCenter& data);
