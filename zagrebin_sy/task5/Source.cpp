@@ -3,26 +3,57 @@
 #include <string>
 #include <vector>
 #include <ctime>
+#define period 31
+#define period_book 4
 using namespace std;
 
 enum err { out_of_range, wrong_date, wrong_parameter, wrong_time
-};	//	errors
-int months[] = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-struct Hall {	// uses in creating place number
-	unsigned places_size[2], vip_size[2]; // row and number
-};
-struct Session{	// booked places on session
-	unsigned id_film;
-	bool **places, **vip;
-	Session(unsigned pr, unsigned pn, unsigned vr, unsigned vn) {
+};						//	errors
+unsigned months[] = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+class Hall{			// booked places on session
+private:				// sizes of halls
+	unsigned last_id = 0;
+public:
+	unsigned n_places[2]; // n - booked, 1 - vip
+	unsigned *places[2], sizes[2][2];	//	row * number for vip(1) and not
+	Hall(unsigned pr, unsigned pn, unsigned vr, unsigned vn) {
+		sizes[0][0] = pr; sizes[1][0] = vr; sizes[0][1] = pn; sizes[1][1] = vn;
+		for (int i = 0; i < 2; i++)
+			places[i] = new unsigned[sizes[i][0]*sizes[i][1]]{ 0 };
+	}
+	string book(bool vip, unsigned number) {
+		string ticket = "Ticket id: " +to_string(++last_id)+ "\nSeats: "; unsigned i, j;
+		n_places[vip] += number;
+		for(i = 0; i < sizes[vip][0]; i++)
+			for (j = 0; j < sizes[vip][1]; j++) {
+				if (places[vip][i * sizes[vip][1] + j] == 0) {
+					places[vip][i * sizes[vip][1] + j] = last_id;
+					ticket += to_string(i) + '/' + to_string(j) + ' ';
+					number--;
+				}
+				if (number == 0)
+					break;
+			}
+		return ticket;
+	}
+	void cancel(unsigned id, bool vip) {
 		int i, j;
-		for (i = 0; i < pr; i++)
-			places[i] = new bool[pn];
-		for (i = 0; i < vr; i++)
-			places[i] = new bool[vn];
+		if (id > last_id || id == 0)
+			throw err::wrong_parameter;
+		for (i = 0; i < sizes[vip][0]; i++)
+			for (j = 0; j < sizes[vip][1]; j++)
+				if (places[vip][i * sizes[vip][1] + j] == id) {
+					places[vip][i * sizes[vip][1] + j] = 0;
+					n_places[vip]--;
+				}
+	}
+	~Hall() {
+		for (int i = 0; i < 2; i++)
+			delete[] places[i];
 	}
 };
-class Time {	// Time
+class Time {			// Time
 	unsigned hour : 5;
 	unsigned min : 11;
 public:
@@ -31,126 +62,209 @@ public:
 		if (h > 23 || m > 59)
 			throw err::wrong_time;
 		hour = h; min = m;
-	};
+	}
+	int operator-(Time t) {
+		return (hour-t.hour)*60+(min-t.min);
+	}
+	bool operator==(Time t) {
+		if (t.hour == hour && t.min == min)
+			return true;
+		else
+			return false;
+	}
+	friend ostream& operator<<(ostream& os, const Time& t);
 };
-struct Film {	// Film
+ostream& operator<<(ostream& os, const Time& t) {
+	os << t.hour << ':' << t.min;
+	return os;
+}
+struct Film {			// Film
 	string name;
-	unsigned price;
+	unsigned price[2];	// vip and not
 };
-class Cinema {	// CINEMA GREAT CLASS
-	Hall* halls; unsigned n_halls, n_sessions; Time* sessions;
+class Cinema {			// CINEMA GREAT CLASS
+	unsigned n_halls, n_sessions; Time* sessions;
 	vector<Film> films;
 	//	31 days for playbill * sessions * halls
-	unsigned **table[31];	
-	// 3 days for booking * sessions * halls
-	Session **reserve[3];	
+	unsigned **table[period];	// id of films
+	// today + 3 days for booking * sessions * halls ->
+	Hall ***booking[period_book];	//
 	friend class Booking_office;
 public:
 	Cinema(unsigned nh, unsigned ns) {
 		int i, j;
 		n_halls = nh; n_sessions = ns;
-		halls = new Hall[nh];
 		sessions = new Time[ns];
-		for (i = 0; i < 31; i++) {	// space for playbill
+		for (i = 0; i < period; i++) {		// space for playbill
 			table[i] = new unsigned*[ns];
 			for (j = 0; j < ns; j++)
 				table[i][j] = new unsigned[nh];
 		}
-	}
-	unsigned n_halls() { return n_halls; }
-	unsigned n_sessions() { return n_sessions; }
-	void set_hall(unsigned i, unsigned pr, unsigned pn, unsigned vr, unsigned vn) {
-		int i, j;
-		halls[i].places_size[0] = pr;
-		halls[i].places_size[1] = pn;
-		halls[i].vip_size[0] = vr;
-		halls[i].vip_size[1] = vn;
-		for (i = 0; i < 3; i++) {
-			reserve[i] = new Session*[n_sessions];
-			for (j = 0; j < n_halls; j++)
-				reserve[i][j] = new Session(pr, pn, vr, vn);
+		for (i = 0; i < period_book; i++) {
+			booking[i] = new Hall**[n_sessions];
+			for (j = 0; j < n_sessions; j++)
+				booking[i][j] = new Hall*[n_halls];
 		}
 	}
-	void add_film(string s, unsigned cost) {
-		Film f = { s, cost };
+	~Cinema() {
+		delete[] sessions;
+		int i, j, k;
+		for (i = 0; i < period; i++) {
+			for (j = 0; j < n_sessions; j++)
+				delete[] table[i][j];
+			delete[] table[i];
+		}
+		for (i = 0; i < period_book; i++) {
+			for (j = 0; j < n_sessions; j++) {
+				for (k = 0; k < n_halls; k++)
+					delete booking[i][j][k];
+				delete[] booking[i][j];
+			}
+			delete[] booking[i];
+		}
+	}
+	void set_hall(unsigned id, unsigned pr, unsigned pn, unsigned vr, unsigned vn) {
+		int i, j;
+		for (i = 0; i < period_book; i++) {
+			for (j = 0; j < n_sessions; j++)
+				booking[i][j][id] = new Hall(pr, pn, vr, vn);
+		}
+	}
+	unsigned get_n_sessions() { return n_sessions;}
+	unsigned get_n_halls() { return n_halls; }
+	void add_film(string s, unsigned cost, unsigned v_cost) {
+		Film f = { s, cost, v_cost };
 		films.push_back(f);
 	}
+	void set_session_time(unsigned i, Time t) {
+		sessions[i] = t;
+	}
 	void set_film(unsigned date, unsigned session, unsigned hall, unsigned id) {
-		if (date > 31 || session > n_sessions || hall > n_halls || id > films.size())
+		if (date > 31 || session > n_sessions || hall > n_halls || id >= films.size())
 			throw err::wrong_parameter;
-		table[date][hall][session] = id;
+		table[date][session][hall] = id;
 	}
 };
 
 class Booking_office {	// BOOKING GREAT CLASS
+	Cinema* theatre;	// don't delete, not dynamic
+	Time time_now;
 public:
-	void book(unsigned char date, unsigned char session, string film, 
-		unsigned char hall, bool vip, unsigned short n) {
-		const time_t tm = time(nullptr);
-		int d, m, h, min;
-		char buf[12]; bool choice = 0;
-		strftime(buf, size(buf), "%d.%m-%H:%M", localtime(&tm));
-		sscanf_s(buf, "%d.%d-%d:%d", &d, &m, &h, &min);
-		if (date > months[m] || session > sessions || hall > halls || n == 0)
+	Booking_office(Cinema* _theatre) {
+		theatre = _theatre;
+	}
+	void set_time(unsigned h, unsigned m) {
+		time_now = Time(h, m);
+	}
+	void book(unsigned date, unsigned hour, unsigned min, string film,
+		unsigned hall, bool vip, unsigned number) {
+		bool choice = 0; unsigned month, day, diff_date, 
+			session = -1, price = 0;
+		time_t t = time(0);   // get time now
+		tm* now = localtime(&t);
+		month = now->tm_mon + 1; day = now->tm_mday;
+		for (int i = 0; i < theatre->n_sessions; i++)
+			if (theatre->sessions[i] == Time(hour, min)) {
+				session = i;
+				break;
+			}
+		// CHECKING
+		if (date > months[month] || hall > theatre->n_halls || 
+			session == -1 || number == 0)
 			throw err::wrong_parameter;
-		if ((date - d > 3) || ((d > date) && (months[m] - d + date > 3))) {
+		if ((date - day > 3) || ((day > date) && (months[month] - day + date > 3))) {
 			cout << "Can't book earlier than 3 days in advance\n";
 			return;
 		}
-		if (films[theatre.table[date][hall][session].id_film].name
-			!= film) {
+		if (time_now - theatre->sessions[session] > 10 && date == day) {
+			cout << "Sorry, the movie has already started\n";
+			return;
+		}
+		diff_date = (date > day) ? date - day : months[month] - day + date;
+		cout << theatre->table[date][session][hall] << endl;
+		system("pause");
+		if (theatre->films[theatre->table[date][session][hall]].name != film) {
 			cout << "There isn't such film\n";
 			return;
 		}
-		if (theatre.table[date][hall][session].place[vip] + n < places[vip]) {
-			cout << "There are places for the session\n";
-			cout << "Do you want to borrow?\n";
-			cin >> choice;
-			if (!choice)
-				cout << "See you soon!\n";
-			else {
-				theatre.table[date][hall][session].place[vip] += n;
-				cout << "Your ticket:\n";
-				cout << "Date: " << d << '.' << m << endl;
-				cout << "Session: " << times[session][0] << 
-					':' << times[session][1] << endl;
-				cout << film << endl;
-				cout << "Hall ¹" << hall << endl;
-				cout << "Your place (row/¹):";
-				cout << (theatre.table[date][hall][session].place[vip] - n + 1) / row[vip]
-					<< '/' << (theatre.table[date][hall][session].place[vip] - n + 1) % row[vip];
-				if (n != 1) {
-					cout << '-' << (theatre.table[date][hall][session].place[vip]) / row[vip]
-						<< '/' << (theatre.table[date][hall][session].place[vip]) % row[vip];
-				}
-				cout << endl;
-				cout << "Price: "
-					<< n * films[theatre.table[date][hall][session].id_film].price << endl;
-			}
+		// CHECK FREE PLACES
+		if (theatre->booking[diff_date][session][hall]->n_places[vip] + number >
+			theatre->booking[diff_date][session][hall]->sizes[vip][0] *
+			theatre->booking[diff_date][session][hall]->sizes[vip][1]) {
+			cout << "No seats available\n";
+			return;
+		}
+		// BORROWING
+		cout << "There are places for the session\n";
+		double discount = 1;
+		if (theatre->sessions[session] - Time(18, 00) >= 0)
+			discount = 1.5;
+		if (theatre->sessions[session] - Time(12, 00) < 0)
+			discount = 0.75;
+		price = int(theatre->films[theatre->table[date][session][hall]].price[vip]
+			* number * discount);
+		cout << "It will cost - " << price << endl;
+		cout << "Do you want to borrow?(NO - 0, YES - 1)\n";
+		cin >> choice;
+		if (!choice)	// NO
+			cout << "Okey. See you soon! Bye\n";
+		else {			// YES
+			cout << "Ticket:\nDate: " << date << '.';
+			if (date >= day)
+				cout << month;
+			else
+				cout << (month + 1) % 12;
+			cout << "\nTime: " << theatre->sessions[session] << endl;
+			cout << "Film: " << theatre->films[theatre->table[date][session][hall]].name
+				<< endl;
+			cout << "Hall ¹" << hall << endl;
+			cout << theatre->booking[diff_date][session][hall]->book(vip, number) << endl;
+			cout << "Total price: " << price << endl;
 		}
 	}
-	
-};
-Booking_office cashbox;
-
-
-int main() {
-	int i, j, k, n;
-	Cinema theatre(3, 4);	// building theatre
-	theatre.set_hall(0, 10, 20, 5, 20);	//	front
-	theatre.set_hall(1, 15, 30, 2, 10); // big
-	theatre.set_hall(2, 10, 20, 5, 20); // front
-	theatre.add_film("Blue screen", 100);
-	theatre.add_film("C++ in 20 hour", 350);
-	theatre.add_film("JS. How to 1 + '2'", 150);
-	for (i = 0; i < 31; i++) {	//	add playbill
-		for (j = 0; j < theatre.n_sessions(); j++)
-			for (k = 0; k < theatre.n_halls(); k++)
-				theatre.set_film(i, j, k, k);
+	void canceling(unsigned id, unsigned date, unsigned session,
+		unsigned hall, bool vip) {
+		unsigned month, day, diff_date;
+		time_t t = time(0);   // get time now
+		tm* now = localtime(&t);
+		month = now->tm_mon + 1; day = now->tm_mday;
+		// CHECKING
+		if (date > months[month] || 
+			session > theatre->n_sessions || hall > theatre->n_halls)
+			throw err::wrong_parameter;
+		if ((date - day > 3) || ((day > date) && (months[month] - day + date > 3))) {
+			throw err::wrong_parameter;
+		}
+		diff_date = (date > day) ? date - day : months[month] - day + date;
+		theatre->booking[diff_date][session][hall]->cancel(id, vip);
 	}
+};
 
-	//cashbox.book();
+void main() {
+	unsigned i, j, k, n; Time times[] = { {11, 30}, {14, 30}, {16, 30}, {20, 30} };
+	
+	Cinema theatre(3, 4);	// building theatre
+
+	Booking_office cashbox(&theatre);
+	cashbox.set_time(13, 00); // set time
+
+	theatre.set_hall(0, 10, 20, 5, 20);	//	side
+	theatre.set_hall(1, 15, 30, 2, 10); // big
+	theatre.set_hall(2, 10, 20, 5, 20); // side
+		
+	theatre.add_film("Blue screen", 100, 150);	// Films
+	theatre.add_film("Python in 1 hour", 350, 400);
+	theatre.add_film("1 +'1'", 150, 200);
+	
+	for (i = 0; i < theatre.get_n_sessions(); i++)	// Sessions' time
+		theatre.set_session_time(i, times[i]);
+	for (i = 0; i < period; i++)	//	add playbill
+		for (j = 0; j < theatre.get_n_sessions(); j++)
+			for (k = 0; k < theatre.get_n_halls(); k++)
+				theatre.set_film(i, j, k, k);
+	// ¹hall = ¹film
+
+	cashbox.book(18, 11, 30, "1+'1'", 3, 1, 4);
 
 	system("pause");
-	return 0;
 }
