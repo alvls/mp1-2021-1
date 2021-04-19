@@ -12,7 +12,7 @@ CashMachine::CashMachine(ProcessingCenter* _data)
 
 // Получить карту от клиента 
 
-void CashMachine::SetCard(int id) // Проверка на заблокированность карты
+void CashMachine::SetCard(int id)
 {
 	pCard = pCenter->GetCard(id);
 	if (pCard == nullptr)
@@ -80,9 +80,9 @@ NominalValues CashMachine::GiveMoney(const unsigned int value)  // Добавить реал
 	return tmpvec;
 }
 
-ostream& CashMachine::cheque(ostream& out)
+ostream& operator<< (ostream& out, const CashMachine& box)
 {
-	out << pCard->GetMoney();
+	out << box.pCard->GetName() << " (id ***" << box.pCard->GetCardID() % 10 << ") : " << box.pCard->GetMoney() << " руб.";
 	return out;
 }
 

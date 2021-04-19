@@ -6,7 +6,7 @@ struct QuantityOfNominalValue
     int quantity;
 
     // Сумма
-    int Sum() { return ValueOfMoney * quantity; }
+    int sum() { return ValueOfMoney * quantity; }
 
     // Операторы
     friend ostream& operator<< (ostream& out, const QuantityOfNominalValue& information);
@@ -19,8 +19,10 @@ private:
 public:
     // Конструктор
     NominalValues(const int quantity = 0);
+    NominalValues(const NominalValues& NomVal);
 
-    // Добавить метод, подсчитывающий сумму всех денег
+    // Сумма, хранящаяся в pack
+    int sum();
 
     // Операторы
     QuantityOfNominalValue operator[] (const int ind) { return pack.at(ind); }

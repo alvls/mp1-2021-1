@@ -1,6 +1,12 @@
 
 #include "all.h"
 
+ostream& operator<< (ostream& out, const Name& inform)
+{
+    out << inform.surname << " " << inform.name;
+    return out;
+}
+
 OneCard::OneCard()
 {
     fullname.name = "Ô";

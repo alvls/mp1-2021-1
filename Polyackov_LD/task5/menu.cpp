@@ -90,9 +90,9 @@ void BlockedCardInf(CashMachine& box)
 void mode1(CashMachine& box)
 {
     gotoxy(22, 2);
-    cout << "Ваше состояние счёта:" ;
+    cout << "Состояние счёта:" ;
     gotoxy(22, 4);
-    box.cheque(cout);
+    cout << box;
     waiting();
 }
 

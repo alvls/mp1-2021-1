@@ -5,6 +5,9 @@ struct Name
     string surname;
     string name;
     string patronymic;
+
+    // Оператор потокового вывода
+    friend ostream& operator<< (ostream& out, const Name& inform);
 };
 
 class OneCard

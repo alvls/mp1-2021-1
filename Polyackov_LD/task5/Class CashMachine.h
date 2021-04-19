@@ -8,7 +8,7 @@ private:
 	ProcessingCenter* pCenter;
 	OneCard* pCard;
 	NominalValues AdditionalSize; // Дополнительная кассета, в которую будут сохраняться деньги 
-	bool AccessToFunct; // Доступ к функционалу
+	bool AccessToFunct; // Доступ к функционалу для карты, находящейся в банкомате
 public:
 	//Конструктор
 	CashMachine(ProcessingCenter* _data);
@@ -29,12 +29,12 @@ public:
 	// Заблокировать карту
 	void BlockCard() { pCenter->BlockCard(pCard); }
 
-	// Выдать чек в нужный поток
-	ostream& cheque(ostream& out);
-
 	// Изменение денежных средств
 	void TakeMoney(const NominalValues add);
 	NominalValues GiveMoney(const unsigned int value);
+
+	// Операторы
+	friend ostream& operator<< (ostream& out, const CashMachine& box);
 
 	//Деструктор
 	~CashMachine();
