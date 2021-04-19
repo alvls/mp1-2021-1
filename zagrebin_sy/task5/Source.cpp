@@ -18,6 +18,7 @@ public:
 	unsigned n_places[2]; // n - booked, 1 - vip
 	unsigned *places[2], sizes[2][2];	//	row * number for vip(1) and not
 	Hall(unsigned pr, unsigned pn, unsigned vr, unsigned vn) {
+		n_places[0] = n_places[1] = 0;
 		sizes[0][0] = pr; sizes[1][0] = vr; sizes[0][1] = pn; sizes[1][1] = vn;
 		for (int i = 0; i < 2; i++)
 			places[i] = new unsigned[sizes[i][0]*sizes[i][1]]{ 0 };
@@ -31,9 +32,10 @@ public:
 					places[vip][i * sizes[vip][1] + j] = last_id;
 					ticket += to_string(i) + '/' + to_string(j) + ' ';
 					number--;
+					if (number == 0)
+						return ticket;
 				}
-				if (number == 0)
-					break;
+				
 			}
 		return ticket;
 	}
@@ -169,7 +171,7 @@ public:
 				break;
 			}
 		// CHECKING
-		if (date > months[month] || hall > theatre->n_halls || 
+		if (date > months[month] || hall >= theatre->n_halls || 
 			session == -1 || number == 0)
 			throw err::wrong_parameter;
 		if ((date - day > 3) || ((day > date) && (months[month] - day + date > 3))) {
@@ -181,8 +183,7 @@ public:
 			return;
 		}
 		diff_date = (date > day) ? date - day : months[month] - day + date;
-		cout << theatre->table[date][session][hall] << endl;
-		system("pause");
+		
 		if (theatre->films[theatre->table[date][session][hall]].name != film) {
 			cout << "There isn't such film\n";
 			return;
@@ -217,7 +218,7 @@ public:
 			cout << "\nTime: " << theatre->sessions[session] << endl;
 			cout << "Film: " << theatre->films[theatre->table[date][session][hall]].name
 				<< endl;
-			cout << "Hall ¹" << hall << endl;
+			cout << "Hall #" << hall << endl;
 			cout << theatre->booking[diff_date][session][hall]->book(vip, number) << endl;
 			cout << "Total price: " << price << endl;
 		}
@@ -241,8 +242,12 @@ public:
 };
 
 void main() {
-	unsigned i, j, k, n; Time times[] = { {11, 30}, {14, 30}, {16, 30}, {20, 30} };
-	
+	unsigned i, j, k, n; 
+	Time times[] = { {11, 30}, {14, 30}, {16, 30}, {20, 30} };
+
+	time_t t = time(0);   // get time now
+	tm* now = localtime(&t);
+
 	Cinema theatre(3, 4);	// building theatre
 
 	Booking_office cashbox(&theatre);
@@ -262,9 +267,9 @@ void main() {
 		for (j = 0; j < theatre.get_n_sessions(); j++)
 			for (k = 0; k < theatre.get_n_halls(); k++)
 				theatre.set_film(i, j, k, k);
-	// ¹hall = ¹film
-
-	cashbox.book(18, 11, 30, "1+'1'", 3, 1, 4);
+	// #hall = #film
+	
+	cashbox.book(now->tm_mday+1, 11, 30, "1 +'1'", 2, 1, 4);
 
 	system("pause");
 }
