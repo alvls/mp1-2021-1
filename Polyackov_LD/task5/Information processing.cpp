@@ -24,46 +24,43 @@ int GetNumber(const int NumberOfDigits, const int TypeOfRead, const bool IsEnter
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	int tmpdigit;
 	int number = 0;
-	int pow10 = 1;
-	for (int i = 1; i < NumberOfDigits; i++)
-		pow10 *= 10;
-	for (int i = 0; i < NumberOfDigits; i++)
+	for (int i = 0; i <= NumberOfDigits; i++)
 	{
-		tmpdigit = GetDigit('0', '9', IsEnterActive, true);
+		tmpdigit = GetDigit('0', '9', (IsEnterActive || i == NumberOfDigits), true);
 		if (tmpdigit == (BACKSPACE - '0'))
+		{
 			if (i != 0)
 			{
-				pow10 *= 10;
-				number = number / (pow10 * 10) * pow10 * 10; // Дополнительно pow10 умножаем на 10, чтобы дойти до предыдущего разряда
-				i -= 2; // 2 потому что один i-- уходит на то, чтобы пропустить ввод backspace, а второй i-- на то, чтобы пропустить ввод предыдущей цифры    
+				number /= 10;
+				i--; // Пропустить ввод предыдущей цифры
 				cout << "\b \b";
-				continue;
 			}
-			else
-			{
-				i--;
-				continue;
-			}
-		if (tmpdigit == (ENTER - '0'))
-			if (IsEnterActive == true && i != 0)
-				return number;
-			else
-			{
-				i--;
-				continue;
-			}
-		number += tmpdigit * pow10;
-		pow10 /= 10;
-		if (TypeOfRead == 0)
-			cout << tmpdigit;
-		else
-		{
-			SetConsoleTextAttribute(hConsole, (WORD) ((15 << 4) | GREEN)); 
-			cout << "*";
-			SetConsoleTextAttribute(hConsole, (WORD) ((15 << 4) | BLACK)); 
+			i--;
+			continue;
 		}
+		if (tmpdigit == (ENTER - '0'))
+		{
+			if ((IsEnterActive && i != 0) || i == NumberOfDigits)
+				return number;
+			i--;
+			continue;
+		}
+		if (i != NumberOfDigits)
+		{
+			number *= 10;
+			number += tmpdigit;
+			if (TypeOfRead == 0)
+				cout << tmpdigit;
+			else
+			{
+				SetConsoleTextAttribute(hConsole, (WORD)((15 << 4) | GREEN));
+				cout << "*";
+				SetConsoleTextAttribute(hConsole, (WORD)((15 << 4) | BLACK));
+			}
+		}
+		else
+			i--;
 	}
-	return number;
 }
 
 void gotoxy(const int x, const int y)
