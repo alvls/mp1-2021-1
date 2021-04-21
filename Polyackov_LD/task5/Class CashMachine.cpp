@@ -66,7 +66,7 @@ void CashMachine::TakeMoney(const NominalValues add)
 	pCenter->AddMoney(value, pCard);
 }
 
-NominalValues CashMachine::GiveMoney(const unsigned int value)  // Добавить реализацию получения купюр
+NominalValues CashMachine::GiveMoney(const int value)  // Добавить реализацию получения купюр
 {
 	if (value % 100 != 0)
 		throw exception(" Банкомат не может выдать данную сумму!");

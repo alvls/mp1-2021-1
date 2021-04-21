@@ -2,9 +2,9 @@
 
 void cleaner(); // Очищает поток ввода
 
-int GetDigit(const char LeftBound = '0', const char RightBound = '9', const bool IsEnterActive = false, const bool IsBackspaceActive = false);
+int GetDigit();
 
-int GetNumber(const int NumberOfDigits, const int TypeOfRead = 0, const bool IsEnterActive = false);
+int GetNumber(const int NumberOfDigits, const bool IsEnterActive = true, const int TypeOfWrite = 0);
 
 void gotoxy(const int x, const int y);
 

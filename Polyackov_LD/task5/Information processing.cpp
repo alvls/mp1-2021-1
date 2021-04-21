@@ -7,26 +7,26 @@ void cleaner()
     cin.clear();
 }
 
-int GetDigit(const char LeftBound, const char RightBound, const bool IsEnterActive, const bool IsBackspaceActive)
+int GetDigit()
 {
 	char digit;
 	do
 	{
 		digit = _getch();
-		if ((digit == BACKSPACE && IsBackspaceActive) || (digit == ENTER && IsEnterActive)) // Проверка на IsBackspaceActive и IsEnterActive нужна, чтобы когда человек хочет взять цифру, он не получил не то
+		if (digit == BACKSPACE || digit == ENTER)
 			return digit - '0';
-	} while (digit < LeftBound || digit > RightBound);
+	} while (digit < '0' || digit > '9');
 	return digit - '0';
 }
 
-int GetNumber(const int NumberOfDigits, const int TypeOfRead, const bool IsEnterActive)
+int GetNumber(const int NumberOfDigits, const bool IsEnterActive, const int TypeOfWrite)
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	int tmpdigit;
 	int number = 0;
 	for (int i = 0; i <= NumberOfDigits; i++)
 	{
-		tmpdigit = GetDigit('0', '9', (IsEnterActive || i == NumberOfDigits), true);
+		tmpdigit = GetDigit();
 		if (tmpdigit == (BACKSPACE - '0'))
 		{
 			if (i != 0)
@@ -49,7 +49,7 @@ int GetNumber(const int NumberOfDigits, const int TypeOfRead, const bool IsEnter
 		{
 			number *= 10;
 			number += tmpdigit;
-			if (TypeOfRead == 0)
+			if (TypeOfWrite == 0)
 				cout << tmpdigit;
 			else
 			{
@@ -61,6 +61,7 @@ int GetNumber(const int NumberOfDigits, const int TypeOfRead, const bool IsEnter
 		else
 			i--;
 	}
+				return number;
 }
 
 void gotoxy(const int x, const int y)

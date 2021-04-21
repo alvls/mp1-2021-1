@@ -31,7 +31,7 @@ public:
 
 	// Изменение денежных средств
 	void TakeMoney(const NominalValues add);
-	NominalValues GiveMoney(const unsigned int value);
+	NominalValues GiveMoney(const int value);
 
 	// Операторы
 	friend ostream& operator<< (ostream& out, const CashMachine& box);

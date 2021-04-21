@@ -1,12 +1,20 @@
 #pragma once
 
-struct QuantityOfNominalValue
+class QuantityOfNominalValue
 {
+private:
     int ValueOfMoney;
     int quantity;
+public:
+    QuantityOfNominalValue(int val = 0, int q = 0) : ValueOfMoney(val), quantity(q) {}
+    // Сеттеры
+    void SetValueOfMoney(int val) { ValueOfMoney = val; }
+    void SetQuantity(int q) { quantity = q; }
 
-    // Сумма
-    int sum() { return ValueOfMoney * quantity; }
+    // Геттеры
+    int GetValueOfMoney() { return ValueOfMoney; }
+    int GetQuantity() { return quantity; }
+    int GetSum() { return ValueOfMoney * quantity; }
 
     // Операторы
     friend ostream& operator<< (ostream& out, const QuantityOfNominalValue& information);
@@ -24,7 +32,9 @@ public:
     // Сумма, хранящаяся в pack
     int sum();
 
+    size_t size() { return pack.size(); }
+
     // Операторы
-    QuantityOfNominalValue operator[] (const int ind) { return pack.at(ind); }
+    QuantityOfNominalValue operator[] (const size_t ind) { return pack[ind]; }
     // Перегрузить operator=, чтобы не было проблем
 };
