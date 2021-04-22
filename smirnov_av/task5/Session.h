@@ -4,31 +4,41 @@
 
 #define RAWS 10
 #define SEATSINRAWS 10
-struct hall
-{
-	int numberHall;
-	int vipPrice;
-	int defaultPrice;
-};
+#define VIPRAWS 2
+
 class Session
 {
 private:
 	Event dataAboutEvent;
+	//int day;
+	//bool** places;
 	vector <vector<bool>> places;
 public:
 	Session(const Event& otherData)
 	{
 		dataAboutEvent = otherData;
 		places.resize(RAWS);
-		for (size_t i = 0; i < places.size(); i++)
+		for (size_t i = 0; i < RAWS; i++)
 		{
-			places[i].resize(10);
+			places[i].resize(SEATSINRAWS);
+
+			for (size_t j = 0; j < SEATSINRAWS; j++)
+			{
+				places[i][j] = 0;
+			}
 		}
+
 	}
 
-	vector <vector<bool>> GetPlaces();
+	~Session()
+	{
+	}
 
-	bool operator==(Session otherSession)
+	bool CheckAvailability(int _countPlaces, bool _isVip);
+	void SetPlaces(int _countPlaces, bool _isVip, vector<vector<int>>& settedSeats);
+	Event GetEvent();
+
+	bool operator==(Session& otherSession)
 	{
 		if (dataAboutEvent == otherSession.dataAboutEvent)
 			return true;

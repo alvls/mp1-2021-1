@@ -112,6 +112,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Cinema.cpp" />
+    <ClCompile Include="Day.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="Session.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -119,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cinema.h" />
+    <ClInclude Include="Day.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="Session.h" />
     <ClInclude Include="TicketOffice.h" />
