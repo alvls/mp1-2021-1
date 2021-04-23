@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <string>
 #include <vector>
 #include <iostream>
@@ -12,11 +12,11 @@
 #include <string>
 #define _CRT_SECURE_NO_WARNINGS
 using namespace std;
-const string THREE_MONTH = "3-месячный";
-const string SIX_MONTH = "6-месячный";
-const string ONE_YEAR = "1-годовой";
-const string TWO_YEAR = "2-годовой";
-const string THREE_YEAR = "3-годовой";
+const string THREE_MONTH = "3-РјРµСЃСЏС‡РЅС‹Р№";
+const string SIX_MONTH = "6-РјРµСЃСЏС‡РЅС‹Р№";
+const string ONE_YEAR = "1-РіРѕРґРѕРІРѕР№";
+const string TWO_YEAR = "2-РіРѕРґРѕРІРѕР№";
+const string THREE_YEAR = "3-РіРѕРґРѕРІРѕР№";
 
 const double CREDIT_FOR_3_MONTH_FOR_THE_POOR = 2.5;
 const double CREDIT_FOR_6_MONTH_FOR_THE_POOR = 2.8;
@@ -64,11 +64,11 @@ void mainMenu();
 
 struct informationAboutDeposit {
 	bool depositStatus; //false - close/ true - open
-	double procentOfDeposit; //процент депозита
-	string nameDeposit; // имя = срок
-	double  depositAmount; //денег на депозите
-	int termOfDeposit; //срок депозита 
-	double interestOnTheDeposit;//доход по депозиту
+	double procentOfDeposit; //РїСЂРѕС†РµРЅС‚ РґРµРїРѕР·РёС‚Р°
+	string nameDeposit; // РёРјСЏ = СЃСЂРѕРє
+	double  depositAmount; //РґРµРЅРµРі РЅР° РґРµРїРѕР·РёС‚Рµ
+	int termOfDeposit; //СЃСЂРѕРє РґРµРїРѕР·РёС‚Р° 
+	double interestOnTheDeposit;//РґРѕС…РѕРґ РїРѕ РґРµРїРѕР·РёС‚Сѓ
 	unsigned int dayOfOpen;
 	unsigned int dayOfClose;
 	unsigned int monthOfOpen;
@@ -108,19 +108,19 @@ struct informationAboutDeposit {
 	}
 };
 struct informationAboutClient {
-	string clientIndeficator; //номер зарплатного счета «0001» до «9999»
-	string clientPassword; //пароль - произвольная строка больше 3 символок
-	string firstName; //имя
-	string patronymicName; //отчество
-	string surName; //фамилия
-	double amountSalaryAccount; //денег на зарплатном счету
+	string clientIndeficator; //РЅРѕРјРµСЂ Р·Р°СЂРїР»Р°С‚РЅРѕРіРѕ СЃС‡РµС‚Р° В«0001В» РґРѕ В«9999В»
+	string clientPassword; //РїР°СЂРѕР»СЊ - РїСЂРѕРёР·РІРѕР»СЊРЅР°СЏ СЃС‚СЂРѕРєР° Р±РѕР»СЊС€Рµ 3 СЃРёРјРІРѕР»РѕРє
+	string firstName; //РёРјСЏ
+	string patronymicName; //РѕС‚С‡РµСЃС‚РІРѕ
+	string surName; //С„Р°РјРёР»РёСЏ
+	double amountSalaryAccount; //РґРµРЅРµРі РЅР° Р·Р°СЂРїР»Р°С‚РЅРѕРј СЃС‡РµС‚Сѓ
 	vector <informationAboutDeposit> informationAboutDepositAndHisDate;
 	informationAboutClient() {};
 	void Observation(string _surName, string _firstName, string _patronymicName,
 		double _amountSalaryAccount,
 		bool _depositStatus, double _procentOfDeposit, string _nameDeposit, long double  _depositAmount, int _termOfDeposit,
 		unsigned int dayOfOpen, unsigned int dayOfClose, unsigned int monthOfOpen, unsigned int monthOfClose,
-		unsigned int yearOfOpen, unsigned int yearOfClose, double _interestOnTheDeposit) {//это если уже есть такой индефикатор
+		unsigned int yearOfOpen, unsigned int yearOfClose, double _interestOnTheDeposit) {//СЌС‚Рѕ РµСЃР»Рё СѓР¶Рµ РµСЃС‚СЊ С‚Р°РєРѕР№ РёРЅРґРµС„РёРєР°С‚РѕСЂ
 		firstName = _firstName;
 		patronymicName = _patronymicName;
 		surName = _surName;
@@ -193,13 +193,13 @@ void setDate(int _day, int _month, int _year) {
 }
 void mainMenu()
 {
-	cout << "1. Авторизировать клиента " << endl;
-	cout << "2. Доступные депозиты " << endl;
-	cout << "3. Открытые депозиты " << endl;
-	cout << "4. Открыть " << endl;
-	cout << "5. Доход по вкладам " << endl;
-	cout << "6. Перевести проценты на основной счет " << endl;
-	cout << "7. Закрыть депозит " << endl;
+	cout << "1. РђРІС‚РѕСЂРёР·РёСЂРѕРІР°С‚СЊ РєР»РёРµРЅС‚Р° " << endl;
+	cout << "2. Р”РѕСЃС‚СѓРїРЅС‹Рµ РґРµРїРѕР·РёС‚С‹ " << endl;
+	cout << "3. РћС‚РєСЂС‹С‚С‹Рµ РґРµРїРѕР·РёС‚С‹ " << endl;
+	cout << "4. РћС‚РєСЂС‹С‚СЊ " << endl;
+	cout << "5. Р”РѕС…РѕРґ РїРѕ РІРєР»Р°РґР°Рј " << endl;
+	cout << "6. РџРµСЂРµРІРµСЃС‚Рё РїСЂРѕС†РµРЅС‚С‹ РЅР° РѕСЃРЅРѕРІРЅРѕР№ СЃС‡РµС‚ " << endl;
+	cout << "7. Р—Р°РєСЂС‹С‚СЊ РґРµРїРѕР·РёС‚ " << endl;
 
 }
 int main()
@@ -216,93 +216,93 @@ int main()
 	int choiceMenu;
 	int checkClient = -1;
 	unsigned int clientNumberIWorkWith = -1;
-	cout << "Добро пожаловать! " << "                                                       Текущая дата:  " << DAY << "." << MONTH << "." << YEAR << endl;
-	cout << "Все операции будут проведены для установленной в системе даты! " << endl;
-	cout << "Клиент может открывать несколько вкладов. Если клиент перевел зароботок со вклада на основной счет,  " << endl;
-	cout << "то срок открытия вклада переносится на дату этой операции (срок закрытия вклада не сдвигается)" << endl;
-	cout << "При закрытии вклада информация о нем остается в файле (дата открытия/закрытия). " << endl;
-	cout << "Так как наш банк очень щедрый, мы будем начислять проценты до того момента, пока пользователь сам не закроет вклад!!! " << endl;
-	cout << "Введите нужный пункт меню : " << endl;
+	cout << "Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ! " << "                                                       РўРµРєСѓС‰Р°СЏ РґР°С‚Р°:  " << DAY << "." << MONTH << "." << YEAR << endl;
+	cout << "Р’СЃРµ РѕРїРµСЂР°С†РёРё Р±СѓРґСѓС‚ РїСЂРѕРІРµРґРµРЅС‹ РґР»СЏ СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅРѕР№ РІ СЃРёСЃС‚РµРјРµ РґР°С‚С‹! " << endl;
+	cout << "РљР»РёРµРЅС‚ РјРѕР¶РµС‚ РѕС‚РєСЂС‹РІР°С‚СЊ РЅРµСЃРєРѕР»СЊРєРѕ РІРєР»Р°РґРѕРІ. Р•СЃР»Рё РєР»РёРµРЅС‚ РїРµСЂРµРІРµР» Р·Р°СЂРѕР±РѕС‚РѕРє СЃРѕ РІРєР»Р°РґР° РЅР° РѕСЃРЅРѕРІРЅРѕР№ СЃС‡РµС‚,  " << endl;
+	cout << "С‚Рѕ СЃСЂРѕРє РѕС‚РєСЂС‹С‚РёСЏ РІРєР»Р°РґР° РїРµСЂРµРЅРѕСЃРёС‚СЃСЏ РЅР° РґР°С‚Сѓ СЌС‚РѕР№ РѕРїРµСЂР°С†РёРё (СЃСЂРѕРє Р·Р°РєСЂС‹С‚РёСЏ РІРєР»Р°РґР° РЅРµ СЃРґРІРёРіР°РµС‚СЃСЏ)" << endl;
+	cout << "РџСЂРё Р·Р°РєСЂС‹С‚РёРё РІРєР»Р°РґР° РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ РЅРµРј РѕСЃС‚Р°РµС‚СЃСЏ РІ С„Р°Р№Р»Рµ (РґР°С‚Р° РѕС‚РєСЂС‹С‚РёСЏ/Р·Р°РєСЂС‹С‚РёСЏ). " << endl;
+	cout << "РўР°Рє РєР°Рє РЅР°С€ Р±Р°РЅРє РѕС‡РµРЅСЊ С‰РµРґСЂС‹Р№, РјС‹ Р±СѓРґРµРј РЅР°С‡РёСЃР»СЏС‚СЊ РїСЂРѕС†РµРЅС‚С‹ РґРѕ С‚РѕРіРѕ РјРѕРјРµРЅС‚Р°, РїРѕРєР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ СЃР°Рј РЅРµ Р·Р°РєСЂРѕРµС‚ РІРєР»Р°Рґ!!! " << endl;
+	cout << "Р’РІРµРґРёС‚Рµ РЅСѓР¶РЅС‹Р№ РїСѓРЅРєС‚ РјРµРЅСЋ : " << endl;
 	mainMenu();
 	cin >> choiceMenu;
 	while (1) {
 		switch (choiceMenu) {
-		case 1: {// 1) авторизовать клиента
+		case 1: {// 1) Р°РІС‚РѕСЂРёР·РѕРІР°С‚СЊ РєР»РёРµРЅС‚Р°
 			string _clientdIndeficator;
 			string _clientPassword;
-			cout << "Введите номер счета " << endl;
+			cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ СЃС‡РµС‚Р° " << endl;
 			cin >> _clientdIndeficator;
 			while (_clientdIndeficator.length() != 4) {
-				cout << "Номер счета должен содержать 4 цифры! " << endl;
-				cout << "Введите номер счета заново! " << endl;
+				cout << "РќРѕРјРµСЂ СЃС‡РµС‚Р° РґРѕР»Р¶РµРЅ СЃРѕРґРµСЂР¶Р°С‚СЊ 4 С†РёС„СЂС‹! " << endl;
+				cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ СЃС‡РµС‚Р° Р·Р°РЅРѕРІРѕ! " << endl;
 				cin >> _clientdIndeficator;
 			}
-			cout << "Введите пароль " << endl;
+			cout << "Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ " << endl;
 			cin >> _clientPassword;
 			while (_clientPassword.length() < 3) {
-				cout << "Номер счета должен содержать 4 цифры! " << endl;
-				cout << "Введите пароль заново! " << endl;
+				cout << "РќРѕРјРµСЂ СЃС‡РµС‚Р° РґРѕР»Р¶РµРЅ СЃРѕРґРµСЂР¶Р°С‚СЊ 4 С†РёС„СЂС‹! " << endl;
+				cout << "Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ Р·Р°РЅРѕРІРѕ! " << endl;
 				cin >> _clientPassword;
 			}
 			checkClient = clientNumberIWorkWith = client.clientAuthorization(_clientdIndeficator, _clientPassword);
-			if (checkClient == -1) { cout << "Попробуйте авторизоваться заново! " << endl; break; }
+			if (checkClient == -1) { cout << "РџРѕРїСЂРѕР±СѓР№С‚Рµ Р°РІС‚РѕСЂРёР·РѕРІР°С‚СЊСЃСЏ Р·Р°РЅРѕРІРѕ! " << endl; break; }
 			cout << client.getFullName(clientNumberIWorkWith) << endl;
-			client.growthInContribution(clientNumberIWorkWith); //обновляем базу по процентам
-			//cout << "Номер клиента в базе:" << clientNumberIWorkWith << endl;
+			client.growthInContribution(clientNumberIWorkWith); //РѕР±РЅРѕРІР»СЏРµРј Р±Р°Р·Сѓ РїРѕ РїСЂРѕС†РµРЅС‚Р°Рј
+			//cout << "РќРѕРјРµСЂ РєР»РёРµРЅС‚Р° РІ Р±Р°Р·Рµ:" << clientNumberIWorkWith << endl;
 			break;
 		}
-		case 2: {//2) показать информацию о доступных клиенту депозитах, исходя из суммы на его зарплатном счету, 
-			if (checkClient == -1) { cout << " Сначала авторизируетесь!" << endl; break; }
-			cout << "Доступные депозиты: " << endl;
+		case 2: {//2) РїРѕРєР°Р·Р°С‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РґРѕСЃС‚СѓРїРЅС‹С… РєР»РёРµРЅС‚Сѓ РґРµРїРѕР·РёС‚Р°С…, РёСЃС…РѕРґСЏ РёР· СЃСѓРјРјС‹ РЅР° РµРіРѕ Р·Р°СЂРїР»Р°С‚РЅРѕРј СЃС‡РµС‚Сѓ, 
+			if (checkClient == -1) { cout << " РЎРЅР°С‡Р°Р»Р° Р°РІС‚РѕСЂРёР·РёСЂСѓРµС‚РµСЃСЊ!" << endl; break; }
+			cout << "Р”РѕСЃС‚СѓРїРЅС‹Рµ РґРµРїРѕР·РёС‚С‹: " << endl;
 			client.availableDepositsThatTheClientCanOpen(clientNumberIWorkWith);
 			break;
 		}
-		case 3: {//3) проверить наличие открытого депозита,
-			if (checkClient == -1) { cout << " Сначала авторизируетесь!" << endl; break; }
-			cout << "Список открытых дипозитов: " << endl;
+		case 3: {//3) РїСЂРѕРІРµСЂРёС‚СЊ РЅР°Р»РёС‡РёРµ РѕС‚РєСЂС‹С‚РѕРіРѕ РґРµРїРѕР·РёС‚Р°,
+			if (checkClient == -1) { cout << " РЎРЅР°С‡Р°Р»Р° Р°РІС‚РѕСЂРёР·РёСЂСѓРµС‚РµСЃСЊ!" << endl; break; }
+			cout << "РЎРїРёСЃРѕРє РѕС‚РєСЂС‹С‚С‹С… РґРёРїРѕР·РёС‚РѕРІ: " << endl;
 			client.checkForOpenDeposits(clientNumberIWorkWith);
 			break;
 		}
-		case 4: {//4) открыть депозит (переведя указанную сумму с зарплатного счета клиента на депозит), 
-			if (checkClient == -1) { cout << " Сначала авторизируетесь!" << endl; break; }
-			cout << "Сейчас Вы сможете открыть новый депозит " << endl;
+		case 4: {//4) РѕС‚РєСЂС‹С‚СЊ РґРµРїРѕР·РёС‚ (РїРµСЂРµРІРµРґСЏ СѓРєР°Р·Р°РЅРЅСѓСЋ СЃСѓРјРјСѓ СЃ Р·Р°СЂРїР»Р°С‚РЅРѕРіРѕ СЃС‡РµС‚Р° РєР»РёРµРЅС‚Р° РЅР° РґРµРїРѕР·РёС‚), 
+			if (checkClient == -1) { cout << " РЎРЅР°С‡Р°Р»Р° Р°РІС‚РѕСЂРёР·РёСЂСѓРµС‚РµСЃСЊ!" << endl; break; }
+			cout << "РЎРµР№С‡Р°СЃ Р’С‹ СЃРјРѕР¶РµС‚Рµ РѕС‚РєСЂС‹С‚СЊ РЅРѕРІС‹Р№ РґРµРїРѕР·РёС‚ " << endl;
 			client.openADeposit(clientNumberIWorkWith);
 
 			break;
 		}
-		case 5: {//5) показать состояние депозита,
-			if (checkClient == -1) { cout << " Сначала авторизируетесь!" << endl; break; }
+		case 5: {//5) РїРѕРєР°Р·Р°С‚СЊ СЃРѕСЃС‚РѕСЏРЅРёРµ РґРµРїРѕР·РёС‚Р°,
+			if (checkClient == -1) { cout << " РЎРЅР°С‡Р°Р»Р° Р°РІС‚РѕСЂРёР·РёСЂСѓРµС‚РµСЃСЊ!" << endl; break; }
 			client.growthInContribution(clientNumberIWorkWith);
 			client.printIncomeOnDeposits(clientNumberIWorkWith);
 			break;
 		}
-		case 7: { // 7) закрыть депозит (переведя всю накопленную сумму на зарплатный счет клиента).
-			if (checkClient == -1) { cout << " Сначала авторизируетесь!" << endl; break; }
+		case 7: { // 7) Р·Р°РєСЂС‹С‚СЊ РґРµРїРѕР·РёС‚ (РїРµСЂРµРІРµРґСЏ РІСЃСЋ РЅР°РєРѕРїР»РµРЅРЅСѓСЋ СЃСѓРјРјСѓ РЅР° Р·Р°СЂРїР»Р°С‚РЅС‹Р№ СЃС‡РµС‚ РєР»РёРµРЅС‚Р°).
+			if (checkClient == -1) { cout << " РЎРЅР°С‡Р°Р»Р° Р°РІС‚РѕСЂРёР·РёСЂСѓРµС‚РµСЃСЊ!" << endl; break; }
 			int depositIndeficator;
-			cout << "Список открытых депозитов: " << endl;
+			cout << "РЎРїРёСЃРѕРє РѕС‚РєСЂС‹С‚С‹С… РґРµРїРѕР·РёС‚РѕРІ: " << endl;
 			client.checkForOpenDeposits(clientNumberIWorkWith);
-			cout << "Введите идентификатор депозита, который Вы хотите закрыть: " << endl;
+			cout << "Р’РІРµРґРёС‚Рµ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РґРµРїРѕР·РёС‚Р°, РєРѕС‚РѕСЂС‹Р№ Р’С‹ С…РѕС‚РёС‚Рµ Р·Р°РєСЂС‹С‚СЊ: " << endl;
 			cin >> depositIndeficator;
 			client.closeDeposit(clientNumberIWorkWith, depositIndeficator);
-			//cout << "Депозит закрыт! " << endl;
+			//cout << "Р”РµРїРѕР·РёС‚ Р·Р°РєСЂС‹С‚! " << endl;
 			break;
 		}
-		case 6: {// 6) снять проценты (переведя их на зарплатный счет клиента), 
-			if (checkClient == -1) { cout << " Сначала авторизируетесь!" << endl; break; }
+		case 6: {// 6) СЃРЅСЏС‚СЊ РїСЂРѕС†РµРЅС‚С‹ (РїРµСЂРµРІРµРґСЏ РёС… РЅР° Р·Р°СЂРїР»Р°С‚РЅС‹Р№ СЃС‡РµС‚ РєР»РёРµРЅС‚Р°), 
+			if (checkClient == -1) { cout << " РЎРЅР°С‡Р°Р»Р° Р°РІС‚РѕСЂРёР·РёСЂСѓРµС‚РµСЃСЊ!" << endl; break; }
 			int depositIndeficator;
-			cout << "Список открытых депозитов: " << endl;
+			cout << "РЎРїРёСЃРѕРє РѕС‚РєСЂС‹С‚С‹С… РґРµРїРѕР·РёС‚РѕРІ: " << endl;
 			client.checkForOpenDeposits(clientNumberIWorkWith);
-			cout << "Введите идентификатор депозита, проценты с которого хотите перевести: " << endl;
+			cout << "Р’РІРµРґРёС‚Рµ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РґРµРїРѕР·РёС‚Р°, РїСЂРѕС†РµРЅС‚С‹ СЃ РєРѕС‚РѕСЂРѕРіРѕ С…РѕС‚РёС‚Рµ РїРµСЂРµРІРµСЃС‚Рё: " << endl;
 			cin >> depositIndeficator;
 			client.withdrawInterest(clientNumberIWorkWith, depositIndeficator);
-			cout << "Деньги переведены! " << endl;
+			cout << "Р”РµРЅСЊРіРё РїРµСЂРµРІРµРґРµРЅС‹! " << endl;
 			break;
 		default:
-			cout << "Такого пункта меню нет! Можно быть и повнимательнее! " << endl;
+			cout << "РўР°РєРѕРіРѕ РїСѓРЅРєС‚Р° РјРµРЅСЋ РЅРµС‚! РњРѕР¶РЅРѕ Р±С‹С‚СЊ Рё РїРѕРІРЅРёРјР°С‚РµР»СЊРЅРµРµ! " << endl;
 		}
 		}
 		mainMenu();
-		cout << "Введите нужный пункт меню : " << endl;
+		cout << "Р’РІРµРґРёС‚Рµ РЅСѓР¶РЅС‹Р№ РїСѓРЅРєС‚ РјРµРЅСЋ : " << endl;
 		cin >> choiceMenu;
 
 	}
@@ -310,10 +310,10 @@ int main()
 
 void Deposit::growthInContribution(int _clientNumberIWorkWith) {
 	int monthCounter = 0;
-	// cout << "Доход по всем вкладам (без учета суммы вклада): " << endl;
+	// cout << "Р”РѕС…РѕРґ РїРѕ РІСЃРµРј РІРєР»Р°РґР°Рј (Р±РµР· СѓС‡РµС‚Р° СЃСѓРјРјС‹ РІРєР»Р°РґР°): " << endl;
 	for (int i = 0; i < centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.size(); i++) {
 		if (centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].depositStatus == true) {
-			//случай если год открытия совпдает с годом закрытия
+			//СЃР»СѓС‡Р°Р№ РµСЃР»Рё РіРѕРґ РѕС‚РєСЂС‹С‚РёСЏ СЃРѕРІРїРґР°РµС‚ СЃ РіРѕРґРѕРј Р·Р°РєСЂС‹С‚РёСЏ
 			if (YEAR == centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].yearOfOpen) {
 				if (DAY < centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].dayOfOpen) {
 					monthCounter = MONTH - centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].monthOfOpen - 1;
@@ -368,24 +368,24 @@ void Deposit::printIncomeOnDeposits(int _clientNumberIWorkWith) {
 	bool checkDeposit = false;
 	for (int i = 0; i < centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.size(); i++) {
 		if (centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].depositStatus == true) {
-			cout << "Название депозита " << centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].nameDeposit << endl
-				<< "Доход с данного депозита  " << int(centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].interestOnTheDeposit) << " руб." << endl;
+			cout << "РќР°Р·РІР°РЅРёРµ РґРµРїРѕР·РёС‚Р° " << centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].nameDeposit << endl
+				<< "Р”РѕС…РѕРґ СЃ РґР°РЅРЅРѕРіРѕ РґРµРїРѕР·РёС‚Р°  " << int(centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].interestOnTheDeposit) << " СЂСѓР±." << endl;
 			checkDeposit = true;
 		}
 	}
-	if (checkDeposit == false) { cout << " Нет открытых депозитов! " << endl; }
+	if (checkDeposit == false) { cout << " РќРµС‚ РѕС‚РєСЂС‹С‚С‹С… РґРµРїРѕР·РёС‚РѕРІ! " << endl; }
 }
 
 int Deposit::clientAuthorization(string _clientIndeficator, string _clientPassword) {
 	for (int i = 0; i < centrInDeposit.clientBaze.size(); i++) {
 		if (centrInDeposit.clientBaze[i].clientIndeficator == _clientIndeficator
 			&& centrInDeposit.clientBaze[i].clientPassword == _clientPassword) {
-			cout << "Клиент авторизирован!" << endl;
+			cout << "РљР»РёРµРЅС‚ Р°РІС‚РѕСЂРёР·РёСЂРѕРІР°РЅ!" << endl;
 			return i;
 		}
 		if (centrInDeposit.clientBaze[i].clientIndeficator == _clientIndeficator
 			|| centrInDeposit.clientBaze[i].clientPassword == _clientPassword) {
-			cout << "Что-то введено не так! Попробуйте авторизоваться заново! " << endl;
+			cout << "Р§С‚Рѕ-С‚Рѕ РІРІРµРґРµРЅРѕ РЅРµ С‚Р°Рє! РџРѕРїСЂРѕР±СѓР№С‚Рµ Р°РІС‚РѕСЂРёР·РѕРІР°С‚СЊСЃСЏ Р·Р°РЅРѕРІРѕ! " << endl;
 			return -1;
 		}
 	}
@@ -393,36 +393,36 @@ int Deposit::clientAuthorization(string _clientIndeficator, string _clientPasswo
 
 void Deposit::availableDepositsThatTheClientCanOpen(int _clientNumberIWorkWith) {
 	if (centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount < 100000) {
-		cout << "На вашем счету менее 100 т.р., Вам доступны следубщие проценты для вкладов: " << endl;
-		cout << "На срок 3 месяца: " << CREDIT_FOR_3_MONTH_FOR_THE_POOR << endl;
-		cout << "На срок 6 месяцев: " << CREDIT_FOR_6_MONTH_FOR_THE_POOR << endl;
-		cout << "На срок 1 год: " << CREDIT_FOR_1_YEAR_FOR_THE_POOR << endl;
-		cout << "На срок 2 года " << CREDIT_FOR_2_YEAR_FOR_THE_POOR << endl;
-		cout << "На срок 3 года: " << CREDIT_FOR_3_YEAR_FOR_THE_POOR << endl;
+		cout << "РќР° РІР°С€РµРј СЃС‡РµС‚Сѓ РјРµРЅРµРµ 100 С‚.СЂ., Р’Р°Рј РґРѕСЃС‚СѓРїРЅС‹ СЃР»РµРґСѓР±С‰РёРµ РїСЂРѕС†РµРЅС‚С‹ РґР»СЏ РІРєР»Р°РґРѕРІ: " << endl;
+		cout << "РќР° СЃСЂРѕРє 3 РјРµСЃСЏС†Р°: " << CREDIT_FOR_3_MONTH_FOR_THE_POOR << endl;
+		cout << "РќР° СЃСЂРѕРє 6 РјРµСЃСЏС†РµРІ: " << CREDIT_FOR_6_MONTH_FOR_THE_POOR << endl;
+		cout << "РќР° СЃСЂРѕРє 1 РіРѕРґ: " << CREDIT_FOR_1_YEAR_FOR_THE_POOR << endl;
+		cout << "РќР° СЃСЂРѕРє 2 РіРѕРґР° " << CREDIT_FOR_2_YEAR_FOR_THE_POOR << endl;
+		cout << "РќР° СЃСЂРѕРє 3 РіРѕРґР°: " << CREDIT_FOR_3_YEAR_FOR_THE_POOR << endl;
 	}
 	if (centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount >= 100000 && centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount < 500000) {
-		cout << "На вашем счету более  100 т.р., но меньше 500 т.р., Вам доступны следубщие проценты для вкладов: " << endl;
-		cout << "На срок 3 месяца: " << CREDIT_FOR_3_MONTH_FOR_THE_MIDDLE << endl;
-		cout << "На срок 6 месяцев: " << CREDIT_FOR_6_MONTH_FOR_THE_MIDDLE << endl;
-		cout << "На срок 1 год: " << CREDIT_FOR_1_YEAR_FOR_THE_MIDDLE << endl;
-		cout << "На срок 2 года " << CREDIT_FOR_2_YEAR_FOR_THE_MIDDLE << endl;
-		cout << "На срок 3 года: " << CREDIT_FOR_3_YEAR_FOR_THE_MIDDLE << endl;
+		cout << "РќР° РІР°С€РµРј СЃС‡РµС‚Сѓ Р±РѕР»РµРµ  100 С‚.СЂ., РЅРѕ РјРµРЅСЊС€Рµ 500 С‚.СЂ., Р’Р°Рј РґРѕСЃС‚СѓРїРЅС‹ СЃР»РµРґСѓР±С‰РёРµ РїСЂРѕС†РµРЅС‚С‹ РґР»СЏ РІРєР»Р°РґРѕРІ: " << endl;
+		cout << "РќР° СЃСЂРѕРє 3 РјРµСЃСЏС†Р°: " << CREDIT_FOR_3_MONTH_FOR_THE_MIDDLE << endl;
+		cout << "РќР° СЃСЂРѕРє 6 РјРµСЃСЏС†РµРІ: " << CREDIT_FOR_6_MONTH_FOR_THE_MIDDLE << endl;
+		cout << "РќР° СЃСЂРѕРє 1 РіРѕРґ: " << CREDIT_FOR_1_YEAR_FOR_THE_MIDDLE << endl;
+		cout << "РќР° СЃСЂРѕРє 2 РіРѕРґР° " << CREDIT_FOR_2_YEAR_FOR_THE_MIDDLE << endl;
+		cout << "РќР° СЃСЂРѕРє 3 РіРѕРґР°: " << CREDIT_FOR_3_YEAR_FOR_THE_MIDDLE << endl;
 	}
 	if (centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount >= 500000 && centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount < 1000000) {
-		cout << "На вашем счету более 500 т.р., но менее 1 млн.р., Вам доступны следубщие проценты для вкладов: " << endl;
-		cout << "На срок 3 месяца: " << CREDIT_FOR_3_MONTH_FOR_THE_RICH << endl;
-		cout << "На срок 6 месяцев: " << CREDIT_FOR_6_MONTH_FOR_THE_RICH << endl;
-		cout << "На срок 1 год: " << CREDIT_FOR_1_YEAR_FOR_THE_RICH << endl;
-		cout << "На срок 2 года " << CREDIT_FOR_2_YEAR_FOR_THE_RICH << endl;
-		cout << "На срок 3 года: " << CREDIT_FOR_3_YEAR_FOR_THE_RICH << endl;
+		cout << "РќР° РІР°С€РµРј СЃС‡РµС‚Сѓ Р±РѕР»РµРµ 500 С‚.СЂ., РЅРѕ РјРµРЅРµРµ 1 РјР»РЅ.СЂ., Р’Р°Рј РґРѕСЃС‚СѓРїРЅС‹ СЃР»РµРґСѓР±С‰РёРµ РїСЂРѕС†РµРЅС‚С‹ РґР»СЏ РІРєР»Р°РґРѕРІ: " << endl;
+		cout << "РќР° СЃСЂРѕРє 3 РјРµСЃСЏС†Р°: " << CREDIT_FOR_3_MONTH_FOR_THE_RICH << endl;
+		cout << "РќР° СЃСЂРѕРє 6 РјРµСЃСЏС†РµРІ: " << CREDIT_FOR_6_MONTH_FOR_THE_RICH << endl;
+		cout << "РќР° СЃСЂРѕРє 1 РіРѕРґ: " << CREDIT_FOR_1_YEAR_FOR_THE_RICH << endl;
+		cout << "РќР° СЃСЂРѕРє 2 РіРѕРґР° " << CREDIT_FOR_2_YEAR_FOR_THE_RICH << endl;
+		cout << "РќР° СЃСЂРѕРє 3 РіРѕРґР°: " << CREDIT_FOR_3_YEAR_FOR_THE_RICH << endl;
 	}
 	if (centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount > 1000000) {
-		cout << "На вашем счету более 1 млн. р., Вам доступны следубщие проценты для вкладов: " << endl;
-		cout << "На срок 3 месяца: " << CREDIT_FOR_3_MONTH_FOR_THE_VERY_RICH << endl;
-		cout << "На срок 6 месяцев: " << CREDIT_FOR_6_MONTH_FOR_THE_VERY_RICH << endl;
-		cout << "На срок 1 год: " << CREDIT_FOR_1_YEAR_FOR_THE_VERY_RICH << endl;
-		cout << "На срок 2 года " << CREDIT_FOR_2_YEAR_FOR_THE_VERY_RICH << endl;
-		cout << "На срок 3 года: " << CREDIT_FOR_3_YEAR_FOR_THE_VERY_RICH << endl;
+		cout << "РќР° РІР°С€РµРј СЃС‡РµС‚Сѓ Р±РѕР»РµРµ 1 РјР»РЅ. СЂ., Р’Р°Рј РґРѕСЃС‚СѓРїРЅС‹ СЃР»РµРґСѓР±С‰РёРµ РїСЂРѕС†РµРЅС‚С‹ РґР»СЏ РІРєР»Р°РґРѕРІ: " << endl;
+		cout << "РќР° СЃСЂРѕРє 3 РјРµСЃСЏС†Р°: " << CREDIT_FOR_3_MONTH_FOR_THE_VERY_RICH << endl;
+		cout << "РќР° СЃСЂРѕРє 6 РјРµСЃСЏС†РµРІ: " << CREDIT_FOR_6_MONTH_FOR_THE_VERY_RICH << endl;
+		cout << "РќР° СЃСЂРѕРє 1 РіРѕРґ: " << CREDIT_FOR_1_YEAR_FOR_THE_VERY_RICH << endl;
+		cout << "РќР° СЃСЂРѕРє 2 РіРѕРґР° " << CREDIT_FOR_2_YEAR_FOR_THE_VERY_RICH << endl;
+		cout << "РќР° СЃСЂРѕРє 3 РіРѕРґР°: " << CREDIT_FOR_3_YEAR_FOR_THE_VERY_RICH << endl;
 	}
 }
 
@@ -430,45 +430,45 @@ void Deposit::checkForOpenDeposits(int _clientNumberIWorkWith) {
 	bool checkDeposit = false;
 	for (int i = 0; i < centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.size(); i++) {
 		if (centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].depositStatus == true) {
-			cout << "Идентификатор депозита: " << i << endl;
-			cout << "Название депозита: " << centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].nameDeposit << endl;
-			cout << "Процент депозита: " << centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].procentOfDeposit << endl;
-			cout << "Сумма депозита: " << centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].depositAmount << endl;
-			cout << "Дата открытия: " << centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].dayOfOpen
+			cout << "РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РґРµРїРѕР·РёС‚Р°: " << i << endl;
+			cout << "РќР°Р·РІР°РЅРёРµ РґРµРїРѕР·РёС‚Р°: " << centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].nameDeposit << endl;
+			cout << "РџСЂРѕС†РµРЅС‚ РґРµРїРѕР·РёС‚Р°: " << centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].procentOfDeposit << endl;
+			cout << "РЎСѓРјРјР° РґРµРїРѕР·РёС‚Р°: " << centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].depositAmount << endl;
+			cout << "Р”Р°С‚Р° РѕС‚РєСЂС‹С‚РёСЏ: " << centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].dayOfOpen
 				<< "." << centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].monthOfOpen
 				<< "." << centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].yearOfOpen << endl;
-			cout << "Дата закрытия: " << centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].dayOfClose
+			cout << "Р”Р°С‚Р° Р·Р°РєСЂС‹С‚РёСЏ: " << centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].dayOfClose
 				<< "." << centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].monthOfClose
 				<< "." << centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[i].yearOfClose << endl;
 			checkDeposit = true;
 			cout << "_____________________________________________________________________________________________________________________________________" << endl;
 		}
 	}
-	if (checkDeposit == false) { cout << " Нет открытых депозитов! " << endl; }
+	if (checkDeposit == false) { cout << " РќРµС‚ РѕС‚РєСЂС‹С‚С‹С… РґРµРїРѕР·РёС‚РѕРІ! " << endl; }
 }
 
 void Deposit::termsOfMenuDeposits() {
-	cout << "1. 3 месяца " << endl;
-	cout << "2. 6 месяцев " << endl;
-	cout << "3. 1 год " << endl;
-	cout << "4. 2 года" << endl;
-	cout << "5. 3 года" << endl;
+	cout << "1. 3 РјРµСЃСЏС†Р° " << endl;
+	cout << "2. 6 РјРµСЃСЏС†РµРІ " << endl;
+	cout << "3. 1 РіРѕРґ " << endl;
+	cout << "4. 2 РіРѕРґР°" << endl;
+	cout << "5. 3 РіРѕРґР°" << endl;
 }
 
 void Deposit::openADeposit(int _clientNumberIWorkWith) {
 	int sum = -1;
 	int creditTerm;
-	cout << "Депозиты которые Вы можете открыть: " << endl;
+	cout << "Р”РµРїРѕР·РёС‚С‹ РєРѕС‚РѕСЂС‹Рµ Р’С‹ РјРѕР¶РµС‚Рµ РѕС‚РєСЂС‹С‚СЊ: " << endl;
 	availableDepositsThatTheClientCanOpen(_clientNumberIWorkWith);
 	//informationAboutDeposit newDeposit();
-	cout << "Введите сумму, которую хотите положить " << endl;
+	cout << "Р’РІРµРґРёС‚Рµ СЃСѓРјРјСѓ, РєРѕС‚РѕСЂСѓСЋ С…РѕС‚РёС‚Рµ РїРѕР»РѕР¶РёС‚СЊ " << endl;
 	cin >> sum;
 	while (sum >= centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount || sum <= 0) {
-		cout << "Недостаточно средств или сумма отрицательна. Введите заново! " << endl;
+		cout << "РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ СЃСЂРµРґСЃС‚РІ РёР»Рё СЃСѓРјРјР° РѕС‚СЂРёС†Р°С‚РµР»СЊРЅР°. Р’РІРµРґРёС‚Рµ Р·Р°РЅРѕРІРѕ! " << endl;
 		cin >> sum;
 	}
 	if (sum < 100000) {
-		cout << "Выбирете срок, на который Вы хотите открыть депозит" << endl;
+		cout << "Р’С‹Р±РёСЂРµС‚Рµ СЃСЂРѕРє, РЅР° РєРѕС‚РѕСЂС‹Р№ Р’С‹ С…РѕС‚РёС‚Рµ РѕС‚РєСЂС‹С‚СЊ РґРµРїРѕР·РёС‚" << endl;
 		int _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose, _yearOfOpen, _yearOfClose;
 		_dayOfOpen = DAY;
 		_monthOfOpen = MONTH;
@@ -476,9 +476,9 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 		termsOfMenuDeposits();
 		cin >> creditTerm;
 		switch (creditTerm) {
-		case 1: { //3 месяца
-			_dayOfClose = _dayOfOpen; //день открытия равен дню закрытия
-			_monthOfClose = _monthOfOpen + 3; //прибавляем 3 месяца
+		case 1: { //3 РјРµСЃСЏС†Р°
+			_dayOfClose = _dayOfOpen; //РґРµРЅСЊ РѕС‚РєСЂС‹С‚РёСЏ СЂР°РІРµРЅ РґРЅСЋ Р·Р°РєСЂС‹С‚РёСЏ
+			_monthOfClose = _monthOfOpen + 3; //РїСЂРёР±Р°РІР»СЏРµРј 3 РјРµСЃСЏС†Р°
 			if (_monthOfClose > 12) {
 				_monthOfClose = _monthOfClose % 12;
 				_yearOfClose = _yearOfOpen + 1;
@@ -492,9 +492,9 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			centrInDeposit.saveInfFile();
 			break;
 		}
-		case 2: { //шесть месяцев
-			_dayOfClose = _dayOfOpen; //день открытия равен дню закрытия
-			_monthOfClose = _monthOfOpen + 6; //прибавляем 3 месяца
+		case 2: { //С€РµСЃС‚СЊ РјРµСЃСЏС†РµРІ
+			_dayOfClose = _dayOfOpen; //РґРµРЅСЊ РѕС‚РєСЂС‹С‚РёСЏ СЂР°РІРµРЅ РґРЅСЋ Р·Р°РєСЂС‹С‚РёСЏ
+			_monthOfClose = _monthOfOpen + 6; //РїСЂРёР±Р°РІР»СЏРµРј 3 РјРµСЃСЏС†Р°
 			if (_monthOfClose > 12) {
 				_monthOfClose = _monthOfClose % 12;
 				_yearOfClose = _yearOfOpen + 1;
@@ -508,9 +508,9 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			centrInDeposit.saveInfFile();
 			break;
 		}
-		case 3: { // 1 год
-			_dayOfClose = _dayOfOpen; //день открытия равен дню закрытия
-			_monthOfClose = _monthOfOpen + 12; //прибавляем 3 месяца
+		case 3: { // 1 РіРѕРґ
+			_dayOfClose = _dayOfOpen; //РґРµРЅСЊ РѕС‚РєСЂС‹С‚РёСЏ СЂР°РІРµРЅ РґРЅСЋ Р·Р°РєСЂС‹С‚РёСЏ
+			_monthOfClose = _monthOfOpen + 12; //РїСЂРёР±Р°РІР»СЏРµРј 3 РјРµСЃСЏС†Р°
 			if (_monthOfClose > 12) {
 				_monthOfClose = _monthOfClose % 12;
 				_yearOfClose = _yearOfOpen + 1;
@@ -524,9 +524,9 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			centrInDeposit.saveInfFile();
 			break;
 		}
-		case 4: { // 2 года 
-			_dayOfClose = _dayOfOpen; //день открытия равен дню закрытия
-			_monthOfClose = _monthOfOpen + 24; //прибавляем 
+		case 4: { // 2 РіРѕРґР° 
+			_dayOfClose = _dayOfOpen; //РґРµРЅСЊ РѕС‚РєСЂС‹С‚РёСЏ СЂР°РІРµРЅ РґРЅСЋ Р·Р°РєСЂС‹С‚РёСЏ
+			_monthOfClose = _monthOfOpen + 24; //РїСЂРёР±Р°РІР»СЏРµРј 
 			_monthOfClose = _monthOfClose % 24;
 			_yearOfClose = _yearOfOpen + 2;
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
@@ -537,9 +537,9 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			centrInDeposit.saveInfFile();
 			break;
 		}
-		case 5: { // 3 года
-			_dayOfClose = _dayOfOpen; //день открытия равен дню закрытия
-			_monthOfClose = _monthOfOpen + 36; //прибавляем 
+		case 5: { // 3 РіРѕРґР°
+			_dayOfClose = _dayOfOpen; //РґРµРЅСЊ РѕС‚РєСЂС‹С‚РёСЏ СЂР°РІРµРЅ РґРЅСЋ Р·Р°РєСЂС‹С‚РёСЏ
+			_monthOfClose = _monthOfOpen + 36; //РїСЂРёР±Р°РІР»СЏРµРј 
 			_monthOfClose = _monthOfClose % 36;
 			_yearOfClose = _yearOfOpen + 3;
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
@@ -553,7 +553,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 		}
 	}
 	if (sum < 500000 && sum >= 100000) {
-		cout << "Выбирете срок, на которых хотите положить" << endl;
+		cout << "Р’С‹Р±РёСЂРµС‚Рµ СЃСЂРѕРє, РЅР° РєРѕС‚РѕСЂС‹С… С…РѕС‚РёС‚Рµ РїРѕР»РѕР¶РёС‚СЊ" << endl;
 		int _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose, _yearOfOpen, _yearOfClose;
 		_dayOfOpen = DAY;
 		_monthOfOpen = MONTH;
@@ -561,9 +561,9 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 		termsOfMenuDeposits();
 		cin >> creditTerm;
 		switch (creditTerm) {
-		case 1: { //3 месяца
-			_dayOfClose = _dayOfOpen; //день открытия равен дню закрытия
-			_monthOfClose = _monthOfOpen + 3; //прибавляем 3 месяца
+		case 1: { //3 РјРµСЃСЏС†Р°
+			_dayOfClose = _dayOfOpen; //РґРµРЅСЊ РѕС‚РєСЂС‹С‚РёСЏ СЂР°РІРµРЅ РґРЅСЋ Р·Р°РєСЂС‹С‚РёСЏ
+			_monthOfClose = _monthOfOpen + 3; //РїСЂРёР±Р°РІР»СЏРµРј 3 РјРµСЃСЏС†Р°
 			if (_monthOfClose > 12) {
 				_monthOfClose = _monthOfClose % 12;
 				_yearOfClose = _yearOfOpen + 1;
@@ -577,8 +577,8 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			centrInDeposit.saveInfFile();
 			break;
 		}
-		case 2: { //шесть месяцев
-			_dayOfClose = _dayOfOpen; //день открытия равен дню закрытия
+		case 2: { //С€РµСЃС‚СЊ РјРµСЃСЏС†РµРІ
+			_dayOfClose = _dayOfOpen; //РґРµРЅСЊ РѕС‚РєСЂС‹С‚РёСЏ СЂР°РІРµРЅ РґРЅСЋ Р·Р°РєСЂС‹С‚РёСЏ
 			_monthOfClose = _monthOfOpen + 6;
 			if (_monthOfClose > 12) {
 				_monthOfClose = _monthOfClose % 12;
@@ -593,9 +593,9 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			centrInDeposit.saveInfFile();
 			break;
 		}
-		case 3: { // 1 год
-			_dayOfClose = _dayOfOpen; //день открытия равен дню закрытия
-			_monthOfClose = _monthOfOpen + 12; //прибавляем 3 месяца
+		case 3: { // 1 РіРѕРґ
+			_dayOfClose = _dayOfOpen; //РґРµРЅСЊ РѕС‚РєСЂС‹С‚РёСЏ СЂР°РІРµРЅ РґРЅСЋ Р·Р°РєСЂС‹С‚РёСЏ
+			_monthOfClose = _monthOfOpen + 12; //РїСЂРёР±Р°РІР»СЏРµРј 3 РјРµСЃСЏС†Р°
 			if (_monthOfClose > 12) {
 				_monthOfClose = _monthOfClose % 12;
 				_yearOfClose = _yearOfOpen + 1;
@@ -609,9 +609,9 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			centrInDeposit.saveInfFile();
 			break;
 		}
-		case 4: { // 2 года 
-			_dayOfClose = _dayOfOpen; //день открытия равен дню закрытия
-			_monthOfClose = _monthOfOpen + 24; //прибавляем 
+		case 4: { // 2 РіРѕРґР° 
+			_dayOfClose = _dayOfOpen; //РґРµРЅСЊ РѕС‚РєСЂС‹С‚РёСЏ СЂР°РІРµРЅ РґРЅСЋ Р·Р°РєСЂС‹С‚РёСЏ
+			_monthOfClose = _monthOfOpen + 24; //РїСЂРёР±Р°РІР»СЏРµРј 
 			_monthOfClose = _monthOfClose % 24;
 			_yearOfClose = _yearOfOpen + 2;
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
@@ -622,9 +622,9 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			centrInDeposit.saveInfFile();
 			break;
 		}
-		case 5: { // 3 года
-			_dayOfClose = _dayOfOpen; //день открытия равен дню закрытия
-			_monthOfClose = _monthOfOpen + 36; //прибавляем 
+		case 5: { // 3 РіРѕРґР°
+			_dayOfClose = _dayOfOpen; //РґРµРЅСЊ РѕС‚РєСЂС‹С‚РёСЏ СЂР°РІРµРЅ РґРЅСЋ Р·Р°РєСЂС‹С‚РёСЏ
+			_monthOfClose = _monthOfOpen + 36; //РїСЂРёР±Р°РІР»СЏРµРј 
 			_monthOfClose = _monthOfClose % 36;
 			_yearOfClose = _yearOfOpen + 3;
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
@@ -638,7 +638,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 		}
 	}
 	if (sum < 1000000 && sum >= 500000) {
-		cout << "Выбирете срок, на которых хотите положить" << endl;
+		cout << "Р’С‹Р±РёСЂРµС‚Рµ СЃСЂРѕРє, РЅР° РєРѕС‚РѕСЂС‹С… С…РѕС‚РёС‚Рµ РїРѕР»РѕР¶РёС‚СЊ" << endl;
 		int _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose, _yearOfOpen, _yearOfClose;
 		_dayOfOpen = DAY;
 		_monthOfOpen = MONTH;
@@ -646,9 +646,9 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 		termsOfMenuDeposits();
 		cin >> creditTerm;
 		switch (creditTerm) {
-		case 1: { //3 месяца
-			_dayOfClose = _dayOfOpen; //день открытия равен дню закрытия
-			_monthOfClose = _monthOfOpen + 3; //прибавляем 3 месяца
+		case 1: { //3 РјРµСЃСЏС†Р°
+			_dayOfClose = _dayOfOpen; //РґРµРЅСЊ РѕС‚РєСЂС‹С‚РёСЏ СЂР°РІРµРЅ РґРЅСЋ Р·Р°РєСЂС‹С‚РёСЏ
+			_monthOfClose = _monthOfOpen + 3; //РїСЂРёР±Р°РІР»СЏРµРј 3 РјРµСЃСЏС†Р°
 			if (_monthOfClose > 12) {
 				_monthOfClose = _monthOfClose % 12;
 				_yearOfClose = _yearOfOpen + 1;
@@ -662,9 +662,9 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			centrInDeposit.saveInfFile();
 			break;
 		}
-		case 2: { //шесть месяцев
-			_dayOfClose = _dayOfOpen; //день открытия равен дню закрытия
-			_monthOfClose = _monthOfOpen + 6; //прибавляем 3 месяца
+		case 2: { //С€РµСЃС‚СЊ РјРµСЃСЏС†РµРІ
+			_dayOfClose = _dayOfOpen; //РґРµРЅСЊ РѕС‚РєСЂС‹С‚РёСЏ СЂР°РІРµРЅ РґРЅСЋ Р·Р°РєСЂС‹С‚РёСЏ
+			_monthOfClose = _monthOfOpen + 6; //РїСЂРёР±Р°РІР»СЏРµРј 3 РјРµСЃСЏС†Р°
 			if (_monthOfClose > 12) {
 				_monthOfClose = _monthOfClose % 12;
 				_yearOfClose = _yearOfOpen + 1;
@@ -678,9 +678,9 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			centrInDeposit.saveInfFile();
 			break;
 		}
-		case 3: { // 1 год
-			_dayOfClose = _dayOfOpen; //день открытия равен дню закрытия
-			_monthOfClose = _monthOfOpen + 12; //прибавляем 3 месяца
+		case 3: { // 1 РіРѕРґ
+			_dayOfClose = _dayOfOpen; //РґРµРЅСЊ РѕС‚РєСЂС‹С‚РёСЏ СЂР°РІРµРЅ РґРЅСЋ Р·Р°РєСЂС‹С‚РёСЏ
+			_monthOfClose = _monthOfOpen + 12; //РїСЂРёР±Р°РІР»СЏРµРј 3 РјРµСЃСЏС†Р°
 			if (_monthOfClose > 12) {
 				_monthOfClose = _monthOfClose % 12;
 				_yearOfClose = _yearOfOpen + 1;
@@ -694,9 +694,9 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			centrInDeposit.saveInfFile();
 			break;
 		}
-		case 4: { // 2 года 
-			_dayOfClose = _dayOfOpen; //день открытия равен дню закрытия
-			_monthOfClose = _monthOfOpen + 24; //прибавляем 
+		case 4: { // 2 РіРѕРґР° 
+			_dayOfClose = _dayOfOpen; //РґРµРЅСЊ РѕС‚РєСЂС‹С‚РёСЏ СЂР°РІРµРЅ РґРЅСЋ Р·Р°РєСЂС‹С‚РёСЏ
+			_monthOfClose = _monthOfOpen + 24; //РїСЂРёР±Р°РІР»СЏРµРј 
 
 			_monthOfClose = _monthOfClose % 24;
 			_yearOfClose = _yearOfOpen + 2;
@@ -709,9 +709,9 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			centrInDeposit.saveInfFile();
 			break;
 		}
-		case 5: { // 3 года
-			_dayOfClose = _dayOfOpen; //день открытия равен дню закрытия
-			_monthOfClose = _monthOfOpen + 36; //прибавляем 
+		case 5: { // 3 РіРѕРґР°
+			_dayOfClose = _dayOfOpen; //РґРµРЅСЊ РѕС‚РєСЂС‹С‚РёСЏ СЂР°РІРµРЅ РґРЅСЋ Р·Р°РєСЂС‹С‚РёСЏ
+			_monthOfClose = _monthOfOpen + 36; //РїСЂРёР±Р°РІР»СЏРµРј 
 
 			_monthOfClose = _monthOfClose % 36;
 			_yearOfClose = _yearOfOpen + 3;
@@ -727,7 +727,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 		}
 	}
 	if (sum < 1000000 && sum >= 500000) {
-		cout << "Выбирете срок, на который хотите положить" << endl;
+		cout << "Р’С‹Р±РёСЂРµС‚Рµ СЃСЂРѕРє, РЅР° РєРѕС‚РѕСЂС‹Р№ С…РѕС‚РёС‚Рµ РїРѕР»РѕР¶РёС‚СЊ" << endl;
 
 		int _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose, _yearOfOpen, _yearOfClose;
 		_dayOfOpen = DAY;
@@ -736,9 +736,9 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 		termsOfMenuDeposits();
 		cin >> creditTerm;
 		switch (creditTerm) {
-		case 1: { //3 месяца
-			_dayOfClose = _dayOfOpen; //день открытия равен дню закрытия
-			_monthOfClose = _monthOfOpen + 3; //прибавляем 3 месяца
+		case 1: { //3 РјРµСЃСЏС†Р°
+			_dayOfClose = _dayOfOpen; //РґРµРЅСЊ РѕС‚РєСЂС‹С‚РёСЏ СЂР°РІРµРЅ РґРЅСЋ Р·Р°РєСЂС‹С‚РёСЏ
+			_monthOfClose = _monthOfOpen + 3; //РїСЂРёР±Р°РІР»СЏРµРј 3 РјРµСЃСЏС†Р°
 			if (_monthOfClose > 12) {
 				_monthOfClose = _monthOfClose % 12;
 				_yearOfClose = _yearOfOpen + 1;
@@ -752,9 +752,9 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			centrInDeposit.saveInfFile();
 			break;
 		}
-		case 2: { //шесть месяцев
-			_dayOfClose = _dayOfOpen; //день открытия равен дню закрытия
-			_monthOfClose = _monthOfOpen + 6; //прибавляем 3 месяца
+		case 2: { //С€РµСЃС‚СЊ РјРµСЃСЏС†РµРІ
+			_dayOfClose = _dayOfOpen; //РґРµРЅСЊ РѕС‚РєСЂС‹С‚РёСЏ СЂР°РІРµРЅ РґРЅСЋ Р·Р°РєСЂС‹С‚РёСЏ
+			_monthOfClose = _monthOfOpen + 6; //РїСЂРёР±Р°РІР»СЏРµРј 3 РјРµСЃСЏС†Р°
 			if (_monthOfClose > 12) {
 				_monthOfClose = _monthOfClose % 12;
 				_yearOfClose = _yearOfOpen + 1;
@@ -770,9 +770,9 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			centrInDeposit.saveInfFile();
 			break;
 		}
-		case 3: { // 1 год
-			_dayOfClose = _dayOfOpen; //день открытия равен дню закрытия
-			_monthOfClose = _monthOfOpen + 12; //прибавляем 3 месяца
+		case 3: { // 1 РіРѕРґ
+			_dayOfClose = _dayOfOpen; //РґРµРЅСЊ РѕС‚РєСЂС‹С‚РёСЏ СЂР°РІРµРЅ РґРЅСЋ Р·Р°РєСЂС‹С‚РёСЏ
+			_monthOfClose = _monthOfOpen + 12; //РїСЂРёР±Р°РІР»СЏРµРј 3 РјРµСЃСЏС†Р°
 			if (_monthOfClose > 12) {
 				_monthOfClose = _monthOfClose % 12;
 				_yearOfClose = _yearOfOpen + 1;
@@ -786,9 +786,9 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			centrInDeposit.saveInfFile();
 			break;
 		}
-		case 4: { // 2 года 
-			_dayOfClose = _dayOfOpen; //день открытия равен дню закрытия
-			_monthOfClose = _monthOfOpen + 24; //прибавляем 
+		case 4: { // 2 РіРѕРґР° 
+			_dayOfClose = _dayOfOpen; //РґРµРЅСЊ РѕС‚РєСЂС‹С‚РёСЏ СЂР°РІРµРЅ РґРЅСЋ Р·Р°РєСЂС‹С‚РёСЏ
+			_monthOfClose = _monthOfOpen + 24; //РїСЂРёР±Р°РІР»СЏРµРј 
 
 			_monthOfClose = _monthOfClose % 24;
 			_yearOfClose = _yearOfOpen + 2;
@@ -801,9 +801,9 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			centrInDeposit.saveInfFile();
 			break;
 		}
-		case 5: { // 3 года
-			_dayOfClose = _dayOfOpen; //день открытия равен дню закрытия
-			_monthOfClose = _monthOfOpen + 36; //прибавляем 
+		case 5: { // 3 РіРѕРґР°
+			_dayOfClose = _dayOfOpen; //РґРµРЅСЊ РѕС‚РєСЂС‹С‚РёСЏ СЂР°РІРµРЅ РґРЅСЋ Р·Р°РєСЂС‹С‚РёСЏ
+			_monthOfClose = _monthOfOpen + 36; //РїСЂРёР±Р°РІР»СЏРµРј 
 			_monthOfClose = _monthOfClose % 36;
 			_yearOfClose = _yearOfOpen + 3;
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
@@ -821,7 +821,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 }
 
 
-//тут можно было посокращенней конечно, но во избежании ошибок раделил на много случаев
+//С‚СѓС‚ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ РїРѕСЃРѕРєСЂР°С‰РµРЅРЅРµР№ РєРѕРЅРµС‡РЅРѕ, РЅРѕ РІРѕ РёР·Р±РµР¶Р°РЅРёРё РѕС€РёР±РѕРє СЂР°РґРµР»РёР» РЅР° РјРЅРѕРіРѕ СЃР»СѓС‡Р°РµРІ
 void Deposit::closeDeposit(int _clientNumberIWorkWith, int _depositIndeficator) {
 	if ((centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[_depositIndeficator].yearOfClose) < YEAR) {
 		centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[_depositIndeficator].depositStatus = false;
@@ -854,16 +854,16 @@ void Deposit::closeDeposit(int _clientNumberIWorkWith, int _depositIndeficator) 
 		centrInDeposit.saveInfFile();
 	}
 	if (centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[_depositIndeficator].yearOfClose > YEAR) {
-		cout << "Вклад закрыть еще нельзя! Рано!" << endl;
+		cout << "Р’РєР»Р°Рґ Р·Р°РєСЂС‹С‚СЊ РµС‰Рµ РЅРµР»СЊР·СЏ! Р Р°РЅРѕ!" << endl;
 	}
 	if (centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[_depositIndeficator].yearOfClose == YEAR
 		&& centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[_depositIndeficator].monthOfClose == MONTH
 		&& centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[_depositIndeficator].dayOfClose > DAY) {
-		cout << "Вклад закрыть еще нельзя! Рано!" << endl;
+		cout << "Р’РєР»Р°Рґ Р·Р°РєСЂС‹С‚СЊ РµС‰Рµ РЅРµР»СЊР·СЏ! Р Р°РЅРѕ!" << endl;
 	}
 	if (centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[_depositIndeficator].yearOfClose == YEAR
 		&& centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate[_depositIndeficator].monthOfClose > MONTH) {
-		cout << "Вклад закрыть еще нельзя! Рано!" << endl;
+		cout << "Р’РєР»Р°Рґ Р·Р°РєСЂС‹С‚СЊ РµС‰Рµ РЅРµР»СЊР·СЏ! Р Р°РЅРѕ!" << endl;
 	}
 }
 
@@ -886,27 +886,27 @@ string Deposit::getFullName(int _clientNumberIWorkWith) {
 
 ProcessingCentr::ProcessingCentr(string filename) {
 	ifstream in(filename);
-	if (!in) { cout << "Не зашло" << endl; }
-	string _clientIndeficator; //номер зарплатного счета «0001» до «9999»
-	string _clientPassword; //пароль - произвольная строка больше 3 символок
-	string _firstName; //имя
-	string _patronymicName; //отчество
-	string _surName; //фамилия
+	if (!in) { cout << "РќРµ Р·Р°С€Р»Рѕ" << endl; }
+	string _clientIndeficator; //РЅРѕРјРµСЂ Р·Р°СЂРїР»Р°С‚РЅРѕРіРѕ СЃС‡РµС‚Р° В«0001В» РґРѕ В«9999В»
+	string _clientPassword; //РїР°СЂРѕР»СЊ - РїСЂРѕРёР·РІРѕР»СЊРЅР°СЏ СЃС‚СЂРѕРєР° Р±РѕР»СЊС€Рµ 3 СЃРёРјРІРѕР»РѕРє
+	string _firstName; //РёРјСЏ
+	string _patronymicName; //РѕС‚С‡РµСЃС‚РІРѕ
+	string _surName; //С„Р°РјРёР»РёСЏ
 	unsigned int _dayOfOpen;
 	unsigned int _dayOfClose;
 	unsigned int _monthOfOpen;
 	unsigned int _monthOfClose;
 	unsigned int _yearOfOpen;
 	unsigned int _yearOfClose;
-	string _termOfTheDeposit;//срок депозита
-	double _procentOfDeposit; //процент депозита
-	long double  _initialDepositAmount;//начальная сумма депозита
-	int _termOfDeposit; //срок депозита 
-	bool _statusDeposit; // состояние депозита
+	string _termOfTheDeposit;//СЃСЂРѕРє РґРµРїРѕР·РёС‚Р°
+	double _procentOfDeposit; //РїСЂРѕС†РµРЅС‚ РґРµРїРѕР·РёС‚Р°
+	long double  _initialDepositAmount;//РЅР°С‡Р°Р»СЊРЅР°СЏ СЃСѓРјРјР° РґРµРїРѕР·РёС‚Р°
+	int _termOfDeposit; //СЃСЂРѕРє РґРµРїРѕР·РёС‚Р° 
+	bool _statusDeposit; // СЃРѕСЃС‚РѕСЏРЅРёРµ РґРµРїРѕР·РёС‚Р°
 	double  _amountSalaryAccount;//!!!
 	double _depositAmount;
 	string line;
-	string _nameDeposit; //имя равно срок 
+	string _nameDeposit; //РёРјСЏ СЂР°РІРЅРѕ СЃСЂРѕРє 
 	string str1, str2, str3, str4;
 	int countString = 0;
 	bool check = false;
@@ -974,7 +974,7 @@ ProcessingCentr::ProcessingCentr(string filename) {
 void ProcessingCentr::saveInfFile() {
 	ofstream out;
 	out.open("clientBaze.txt");
-	if (!out.is_open()) { cout << "Файл не открылся" << endl; }
+	if (!out.is_open()) { cout << "Р¤Р°Р№Р» РЅРµ РѕС‚РєСЂС‹Р»СЃСЏ" << endl; }
 	for (int i = 0; i < clientBaze.size(); i++) {
 		for (int j = 0; j < clientBaze[i].informationAboutDepositAndHisDate.size(); j++) {
 			out << clientBaze[i] << clientBaze[i].informationAboutDepositAndHisDate[j] << endl;
