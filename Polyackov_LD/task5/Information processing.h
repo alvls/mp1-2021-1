@@ -1,7 +1,5 @@
 #pragma once
 
-void cleaner(); // Очищает поток ввода
-
 int GetDigit();
 
 int GetNumber(const int NumberOfDigits, const bool IsEnterActive = true, const int TypeOfWrite = 0);

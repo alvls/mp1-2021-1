@@ -7,15 +7,15 @@ private:
 	NominalValues cassettes;
 	ProcessingCenter* pCenter;
 	OneCard* pCard;
-	NominalValues AdditionalSize; // Дополнительная кассета, в которую будут сохраняться деньги 
+	NominalValues AdditionalCassette; // Дополнительная кассета, в которую будут сохраняться деньги 
 	bool AccessToFunct; // Доступ к функционалу для карты, находящейся в банкомате
 public:
 	//Конструктор
 	CashMachine(ProcessingCenter* _data);
 
-	bool IsOpenCard() { return pCard == nullptr ? false : true; } // Возвращает есть ли карта в банкомате
+	bool IsCardOpen() { return pCard == nullptr ? false : true; } // Возвращает есть ли карта в банкомате
 	bool IsCodeEntered() { return AccessToFunct; }
-	bool IsBlockedCard() { return pCenter->IsBlockedCard(pCard); }
+	bool IsCardBlocked() { return pCenter->IsCardBlocked(pCard); }
 
 	// Получить карту от клиента 
 	void SetCard(int id);
@@ -30,7 +30,7 @@ public:
 	void BlockCard() { pCenter->BlockCard(pCard); }
 
 	// Изменение денежных средств
-	void TakeMoney(const NominalValues add);
+	void TakeMoney(NominalValues add);
 	NominalValues GiveMoney(const int value);
 
 	// Операторы

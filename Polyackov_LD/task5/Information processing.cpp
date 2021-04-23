@@ -1,12 +1,6 @@
 
 #include "all.h"
 
-void cleaner()
-{
-    while (getchar() != '\n');
-    cin.clear();
-}
-
 int GetDigit()
 {
 	char digit;
@@ -61,16 +55,15 @@ int GetNumber(const int NumberOfDigits, const bool IsEnterActive, const int Type
 		else
 			i--;
 	}
-				return number;
+	return number;
 }
 
 void gotoxy(const int x, const int y)
 {
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	COORD pos;
 	pos.X = x;
 	pos.Y = y;
-	SetConsoleCursorPosition(hConsole, pos);
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
 void PrintStatus(const int type)
@@ -106,24 +99,16 @@ void PrintCashMachine()
 
 void waiting()
 {
-	gotoxy(1, 15);
+	gotoxy(1,15);
 	system("pause");
 	system("cls");
 }
 
 void PrintMenu()
 {
-	COORD pos;
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	pos.X = 22;
-	pos.Y = 2;
-	string menustr[5] = { "Выберите, что нужно сделать:", "(1) Распечатать состояние счета клиента", "(2) Выдать клиенту наличные (списав выданную сумму со счета)", "(3) Принять от клиента наличные", "(4) Вернуть карту клиенту" };
-	for (int i = 0; i < 5; i++)
-	{
-		SetConsoleCursorPosition(hConsole, pos);
-		cout << menustr[i];
-		pos.Y++;
-	}
-	pos.Y++;
-	SetConsoleCursorPosition(hConsole, pos);
+	string menustr[5] = { "Выберите, что нужно сделать:", "(1) Узнать баланс", "(2) Снять наличные (до 200 000)", "(3) Внести наличные", "(4) Вернуть карту" };
+	cout << "\n ";
+	for (auto const& tmpstr : menustr)
+		cout << tmpstr << "\n ";
+	cout << "\n ";
 }

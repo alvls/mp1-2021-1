@@ -16,7 +16,7 @@ public:
 	OneCard* GetCard(int id);
 
 	//Проверка на заблокированность карты
-	bool IsBlockedCard(OneCard* card) { return card->GetLocked(); }
+	bool IsCardBlocked(OneCard* card) { return card->GetLocked(); }
 
 	// Заблокировать карту
 	void BlockCard(OneCard* card);

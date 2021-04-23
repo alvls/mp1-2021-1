@@ -6,7 +6,7 @@ CashMachine::CashMachine(ProcessingCenter* _data)
 	pCenter = _data;
 	pCard = nullptr;
 	cassettes = NominalValues(SIZECASSETTE);
-	AdditionalSize = NominalValues();
+	AdditionalCassette = NominalValues();
 	AccessToFunct = false;
 }
 
@@ -51,38 +51,34 @@ void CashMachine::BackCard()
 }
 
 // Изменение денежных средств
-void CashMachine::TakeMoney(const NominalValues add)
+void CashMachine::TakeMoney(NominalValues add)
 {
-	int value = 0;
-	int quantity = 0;
-	for (size_t i = 0; i < 6; i++)
-	{
-		//value += add[i].ValueOfMoney * add[i].quantity;
-		//quantity += add[i].quantity;
-	}
-	// Добавить проверку на SIZECASSETTE
-	if (quantity == 0 || quantity > MAXQUANTITY)
-		throw exception(" Ошибка получения купюр!");
+	int value = add.GetSum();
+	int quantity = add.GetQuantity();
+	if (quantity == 0 || quantity > MAXQUANTITY || AdditionalCassette.GetQuantity() + quantity > SIZECASSETTE)
+		throw exception("Ошибка получения купюр!");
+	for (size_t i = 0; i < AdditionalCassette.NumOfElements(); i++)
+		AdditionalCassette[i].AddQuantity(add[i].GetQuantity());
 	pCenter->AddMoney(value, pCard);
 }
 
 NominalValues CashMachine::GiveMoney(const int value)  // Добавить реализацию получения купюр
 {
 	if (value % 100 != 0)
-		throw exception(" Банкомат не может выдать данную сумму!");
+		throw exception("Банкомат не может выдать данную сумму!");
 	pCenter->CheckDeductMoney(value, pCard);
 	NominalValues tmpvec;
-	//for (size_t i = 0; i < )
-	//Добавить магию на выдачу денег
-	//Двойной for, в котором будет постепенно заполняться tmpvec - если ошибка, то сбросить tmpvec
-	//Если нет возможности отдать даже сотнями, бросить исключение
+	for (size_t i = 0; i < cassettes.NumOfElements(); i++)
+	{
+
+	}
 	pCenter->DeductMoney(value, pCard);
 	return tmpvec;
 }
 
 ostream& operator<< (ostream& out, const CashMachine& box)
 {
-	out << box.pCard->GetName() << " (id ***" << box.pCard->GetCardID() % 10 << ") : " << box.pCard->GetMoney() << " руб.";
+	out << "\n Владелец:\n\n " << box.pCard->GetName() << "\n\n ID ***" << box.pCard->GetCardID() % 10 << "\n\n Баланс:\n\n " << box.pCard->GetMoney() << " руб.";
 	return out;
 }
 

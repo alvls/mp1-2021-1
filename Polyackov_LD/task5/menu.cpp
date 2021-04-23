@@ -4,38 +4,49 @@
 bool menu(CashMachine& box)
 {
     static void(*modeptr[4])(CashMachine & box) = { mode1, mode2, mode3, mode4 };
-    PrintCashMachine();
-    PrintStatus(3);
+    static bool access = false;
     try
     {
-        if (!box.IsOpenCard())
+        while (!access)
         {
-            OpenCard(box);
-            return true;
+            PrintCashMachine();
+            PrintStatus(3);
+            if (!box.IsCardOpen())
+            {
+                OpenCard(box);
+                continue;
+            }
+            if (box.IsCardBlocked())
+            {
+                BlockedCardInf(box);
+                break;
+            }
+            if (!box.IsCodeEntered())
+                access = EnterPINcode(box);
+            waiting();
         }
-        if (box.IsBlockedCard())
-        {
-            BlockedCardInf(box);
-            return true;
-        }
-        if (!box.IsCodeEntered())
-        {
-            EnterPINcode(box);
-            return true;
-        }
-        PrintMenu();
-        int choice = GetNumber(1);
-        system("cls");
-        PrintCashMachine();
-        PrintStatus(2);
-        modeptr[--choice](box);
     }
-    catch (const exception &ex)
+    catch (const exception& ex)
     {
         cout << ex.what();
         PrintStatus(1);
         waiting();
+        return true;
     }
+    try
+    {
+        PrintMenu();
+        int choice = GetNumber(1);
+        if (--choice == 3)
+            access = false;
+        system("cls");
+        modeptr[choice](box);
+    }
+    catch (const exception& ex)
+    {
+        cout << "\n " << ex.what();
+    }
+    waiting();
     return true;
 }
 
@@ -51,7 +62,7 @@ void OpenCard(CashMachine& box)
     waiting();
 }
 
-void EnterPINcode(CashMachine& box)
+bool EnterPINcode(CashMachine& box)
 {
     enum { WRITESTAR = 1 };
     PrintStatus();
@@ -63,74 +74,64 @@ void EnterPINcode(CashMachine& box)
     gotoxy(22, 4);
     if (!box.CheckPINcode(tmpPIN, CurrentAttempts))
     {
-        if (!box.IsOpenCard())
+        if (!box.IsCardOpen())
             throw exception("Ваша карта заблокирована!");
         cout << "Введён неверный PIN-код";
         gotoxy(22, 6);
-        char tmpstr[] = "Осталось попыток : ";
+        char tmpstr[21] = "Осталось попыток : ";
         tmpstr[19] = '3' - CurrentAttempts;
         throw exception(tmpstr);
+        return false;
     }
     else
     {
         cout << "Вы успешно ввели PIN-код";
         PrintStatus(2);
+        return true;
     }
     waiting();
 }
 
 void BlockedCardInf(CashMachine& box)
 {
-    PrintStatus(1);
-    gotoxy(22, 4);
-    cout << "(нельзя использовать заблокированную карту)";
+    system("cls");
+    cout << "\n (нельзя использовать заблокированную карту)";
     mode4(box);
 }
 
 void mode1(CashMachine& box)
 {
-    gotoxy(22, 2);
-    cout << "Состояние счёта:" ;
-    gotoxy(22, 4);
     cout << box;
-    waiting();
 }
 
 void mode2(CashMachine& box)
 {
-    gotoxy(22, 2);
-    cout << "Введите сумму, которую хотите списать со счёта";
-    gotoxy(22, 4);
+    cout << "\n Введите сумму, которую хотите списать со счёта\n ";
     int value = GetNumber(6);
-    //box.GiveMoney(value);
-    gotoxy(22, 6);
-    cout << "DO MAGIC : " << value;
-    waiting();
+    box.GiveMoney(value);
 }
 
 void mode3(CashMachine& box)
 {
-    COORD coord;
-    coord.X = 22;
-    coord.Y = 2;
-    gotoxy(coord.X, coord.Y);
-    cout << "Вставьте купюры в купюроприёмник";
     NominalValues tmpvalues;
-    for (size_t i = 0; i < tmpvalues.size(); i++)
+    int digit;
+    while (true)
     {
-        coord.Y += 2;
-        gotoxy(coord.X, coord.Y);
-        cout << tmpvalues[i].GetValueOfMoney() << " руб. : ";
-        tmpvalues[i].SetQuantity(GetNumber(2));
-        cout << " шт.";
+        system("cls");
+        cout << "\n Вставьте купюры в купюроприёмник\n (добавить купюру - нажать на её номер в списке)\n (нажмите ENTER, чтобы прекратить вставлять купюры)\n ";
+        cout << tmpvalues;
+        digit = GetDigit();
+        if (digit >= 1 && digit <= tmpvalues.NumOfElements())
+            tmpvalues.AddQuantity(size_t(--digit));
+        if (digit == ENTER - '0')
+            break;
     }
-    waiting();
+    box.TakeMoney(tmpvalues);
+    cout << "\n Общая сумма: " << tmpvalues.GetSum() << "\n\n Наличные внесены!";
 }
 
 void mode4(CashMachine& box)
 {
     box.BackCard();
-    gotoxy(22, 2);
-    cout << "Возьмите карту";
-    waiting();
+    cout << "\n Возьмите карту";
 }
