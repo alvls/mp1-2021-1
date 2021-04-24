@@ -3,24 +3,28 @@
 class QuantityOfNominalValue
 {
 private:
-    int ValueOfMoney;
+    int ValueOfNominal;
     int quantity;
 public:
-    QuantityOfNominalValue(int val = 0, int q = 0) : ValueOfMoney(val), quantity(q) {}
+    QuantityOfNominalValue(int val = 0, int q = 0) : ValueOfNominal(val), quantity(q) {}
     QuantityOfNominalValue(const QuantityOfNominalValue& other);
     // Сеттеры
-    void SetValueOfMoney(int val) { ValueOfMoney = val; }
+    void SetValueOfNominal(int val) { ValueOfNominal = val; }
 
     // Геттеры
-    int GetValueOfMoney() { return ValueOfMoney; }
+    int GetValueOfNominal() { return ValueOfNominal; }
     int GetQuantity() { return quantity; }
-    int GetSum() { return ValueOfMoney * quantity; }
+    int GetSum() { return ValueOfNominal * quantity; }
 
     // Добавить купюры
     void AddQuantity(int value) { quantity += value; }
 
     // Операторы
     friend ostream& operator<< (ostream& out, const QuantityOfNominalValue& information);
+    QuantityOfNominalValue& operator+= (const QuantityOfNominalValue& other);
+    QuantityOfNominalValue& operator-= (const QuantityOfNominalValue& other);
+    friend QuantityOfNominalValue operator+ (const QuantityOfNominalValue& other1, const QuantityOfNominalValue& other2);
+    friend QuantityOfNominalValue operator- (const QuantityOfNominalValue& other1, const QuantityOfNominalValue& other2);
     QuantityOfNominalValue& operator= (const QuantityOfNominalValue& other);
 };
 
@@ -41,13 +45,21 @@ public:
     // Количество купюр, хранящихся в pack
     int GetQuantity();
 
+    // Количество номиналов
     size_t NumOfElements() { return pack.size(); }
 
-    // Добавить купюру в хранилище
-    void AddQuantity(size_t ind, int value = 1) { pack[ind].AddQuantity(value); }
+    // Проверка на тождественное равенство нулю
+    bool is_null();
+
+    // Сбросить все quantity в нулевое значение
+    void clear() { *this -= *this; }
 
     // Операторы
     QuantityOfNominalValue& operator[] (const size_t ind) { return pack[ind]; }
     NominalValues& operator= (const NominalValues& other);
+    NominalValues& operator+= (const NominalValues& other);
+    NominalValues& operator-= (const NominalValues& other);
+    friend NominalValues operator+ (const NominalValues& other1, const NominalValues& other2);
+    friend NominalValues operator- (const NominalValues& other1, const NominalValues& other2);
     friend ostream& operator<< (ostream& out, const NominalValues& information);
 };

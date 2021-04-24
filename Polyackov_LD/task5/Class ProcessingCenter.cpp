@@ -58,7 +58,7 @@ void ProcessingCenter::AddMoney(const int value, OneCard* card)
 void ProcessingCenter::CheckDeductMoney(const int value, OneCard* card)
 {
 	if (card->GetMoney() < value)
-		throw exception(" Недостаточно средств на счёте для проведения данной операции!");
+		throw exception("Недостаточно средств на счёте для проведения данной операции!");
 }
 
 void ProcessingCenter::DeductMoney(const int value, OneCard* card)
@@ -66,7 +66,6 @@ void ProcessingCenter::DeductMoney(const int value, OneCard* card)
 	card->DeductMoney(value);
 	SaveInFile();
 }
-//Добавить обработку возможности вычитания суммы // Добавить сохранение в файл
 
 // Сохранить в файл
 

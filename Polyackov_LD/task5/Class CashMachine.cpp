@@ -57,22 +57,39 @@ void CashMachine::TakeMoney(NominalValues add)
 	int quantity = add.GetQuantity();
 	if (quantity == 0 || quantity > MAXQUANTITY || AdditionalCassette.GetQuantity() + quantity > SIZECASSETTE)
 		throw exception("Ошибка получения купюр!");
-	for (size_t i = 0; i < AdditionalCassette.NumOfElements(); i++)
-		AdditionalCassette[i].AddQuantity(add[i].GetQuantity());
+	AdditionalCassette += add;
 	pCenter->AddMoney(value, pCard);
 }
 
-NominalValues CashMachine::GiveMoney(const int value)  // Добавить реализацию получения купюр
+NominalValues CashMachine::GiveMoney(const int value)
 {
-	if (value % 100 != 0)
-		throw exception("Банкомат не может выдать данную сумму!");
 	pCenter->CheckDeductMoney(value, pCard);
 	NominalValues tmpvec;
-	for (size_t i = 0; i < cassettes.NumOfElements(); i++)
+	size_t j = 0;
+	vector<int> VecOfUnusedQuantity(cassettes.NumOfElements());
+	while (true)
 	{
-
+		int CurrentValue = value;
+		for (size_t i = j; i < cassettes.NumOfElements(); i++)
+		{
+			int NominalsNeeded = CurrentValue / cassettes[i].GetValueOfNominal();
+			int NominalsLeft = cassettes[i].GetQuantity();
+			int quantity = NominalsLeft >= NominalsNeeded ? NominalsNeeded : NominalsLeft;
+			quantity -= VecOfUnusedQuantity[i];
+			if (i == j && quantity == 0)
+				j++;
+			tmpvec[i].AddQuantity(quantity);
+			CurrentValue = value - tmpvec.GetSum();
+		}
+		if (CurrentValue == 0 && tmpvec.GetQuantity() <= MAXQUANTITY)
+			break;
+		if (tmpvec.is_null())
+			throw exception("Банкомат не может выдать данную сумму!");
+		VecOfUnusedQuantity[j]++;
+		tmpvec.clear();
 	}
 	pCenter->DeductMoney(value, pCard);
+	cassettes -= tmpvec;
 	return tmpvec;
 }
 

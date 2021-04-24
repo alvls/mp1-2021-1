@@ -40,4 +40,3 @@ public:
     friend istream& operator>> (istream& in, OneCard& information);
     friend ostream& operator<< (ostream& out, const OneCard& information);
 };
-

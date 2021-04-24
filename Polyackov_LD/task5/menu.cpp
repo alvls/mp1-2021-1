@@ -108,7 +108,8 @@ void mode2(CashMachine& box)
 {
     cout << "\n Введите сумму, которую хотите списать со счёта\n ";
     int value = GetNumber(6);
-    box.GiveMoney(value);
+    NominalValues tmp = box.GiveMoney(value);
+    cout << "\n Операция прошла успешно!\n Вы получили:\n " << tmp;
 }
 
 void mode3(CashMachine& box)
@@ -122,7 +123,7 @@ void mode3(CashMachine& box)
         cout << tmpvalues;
         digit = GetDigit();
         if (digit >= 1 && digit <= tmpvalues.NumOfElements())
-            tmpvalues.AddQuantity(size_t(--digit));
+            tmpvalues[size_t(--digit)].AddQuantity(1);
         if (digit == ENTER - '0')
             break;
     }

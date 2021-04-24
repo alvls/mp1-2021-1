@@ -5,7 +5,7 @@
 
 QuantityOfNominalValue::QuantityOfNominalValue(const QuantityOfNominalValue& other)
 {
-	ValueOfMoney = other.ValueOfMoney;
+	ValueOfNominal = other.ValueOfNominal;
 	quantity = other.quantity;
 }
 
@@ -13,14 +13,40 @@ QuantityOfNominalValue& QuantityOfNominalValue::operator= (const QuantityOfNomin
 {
 	if (this == &other)
 		return *this;
-	ValueOfMoney = other.ValueOfMoney;
+	ValueOfNominal = other.ValueOfNominal;
 	quantity = other.quantity;
 	return *this;
 }
 
+QuantityOfNominalValue& QuantityOfNominalValue::operator+= (const QuantityOfNominalValue& other)
+{
+	quantity += other.quantity;
+	return *this;
+}
+
+QuantityOfNominalValue& QuantityOfNominalValue::operator-= (const QuantityOfNominalValue& other)
+{
+	quantity -= other.quantity;
+	return *this;
+}
+
+QuantityOfNominalValue operator+ (const QuantityOfNominalValue& other1, const QuantityOfNominalValue& other2)
+{
+	QuantityOfNominalValue res(other1);
+	res += other2;
+	return res;
+}
+
+QuantityOfNominalValue operator- (const QuantityOfNominalValue& other1, const QuantityOfNominalValue& other2)
+{
+	QuantityOfNominalValue res(other1);
+	res -= other2;
+	return res;
+}
+
 ostream& operator<< (ostream& out, const QuantityOfNominalValue& information)
 {
-	out << information.ValueOfMoney << " руб. : " << information.quantity << " шт.\n ";
+	out << information.ValueOfNominal << " руб. : " << information.quantity << " шт.\n ";
 	return out;
 }
 
@@ -62,10 +88,46 @@ NominalValues& NominalValues::operator= (const NominalValues& other)
 	return *this;
 }
 
+NominalValues& NominalValues::operator+= (const NominalValues& other)
+{
+	for (size_t i = 0; i < NumOfElements(); i++)
+		pack[i] += other.pack[i];
+	return *this;
+}
+
+NominalValues& NominalValues::operator-= (const NominalValues& other)
+{
+	for (size_t i = 0; i < NumOfElements(); i++)
+		pack[i] -= other.pack[i];
+	return *this;
+}
+
+NominalValues operator+ (const NominalValues& other1, const NominalValues& other2)
+{
+	NominalValues res(other1);
+	res += other2;
+	return res;
+}
+
+NominalValues operator- (const NominalValues& other1, const NominalValues& other2)
+{
+	NominalValues res(other1);
+	res += other2;
+	return res;
+}
+
 ostream& operator<< (ostream& out, const NominalValues& information)
 {
 	int i = 0;
 	for (auto& tmp : information.pack)
 		out << ++i << ") " << tmp;
 	return out;
+}
+
+bool NominalValues::is_null()
+{
+	for (auto& tmp : pack)
+		if (tmp.GetQuantity() != 0)
+			return false;
+	return true;
 }
