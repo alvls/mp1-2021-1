@@ -72,7 +72,7 @@ void ProcessingCenter::DeductMoney(const int value, OneCard* card)
 void ProcessingCenter::SaveInFile()
 {
 	fstream fs;
-	fs.open("Datatmp.txt", fstream::out);
+	fs.open("Data.txt", fstream::out);
 	if (!fs.is_open())
 		throw exception("Не удалось связаться с сервером для обработки информации!");
 	fs << *this;

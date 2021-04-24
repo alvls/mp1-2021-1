@@ -19,7 +19,8 @@ bool menu(CashMachine& box)
             if (box.IsCardBlocked())
             {
                 BlockedCardInf(box);
-                break;
+                waiting();
+                return true;
             }
             if (!box.IsCodeEntered())
                 access = EnterPINcode(box);
@@ -95,7 +96,7 @@ bool EnterPINcode(CashMachine& box)
 void BlockedCardInf(CashMachine& box)
 {
     system("cls");
-    cout << "\n (нельзя использовать заблокированную карту)";
+    cout << "\n (нельзя использовать заблокированную карту)\n";
     mode4(box);
 }
 
@@ -106,8 +107,13 @@ void mode1(CashMachine& box)
 
 void mode2(CashMachine& box)
 {
-    cout << "\n Введите сумму, которую хотите списать со счёта\n ";
-    int value = GetNumber(6);
+    int value = 0;
+    while (!value)
+    {
+        cout << "\n Введите сумму, которую хотите списать со счёта\n ";
+        value = GetNumber(6);
+        system("cls");
+    }
     NominalValues tmp = box.GiveMoney(value);
     cout << "\n Операция прошла успешно!\n Вы получили:\n " << tmp;
 }

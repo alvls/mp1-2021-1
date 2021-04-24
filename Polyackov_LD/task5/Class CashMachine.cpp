@@ -65,7 +65,7 @@ NominalValues CashMachine::GiveMoney(const int value)
 {
 	pCenter->CheckDeductMoney(value, pCard);
 	NominalValues tmpvec;
-	size_t j = 0;
+	size_t j = 0; 
 	vector<int> VecOfUnusedQuantity(cassettes.NumOfElements());
 	while (true)
 	{
