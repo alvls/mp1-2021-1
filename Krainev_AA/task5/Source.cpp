@@ -18,29 +18,29 @@ const string ONE_YEAR = "1-годовой";
 const string TWO_YEAR = "2-годовой";
 const string THREE_YEAR = "3-годовой";
 
-const double CREDIT_FOR_3_MONTH_FOR_THE_POOR = 2.5;
-const double CREDIT_FOR_6_MONTH_FOR_THE_POOR = 2.8;
-const double CREDIT_FOR_1_YEAR_FOR_THE_POOR = 3;
-const double CREDIT_FOR_2_YEAR_FOR_THE_POOR = 3.2;
-const double CREDIT_FOR_3_YEAR_FOR_THE_POOR = 3.5;
+const double DEBIT_FOR_3_MONTH_FOR_THE_POOR = 2.5;
+const double DEBIT_FOR_6_MONTH_FOR_THE_POOR = 2.8;
+const double DEBIT_FOR_1_YEAR_FOR_THE_POOR = 3;
+const double DEBIT_FOR_2_YEAR_FOR_THE_POOR = 3.2;
+const double DEBIT_FOR_3_YEAR_FOR_THE_POOR = 3.5;
 
-const double CREDIT_FOR_3_MONTH_FOR_THE_MIDDLE = 3.0;
-const double CREDIT_FOR_6_MONTH_FOR_THE_MIDDLE = 3.2;
-const double CREDIT_FOR_1_YEAR_FOR_THE_MIDDLE = 3.5;
-const double CREDIT_FOR_2_YEAR_FOR_THE_MIDDLE = 4.0;
-const double CREDIT_FOR_3_YEAR_FOR_THE_MIDDLE = 4.5;
+const double DEBIT_FOR_3_MONTH_FOR_THE_MIDDLE = 3.0;
+const double DEBIT_FOR_6_MONTH_FOR_THE_MIDDLE = 3.2;
+const double DEBIT_FOR_1_YEAR_FOR_THE_MIDDLE = 3.5;
+const double DEBIT_FOR_2_YEAR_FOR_THE_MIDDLE = 4.0;
+const double DEBIT_FOR_3_YEAR_FOR_THE_MIDDLE = 4.5;
 
-const double CREDIT_FOR_3_MONTH_FOR_THE_RICH = 3.5;
-const double CREDIT_FOR_6_MONTH_FOR_THE_RICH = 3.8;
-const double CREDIT_FOR_1_YEAR_FOR_THE_RICH = 4.0;
-const double CREDIT_FOR_2_YEAR_FOR_THE_RICH = 4.5;
-const double CREDIT_FOR_3_YEAR_FOR_THE_RICH = 4.8;
+const double DEBIT_FOR_3_MONTH_FOR_THE_RICH = 3.5;
+const double DEBIT_FOR_6_MONTH_FOR_THE_RICH = 3.8;
+const double DEBIT_FOR_1_YEAR_FOR_THE_RICH = 4.0;
+const double DEBIT_FOR_2_YEAR_FOR_THE_RICH = 4.5;
+const double DEBIT_FOR_3_YEAR_FOR_THE_RICH = 4.8;
 
-const double CREDIT_FOR_3_MONTH_FOR_THE_VERY_RICH = 4.0;
-const double CREDIT_FOR_6_MONTH_FOR_THE_VERY_RICH = 4.2;
-const double CREDIT_FOR_1_YEAR_FOR_THE_VERY_RICH = 4.5;
-const double CREDIT_FOR_2_YEAR_FOR_THE_VERY_RICH = 5.0;
-const double CREDIT_FOR_3_YEAR_FOR_THE_VERY_RICH = 5.5;
+const double DEBIT_FOR_3_MONTH_FOR_THE_VERY_RICH = 4.0;
+const double DEBIT_FOR_6_MONTH_FOR_THE_VERY_RICH = 4.2;
+const double DEBIT_FOR_1_YEAR_FOR_THE_VERY_RICH = 4.5;
+const double DEBIT_FOR_2_YEAR_FOR_THE_VERY_RICH = 5.0;
+const double DEBIT_FOR_3_YEAR_FOR_THE_VERY_RICH = 5.5;
 
 const double MONTH_3 = 3;
 const double MONTH_6 = 6;
@@ -394,35 +394,35 @@ int Deposit::clientAuthorization(string _clientIndeficator, string _clientPasswo
 void Deposit::availableDepositsThatTheClientCanOpen(int _clientNumberIWorkWith) {
 	if (centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount < 100000) {
 		cout << "На вашем счету менее 100 т.р., Вам доступны следубщие проценты для вкладов: " << endl;
-		cout << "На срок 3 месяца: " << CREDIT_FOR_3_MONTH_FOR_THE_POOR << endl;
-		cout << "На срок 6 месяцев: " << CREDIT_FOR_6_MONTH_FOR_THE_POOR << endl;
-		cout << "На срок 1 год: " << CREDIT_FOR_1_YEAR_FOR_THE_POOR << endl;
-		cout << "На срок 2 года " << CREDIT_FOR_2_YEAR_FOR_THE_POOR << endl;
-		cout << "На срок 3 года: " << CREDIT_FOR_3_YEAR_FOR_THE_POOR << endl;
+		cout << "На срок 3 месяца: " << DEBIT_FOR_3_MONTH_FOR_THE_POOR << endl;
+		cout << "На срок 6 месяцев: " << DEBIT_FOR_6_MONTH_FOR_THE_POOR << endl;
+		cout << "На срок 1 год: " << DEBIT_FOR_1_YEAR_FOR_THE_POOR << endl;
+		cout << "На срок 2 года " << DEBIT_FOR_2_YEAR_FOR_THE_POOR << endl;
+		cout << "На срок 3 года: " << DEBIT_FOR_3_YEAR_FOR_THE_POOR << endl;
 	}
 	if (centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount >= 100000 && centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount < 500000) {
 		cout << "На вашем счету более  100 т.р., но меньше 500 т.р., Вам доступны следубщие проценты для вкладов: " << endl;
-		cout << "На срок 3 месяца: " << CREDIT_FOR_3_MONTH_FOR_THE_MIDDLE << endl;
-		cout << "На срок 6 месяцев: " << CREDIT_FOR_6_MONTH_FOR_THE_MIDDLE << endl;
-		cout << "На срок 1 год: " << CREDIT_FOR_1_YEAR_FOR_THE_MIDDLE << endl;
-		cout << "На срок 2 года " << CREDIT_FOR_2_YEAR_FOR_THE_MIDDLE << endl;
-		cout << "На срок 3 года: " << CREDIT_FOR_3_YEAR_FOR_THE_MIDDLE << endl;
+		cout << "На срок 3 месяца: " << DEBIT_FOR_3_MONTH_FOR_THE_MIDDLE << endl;
+		cout << "На срок 6 месяцев: " << DEBIT_FOR_6_MONTH_FOR_THE_MIDDLE << endl;
+		cout << "На срок 1 год: " << DEBIT_FOR_1_YEAR_FOR_THE_MIDDLE << endl;
+		cout << "На срок 2 года " << DEBIT_FOR_2_YEAR_FOR_THE_MIDDLE << endl;
+		cout << "На срок 3 года: " << DEBIT_FOR_3_YEAR_FOR_THE_MIDDLE << endl;
 	}
 	if (centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount >= 500000 && centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount < 1000000) {
 		cout << "На вашем счету более 500 т.р., но менее 1 млн.р., Вам доступны следубщие проценты для вкладов: " << endl;
-		cout << "На срок 3 месяца: " << CREDIT_FOR_3_MONTH_FOR_THE_RICH << endl;
-		cout << "На срок 6 месяцев: " << CREDIT_FOR_6_MONTH_FOR_THE_RICH << endl;
-		cout << "На срок 1 год: " << CREDIT_FOR_1_YEAR_FOR_THE_RICH << endl;
-		cout << "На срок 2 года " << CREDIT_FOR_2_YEAR_FOR_THE_RICH << endl;
-		cout << "На срок 3 года: " << CREDIT_FOR_3_YEAR_FOR_THE_RICH << endl;
+		cout << "На срок 3 месяца: " << DEBIT_FOR_3_MONTH_FOR_THE_RICH << endl;
+		cout << "На срок 6 месяцев: " << DEBIT_FOR_6_MONTH_FOR_THE_RICH << endl;
+		cout << "На срок 1 год: " << DEBIT_FOR_1_YEAR_FOR_THE_RICH << endl;
+		cout << "На срок 2 года " << DEBIT_FOR_2_YEAR_FOR_THE_RICH << endl;
+		cout << "На срок 3 года: " << DEBIT_FOR_3_YEAR_FOR_THE_RICH << endl;
 	}
 	if (centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount > 1000000) {
 		cout << "На вашем счету более 1 млн. р., Вам доступны следубщие проценты для вкладов: " << endl;
-		cout << "На срок 3 месяца: " << CREDIT_FOR_3_MONTH_FOR_THE_VERY_RICH << endl;
-		cout << "На срок 6 месяцев: " << CREDIT_FOR_6_MONTH_FOR_THE_VERY_RICH << endl;
-		cout << "На срок 1 год: " << CREDIT_FOR_1_YEAR_FOR_THE_VERY_RICH << endl;
-		cout << "На срок 2 года " << CREDIT_FOR_2_YEAR_FOR_THE_VERY_RICH << endl;
-		cout << "На срок 3 года: " << CREDIT_FOR_3_YEAR_FOR_THE_VERY_RICH << endl;
+		cout << "На срок 3 месяца: " << DEBIT_FOR_3_MONTH_FOR_THE_VERY_RICH << endl;
+		cout << "На срок 6 месяцев: " << DEBIT_FOR_6_MONTH_FOR_THE_VERY_RICH << endl;
+		cout << "На срок 1 год: " << DEBIT_FOR_1_YEAR_FOR_THE_VERY_RICH << endl;
+		cout << "На срок 2 года " << DEBIT_FOR_2_YEAR_FOR_THE_VERY_RICH << endl;
+		cout << "На срок 3 года: " << DEBIT_FOR_3_YEAR_FOR_THE_VERY_RICH << endl;
 	}
 }
 
@@ -485,7 +485,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			}
 			else { _yearOfClose = _yearOfOpen; }
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
-			informationAboutDeposit newDeposit(true, CREDIT_FOR_3_MONTH_FOR_THE_POOR, THREE_MONTH, sum,
+			informationAboutDeposit newDeposit(true, DEBIT_FOR_3_MONTH_FOR_THE_POOR, THREE_MONTH, sum,
 				MONTH_3, _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose,
 				_yearOfOpen, _yearOfClose, 0);
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.push_back(newDeposit);
@@ -501,7 +501,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			}
 			else { _yearOfClose = _yearOfOpen; }
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
-			informationAboutDeposit newDeposit(true, CREDIT_FOR_6_MONTH_FOR_THE_POOR, SIX_MONTH, sum,
+			informationAboutDeposit newDeposit(true, DEBIT_FOR_6_MONTH_FOR_THE_POOR, SIX_MONTH, sum,
 				MONTH_6, _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose,
 				_yearOfOpen, _yearOfClose, 0);
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.push_back(newDeposit);
@@ -517,7 +517,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			}
 			else { _yearOfClose = _yearOfOpen; }
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
-			informationAboutDeposit newDeposit(true, CREDIT_FOR_1_YEAR_FOR_THE_POOR, ONE_YEAR, sum,
+			informationAboutDeposit newDeposit(true, DEBIT_FOR_1_YEAR_FOR_THE_POOR, ONE_YEAR, sum,
 				YEAR_1, _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose,
 				_yearOfOpen, _yearOfClose, 0);
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.push_back(newDeposit);
@@ -530,7 +530,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			_monthOfClose = _monthOfClose % 24;
 			_yearOfClose = _yearOfOpen + 2;
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
-			informationAboutDeposit newDeposit(true, CREDIT_FOR_2_YEAR_FOR_THE_POOR, TWO_YEAR, sum,
+			informationAboutDeposit newDeposit(true, DEBIT_FOR_2_YEAR_FOR_THE_POOR, TWO_YEAR, sum,
 				YEAR_2, _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose,
 				_yearOfOpen, _yearOfClose, 0);
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.push_back(newDeposit);
@@ -543,7 +543,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			_monthOfClose = _monthOfClose % 36;
 			_yearOfClose = _yearOfOpen + 3;
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
-			informationAboutDeposit newDeposit(true, CREDIT_FOR_3_YEAR_FOR_THE_POOR, THREE_YEAR, sum,
+			informationAboutDeposit newDeposit(true, DEBIT_FOR_3_YEAR_FOR_THE_POOR, THREE_YEAR, sum,
 				YEAR_3, _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose,
 				_yearOfOpen, _yearOfClose, 0);
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.push_back(newDeposit);
@@ -570,7 +570,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			}
 			else { _yearOfClose = _yearOfOpen; }
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
-			informationAboutDeposit newDeposit(true, CREDIT_FOR_3_MONTH_FOR_THE_MIDDLE, THREE_MONTH, sum,
+			informationAboutDeposit newDeposit(true, DEBIT_FOR_3_MONTH_FOR_THE_MIDDLE, THREE_MONTH, sum,
 				MONTH_3, _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose,
 				_yearOfOpen, _yearOfClose, 0);
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.push_back(newDeposit);
@@ -586,7 +586,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			}
 			else { _yearOfClose = _yearOfOpen; }
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
-			informationAboutDeposit newDeposit(true, CREDIT_FOR_6_MONTH_FOR_THE_MIDDLE, SIX_MONTH, sum,
+			informationAboutDeposit newDeposit(true, DEBIT_FOR_6_MONTH_FOR_THE_MIDDLE, SIX_MONTH, sum,
 				MONTH_6, _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose,
 				_yearOfOpen, _yearOfClose, 0);
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.push_back(newDeposit);
@@ -602,7 +602,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			}
 			else { _yearOfClose = _yearOfOpen; }
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
-			informationAboutDeposit newDeposit(true, CREDIT_FOR_1_YEAR_FOR_THE_MIDDLE, ONE_YEAR, sum,
+			informationAboutDeposit newDeposit(true, DEBIT_FOR_1_YEAR_FOR_THE_MIDDLE, ONE_YEAR, sum,
 				YEAR_1, _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose,
 				_yearOfOpen, _yearOfClose, 0);
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.push_back(newDeposit);
@@ -615,7 +615,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			_monthOfClose = _monthOfClose % 24;
 			_yearOfClose = _yearOfOpen + 2;
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
-			informationAboutDeposit newDeposit(true, CREDIT_FOR_2_YEAR_FOR_THE_MIDDLE, TWO_YEAR, sum,
+			informationAboutDeposit newDeposit(true, DEBIT_FOR_2_YEAR_FOR_THE_MIDDLE, TWO_YEAR, sum,
 				YEAR_2, _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose,
 				_yearOfOpen, _yearOfClose, 0);
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.push_back(newDeposit);
@@ -628,7 +628,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			_monthOfClose = _monthOfClose % 36;
 			_yearOfClose = _yearOfOpen + 3;
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
-			informationAboutDeposit newDeposit(true, CREDIT_FOR_3_YEAR_FOR_THE_MIDDLE, THREE_YEAR, sum,
+			informationAboutDeposit newDeposit(true, DEBIT_FOR_3_YEAR_FOR_THE_MIDDLE, THREE_YEAR, sum,
 				YEAR_3, _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose,
 				_yearOfOpen, _yearOfClose, 0);
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.push_back(newDeposit);
@@ -655,7 +655,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			}
 			else { _yearOfClose = _yearOfOpen; }
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
-			informationAboutDeposit newDeposit(true, CREDIT_FOR_3_MONTH_FOR_THE_RICH, THREE_MONTH, sum,
+			informationAboutDeposit newDeposit(true, DEBIT_FOR_3_MONTH_FOR_THE_RICH, THREE_MONTH, sum,
 				MONTH_3, _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose,
 				_yearOfOpen, _yearOfClose, 0);
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.push_back(newDeposit);
@@ -671,7 +671,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			}
 			else { _yearOfClose = _yearOfOpen; }
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
-			informationAboutDeposit newDeposit(true, CREDIT_FOR_6_MONTH_FOR_THE_RICH, SIX_MONTH, sum,
+			informationAboutDeposit newDeposit(true, DEBIT_FOR_6_MONTH_FOR_THE_RICH, SIX_MONTH, sum,
 				MONTH_6, _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose,
 				_yearOfOpen, _yearOfClose, 0);
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.push_back(newDeposit);
@@ -687,7 +687,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			}
 			else { _yearOfClose = _yearOfOpen; }
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
-			informationAboutDeposit newDeposit(true, CREDIT_FOR_1_YEAR_FOR_THE_RICH, ONE_YEAR, sum,
+			informationAboutDeposit newDeposit(true, DEBIT_FOR_1_YEAR_FOR_THE_RICH, ONE_YEAR, sum,
 				YEAR_1, _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose,
 				_yearOfOpen, _yearOfClose, 0);
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.push_back(newDeposit);
@@ -702,7 +702,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			_yearOfClose = _yearOfOpen + 2;
 
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
-			informationAboutDeposit newDeposit(true, CREDIT_FOR_2_YEAR_FOR_THE_RICH, TWO_YEAR, sum,
+			informationAboutDeposit newDeposit(true, DEBIT_FOR_2_YEAR_FOR_THE_RICH, TWO_YEAR, sum,
 				YEAR_2, _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose,
 				_yearOfOpen, _yearOfClose, 0);
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.push_back(newDeposit);
@@ -717,7 +717,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			_yearOfClose = _yearOfOpen + 3;
 
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
-			informationAboutDeposit newDeposit(true, CREDIT_FOR_3_YEAR_FOR_THE_RICH, THREE_YEAR, sum,
+			informationAboutDeposit newDeposit(true, DEBIT_FOR_3_YEAR_FOR_THE_RICH, THREE_YEAR, sum,
 				YEAR_3, _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose,
 				_yearOfOpen, _yearOfClose, 0);
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.push_back(newDeposit);
@@ -745,7 +745,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			}
 			else { _yearOfClose = _yearOfOpen; }
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
-			informationAboutDeposit newDeposit(true, CREDIT_FOR_3_MONTH_FOR_THE_VERY_RICH, THREE_MONTH, sum,
+			informationAboutDeposit newDeposit(true, DEBIT_FOR_3_MONTH_FOR_THE_VERY_RICH, THREE_MONTH, sum,
 				MONTH_3, _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose,
 				_yearOfOpen, _yearOfClose, 0);
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.push_back(newDeposit);
@@ -763,7 +763,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 				_yearOfClose = _yearOfOpen;
 			}
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
-			informationAboutDeposit newDeposit(true, CREDIT_FOR_6_MONTH_FOR_THE_VERY_RICH, SIX_MONTH, sum,
+			informationAboutDeposit newDeposit(true, DEBIT_FOR_6_MONTH_FOR_THE_VERY_RICH, SIX_MONTH, sum,
 				MONTH_6, _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose,
 				_yearOfOpen, _yearOfClose, 0);
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.push_back(newDeposit);
@@ -779,7 +779,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			}
 			else { _yearOfClose = _yearOfOpen; }
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
-			informationAboutDeposit newDeposit(true, CREDIT_FOR_1_YEAR_FOR_THE_VERY_RICH, ONE_YEAR, sum,
+			informationAboutDeposit newDeposit(true, DEBIT_FOR_1_YEAR_FOR_THE_VERY_RICH, ONE_YEAR, sum,
 				YEAR_1, _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose,
 				_yearOfOpen, _yearOfClose, 0);
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.push_back(newDeposit);
@@ -794,7 +794,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			_yearOfClose = _yearOfOpen + 2;
 
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
-			informationAboutDeposit newDeposit(true, CREDIT_FOR_2_YEAR_FOR_THE_VERY_RICH, TWO_YEAR, sum,
+			informationAboutDeposit newDeposit(true, DEBIT_FOR_2_YEAR_FOR_THE_VERY_RICH, TWO_YEAR, sum,
 				YEAR_2, _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose,
 				_yearOfOpen, _yearOfClose, 0);
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.push_back(newDeposit);
@@ -807,7 +807,7 @@ void Deposit::openADeposit(int _clientNumberIWorkWith) {
 			_monthOfClose = _monthOfClose % 36;
 			_yearOfClose = _yearOfOpen + 3;
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount = centrInDeposit.clientBaze[_clientNumberIWorkWith].amountSalaryAccount - sum;
-			informationAboutDeposit newDeposit(true, CREDIT_FOR_3_YEAR_FOR_THE_RICH, THREE_YEAR, sum,
+			informationAboutDeposit newDeposit(true, DEBIT_FOR_3_YEAR_FOR_THE_RICH, THREE_YEAR, sum,
 				YEAR_3, _dayOfOpen, _dayOfClose, _monthOfOpen, _monthOfClose,
 				_yearOfOpen, _yearOfClose, 0);
 			centrInDeposit.clientBaze[_clientNumberIWorkWith].informationAboutDepositAndHisDate.push_back(newDeposit);
