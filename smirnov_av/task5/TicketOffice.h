@@ -1,7 +1,15 @@
 #pragma once
 #include "Cinema.h"
 #include <vector>
+#include <iostream>
+#include <string>
+#define MORNINGHOURS 12
+#define EVENINGHOURS 18
+#define MORNINGPRICE 0.75
+#define EVENINGPRICE 1.5
 
+
+using namespace std;
 /*Разработать классы Билетная касса и Кинотеатр.
 Класс Билетная касса должен имитировать работу кассы по продаже билетов на киносеансы в многозальном кинотеатре. Считать, что продажа билетов проводится на сеансы в пределах трех дней от текущей даты.
 Каждый сеанс описывается датой, временем начала сеанса, названием фильма, номером зала, стоимостью билета в зависимости от зоны (VIP и обычная). Для упрощения считать, что покупатель указывает тип зоны
@@ -19,14 +27,22 @@
 4) рассчитать общую стоимость билетов, 
 5) отменить заказ билетов
 6) сформировать билеты (каждый билет включает: дату, время сеанса, название фильма, номер зала, номер ряда, номер места в ряду).
-Класс Кинотеатр должен использоваться для поддержки работы класса Билетная касса и может быть разработан в минимально-необходимом варианте.
+Класс Кинотеатр должен использоваться для поддержки работы класса Билетная касса и может быть разработан в минимально-необходимом варианте. 
 */
+
 struct ticket
 {
-
+	Date dateSession;
+	Time timeEvent;
+	string nameFilm = "unknown";
+	int hallNumber = 0;
+	int rowNumber = 0;
+	int seat = 0;
 };
 
-struct DataBuyer
+std::ostream& operator << (std::ostream& out, const ticket& _ticket);
+
+struct DataClient
 {
 	Date date;
 	Event dataEvent;
@@ -40,24 +56,37 @@ class TicketOffice
 {
 private:
 	Cinema* cinema;
-	//vector <DataBuyer> arrayInformations;
-	DataBuyer dataFromClient;
-	bool isInitilize = false;
-	vector<vector<int>> historySeats;
-
+	DataClient dataFromClient;
+	bool isInitilize = false; //true - если полученые данные покупателя
+	bool isEnd = false; // true - если выданы билеты 
+	vector<int> historySeats; //история размещения мест в последней транзакции 
+	int GetPrice(int hall, int _countSeats, bool _isVip); 
 public:
 	TicketOffice(Cinema* otherCinema)
 	{
 		cinema = otherCinema;
 	}
+	TicketOffice()
+	{
+		cinema = nullptr;
+	}
 
-
-	void SetDataBuyer(Date _date, Time _timeSession, string _nameFilm, int _hallNumber, bool _isVip, int _countSeats);
+	void SetCinema(Cinema* otherCinema);
+	//забирает данные клиента
+	void SetDataClient(Date _date, Time _timeSession, string _nameFilm, int _hallNumber, bool _isVip, int _countSeats);
+	//проверяет доступность данного количества мест в данной зоне 
 	bool CheckAvailability();
+	//резервирует места 
 	void Reserve();
+	//итоговая цена билетов 
 	int GetTotalPrice();
+	//отмены билетов 
 	void CancellationOrder();
+	//получение билетов 
 	vector<ticket> GetTickets();
+	//проверяет, получены ли данные клиента 
 	void CheckInitilize();
+	//проверка на доступность сеанса 
+
 };
 

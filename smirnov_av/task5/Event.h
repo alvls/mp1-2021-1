@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-
+#include <iostream>
 using namespace std;
 
 struct Date
@@ -15,6 +15,13 @@ struct Date
 		return false;
 	}
 };
+
+ostream& operator << (ostream& out, const Date& date);
+
+
+
+
+
 
 struct Time
 {
@@ -31,8 +38,7 @@ struct Time
 	}
 };
 
-
-
+ostream& operator << (ostream& out, const Time& time);
 
 class Event
 {
@@ -54,11 +60,11 @@ public:
 
 	//сеттеры
 	void SetNameFilm(string otherName);
-	void SetTimeSession(Time otherTime);
-	
+	void SetTimeEvent(Time otherTime);
+	void SetTimeEvent(int hours, int minutes);
 	//геттеры
 	string GetNameFilm();
-	Time GetTimeSession();	
+	Time GetTimeEvent();	
 
 	//операторы
 	bool operator==(Event otherEvent)
@@ -69,5 +75,6 @@ public:
 		}
 		return false;
 	}
+
 };
 

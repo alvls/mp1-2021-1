@@ -10,8 +10,6 @@ class Session
 {
 private:
 	Event dataAboutEvent;
-	//int day;
-	//bool** places;
 	vector <vector<bool>> places;
 public:
 	Session(const Event& otherData)
@@ -21,21 +19,34 @@ public:
 		for (size_t i = 0; i < RAWS; i++)
 		{
 			places[i].resize(SEATSINRAWS);
-
 			for (size_t j = 0; j < SEATSINRAWS; j++)
 			{
 				places[i][j] = 0;
 			}
 		}
+	}
 
+	Session()
+	{
+		places.resize(RAWS);
+		for (size_t i = 0; i < RAWS; i++)
+		{
+			places[i].resize(SEATSINRAWS);
+			for (size_t j = 0; j < SEATSINRAWS; j++)
+			{
+				places[i][j] = 0;
+			}
+		}
 	}
 
 	~Session()
 	{
 	}
 
+	void SetEvent(Event otherEvent);
 	bool CheckAvailability(int _countPlaces, bool _isVip);
-	void SetPlaces(int _countPlaces, bool _isVip, vector<vector<int>>& settedSeats);
+	void SetPlaces(int _countPlaces, bool _isVip, vector<int>& settedSeats);
+	void BackUpPlaces(vector<int>& settedSeats);
 	Event GetEvent();
 
 	bool operator==(Session& otherSession)

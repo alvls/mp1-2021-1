@@ -1,5 +1,10 @@
 #include "Session.h"
 
+void Session::SetEvent(Event otherEvent)
+{
+	dataAboutEvent = otherEvent;
+}
+
 bool Session::CheckAvailability(int _countPlaces, bool _isVip)
 {
 	int freeSeats = 0;
@@ -29,12 +34,11 @@ bool Session::CheckAvailability(int _countPlaces, bool _isVip)
 			}
 		}
 	}
-
 	return false;
 }
 
 
-void Session::SetPlaces(int _countPlaces, bool _isVip, vector<vector<int>>& settedSeats)
+void Session::SetPlaces(int _countPlaces, bool _isVip, vector<int>& settedSeats)
 {
 	if (_isVip && CheckAvailability(_countPlaces, _isVip) )
 	{
@@ -45,27 +49,42 @@ void Session::SetPlaces(int _countPlaces, bool _isVip, vector<vector<int>>& sett
 				if (places[i][j] == 0)
 				{
 					places[i][j] = 1;
-					settedSeats[i].push_back(j);
+				
+					settedSeats.push_back(i * 10 + j); //номер места
+					_countPlaces--;
 				}
+				if (_countPlaces == 0)
+					return;
 			}
 		}
 	}
 	else if (CheckAvailability(_countPlaces, _isVip))
 	{
+
 		for (int i = VIPRAWS; i < RAWS; i++)
 		{
 			for (int j = 0; j < SEATSINRAWS; j++)
 			{
 				if (places[i][j] == 0)
 				{
+					settedSeats.push_back(i * 10 + j);//в i ряд записываю номер места
 					places[i][j] = 1;
-					settedSeats[i].push_back(j);
+					_countPlaces--;
 				}
+				if (_countPlaces == 0)
+					return;
 			}
 		}
 	}
-
 	throw string("Невозможно уместить столько человек!");
+}
+
+void Session::BackUpPlaces(vector<int>& settedSeats)
+{
+	for (size_t i = 0; i < settedSeats.size(); i++)
+	{
+		places[settedSeats[i] / 10][settedSeats[i]%10] = 0;
+	}
 }
 
 Event Session::GetEvent()

@@ -8,7 +8,6 @@ int Cinema::FindIndexSession(int hallNumber, Session& neededSession)
 	{
 		if (sessions[hallNumber][i] == neededSession)
 			return i;
-		
 	}
 	throw string("Данного сеанса не существует!");
 }
@@ -44,10 +43,11 @@ void Cinema::SetDataHall(int numberHall, int _vipPrice, int _defaultPrice)
 	halls[numberHall].vipPrice = _vipPrice;
 }
 
-void Cinema::SetPlace(int countPlaces,bool _isVip, int hallNumber, Event neededEvent, vector<vector<int>>& settedSeats)
+void Cinema::SetPlace(int countPlaces, bool _isVip, int hallNumber, Event neededEvent, vector<int>& settedSeats)
 {
 	Session tempSession(neededEvent);
 	int index = FindIndexSession(hallNumber, tempSession);
+	//if(sessions[hallNumber][index].GetEvent().GetTimeSession().hours == neededEvent.GetTimeSession().hours)
 	sessions[hallNumber][index].SetPlaces(countPlaces, _isVip, settedSeats);
 }
 
@@ -57,7 +57,7 @@ void Cinema::SetSessionsInHall(int hall, vector<Session> otherSessions)
 	{
 		throw string("Данного зала не существует!");
 	}
-	sessions[hall] = otherSessions;	
+	sessions[hall] = otherSessions;
 }
 
 void Cinema::SetSheduleInDay(int day, vector<Event> events)
@@ -65,7 +65,35 @@ void Cinema::SetSheduleInDay(int day, vector<Event> events)
 	sheduleDay[day] = events;
 }
 
+void Cinema::GetPriceFromHall(int hall, int& defaultPrice, int& vipPrice)
+{
+	defaultPrice = halls[hall].defaultPrice;
+	vipPrice = halls[hall].vipPrice;
+}
+
 vector<Event> Cinema::GetEventsInDay(int day)
 {
 	return sheduleDay[day].GetEvents();
+}
+
+void Cinema::BackUpSeats(int hallNumber, Event neededEvent, vector<int>& settedSeats)
+{
+	Session tempSession(neededEvent);
+	int index = FindIndexSession(hallNumber, tempSession);
+	sessions[hallNumber][index].BackUpPlaces(settedSeats);
+}
+
+void Cinema::UpdateSession(Date _date)
+{
+	int day = _date.day;
+
+	for (size_t i = 0; i < COUNTHALLS; i++)
+	{
+		for (size_t j = 0; j < 3 * SESSIONSINHALLINDAY; j++)
+		{
+			sessions[i][j] = sheduleDay[day];
+		}
+	}
+
+
 }
