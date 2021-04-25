@@ -1,5 +1,7 @@
 #include "Credit.h"
-
+#ifdef _MSC_VER
+#pragma warning(disable : 4996)
+#endif
 //annuity payment
 //month payment = S*(P+P/((1+P)^N-1)) S = sum,P = percent/100,N = number of months
 Credit::Credit(ProcCenter* _data): AuthPersNumb(-1)

@@ -6,7 +6,7 @@ bool ProcCenter::Read_From_File(string path)
     if(!fin){return false;}
     int i = 0;
     int buf;
-    int PrPayrollN;
+    int PrPayrollN = -1;
     fin >> buf;
     PersDt = new Data [buf];
     while(!fin.eof())
