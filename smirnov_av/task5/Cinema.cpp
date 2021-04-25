@@ -49,18 +49,15 @@ void Cinema::SetThirdDaySession(Date _date)
 	}
 }
 
-bool Cinema::CheckAvailability(int _countPlaces, bool _isVip, int _hallNumber, Event _neededSession)
+bool Cinema::CheckAvailability(int _countPlaces, bool _isVip, int _hallNumber, Session _neededSession)
 {
-	Session tempSession(_neededSession);
-	int index = FindIndexSession(_hallNumber, tempSession);
+	int index = FindIndexSession(_hallNumber, _neededSession);
 	return sessions[_hallNumber][index].CheckAvailability(_countPlaces, _isVip);
 }
 
 void Cinema::AddHall(int numberHall, int _vipPrice, int _defaultPrice)
 {
-	hall tempHall;
-	tempHall.vipPrice = _vipPrice;
-	tempHall.defaultPrice = _defaultPrice;
+	hall tempHall = { _vipPrice, _defaultPrice };
 	if (numberHall == halls.size())
 	{
 		halls.push_back(tempHall);
@@ -80,10 +77,9 @@ void Cinema::SetDataHall(int numberHall, int _vipPrice, int _defaultPrice)
 	halls[numberHall].vipPrice = _vipPrice;
 }
 
-void Cinema::SetPlace(int countPlaces, bool _isVip, int hallNumber, Event neededEvent, vector<int>& settedSeats)
+void Cinema::SetPlace(int countPlaces, bool _isVip, int hallNumber, Session neededSession, vector<int>& settedSeats)
 {
-	Session tempSession(neededEvent);
-	int index = FindIndexSession(hallNumber, tempSession);
+	int index = FindIndexSession(hallNumber, neededSession);
 	sessions[hallNumber][index].SetPlaces(countPlaces, _isVip, settedSeats);
 }
 
@@ -112,10 +108,9 @@ vector<Event> Cinema::GetEventsInDay(int day)
 	return sheduleDay[day].GetEvents();
 }
 
-void Cinema::BackUpSeats(int hallNumber, Event neededEvent, vector<int>& settedSeats)
+void Cinema::BackUpSeats(int hallNumber, Session neededSession, vector<int>& settedSeats)
 {
-	Session tempSession(neededEvent);
-	int index = FindIndexSession(hallNumber, tempSession);
+	int index = FindIndexSession(hallNumber, neededSession);
 	sessions[hallNumber][index].BackUpPlaces(settedSeats);
 }
 
@@ -190,27 +185,14 @@ void Cinema::UpdateSession(Date _date)
 void Cinema::ShowSessions(Date _date)
 {
 
-	for (size_t i = 0; i < COUNTHALLS; i++)
+	for (size_t k = 1; k <= COUNTHALLS; k++)
 	{
-		for (size_t j = 0; j < SESSIONSINHALLINDAY; j++)
+		for (size_t i = 0; i < COUNTHALLS; i++)
 		{
-			cout << sessions[i][j];
-		}
-	}
-
-	for (size_t i = 0; i < COUNTHALLS; i++)
-	{
-		for (size_t j = SESSIONSINHALLINDAY; j < 2 * SESSIONSINHALLINDAY; j++)
-		{
-			cout << sessions[i][j];
-		}
-	}
-
-	for (size_t i = 0; i < COUNTHALLS; i++)
-	{
-		for (size_t j = 2 * SESSIONSINHALLINDAY; j < 3 * SESSIONSINHALLINDAY; j++)
-		{
-			cout << sessions[i][j];
+			for (size_t j = (k-1)*SESSIONSINHALLINDAY; j < k * SESSIONSINHALLINDAY; j++)
+			{
+				cout << sessions[i][j] << " \nЗал: " << i << endl << endl;
+			}
 		}
 	}
 }

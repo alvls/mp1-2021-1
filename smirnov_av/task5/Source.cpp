@@ -36,7 +36,7 @@ Time GetCurrentTime()
 {
 	time_t seconds = time(NULL);
 	tm* timeinfo = localtime(&seconds);
-	Time result;
+	Time result = { 0 , 0 };
 	result.hours = timeinfo->tm_hour;
 	result.minutes = timeinfo->tm_min;
 	return result;
@@ -57,6 +57,9 @@ void main()
 	setlocale(LC_ALL, "ru");
 	vector<Event> eventsInDay;
 	Cinema myCinema;
+	myCinema.SetDataHall(0, 400, 200);
+	myCinema.SetDataHall(1, 500, 250);
+	myCinema.SetDataHall(2, 300, 150);
 	for (size_t i = 0; i < 30; i++)
 	{
 		RandomEventsInDay(eventsInDay);
@@ -68,6 +71,20 @@ void main()
 	Time currentTime = GetCurrentTime();
 	Date currentDate = GetCurrentDate();
 	myCinema.UpdateSession(currentDate); //обновили расписание доступных сеансов в зависимости от даты 
+	myCinema.ShowSessions(currentDate);
+	Date date = { 27, 3 };
+	Time timdas = { 15,00 };
+	ticketOffice.SetDataClient(date, timdas, "Гарри Поттер 4", 0, true, 4);
+	ticketOffice.CheckAvailability();
+	ticketOffice.Reserve(currentDate, currentTime);
+	vector<Ticket>tickets(4);
+	ticketOffice.CancellationOrder();
+	tickets = ticketOffice.GetTickets();
 	
+	for (size_t i = 0; i < tickets.size(); i++)
+	{
+		cout << tickets[i] << endl;
+	}
+	cout << ticketOffice.GetTotalPrice() << endl;
 	system("Pause");
 }

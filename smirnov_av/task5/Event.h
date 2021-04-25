@@ -29,15 +29,16 @@ struct Time
 
 	bool operator==(Time otherTime)
 	{
-		if (this->hours == otherTime.hours && abs(this->minutes - otherTime.minutes) <=10)
+		if (this->hours == otherTime.hours && (this->minutes == otherTime.minutes))
 		{
 			return true;
 		}
 		return false;
 	}
-
 	Time operator+(Time otherTime);
 	Time operator*(int value);
+	bool operator<=(Time otherTime);
+	bool CheckLate(Time otherTime);
 };
 
 ostream& operator << (ostream& out, const Time& time);

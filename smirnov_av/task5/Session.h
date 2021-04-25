@@ -29,6 +29,7 @@ public:
 
 	Session()
 	{
+		dateSession = { 0, 0 };
 		places.resize(RAWS);
 		for (size_t i = 0; i < RAWS; i++)
 		{
@@ -50,6 +51,7 @@ public:
 	void BackUpPlaces(vector<int>& settedSeats);
 	Event GetEvent();
 	void SetDate(Date _otherDate);
+
 	bool operator==(Session& otherSession)
 	{
 		if (dataAboutEvent == otherSession.dataAboutEvent && dateSession == otherSession.dateSession)

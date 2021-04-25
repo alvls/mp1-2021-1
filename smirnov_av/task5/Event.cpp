@@ -50,7 +50,7 @@ ostream& operator<<(ostream& out, const Time& time)
 
 ostream& operator<<(ostream& out, const Event& otherEvent)
 {
-	return out << "Название фильма:" << otherEvent.nameFilm << endl << "Время:" << otherEvent.timeSession << endl;
+	return out << "Название фильма:" << otherEvent.nameFilm << endl << "Время:" << otherEvent.timeSession;
 }
 
 Time Time::operator+(Time otherTime)
@@ -80,11 +80,28 @@ Time Time::operator*(int value)
 	return temp;
 }
 
+bool Time::CheckLate(Time otherTime)
+{
+	Time temp = { 0, 10 };
+	if (otherTime <= *this + temp)
+	{
+		return true;
+	}
+	else
+	{
+		throw string("Опоздание больше, чем на 10 минут!");
+	}
+	
+}
+
+bool Time::operator<=(Time otherTime)
+{
+	return (hours <= otherTime.hours && minutes <= otherTime.minutes); 
+}
+
 Date Date::operator+(int otherDay)
 {
-	Date temp;
-	temp.day = this->day;
-	temp.mounth = this->mounth;
+	Date temp(*this);
 	temp.day += otherDay;
 	if (temp.day > daysInMounth[temp.mounth])
 	{

@@ -33,6 +33,7 @@ public:
 		sheduleDay.resize(30);
 		sessions.resize(COUNTHALLS);
 		savedDays.resize(3);
+		halls.resize(COUNTHALLS);
 		for (size_t i = 0; i < COUNTHALLS; i++)
 		{
 			sessions[i].resize(SESSIONSINHALLINDAY * 3);
@@ -40,13 +41,13 @@ public:
 	}
 
 	//проверка доступности данного количества мест в данной зоне на данном сеансе
-	bool CheckAvailability(int countPlaces, bool isVip, int hallNumber, Event neededEvent);
+	bool CheckAvailability(int countPlaces, bool isVip, int hallNumber, Session neededSession);
 	//добавить зал
 	void AddHall(int numberHall, int _vipPrice = 0, int _defaultPrice = 0 );
 	//установить цену в зале
 	void SetDataHall(int numberHall, int _vipPrice, int _defaultPrice);
 	//занять места на данном сеансе
-	void SetPlace(int countPlaces,bool _isVip, int hallNumber, Event neededEvent, vector<int>& settedSeats);
+	void SetPlace(int countPlaces,bool _isVip, int hallNumber, Session neededSession, vector<int>& settedSeats);
 	//установить сеансы в данном холе
 	void SetSessionsInHall(int hall, vector <Session> otherSessions);
 	//установить расписание на день
@@ -56,7 +57,7 @@ public:
 	//получить все события в данный день
 	vector<Event> GetEventsInDay(int day);
 	//отмена посадочных мест в последней транзакции
-	void BackUpSeats(int hallNumber, Event neededEvent, vector<int>& settedSeats);
+	void BackUpSeats(int hallNumber, Session neededSession, vector<int>& settedSeats);
 	//обновление расписания в зависимости от введенной даты пользователем
 	void UpdateSession(Date _date);
 	//показать расписание на 3 дня с залами 

@@ -99,5 +99,5 @@ void Session::SetDate(Date _otherDate)
 
 ostream& operator<<(ostream& out, const Session& otherSession)
 {
-	return out  << otherSession.dateSession << endl  << otherSession.dataAboutEvent << endl;
+	return out  << otherSession.dateSession << endl  << otherSession.dataAboutEvent;
 }
