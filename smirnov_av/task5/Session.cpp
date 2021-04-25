@@ -92,6 +92,12 @@ Event Session::GetEvent()
 	return dataAboutEvent;
 }
 
+void Session::SetDay(Date _otherDate)
+{
+	dateSession = _otherDate;
+}
 
-
-
+ostream& operator<<(ostream& out, const Session& otherSession)
+{
+	return out  << otherSession.dateSession << endl  << otherSession.dataAboutEvent << endl;
+}

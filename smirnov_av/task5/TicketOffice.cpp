@@ -37,7 +37,6 @@ void TicketOffice::Reserve()
 {
 	CheckInitilize();
 	cinema->SetPlace(dataFromClient.countSeats, dataFromClient.isVip, dataFromClient.hallNumber, dataFromClient.dataEvent, historySeats);
-
 }
 
 int TicketOffice::GetTotalPrice()
@@ -71,7 +70,6 @@ vector<ticket> TicketOffice::GetTickets()
 		}
 		results[i].timeEvent = dataFromClient.dataEvent.GetTimeEvent();		
 	}
-	isEnd = true;
 	historySeats.clear();
 	isInitilize = false;
 	return results;

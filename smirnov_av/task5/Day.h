@@ -17,10 +17,12 @@ public:
 
 	//геттеры
 	vector<Event> GetEvents();
-	
+	Event GetEvent(int index);
 	//сеттеры
 	void SetEventInd(int index, Event _event);
 	void SetEventBack(Event _event);
+
+	friend class Cinema; 
 
 };
 

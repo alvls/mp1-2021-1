@@ -1,45 +1,53 @@
 #include "TicketOffice.h"
 #include <iostream>
+#include <string>
 using namespace std;
+
+string Films[] = {"Пираты Карибского Моря 1","Пираты Карибского Моря 2" , "Властелин колец", "Гарри Поттер 1", "Гарри Поттер 2", "Гарри Поттер 3" , "Гарри Поттер 4" , "Гарри Поттер 5" ,
+"Гарри Поттер 6" , "Гарри Поттер 7" , "Пираты Карибского Моря 3", "Пираты Карибского Моря 4"};
+
+void RandomEventsInDay(vector<Event>& eventsInDay)
+{
+	
+	Event temp;
+	Time delay = { 1,30 };
+	Time startWork = { 10, 30 };
+	int filledEvents = 0;
+	for (size_t i = 0; i < COUNTHALLS * SESSIONSINHALLINDAY; i++)
+	{
+		temp.SetNameFilm(Films[rand() % 12]);
+		if (filledEvents == SESSIONSINHALLINDAY - 1)
+		{
+			temp.SetTimeEvent(startWork + delay * filledEvents);
+			filledEvents = 0;
+
+		}
+		else
+		{
+			temp.SetTimeEvent(startWork + delay * filledEvents);
+			filledEvents++;
+		}
+		eventsInDay.push_back(temp);
+	}
+}
 
 void main()
 {
 	setlocale(LC_ALL, "ru");
-	//заполнение кинотеатра
-	vector <ticket> tickets;
-	Time jda = { 19,30 };
-	Date date = { 12,3 };
+	vector<Event> eventsInDay;
 	Cinema myCinema;
-	Cinema* dada = &myCinema;
-	TicketOffice ticketOffice;
-	ticketOffice.SetCinema(dada);
-	myCinema.AddHall(0, 400, 200);
-	Event temp;
-	temp.SetNameFilm("HELP");
-	temp.SetTimeEvent(12, 0);
-	Session a;
-	a.SetEvent(temp);
-	Session b;
-	temp.SetNameFilm("сумерки");
-	temp.SetTimeEvent(19, 30);
-	b.SetEvent(temp);
 	
-	vector <Session> sessions;
-	sessions.push_back(a);
-	sessions.push_back(b);
-
-	myCinema.SetSessionsInHall(0, sessions);
-
-
-	ticketOffice.SetDataClient(date, jda, "сумерки", 0, false, 3);
-	cout <<"Проверка на доступность:" << ticketOffice.CheckAvailability() << endl;
-	ticketOffice.Reserve();
-	tickets = ticketOffice.GetTickets();
-	cout << endl;
-	for (size_t i = 0; i < tickets.size(); i++)
+	Date date = { 10,4 };
+	for (size_t i = 0; i < 30; i++)
 	{
-		cout << tickets[i] << endl;
+		RandomEventsInDay(eventsInDay);
+		myCinema.SetSheduleInDay(i,eventsInDay);
 	}
-	cout << "totalPrice = " << ticketOffice.GetTotalPrice();
+	myCinema.UpdateSession(date);
+	myCinema.ShowSessions(date);
+	date = { 11, 4 };
+	cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ПОСЛЕ ИЗЕНЕНИЯ ДАТЫ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
+	myCinema.UpdateSession(date);
+	myCinema.ShowSessions(date);
 	system("Pause");
 }

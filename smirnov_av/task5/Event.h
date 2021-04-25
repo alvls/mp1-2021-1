@@ -3,6 +3,8 @@
 #include <iostream>
 using namespace std;
 
+extern unsigned int daysInMounth[12];
+
 struct Date
 {
 	int day;
@@ -14,14 +16,11 @@ struct Date
 			return true;
 		return false;
 	}
+
+	Date operator+(int otherDay);	
 };
 
 ostream& operator << (ostream& out, const Date& date);
-
-
-
-
-
 
 struct Time
 {
@@ -30,12 +29,15 @@ struct Time
 
 	bool operator==(Time otherTime)
 	{
-		if (this->hours == otherTime.hours && this->minutes == otherTime.minutes)
+		if (this->hours == otherTime.hours && abs(this->minutes - otherTime.minutes) <=10)
 		{
 			return true;
 		}
 		return false;
 	}
+
+	Time operator+(Time otherTime);
+	Time operator*(int value);
 };
 
 ostream& operator << (ostream& out, const Time& time);
@@ -75,6 +77,7 @@ public:
 		}
 		return false;
 	}
-
+	friend ostream& operator<<(ostream& out, const Event& otherEvent);
 };
+
 

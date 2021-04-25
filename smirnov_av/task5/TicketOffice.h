@@ -58,7 +58,6 @@ private:
 	Cinema* cinema;
 	DataClient dataFromClient;
 	bool isInitilize = false; //true - если полученые данные покупателя
-	bool isEnd = false; // true - если выданы билеты 
 	vector<int> historySeats; //история размещения мест в последней транзакции 
 	int GetPrice(int hall, int _countSeats, bool _isVip); 
 public:
@@ -86,7 +85,6 @@ public:
 	vector<ticket> GetTickets();
 	//проверяет, получены ли данные клиента 
 	void CheckInitilize();
-	//проверка на доступность сеанса 
 
 };
 

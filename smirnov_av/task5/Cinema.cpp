@@ -47,7 +47,6 @@ void Cinema::SetPlace(int countPlaces, bool _isVip, int hallNumber, Event needed
 {
 	Session tempSession(neededEvent);
 	int index = FindIndexSession(hallNumber, tempSession);
-	//if(sessions[hallNumber][index].GetEvent().GetTimeSession().hours == neededEvent.GetTimeSession().hours)
 	sessions[hallNumber][index].SetPlaces(countPlaces, _isVip, settedSeats);
 }
 
@@ -86,14 +85,126 @@ void Cinema::BackUpSeats(int hallNumber, Event neededEvent, vector<int>& settedS
 void Cinema::UpdateSession(Date _date)
 {
 	int day = _date.day;
-
-	for (size_t i = 0; i < COUNTHALLS; i++)
+	Date temp(_date);
+	if (savedDays.empty()) //можно убрать 
 	{
-		for (size_t j = 0; j < 3 * SESSIONSINHALLINDAY; j++)
-		{
-			sessions[i][j] = sheduleDay[day];
-		}
+		FillSessions(temp);
+		savedDays[0] = temp.day;
+
+		
+		FillSessions(temp + 1);
+		savedDays[1] = temp.day;
+
+	
+		FillSessions(temp + 2);
+		savedDays[2] = temp.day;
 	}
 
+	if (day == savedDays[0]) //обновление не нужно
+		return;
+	else if (day == savedDays[1])		//нужно обновить 1 день 
+	{
+		savedDays[0] = savedDays[1];
+		for (size_t i = 0; i < COUNTHALLS; i++)
+		{
+			for (size_t j = 0; j < SESSIONSINHALLINDAY; j++)
+			{
+				sessions[i][j] = sessions[i][j + SESSIONSINHALLINDAY];
+				sessions[i][j].SetDay(_date);
+			}
+		}
+		
+		savedDays[1] = savedDays[2];
+		for (size_t i = 0; i < COUNTHALLS; i++)
+		{
+			for (size_t j = SESSIONSINHALLINDAY; j < 2 * SESSIONSINHALLINDAY; j++)
+			{
+				sessions[i][j] = sessions[i][j + SESSIONSINHALLINDAY];
+				sessions[i][j].SetDay(_date + 1);
+			}
+		}
 
+		FillSessions(_date + 2);
+		savedDays[2] = temp.day + 1;
+	}
+	else if (day == savedDays[2])
+	{
+		savedDays[0] = savedDays[2];
+		for (size_t i = 0; i < COUNTHALLS; i++)
+		{
+			for (size_t j = 0; j < SESSIONSINHALLINDAY; j++)
+			{
+				sessions[i][j] = sessions[i][j + 2 * SESSIONSINHALLINDAY]; 
+				sessions[i][j].SetDay(_date);
+			}
+		}
+	}
+	else
+	{
+		FillSessions(temp);
+		savedDays[0] = temp.day;
+
+		
+		FillSessions(temp + 1);
+		savedDays[1] = temp.day + 1;
+
+		FillSessions(temp + 2);
+		savedDays[2] = temp.day + 2;
+	}
+}
+
+//считаем, что в массиве расписания при составлении массива
+void Cinema::FillSessions(Date _date)
+{
+
+	//заполнение первого зала в _date.day день 
+	for (size_t i = 0; i < SESSIONSINHALLINDAY ; i++)
+	{
+		Session temp(sheduleDay[_date.day].eventsInThisDay[i]);
+		sessions[0].push_back(temp);
+		sessions[0][sessions[0].size() - 1].SetDay(_date);
+	}
+	//заполнение второго зала _date.day день 
+	for (size_t i = 0; i < SESSIONSINHALLINDAY; i++)
+	{
+		Session temp(sheduleDay[_date.day].eventsInThisDay[i+SESSIONSINHALLINDAY]);
+		sessions[1].push_back(temp);
+		sessions[1][sessions[1].size() - 1].SetDay(_date);
+	}
+	//заполнение третьего зала в _date.day день 
+	for (size_t i = 0; i < SESSIONSINHALLINDAY; i++)
+	{
+		Session temp(sheduleDay[_date.day].eventsInThisDay[i + 2 * SESSIONSINHALLINDAY]);
+		sessions[2].push_back(temp);
+		sessions[2][sessions[2].size() - 1].SetDay(_date);
+	}
+
+}
+
+void Cinema::ShowSessions(Date _date)
+{
+	cout << _date << endl;
+	for (size_t i = 0; i < COUNTHALLS; i++)
+	{
+		for (size_t j = 0; j < SESSIONSINHALLINDAY; j++)
+		{
+			cout << sessions[i][j];
+		}
+	}
+	cout << _date + 1 << endl;
+	for (size_t i = 0; i < COUNTHALLS; i++)
+	{
+		for (size_t j = SESSIONSINHALLINDAY; j < 2 * SESSIONSINHALLINDAY; j++)
+		{
+			cout << sessions[i][j];
+		}
+	}
+	cout << _date + 2 << endl;
+	for (size_t i = 0; i < COUNTHALLS; i++)
+	{
+		for (size_t j = 2 * SESSIONSINHALLINDAY; j < 3 * SESSIONSINHALLINDAY; j++)
+		{
+			cout << sessions[i][j];
+		}
+	}
 }

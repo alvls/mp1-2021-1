@@ -10,6 +10,7 @@ class Session
 {
 private:
 	Event dataAboutEvent;
+	Date dateSession;
 	vector <vector<bool>> places;
 public:
 	Session(const Event& otherData)
@@ -48,14 +49,14 @@ public:
 	void SetPlaces(int _countPlaces, bool _isVip, vector<int>& settedSeats);
 	void BackUpPlaces(vector<int>& settedSeats);
 	Event GetEvent();
-
+	void SetDay(Date _otherDate);
 	bool operator==(Session& otherSession)
 	{
-		if (dataAboutEvent == otherSession.dataAboutEvent)
+		if (dataAboutEvent == otherSession.dataAboutEvent && dateSession == otherSession.dateSession)
 			return true;
 		return false;
 	}
 
-
+	friend ostream& operator<<(ostream& out, const Session& otherSession);
 };
 

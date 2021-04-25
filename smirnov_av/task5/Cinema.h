@@ -5,8 +5,10 @@
 #include <string>
 #include <iostream>
 using namespace std;
+
 #define COUNTHALLS 3
-#define SESSIONSINHALLINDAY 5
+#define SESSIONSINHALLINDAY 2
+
 
 struct hall
 {
@@ -18,7 +20,8 @@ class Cinema
 {
 private:
 	vector<Day> sheduleDay; //расписание на 30 дней без информации по залу                       
-	vector <vector <Session>> sessions; // все сеансы в пределах 3 дней с информацией по залу              
+	vector <vector <Session>> sessions; // все сеансы в пределах 3 дней с информацией по залу       
+	vector <int> savedDays; //хранит дни, которые сохранены в sessions
 	vector<hall> halls; //информация о ценах на билеты в залах  
 	int FindIndexSession(int hallNumber, Session& neededSession);
 public:
@@ -26,8 +29,8 @@ public:
 	{
 		sheduleDay.resize(30);
 		sessions.resize(COUNTHALLS);
+		savedDays.resize(3);
 	}
-
 
 	//проверка доступности данного количества мест в данной зоне на данном сеансе
 	bool CheckAvailability(int countPlaces, bool isVip, int hallNumber, Event neededEvent);
@@ -49,7 +52,10 @@ public:
 	void BackUpSeats(int hallNumber, Event neededEvent, vector<int>& settedSeats);
 	//обновление расписания в зависимости от введенной даты пользователем
 	void UpdateSession(Date _date);
+	//заполнение сессий из расписания в зависимости от даты
+	void FillSessions(Date _date);
+	//показать расписание на 3 дня с залами 
+	void ShowSessions(Date _date);
 
-	
 };
 

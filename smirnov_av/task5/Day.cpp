@@ -5,6 +5,11 @@ vector<Event> Day::GetEvents()
     return eventsInThisDay;
 }
 
+Event Day::GetEvent(int index)
+{
+	return eventsInThisDay[index];
+}
+
 void Day::SetEventInd(int index, Event _event)
 {
 	vector<Event>::const_iterator i = eventsInThisDay.begin();
