@@ -1,0 +1,3 @@
+0008 subaru Shushpanov Nikita Mikhailovich 350000 00.00.0000 00.00.0000 0 0 0 0 0 0 00.00.0000
+0012 ananas Ryabova Nastya Igorevna 850000 25.04.2021 25.10.2021 500000 4.7 6 months 1 0 00.00.0000
+0666 HBCRussia Shushpanov Maksim Mikhailovich 1350000 00.00.0000 00.00.0000 0 0 0 0 0 0 00.00.0000
