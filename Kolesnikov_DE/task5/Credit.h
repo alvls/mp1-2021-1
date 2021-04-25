@@ -13,13 +13,14 @@ enum Errors{
     No_Check_Av_Cr,
     No_Active_Cr,
     Already_Have_Credit,
-    Not_Enough_Cash
+    Not_Enough_Cash,
+    Need_To_Log_Out
 };
 class Credit
 {
     private:
         const int CrDates[5] = {1,2,3,5,15};
-        const int SumRan[4] = {100,500,1000,30000}; 
+        const int SumRan[4] = {100,500,1000,3000}; 
         const double CrPerc[15]={14,12,10,8,6,16,14,12,10,8,
             18,16,14,12,10};
 
@@ -38,6 +39,8 @@ class Credit
         vector<int>  Av_Credit_Info();
         bool Is_Av_Credit(int n,int sum);
         bool Get_Credit(int n,int sum);
+        void Log_Out();
+        void Change_Data(ProcCenter* _data);
         vector <int> Credit_Status();
         bool Pay_Credit();
         bool Pay_Credit_Early();
