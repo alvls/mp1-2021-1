@@ -20,6 +20,18 @@ int main()
         cout << endl;
     }
     b.Get_Credit(3,120);
-    b.Credit_Status();
+    vector <int> CrSt;
+    CrSt = b.Credit_Status();
+    cout << "Credit Status" << endl;
+    for(int i = 0;i < CrSt.size();i++)
+    {
+        cout << CrSt[i] << endl;
+    }
+    b.Calc_Credit_Debt_TEST(6,12,2022);
+    CrSt = b.Credit_Status();
+    for(int i = 0;i < CrSt.size();i++)
+    {
+        cout << CrSt[i] << endl;
+    }
     return 0;
 }
