@@ -159,7 +159,7 @@ bool Credit::Get_Credit(int n,int sum)
                 if((sum >= SumRan[i/ Cnt_Of_Dates]) && (sum <= CreditPers[i])){
                     int day,month,year;
                     int months = (CrDates[i % Cnt_Of_Dates]*12); 
-                    int perc = CrPerc[i]/1200;
+                    double perc = CrPerc[i]/1200;
                     data->PersDt[AuthPersNumb].CrStatus = true;
                     data->PersDt[AuthPersNumb].CrInf.Sum = sum;
                     data->PersDt[AuthPersNumb].CrInf.RMonths = months;
@@ -184,7 +184,7 @@ bool Credit::Get_Credit(int n,int sum)
 bool Credit::Pay_Credit()
 {
     if(AuthPersNumb == -1){throw No_Person_Authorize;}
-    Calc_Credit_Debt();
+    //Calc_Credit_Debt(); comment for test
     if(data->PersDt[AuthPersNumb].CrStatus){
         if(data->PersDt[AuthPersNumb].sum - (data->PersDt[AuthPersNumb].CrInf.DMonths * 
                 data->PersDt[AuthPersNumb].CrInf.MPayment)>0){
@@ -201,7 +201,7 @@ bool Credit::Pay_Credit()
             throw Not_Enough_Cash;
 
     }
-    throw No_Active_Cr;
+    else { throw No_Active_Cr; }
 }
 bool Credit::Pay_Credit_Early()
 {
@@ -216,7 +216,7 @@ bool Credit::Pay_Credit_Early()
             }
             throw Not_Enough_Cash;
     }
-    throw No_Active_Cr;
+    else { throw No_Active_Cr; }
 }
 vector<int> Credit::Credit_Status(){
     if(AuthPersNumb == -1){throw No_Person_Authorize;}

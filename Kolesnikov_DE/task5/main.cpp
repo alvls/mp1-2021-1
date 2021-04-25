@@ -33,5 +33,11 @@ int main()
     {
         cout << CrSt[i] << endl;
     }
+    b.Pay_Credit();
+    CrSt = b.Credit_Status();
+    for (int i = 0; i < CrSt.size(); i++)
+    {
+        cout << CrSt[i] << endl;
+    }
     return 0;
 }
