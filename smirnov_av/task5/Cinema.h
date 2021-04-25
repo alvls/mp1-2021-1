@@ -7,7 +7,7 @@
 using namespace std;
 
 #define COUNTHALLS 3
-#define SESSIONSINHALLINDAY 2
+#define SESSIONSINHALLINDAY 8
 
 
 struct hall
@@ -24,12 +24,19 @@ private:
 	vector <int> savedDays; //хранит дни, которые сохранены в sessions
 	vector<hall> halls; //информация о ценах на билеты в залах  
 	int FindIndexSession(int hallNumber, Session& neededSession);
+	void SetFirstDaySession(Date _date);
+	void SetSecondtDaySession(Date _date);
+	void SetThirdDaySession(Date _date);
 public:
 	Cinema()
 	{
 		sheduleDay.resize(30);
 		sessions.resize(COUNTHALLS);
 		savedDays.resize(3);
+		for (size_t i = 0; i < COUNTHALLS; i++)
+		{
+			sessions[i].resize(SESSIONSINHALLINDAY * 3);
+		}
 	}
 
 	//проверка доступности данного количества мест в данной зоне на данном сеансе
@@ -52,8 +59,6 @@ public:
 	void BackUpSeats(int hallNumber, Event neededEvent, vector<int>& settedSeats);
 	//обновление расписания в зависимости от введенной даты пользователем
 	void UpdateSession(Date _date);
-	//заполнение сессий из расписания в зависимости от даты
-	void FillSessions(Date _date);
 	//показать расписание на 3 дня с залами 
 	void ShowSessions(Date _date);
 

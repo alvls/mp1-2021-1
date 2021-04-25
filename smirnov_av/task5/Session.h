@@ -49,7 +49,7 @@ public:
 	void SetPlaces(int _countPlaces, bool _isVip, vector<int>& settedSeats);
 	void BackUpPlaces(vector<int>& settedSeats);
 	Event GetEvent();
-	void SetDay(Date _otherDate);
+	void SetDate(Date _otherDate);
 	bool operator==(Session& otherSession)
 	{
 		if (dataAboutEvent == otherSession.dataAboutEvent && dateSession == otherSession.dateSession)

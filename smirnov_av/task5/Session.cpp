@@ -92,7 +92,7 @@ Event Session::GetEvent()
 	return dataAboutEvent;
 }
 
-void Session::SetDay(Date _otherDate)
+void Session::SetDate(Date _otherDate)
 {
 	dateSession = _otherDate;
 }
