@@ -1,6 +1,8 @@
 #pragma once
-#include <string>
+#include <iostream>
 #include <fstream>
+#include <string>
+#include <sstream>
 using namespace std;
 class ProcCenter
 {
@@ -28,6 +30,7 @@ class ProcCenter
         Data* PersDt;
         int DataCnt;
         friend class Credit;
+        ProcCenter(const ProcCenter& other) = default;
     public:
         ProcCenter(string path = "Data.txt"){Read_From_File(path);}
         ~ProcCenter(){delete [] PersDt;}

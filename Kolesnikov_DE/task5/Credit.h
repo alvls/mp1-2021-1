@@ -32,6 +32,7 @@ class Credit
         void Clear_Credit();
         void Calc_Credit_Debt();
         Credit() = default;
+        Credit(const Credit& other) = default;
     public:  
         ~Credit(){delete [] CreditPers;}
         Credit(ProcCenter* _data);
@@ -44,6 +45,8 @@ class Credit
         vector <int> Credit_Status();
         bool Pay_Credit();
         bool Pay_Credit_Early();
+        //Only for test func
+        void Calc_Credit_Debt_TEST(int _day, int _month, int _year);
 };
 
 

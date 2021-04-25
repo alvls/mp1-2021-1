@@ -23,6 +23,7 @@ void Credit::Change_Data(ProcCenter* _data)
     data = _data;
 }
 void Credit::Calc_Credit_Debt(){
+    if (!data->PersDt[AuthPersNumb].CrStatus) { return; }
     int day;
     int month;
     int year;
@@ -36,6 +37,22 @@ void Credit::Calc_Credit_Debt(){
     data->PersDt[AuthPersNumb].CrInf.DMonths += range - 
     (data->PersDt[AuthPersNumb].CrInf.Months-
     data->PersDt[AuthPersNumb].CrInf.RMonths);
+}
+//Func for test
+void Credit::Calc_Credit_Debt_TEST(int _day,int _month, int _year) {
+    if (!data->PersDt[AuthPersNumb].CrStatus) { return; }
+    int day = _day;
+    int month = _month;
+    int year = _year;
+    int range = (year * 12 + month) -
+        (data->PersDt[AuthPersNumb].CrInf.year * 12 +
+            data->PersDt[AuthPersNumb].CrInf.month);
+    if (day < data->PersDt[AuthPersNumb].CrInf.day) {
+        range--;
+    }
+    data->PersDt[AuthPersNumb].CrInf.DMonths += range -
+        (data->PersDt[AuthPersNumb].CrInf.Months -
+            data->PersDt[AuthPersNumb].CrInf.RMonths);
 }
 void Credit::Clear_Credit()
 { 

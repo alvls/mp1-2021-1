@@ -1,8 +1,4 @@
 #include "ProcCenter.h"
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <sstream>
 using namespace std;
 bool ProcCenter::Read_From_File(string path)
 {
