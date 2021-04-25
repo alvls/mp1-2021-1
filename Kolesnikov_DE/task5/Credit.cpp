@@ -44,9 +44,11 @@ void Credit::Clear_Credit()
 }
 bool Credit::Authorize(int _PayrollN,string _password) 
 {
+    cout << data->DataCnt << endl;
     for(int i = 0;i < data->DataCnt;i++)
     {
-        if(data->PersDt[i].PayrollN == _PayrollN){
+        cout << data->PersDt[i].PayrollN << endl;
+        if((data->PersDt[i].PayrollN == _PayrollN) &&(data->PersDt[i].password == _password)){
             AuthPersNumb = i;
             CheckAvCredits = false;
             Calc_Credit_Debt();

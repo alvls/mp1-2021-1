@@ -31,5 +31,5 @@ class ProcCenter
     public:
         ProcCenter(string path = "Data.txt"){Read_From_File(path);}
         ~ProcCenter(){delete [] PersDt;}
-        bool Read_From_File(string path); //need to add
+        bool Read_From_File(string path); 
 };

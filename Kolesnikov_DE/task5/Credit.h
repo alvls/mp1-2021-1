@@ -4,6 +4,7 @@
 #include "ProcCenter.h"
 #include <vector>
 #include <ctime>
+#include <iostream>
 //annuity payment
 //month payment = S*(P+P/((1+P)^N-1)) S = sum,P = percent/100,N = number of months             
 using namespace std;
