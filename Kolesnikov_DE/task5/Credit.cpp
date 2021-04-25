@@ -22,6 +22,9 @@ void Credit::Calc_Credit_Debt(){
     int range = (year*12+month)-
     (data->PersDt[AuthPersNumb].CrInf.year*12+ 
     data->PersDt[AuthPersNumb].CrInf.month);
+    if(day < data->PersDt[AuthPersNumb].CrInf.day){
+        range--;
+    }
     data->PersDt[AuthPersNumb].CrInf.DMonths += range - 
     (data->PersDt[AuthPersNumb].CrInf.Months-
     data->PersDt[AuthPersNumb].CrInf.RMonths);

@@ -26,7 +26,6 @@ bool ProcCenter::Read_From_File(string path)
            fin >> PersDt[i].CrInf.day;
            fin >> PersDt[i].CrInf.month;
            fin >> PersDt[i].CrInf.year;
-           fin >> PersDt[i].CrInf.DMonths;
            fin >> PersDt[i].CrInf.Months;
            fin >> PersDt[i].CrInf.MPayment;
            fin >> PersDt[i].CrInf.RMonths;
@@ -35,6 +34,6 @@ bool ProcCenter::Read_From_File(string path)
         i++;
     }
     DataCnt = i;
-    return true;
     fin.close();
+    return true;
 }

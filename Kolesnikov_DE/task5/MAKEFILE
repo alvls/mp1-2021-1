@@ -1,9 +1,0 @@
-CC=g++
-CFLAGS=-g -Wall 
-ProcCenter.o: ProcCenter.cpp
-    $(CC) $(CFLAGS) -c $<  -o $(@)
-Credit.o: Credit.cpp
-    $(CC) $(CFLAGS) -c $<  -o $(@)
-main: main.cpp ProcCenter.o Credit.o
-    $(CC) $(CFLAGS) $^  -o $(@)
-    
