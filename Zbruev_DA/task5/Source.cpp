@@ -168,7 +168,7 @@ public:
 			}
 			flag = true;
 			fout << Spisok[i].name << '\n';
-			fout << Spisok[i].kod << '\n';
+			fout << Spisok[i].str_kod << '\n';
 			fout << Spisok[i].cost << '\n';
 			fout << Spisok[i].sale;
 		}
