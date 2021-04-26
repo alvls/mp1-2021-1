@@ -26,44 +26,9 @@ class firm : public train
 		c_first = 1, c_last = 6, r_first, r_last = 10, s_first, s_last = 12
 	};
 public:
-	firm()
-	{
-		for (int i = 0; i < 6; i++)
-			up_coupe[i] = down_coupe[i] = COUPE;
-		for (int i = 0; i < 4; i++)
-			up_reserved[i] = down_reserved[i] = RESERVED;
-		for (int i = 0; i < 2; i++)
-			sleeping[i] = SLEEPING;
-	}
-	firm& operator=(const firm& f)
-	{
-		if (&f == this)
-			return *this;
-		for (int i = 0; i < 6; i++)
-			up_coupe[i] = f.up_coupe[i];
-		for (int i = 0; i < 6; i++)
-			down_coupe[i] = f.down_coupe[i];
-		for (int i = 0; i < 4; i++)
-			up_reserved[i] = f.up_reserved[i];
-		for (int i = 0; i < 4; i++)
-			down_reserved[i] = f.down_reserved[i];
-		for (int i = 0; i < 2; i++)
-			sleeping[i] = f.sleeping[i];
-		return *this;
-	}
-	firm(const firm& f)
-	{
-		for (int i = 0; i < 6; i++)
-			up_coupe[i] = f.up_coupe[i];
-		for (int i = 0; i < 6; i++)
-			down_coupe[i] = f.down_coupe[i];
-		for (int i = 0; i < 4; i++)
-			up_reserved[i] = f.up_reserved[i];
-		for (int i = 0; i < 4; i++)
-			down_reserved[i] = f.down_reserved[i];
-		for (int i = 0; i < 2; i++)
-			sleeping[i] = f.sleeping[i];
-	}
+	firm();
+	firm& operator=(const firm& f);
+	firm(const firm& f);
 	friend class railway;
 };
 class speed : public train
@@ -77,43 +42,15 @@ class speed : public train
 	int up_reserved[8];//плацкартные вагоны
 	int down_reserved[8];
 public:
-	speed()
-	{
-		for (int i = 0; i < 4; i++)
-			up_coupe[i] = down_coupe[i] = COUPE;
-		for (int i = 0; i < 8; i++)
-			up_reserved[i] = down_reserved[i] = RESERVED;
-	}
-	speed& operator=(speed& s)
-	{
-		if (&s == this)
-			return *this;
-		for (int i = 0; i < 4; i++)
-			up_coupe[i] = s.up_coupe[i];
-		for (int i = 0; i < 4; i++)
-			down_coupe[i] = s.down_coupe[i];
-		for (int i = 0; i < 8; i++)
-			up_reserved[i] = s.up_reserved[i];
-		for (int i = 0; i < 8; i++)
-			down_reserved[i] = s.down_reserved[i];
-		return *this;
-	}
-	speed(const speed& s)
-	{
-		for (int i = 0; i < 4; i++)
-			up_coupe[i] = s.up_coupe[i];
-		for (int i = 0; i < 4; i++)
-			down_coupe[i] = s.down_coupe[i];
-		for (int i = 0; i < 8; i++)
-			up_reserved[i] = s.up_reserved[i];
-		for (int i = 0; i < 8; i++)
-			down_reserved[i] = s.down_reserved[i];
-	}
+	speed();
+	speed& operator=(const speed& s);
+	speed(const speed& s);
 	friend class railway;
 };
 class swallow
 {
 	int wagon[8] = { 100,100, 100, 100, 100, 100, 100, 100 };
+public:
 	swallow()
 	{
 		for (int i = 0; i < 8; i++)
@@ -124,14 +61,7 @@ class swallow
 		for (int i = 0; i < 8; i++)
 			wagon[i] = s.wagon[i];
 	}
-	swallow& operator=(const swallow& s)
-	{
-		if (&s == this)
-			return *this;
-		for (int i = 0; i < 8; i++)
-			wagon[i] = s.wagon[i];
-		return *this;
-	}
+	swallow& operator=(const swallow& s);
 	friend class railway;
 };
 class userdata
@@ -163,7 +93,7 @@ class railway
 	speed strain;
 	firm ftrain;
 public:
-	railway(railway& r)
+	railway(const railway& r)
 	{
 		for (int i = 0; i < 3; i++)
 			swtrain[i] = r.swtrain[i];
@@ -172,8 +102,14 @@ public:
 	}
 	railway()
 	{
-
+		swallow _news;
+		for (int i = 0; i < 3; i++)
+			swtrain[i] = _news;
+		speed _newspeed;
+		strain = _newspeed;
+		firm _ftrain;
+		ftrain = _ftrain;
 	}
-	bool check(userdata inf);
+	bool check(userdata& inf);
 	friend class cashbox;
 };

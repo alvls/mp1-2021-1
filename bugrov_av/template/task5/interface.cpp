@@ -217,6 +217,50 @@ void setwtype(const int pointer, userdata& data)
 		break;
 	}
 }
+bool cashbox::agree(const userdata& data)
+{
+	system("cls");
+	system("color B2");
+	cout << "Удостоверьтесь, что ваши данные введены правильно: (номер вагона не учитывается)\n";
+	//cout<<data; - вывести данные о пользователе
+	cout << "\n Если какие-либо данные оказались неверны, нажмите esc. Если всё верно, нажмите Enter\n";
+	int ans;
+	do
+	{
+		ans = _getch();
+		switch (ans)
+		{
+		case 13:
+			return true;
+		case 27:
+			return false;
+		}
+	} while (1);
+}
+void cashbox::do_repeat(bool& repeat)
+{
+	system("color B2");
+	cout << "Будете ли вы заказывать ещё билеты? Enter - да, Esc - нет\n";
+	int ans;
+	bool badsymb;
+	do
+	{
+		ans = _getch();
+		switch (ans)
+		{
+		case 13:
+			repeat = true;
+			badsymb = false;
+			break;
+		case 27:
+			repeat = false;
+			badsymb = false;
+			break;
+		default:
+			badsymb = true;
+		}
+	} while (badsymb);
+}
 //---------------------------------------------------
 userdata cashbox::SetData()
 {
@@ -246,156 +290,158 @@ userdata cashbox::SetData()
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	userdata data;
 	system("color B2");//LIGHTCYAN GREEN
-	cout << "Введите дату отправления поезда. Первый день - сегодня (26.04.21), последний день - 30-й\n";
-	data.date = getdate();
-	string message = "Выберите направление. Вокзал в Нижнем Новгороде - Московский, в Москве - Курский\n\n";
-	{
-		string var[2] = { "Москва - Нижний Новгород", "Нижний Новгород - Москва" };
-		data.tnumber = leftright(var, 2, message);
-	}
-	cout << "Введите фамилию без пробелов и разделителей.";
-	setstr(data.surname);
-	cout << "Введите имя без пробелов и разделителей.";
-	setstr(data.name);
-	cout << "Введите отчество. Если его нет, нажмите пробел, затем Enter.";
-	setstr(data.patronymic);
-	system("cls");
-	const string trains[3] = { "\"Ласточка\"","Фирменный поезд","Скорый поезд" };
-	int pointer = 0;
-	int input;
-	int i;
-	bool notEnter;
-	do
-	{
-		i = 0;
+	do {
+		cout << "Введите дату отправления поезда. Первый день - сегодня (26.04.21), последний день - 30-й\n";
+		data.date = getdate();
+		string message = "Выберите направление\n\n";
+		{
+			string var[2] = { "Москва - Нижний Новгород", "Нижний Новгород - Москва" };
+			data.tnumber = leftright(var, 2, message);
+		}
+		cout << "Введите фамилию без пробелов и разделителей.";
+		setstr(data.surname);
+		cout << "Введите имя без пробелов и разделителей.";
+		setstr(data.name);
+		cout << "Введите отчество. Если его нет, нажмите пробел, затем Enter.";
+		setstr(data.patronymic);
 		system("cls");
-		cout << "Выберите тип поезда:\n\n";
-		for (i; i < pointer; i++)
-			cout << trains[i] << endl;
-		SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | GREEN));
-		cout << trains[i] << endl;
-		i++;
-		SetConsoleTextAttribute(hConsole, (WORD)((LIGHTCYAN << 4) | GREEN));
-		for (i; i < 3; i++)
-			cout << trains[i] << endl;
-		updown(pointer, 3, notEnter);
-	} while (notEnter);
-	switch (pointer)
-	{
-	case 0:
-		data.Ttype = trainType::swallow;
-		break;
-	case 1:
-		data.Ttype = trainType::firm;
-		break;
-	case 2:
-		data.Ttype = trainType::speed;
-	}
-	system("cls");
-	string wagtype[5] = { "Купе (нижние места)", "Купе (верхние места)", "Плацкарт (нижние места)", "Плацкарт (верхние места)", "СВ" };
-	int firmmax = 5;
-	int speedmax = firmmax - 1;
-	switch (data.Ttype)
-	{
-	case trainType::swallow:
-		message = "Выберите номер поезда:\n";
-		if (data.tnumber)
-		{
-			string var[3] = { "№6 (4:30)", "№8 (11:00)", "№10 (17:30)" };
-			data.tnumber = leftright(var, 3, message);
-			switch (data.tnumber)
-			{
-			case 0:
-				data.tnumber = 6;
-				break;
-			case 1:
-				data.tnumber = 8;
-				break;
-			case 2:
-				data.tnumber = 10;
-				break;
-			}
-		}
-		else
-		{
-			string var[3] = { "№5 (4:30)", "№7 (11:00)", "№9 (17:30)" };
-			data.tnumber = leftright(var, 3, message);
-			switch (data.tnumber)
-			{
-			case 0:
-				data.tnumber = 5;
-				break;
-			case 1:
-				data.tnumber = 7;
-				break;
-			case 2:
-				data.tnumber = 9;
-				break;
-			}
-		}
-		break;
-	case trainType::firm:
-		pointer = 0;
-		input = 0;
+		const string trains[3] = { "\"Ласточка\"","Фирменный поезд","Скорый поезд" };
+		int pointer = 0;
+		int input;
+		int i;
+		bool notEnter;
 		do
 		{
+			i = 0;
 			system("cls");
-			cout << "Выберите тип места:\n\n";
-			bool repeat = true;
-			for (i = 0; i < pointer; i++)
-			{
-				SetConsoleTextAttribute(hConsole, (WORD)((LIGHTCYAN << 4) | GREEN));
-				cout << wagtype[i] << "\n";
-			}
-			if (pointer < firmmax)
-			{
-				SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | GREEN));
-				cout << wagtype[pointer] << "\n";
-				SetConsoleTextAttribute(hConsole, (WORD)((LIGHTCYAN << 4) | GREEN));
-				i++;
-			}
-			for (i; i < firmmax; i++)
-				cout << wagtype[i] << "\n";
-			updown(pointer, firmmax, notEnter);
+			cout << "Выберите тип поезда:\n\n";
+			for (i; i < pointer; i++)
+				cout << trains[i] << endl;
+			SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | GREEN));
+			cout << trains[i] << endl;
+			i++;
+			SetConsoleTextAttribute(hConsole, (WORD)((LIGHTCYAN << 4) | GREEN));
+			for (i; i < 3; i++)
+				cout << trains[i] << endl;
+			updown(pointer, 3, notEnter);
 		} while (notEnter);
-		if (data.tnumber)
-			data.tnumber = 1;
-		else
-			data.tnumber = 2;
-		setwtype(pointer, data);
-		break;
-	case trainType::speed:
-		pointer = 0;
-		input = 0;
-		do
+		switch (pointer)
 		{
-			system("cls");
-			cout << "Выберите тип места: \n\n";
-			bool repeat = true;
-			for (i = 0; i < pointer; i++)
+		case 0:
+			data.Ttype = trainType::swallow;
+			break;
+		case 1:
+			data.Ttype = trainType::firm;
+			break;
+		case 2:
+			data.Ttype = trainType::speed;
+		}
+		system("cls");
+		string wagtype[5] = { "Купе (нижние места)", "Купе (верхние места)", "Плацкарт (нижние места)", "Плацкарт (верхние места)", "СВ" };
+		int firmmax = 5;
+		int speedmax = firmmax - 1;
+		switch (data.Ttype)
+		{
+		case trainType::swallow:
+			message = "Выберите номер поезда:\n";
+			if (data.tnumber)
 			{
-				SetConsoleTextAttribute(hConsole, (WORD)((LIGHTCYAN << 4) | GREEN));
-				cout << wagtype[i] << "\n";
+				string var[3] = { "№6 (4:30)", "№8 (11:00)", "№10 (17:30)" };
+				data.tnumber = leftright(var, 3, message);
+				switch (data.tnumber)
+				{
+				case 0:
+					data.tnumber = 6;
+					break;
+				case 1:
+					data.tnumber = 8;
+					break;
+				case 2:
+					data.tnumber = 10;
+					break;
+				}
 			}
-			if (pointer < speedmax)
+			else
 			{
-				SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | GREEN));
-				cout << wagtype[pointer] << "\n";
-				SetConsoleTextAttribute(hConsole, (WORD)((LIGHTCYAN << 4) | GREEN));
-				i++;
+				string var[3] = { "№5 (4:30)", "№7 (11:00)", "№9 (17:30)" };
+				data.tnumber = leftright(var, 3, message);
+				switch (data.tnumber)
+				{
+				case 0:
+					data.tnumber = 5;
+					break;
+				case 1:
+					data.tnumber = 7;
+					break;
+				case 2:
+					data.tnumber = 9;
+					break;
+				}
 			}
-			for (i; i < speedmax; i++)
-				cout << wagtype[i] << "\n";
-			updown(pointer, speedmax, notEnter);
-		} while (notEnter);
-		if (data.tnumber)
-			data.tnumber = 3;
-		else
-			data.tnumber = 4;
-		setwtype(pointer, data);
-		break;
-	default:
-		break;
-	}
+			break;
+		case trainType::firm:
+			pointer = 0;
+			input = 0;
+			do
+			{
+				system("cls");
+				cout << "Выберите тип места:\n\n";
+				bool repeat = true;
+				for (i = 0; i < pointer; i++)
+				{
+					SetConsoleTextAttribute(hConsole, (WORD)((LIGHTCYAN << 4) | GREEN));
+					cout << wagtype[i] << "\n";
+				}
+				if (pointer < firmmax)
+				{
+					SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | GREEN));
+					cout << wagtype[pointer] << "\n";
+					SetConsoleTextAttribute(hConsole, (WORD)((LIGHTCYAN << 4) | GREEN));
+					i++;
+				}
+				for (i; i < firmmax; i++)
+					cout << wagtype[i] << "\n";
+				updown(pointer, firmmax, notEnter);
+			} while (notEnter);
+			if (data.tnumber)
+				data.tnumber = 1;
+			else
+				data.tnumber = 2;
+			setwtype(pointer, data);
+			break;
+		case trainType::speed:
+			pointer = 0;
+			input = 0;
+			do
+			{
+				system("cls");
+				cout << "Выберите тип места: \n\n";
+				bool repeat = true;
+				for (i = 0; i < pointer; i++)
+				{
+					SetConsoleTextAttribute(hConsole, (WORD)((LIGHTCYAN << 4) | GREEN));
+					cout << wagtype[i] << "\n";
+				}
+				if (pointer < speedmax)
+				{
+					SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | GREEN));
+					cout << wagtype[pointer] << "\n";
+					SetConsoleTextAttribute(hConsole, (WORD)((LIGHTCYAN << 4) | GREEN));
+					i++;
+				}
+				for (i; i < speedmax; i++)
+					cout << wagtype[i] << "\n";
+				updown(pointer, speedmax, notEnter);
+			} while (notEnter);
+			if (data.tnumber)
+				data.tnumber = 3;
+			else
+				data.tnumber = 4;
+			setwtype(pointer, data);
+			break;
+		default:
+			break;
+		}
+	} while (agree(data));
 	return data;
 }
