@@ -42,3 +42,36 @@ bool ProcCenter::Read_From_File(string path)
     in.close();
     return 0;
 }
+bool ProcCenter::Write_To_File(string path)
+{
+    ofstream out;
+    out.open(path);
+    if(out.is_open()){
+        out << DataCnt;
+        out << endl;
+        int k = 0;
+        for(int i = 0;i < DataCnt;i++)
+        {
+            out << PersDt[i].PayrollN << " ";
+            out << PersDt[i].name<< " ";
+            out << PersDt[i].password<< " ";
+            out << PersDt[i].surname<< " ";
+            out << PersDt[i].middlename<< " ";
+            out << PersDt[i].sum<< " ";
+            if(PersDt[i].CrStatus){
+                out << 1 << " ";
+                out <<  PersDt[i].CrInf.day<< " ";
+                out << PersDt[i].CrInf.month<< " ";
+                out << PersDt[i].CrInf.year<< " ";
+                out <<  PersDt[i].CrInf.Months<< " ";
+                out << PersDt[i].CrInf.MPayment<< " ";
+                out << PersDt[i].CrInf.RMonths<< " ";
+                out << PersDt[i].CrInf.Sum;
+            }
+            else {out << 0;}
+            out << endl;
+        }
+    return true;
+    }
+    else{return false;}
+}

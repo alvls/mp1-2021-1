@@ -13,7 +13,6 @@ enum Errors{
     No_Check_Av_Cr,
     No_Active_Cr,
     Already_Have_Credit,
-    Not_Enough_Cash,
     Need_To_Log_Out
 };
 class Credit

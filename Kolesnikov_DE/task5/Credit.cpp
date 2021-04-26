@@ -69,10 +69,8 @@ void Credit::Clear_Credit()
 }
 bool Credit::Authorize(int _PayrollN,string _password) 
 {
-    cout << data->DataCnt << endl;
     for(int i = 0;i < data->DataCnt;i++)
     {
-        cout << data->PersDt[i].PayrollN << endl;
         if((data->PersDt[i].PayrollN == _PayrollN) &&(data->PersDt[i].password == _password)){
             AuthPersNumb = i;
             CheckAvCredits = false;
@@ -83,7 +81,7 @@ bool Credit::Authorize(int _PayrollN,string _password)
     return false;
             
 }
-vector<int> Credit::Av_Credit_Info()
+vector<int> Credit::Av_Credit_Info()// i = 1 - 1-st sum range,2-nd credit term
 {   
     if(AuthPersNumb == -1){throw No_Person_Authorize;}
     if (data->PersDt[AuthPersNumb].CrStatus) { throw Already_Have_Credit; }
@@ -198,25 +196,28 @@ bool Credit::Pay_Credit()
                 data->PersDt[AuthPersNumb].CrInf.DMonths = 0;
         }
         else 
-            throw Not_Enough_Cash;
+            return false;
 
     }
     else { throw No_Active_Cr; }
+    return true;
 }
 bool Credit::Pay_Credit_Early()
 {
     if(AuthPersNumb == -1){throw No_Person_Authorize;}
     Calc_Credit_Debt();
+    cout << data->PersDt[AuthPersNumb].CrStatus << endl;
     if(data->PersDt[AuthPersNumb].CrStatus){
-        if(data->PersDt[AuthPersNumb].sum - (data->PersDt[AuthPersNumb].CrInf.RMonths * 
-                data->PersDt[AuthPersNumb].CrInf.MPayment)>0){
-            data->PersDt[AuthPersNumb].sum -= (data->PersDt[AuthPersNumb].CrInf.RMonths * 
-            data->PersDt[AuthPersNumb].CrInf.MPayment);
+        if(data->PersDt[AuthPersNumb].sum - ((data->PersDt[AuthPersNumb].CrInf.RMonths + data->PersDt[AuthPersNumb].CrInf.DMonths) * 
+                (data->PersDt[AuthPersNumb].CrInf.MPayment))>0){
+            data->PersDt[AuthPersNumb].sum -= ((data->PersDt[AuthPersNumb].CrInf.RMonths + data->PersDt[AuthPersNumb].CrInf.DMonths) *
+            (data->PersDt[AuthPersNumb].CrInf.MPayment));
             Clear_Credit();
             }
-            throw Not_Enough_Cash;
+        else{return false;}
     }
     else { throw No_Active_Cr; }
+    return true;
 }
 vector<int> Credit::Credit_Status(){
     if(AuthPersNumb == -1){throw No_Person_Authorize;}

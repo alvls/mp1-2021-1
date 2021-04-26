@@ -4,47 +4,19 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-Authorize	Credit.cpp	/^         bool Authorize(ProcCenter& pers,int _PayrollN,int _password;)$/;"	f	class:Credit
-CrDates	Credit.cpp	/^         int CrDates[5] = {1,2,3,5,15};$/;"	m	class:Credit	file:
-CrPerc	Credit.cpp	/^         int CrPerc[25]={10,12,14,16,18,8,10,12,14,16,$/;"	m	class:Credit	file:
-Credit	Credit.cpp	/^         Credit()$/;"	f	class:Credit
-Credit	Credit.cpp	/^         Credit(ProcCenter& pers)$/;"	f	class:Credit
-Credit	Credit.cpp	/^class Credit$/;"	c	file:
-NumOfInPers	task5.cpp	3;"	d	file:
-PayrollN	ProcCenter.cpp	/^        int PayrollN;$/;"	m	struct:ProcCenter::Person	file:
-PayrollN	task5.cpp	/^        int PayrollN;$/;"	m	struct:ProcCenter::Person	file:
-Person	ProcCenter.cpp	/^        struct Person$/;"	s	class:ProcCenter	file:
-Person	task5.cpp	/^        struct Person$/;"	s	class:ProcCenter	file:
-ProcCenter	ProcCenter.cpp	/^        ProcCenter(int _PayrollN = 0,string _password = "null",int sum = 0,string _name = "null",$/;"	f	struct:ProcCenter::Person
-ProcCenter	ProcCenter.cpp	/^class ProcCenter$/;"	c	file:
-ProcCenter	task5.cpp	/^        ProcCenter()$/;"	f	struct:ProcCenter::Person
-ProcCenter	task5.cpp	/^        ProcCenter(int _PayrollN,string _password,string _name,string _middlename,$/;"	f	struct:ProcCenter::Person
-ProcCenter	task5.cpp	/^class ProcCenter$/;"	c	file:
-SearchPers	task5.cpp	/^        int SearchPers(int _PayrollN)$/;"	f	struct:ProcCenter::Person
-Set_Name	task5.cpp	/^        void Set_Name(int _PayrollN,string _name)$/;"	f	struct:ProcCenter::Person
-Set_Person	ProcCenter.cpp	/^        void Set_Person(int _PayrollN,string _password)$/;"	f	struct:ProcCenter::Person
-Set_Person	task5.cpp	/^        void Set_Person(int _PayrollN,string _password)$/;"	f	struct:ProcCenter::Person
-Set_middlename	ProcCenter.cpp	/^        void Set_middlename(int _PayrollN,string _name)$/;"	f	struct:ProcCenter::Person
-Set_name	ProcCenter.cpp	/^        void Set_name(string _name)$/;"	f	struct:ProcCenter::Person
-Set_sum	ProcCenter.cpp	/^        void Set_sum(int _PayrollN,int _sum)$/;"	f	struct:ProcCenter::Person
-Set_surname	ProcCenter.cpp	/^        void Set_surname(int _PayrollN,string _surname)$/;"	f	struct:ProcCenter::Person
-SumCr	ProcCenter.cpp	/^        int SumCr;$/;"	m	struct:ProcCenter::Person	file:
-SumRan	Credit.cpp	/^         int SumRan[4] = {1,5,10,30}; $/;"	m	class:Credit	file:
-isCredit	ProcCenter.cpp	/^        bool isCredit;$/;"	m	struct:ProcCenter::Person	file:
+Authorize	Credit.cpp	/^bool Credit::Authorize(int _PayrollN,string _password) $/;"	f	class:Credit
+Av_Credit_Info	Credit.cpp	/^vector<int> Credit::Av_Credit_Info()$/;"	f	class:Credit
+Calc_Credit_Debt	Credit.cpp	/^void Credit::Calc_Credit_Debt(){$/;"	f	class:Credit
+Calc_Credit_Debt_TEST	Credit.cpp	/^void Credit::Calc_Credit_Debt_TEST(int _day,int _month, int _year) {$/;"	f	class:Credit
+Change_Data	Credit.cpp	/^void Credit::Change_Data(ProcCenter* _data)$/;"	f	class:Credit
+Clear_Credit	Credit.cpp	/^void Credit::Clear_Credit()$/;"	f	class:Credit
+Credit	Credit.cpp	/^Credit::Credit(ProcCenter* _data): AuthPersNumb(-1)$/;"	f	class:Credit
+Credit_Status	Credit.cpp	/^vector<int> Credit::Credit_Status(){$/;"	f	class:Credit
+Get_Credit	Credit.cpp	/^bool Credit::Get_Credit(int n,int sum)$/;"	f	class:Credit
+Get_Current_Date	Credit.cpp	/^void Credit::Get_Current_Date(int* day,int* month,int* year)$/;"	f	class:Credit
+Is_Av_Credit	Credit.cpp	/^bool Credit::Is_Av_Credit(int n,int sum)$/;"	f	class:Credit
+Log_Out	Credit.cpp	/^void Credit::Log_Out() {$/;"	f	class:Credit
+Pay_Credit	Credit.cpp	/^bool Credit::Pay_Credit()$/;"	f	class:Credit
+Pay_Credit_Early	Credit.cpp	/^bool Credit::Pay_Credit_Early()$/;"	f	class:Credit
+Read_From_File	ProcCenter.cpp	/^bool ProcCenter::Read_From_File(string path)$/;"	f	class:ProcCenter
 main	main.cpp	/^int main()$/;"	f
-mass	task5.cpp	/^        Person* mass;$/;"	m	struct:ProcCenter::Person	file:
-middlename	ProcCenter.cpp	/^        string middlename;$/;"	m	struct:ProcCenter::Person	file:
-middlename	task5.cpp	/^        string middlename;$/;"	m	struct:ProcCenter::Person	file:
-n	task5.cpp	/^        int n;$/;"	m	struct:ProcCenter::Person	file:
-name	ProcCenter.cpp	/^        string name;$/;"	m	struct:ProcCenter::Person	file:
-name	task5.cpp	/^        string name;$/;"	m	struct:ProcCenter::Person	file:
-password	ProcCenter.cpp	/^        string password;$/;"	m	struct:ProcCenter::Person	file:
-password	task5.cpp	/^        string password;$/;"	m	struct:ProcCenter::Person	file:
-percent	ProcCenter.cpp	/^        int percent;$/;"	m	struct:ProcCenter::Person	file:
-sum	ProcCenter.cpp	/^        int sum;$/;"	m	struct:ProcCenter::Person	file:
-sum	task5.cpp	/^        int sum;$/;"	m	struct:ProcCenter::Person	file:
-sumcr	task5.cpp	/^        int sumcr;$/;"	m	struct:ProcCenter::Person	file:
-surname	ProcCenter.cpp	/^        string surname;$/;"	m	struct:ProcCenter::Person	file:
-surname	task5.cpp	/^        string surname;$/;"	m	struct:ProcCenter::Person	file:
-time	ProcCenter.cpp	/^        int time;$/;"	m	struct:ProcCenter::Person	file:
-time	task5.cpp	/^        int time;$/;"	m	struct:ProcCenter::Person	file:
