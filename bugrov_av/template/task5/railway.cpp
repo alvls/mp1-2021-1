@@ -219,9 +219,15 @@ ostream& operator<<(ostream& place, const userdata& u)
 	place << "Дата: " << u.date << "-й день\n";
 	place << "Отправление: ";
 	if (u.tnumber)
+	{
 		place << "Москва. Курский вокзал\n";
+		place << "Прибытие:\nНижний Новгород. Московский вокзал\n";
+	}
 	else
+	{
 		place << "Нижний Новгород. Московский вокзал\n";
+		place << "Прибытие:\nМосква. Курский вокзал\n";
+	}
 	place << "ФИО пассажира:\n";
 	place << u.surname << "\n";
 	place << u.name << "\n";

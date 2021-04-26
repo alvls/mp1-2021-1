@@ -4,25 +4,28 @@ void cashbox::SetPlace(bool& repeat)
 {
 	userdata information = SetData();
 	system("color B2");
-	if (information.tnumber % 2)
-		if (toMsk[information.date-1].check(information))
-		{
-			calculate(information);
-			GetTicket(information);
-		}
+	if (information.date)
+	{
+		if (information.tnumber % 2)
+			if (toMsk[information.date - 1].check(information))
+			{
+				calculate(information);
+				GetTicket(information);
+			}
+			else
+				cout << "Недостаточно свободных мест\n";
 		else
-			cout << "Недостаточно свободных мест\n";
-	else
-		if (toNN[information.date-1].check(information))
-		{
-			calculate(information);
-			GetTicket(information);
-		}
-		else
-			cout << "Недостаточно свободных мест\n";
-	ofstream fout;
-	fout.open("Reserved.txt");
-	fout << (*this);
+			if (toNN[information.date - 1].check(information))
+			{
+				calculate(information);
+				GetTicket(information);
+			}
+			else
+				cout << "Недостаточно свободных мест\n";
+		ofstream fout;
+		fout.open("Reserved.txt");
+		fout << (*this);
+	}
 	do_repeat(repeat);
 }
 void cashbox::GetTicket(userdata inf)

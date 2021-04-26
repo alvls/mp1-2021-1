@@ -1,7 +1,7 @@
 #include "all.h"
 //---------------------------------------------------
 void setstr(string& s)
-{
+{//не успел сделать через _getch()
 	s.clear();
 	cout << " Количество символов не более 32\n";
 	char get;
@@ -46,9 +46,9 @@ int getdate()
 		res /= 10;
 		cout << "\n";
 	}
-	if (res > 30)
+	if (res > 30 || res < 1)
 		cout << "Неверные данные\n";
-	} while (res > 30);
+	} while (res > 30 || res < 1);
 	return res;
 }
 void updown(int& pointer, const int lim, bool& notEnter)
@@ -110,6 +110,7 @@ int leftright(const string* var, int maxvar, string message)
 	int input;
 	int pointer = 0;
 	int i;
+	string separator = "\t";
 	enum choice
 	{
 		W_en = 87,
@@ -158,15 +159,15 @@ int leftright(const string* var, int maxvar, string message)
 		cout << message;
 		repeat = true;
 		for (i = 0; i < pointer; i++)
-			cout << var[i] << "\t";
+			cout << var[i] << separator;
 		if (pointer < maxvar)
 		{
 			SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | GREEN));
-			cout << var[pointer] << "\t";
+			cout << var[pointer] << separator;
 			i++;
 			SetConsoleTextAttribute(hConsole, (WORD)((LIGHTCYAN << 4) | GREEN));
 			for (i; i < maxvar; i++)
-				cout << var[i] << "\t";
+				cout << var[i] << separator;;
 		}
 		while (repeat)
 		{
@@ -217,11 +218,22 @@ void setwtype(const int pointer, userdata& data)
 		break;
 	}
 }
-bool cashbox::agree(const userdata& data)
+bool cashbox::disagree(userdata& data)
 {
 	system("cls");
 	system("color B2");
-	cout << "Удостоверьтесь, что ваши данные введены правильно: (номер вагона и место не учитываются)\n";
+	cout << "Удостоверьтесь, что ваши данные введены правильно:\n\n";
+	cout << "Отправление:\n";
+	if (data.tnumber)
+	{
+		cout << "Москва. Курский вокзал\n";
+		cout << "Прибытие:\nНижний Новгород. Московский вокзал\n";
+	}
+	else
+	{
+		cout << "Нижний Новгород. Московский вокзал\n";
+		cout << "Прибытие:\nМосква. Курский вокзал\n";
+	}
 	cout << "Дата: " << data.date << "-й день\n";
 	cout << "ФИО пассажира:\n";
 	cout << data.surname << "\n";
@@ -270,9 +282,10 @@ bool cashbox::agree(const userdata& data)
 		break;
 	case trainType::swallow:
 		cout << "Поезд \"Ласточка\"\n";
+		cout << "Номер поезда: " << data.tnumber << "\n";
 		break;
 	}
-	cout << "\nЕсли какие-либо данные оказались неверны, нажмите esc. Если всё верно, нажмите Enter\n";
+	cout << "\nЕсли какие-либо данные оказались неверны, нажмите esc. Если всё верно, нажмите Enter. Если вы отзываете билет, нажмите Backspace\n";
 	int ans;
 	do
 	{
@@ -280,8 +293,20 @@ bool cashbox::agree(const userdata& data)
 		switch (ans)
 		{
 		case 13:
-			return true;
+			system("cls");
+			cout << "Заказ отправлен на обработку\n";
+			_getch();
+			return false;
 		case 27:
+			system("cls");
+			cout << "Введите снова все необходимые данные\n";
+			_getch();
+			return true;
+		case '\b':
+			cout << "Вы отменили заказ билета\n";
+			_getch();
+			system("cls");
+			data.date = 0;
 			return false;
 		}
 	} while (1);
@@ -318,7 +343,7 @@ userdata cashbox::SetData()
 	do {
 		cout << "Введите дату отправления поезда. Первый день - сегодня (26.04.21), последний день - 30-й\n";
 		data.date = getdate();
-		string message = "Выберите направление\n\n";
+		string message = "Выберите направление. Вокзал в Нижнем Новгороде - Московский, в Москве - Курский\n\n";
 		{
 			string var[2] = { "Москва - Нижний Новгород", "Нижний Новгород - Москва" };
 			data.tnumber = leftright(var, 2, message);
@@ -371,7 +396,7 @@ userdata cashbox::SetData()
 		{
 		case trainType::swallow:
 			message = "Выберите номер поезда. Цена 1193 руб\n";
-			if (data.tnumber)
+			if (!data.tnumber)
 			{
 				string var[3] = { "№6 (4:30)", "№8 (11:00)", "№10 (17:30)" };
 				data.tnumber = leftright(var, 3, message);
@@ -469,6 +494,6 @@ userdata cashbox::SetData()
 		default:
 			break;
 		}
-	} while (agree(data));
+	} while (disagree(data));
 	return data;
 }

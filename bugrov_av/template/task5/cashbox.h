@@ -20,7 +20,7 @@ class cashbox
 	//cashbox& operator=(const cashbox& cash);/////////////////////////////////
 	cashbox(const cashbox& cash);////////////////////////////////////////////
 	void change_database(userdata change, bool is_new);
-	bool agree(const userdata& data);
+	bool disagree(userdata& data);
 	void do_repeat(bool& repeat);
 	friend ostream& operator<<(ostream& place, const cashbox& c);
 	friend istream& operator>>(istream& place, cashbox& c);
