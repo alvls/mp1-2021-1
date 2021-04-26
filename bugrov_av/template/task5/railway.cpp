@@ -11,7 +11,7 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 				if (ftrain.down_coupe[i])
 				{
 					ftrain.down_coupe[i]--;
-					inf.sitnumber = ftrain.COUPE - ftrain.down_coupe[i];
+					inf.sitnumber = -ftrain.down_coupe[i] + ftrain.COUPE;
 					inf.wnumber = i;
 					return true;
 				}
@@ -22,7 +22,7 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 				if (ftrain.down_reserved[i])
 				{
 					ftrain.down_reserved[i]--;
-					inf.sitnumber = ftrain.RESERVED - ftrain.down_reserved[i];
+					inf.sitnumber = -ftrain.down_reserved[i] + ftrain.RESERVED;
 					inf.wnumber = i;
 					return true;
 				}
@@ -33,7 +33,7 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 				if (ftrain.up_coupe[i])
 				{
 					ftrain.up_coupe[i]--;
-					inf.sitnumber = ftrain.COUPE - ftrain.up_coupe[i];
+					inf.sitnumber = -ftrain.up_coupe[i] + ftrain.COUPE;
 					inf.wnumber = i;
 					return true;
 				}
@@ -44,7 +44,7 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 				if (ftrain.up_reserved[i])
 				{
 					ftrain.up_reserved[i]--;
-					inf.sitnumber = ftrain.RESERVED - ftrain.up_reserved[i];
+					inf.sitnumber = -ftrain.up_reserved[i] + ftrain.RESERVED;
 					inf.wnumber = i;
 					return true;
 				}
@@ -55,7 +55,7 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 				if (ftrain.sleeping[i])
 				{
 					ftrain.sleeping[i]--;
-					inf.sitnumber = ftrain.SLEEPING - ftrain.sleeping[i];
+					inf.sitnumber = -ftrain.sleeping[i] + ftrain.SLEEPING;
 					inf.wnumber = i;
 					return true;
 				}
@@ -70,7 +70,7 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 				if (strain.down_coupe[i])
 				{
 					strain.down_coupe[i]--;
-					inf.sitnumber = strain.COUPE - strain.down_coupe[i];
+					inf.sitnumber = -strain.down_coupe[i] + strain.COUPE;
 					inf.wnumber = i;
 					return true;
 				}
@@ -81,7 +81,7 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 				if (strain.down_reserved[i])
 				{
 					strain.down_reserved[i]--;
-					inf.sitnumber = strain.RESERVED - strain.down_reserved[i];
+					inf.sitnumber = -strain.down_reserved[i] + strain.RESERVED;
 					inf.wnumber = i;
 					return true;
 				}
@@ -92,7 +92,7 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 				if (strain.up_coupe[i])
 				{
 					strain.up_coupe[i]--;
-					inf.sitnumber = strain.COUPE - strain.up_coupe[i];
+					inf.sitnumber = -strain.up_coupe[i] + strain.COUPE;
 					inf.wnumber = i;
 					return true;
 				}
@@ -103,7 +103,7 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 				if (strain.up_reserved[i])
 				{
 					strain.up_reserved[i]--;
-					inf.sitnumber = strain.RESERVED - strain.up_reserved[i];
+					inf.sitnumber = -strain.up_reserved[i] + strain.RESERVED;
 					inf.wnumber = i;
 					return true;
 				}
