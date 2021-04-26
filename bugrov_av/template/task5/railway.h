@@ -7,11 +7,40 @@ enum class wagonType
 {
 	up_c, down_c, up_r, down_r, sleep
 };
+//----------------------------------------------------------
+class userdata
+{
+	string surname;//+
+	string name;//+
+	string patronymic;//+
+	trainType Ttype;//
+	wagonType Wtype;//У ласточки ничего
+	int date;//+
+	int tnumber;//номер поездa+
+	int wnumber;//номер вагонa+
+	int sitnumber;//номер сиденья
+	friend class cashbox;
+	friend class railway;
+	friend void setwtype(const int pointer, userdata& data);
+	friend ostream& operator<<(ostream& place, const userdata& u);
+	friend istream& operator>>(istream& place, userdata& u);
+public:
+	userdata() :surname(""), name(""), patronymic(""), Ttype(trainType::swallow), Wtype(wagonType::up_r), date(0), tnumber(0), wnumber(0), sitnumber(1)
+	{
+
+	}
+	userdata(const userdata& origin) :surname(origin.surname), name(origin.name), patronymic(origin.patronymic), Ttype(origin.Ttype), Wtype(origin.Wtype), date(origin.date), tnumber(origin.tnumber), wnumber(origin.wnumber), sitnumber(origin.sitnumber)
+	{
+
+	}
+};
+//----------------------------------------------------------
 class train
 {
 protected:
 	const int COUPE = 18;
 	const int RESERVED = 27;
+	friend class railway;
 };
 class firm : public train
 {
@@ -63,29 +92,6 @@ public:
 	}
 	swallow& operator=(const swallow& s);
 	friend class railway;
-};
-class userdata
-{
-	string surname;//+
-	string name;//+
-	string patronymic;//+
-	trainType Ttype;//
-	wagonType Wtype;//У ласточки первые три доли указывают на то, в какое время она идёт
-	int date;//+
-	int tnumber;//номер поездa+
-	int wnumber;//номер вагонa-
-	friend class cashbox;
-	friend class railway;
-	friend void setwtype(const int pointer, userdata& data);
-public:
-	userdata() :surname(""), name(""), patronymic(""), Ttype(trainType::swallow), Wtype(wagonType::up_r), date(0), tnumber(0), wnumber(0)
-	{
-
-	}
-	userdata(const userdata& origin) :surname(origin.surname), name(origin.name), patronymic(origin.patronymic), Ttype(origin.Ttype), Wtype(origin.Wtype), date(origin.date), tnumber(origin.tnumber), wnumber(origin.wnumber)
-	{
-
-	}
 };
 class railway
 {

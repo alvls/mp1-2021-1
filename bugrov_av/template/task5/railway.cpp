@@ -1,7 +1,6 @@
 #include "all.h"
 bool railway::check(userdata& inf)//тут я вычитаю места
-{////////////////////////////////////////////сделать присвоение номера вагона
-	int j = 0;
+{///////////////////////////////////////////Да, я знаю о единственности ответсвенности, но передавать почти одно и то же в массу функций не хочется
 	switch (inf.Ttype)
 	{
 	case trainType::firm:
@@ -12,6 +11,7 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 				if (ftrain.down_coupe[i])
 				{
 					ftrain.down_coupe[i]--;
+					inf.sitnumber = ftrain.COUPE - ftrain.down_coupe[i];
 					inf.wnumber = i;
 					return true;
 				}
@@ -22,6 +22,7 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 				if (ftrain.down_reserved[i])
 				{
 					ftrain.down_reserved[i]--;
+					inf.sitnumber = ftrain.RESERVED - ftrain.down_reserved[i];
 					inf.wnumber = i;
 					return true;
 				}
@@ -32,6 +33,7 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 				if (ftrain.up_coupe[i])
 				{
 					ftrain.up_coupe[i]--;
+					inf.sitnumber = ftrain.COUPE - ftrain.up_coupe[i];
 					inf.wnumber = i;
 					return true;
 				}
@@ -42,6 +44,7 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 				if (ftrain.up_reserved[i])
 				{
 					ftrain.up_reserved[i]--;
+					inf.sitnumber = ftrain.RESERVED - ftrain.up_reserved[i];
 					inf.wnumber = i;
 					return true;
 				}
@@ -52,6 +55,7 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 				if (ftrain.sleeping[i])
 				{
 					ftrain.sleeping[i]--;
+					inf.sitnumber = ftrain.SLEEPING - ftrain.sleeping[i];
 					inf.wnumber = i;
 					return true;
 				}
@@ -66,6 +70,7 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 				if (strain.down_coupe[i])
 				{
 					strain.down_coupe[i]--;
+					inf.sitnumber = strain.COUPE - strain.down_coupe[i];
 					inf.wnumber = i;
 					return true;
 				}
@@ -76,6 +81,7 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 				if (strain.down_reserved[i])
 				{
 					strain.down_reserved[i]--;
+					inf.sitnumber = strain.RESERVED - strain.down_reserved[i];
 					inf.wnumber = i;
 					return true;
 				}
@@ -86,6 +92,7 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 				if (strain.up_coupe[i])
 				{
 					strain.up_coupe[i]--;
+					inf.sitnumber = strain.COUPE - strain.up_coupe[i];
 					inf.wnumber = i;
 					return true;
 				}
@@ -96,6 +103,7 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 				if (strain.up_reserved[i])
 				{
 					strain.up_reserved[i]--;
+					inf.sitnumber = strain.RESERVED - strain.up_reserved[i];
 					inf.wnumber = i;
 					return true;
 				}
@@ -107,7 +115,21 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 		for (int i = 0; i < 8; i++)
 			if (swtrain[inf.tnumber].wagon[i])
 			{
+				int j = 0;
+				switch (inf.tnumber)
+				{
+				case 5:case 6:
+					j = 0;
+					break;
+				case 7: case 8:
+					j = 1;
+					break;
+				case 9:case 10:
+					j = 2;
+					break;
+				}
 				swtrain[j].wagon[i]--;
+				inf.sitnumber = 100 - swtrain[j].wagon[i];
 				inf.tnumber = i;
 				return true;
 			}
@@ -191,4 +213,64 @@ firm::firm(const firm& f)
 		down_reserved[i] = f.down_reserved[i];
 	for (int i = 0; i < 2; i++)
 		sleeping[i] = f.sleeping[i];
+}
+ostream& operator<<(ostream& place, const userdata& u)
+{
+	place << "Дата: " << u.date << "-й день\n";
+	place << "ФИО пассажира:\n";
+	place << u.surname << "\n";
+	place << u.name << "\n";
+	place << u.patronymic << "\n";
+	switch (u.Ttype)
+	{
+	case trainType::firm:
+		place << "Фирменный поезд\n";
+		switch (u.Wtype)
+		{
+		case wagonType::down_c:
+			place << "Купе. Нижнее место\n";
+			break;
+		case wagonType::down_r:
+			place << "Плацкарт. Нижнее место\n";
+			break;
+		case wagonType::sleep:
+			place << "Спальный вагон\n";
+			break;
+		case wagonType::up_c:
+			place << "Купе. Верхнее место\n";
+			break;
+		case wagonType::up_r:
+			place << "Плацкарт. Верхнее место\n";
+			break;
+		}
+		break;
+	case trainType::speed:
+		place << "Скорый поезд\n";
+		switch (u.Wtype)
+		{
+		case wagonType::down_c:
+			place << "Купе. Нижнее место\n";
+			break;
+		case wagonType::down_r:
+			place << "Плацкарт. Нижнее место\n";
+			break;
+		case wagonType::up_c:
+			place << "Купе. Верхнее место\n";
+			break;
+		case wagonType::up_r:
+			place << "Плацкарт. Верхнее место\n";
+			break;
+		}
+		break;
+	case trainType::swallow:
+		place << "Поезд \"Ласточка\"\n";
+		break;
+	}
+	place << "№ поезда: " << u.tnumber << "\n";
+	place << "№ вагона: " << u.wnumber << "\n";
+	place << "№ места: " << u.sitnumber << "\n";
+}
+istream& operator>>(ostream& place, userdata& u)
+{
+
 }

@@ -26,22 +26,22 @@ void cashbox::GetTicket(userdata inf)
 {
 	ofstream fout;
 	fout.open("Ticket.txt");
-	//Здесь должна быть функция подсчёта общей стоимости билетов. Написать её (в неё скидывать только тип места)
 	if (fout.is_open())
 	{
-		//Выводы в файл пунктов билета
+		calculate(inf);
+		fout << inf;
+		fout.close();
 	}
-	fout.close();
 }
 void cashbox::change_database(userdata change, bool is_new)
 {
-	ofstream os;
+	fstream file;
 	if (is_new)
 	{
-		os.open("Reserved.txt", ios_base::app);
-		if (os.is_open())
-			;/////////////////////////////////////////////
-		os.close();
+		file.open("Reserved.txt");
+		if (file.is_open())
+			;
+		file.close();
 	}
 }
 void cashbox:: calculate(const userdata& data)
@@ -57,7 +57,7 @@ void cashbox:: calculate(const userdata& data)
 		speed_down_r = 1589,
 		speed_down_c = 3026,
 		speed_up_r = 1791,
-		speed_up_c = 3786
+		speed_up_c = 4186
 	};
 	switch (data.Ttype)
 	{
@@ -102,4 +102,8 @@ void cashbox:: calculate(const userdata& data)
 		sum += static_cast<int>(price::swallow);
 		break;
 	}
+}
+cashbox::cashbox(const cashbox& cash):toNN(cash.toNN), toMsk(cash.toMsk), sum(cash.sum)
+{
+
 }

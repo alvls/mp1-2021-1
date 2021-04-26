@@ -221,9 +221,9 @@ bool cashbox::agree(const userdata& data)
 {
 	system("cls");
 	system("color B2");
-	cout << "Удостоверьтесь, что ваши данные введены правильно: (номер вагона не учитывается)\n";
-	//cout<<data; - вывести данные о пользователе
-	cout << "\n Если какие-либо данные оказались неверны, нажмите esc. Если всё верно, нажмите Enter\n";
+	cout << "Удостоверьтесь, что ваши данные введены правильно: (номер вагона и место не учитываются)\n";
+	cout << data;
+	cout << "\nЕсли какие-либо данные оказались неверны, нажмите esc. Если всё верно, нажмите Enter\n";
 	int ans;
 	do
 	{
@@ -329,6 +329,7 @@ userdata cashbox::SetData()
 		{
 		case 0:
 			data.Ttype = trainType::swallow;
+			
 			break;
 		case 1:
 			data.Ttype = trainType::firm;
@@ -337,13 +338,14 @@ userdata cashbox::SetData()
 			data.Ttype = trainType::speed;
 		}
 		system("cls");
-		string wagtype[5] = { "Купе (нижние места)", "Купе (верхние места)", "Плацкарт (нижние места)", "Плацкарт (верхние места)", "СВ" };
-		int firmmax = 5;
-		int speedmax = firmmax - 1;
+		const int firmmax = 5;
+		const int speedmax = firmmax - 1;
+		string fwagtype[firmmax] = { "Купе (нижние места) 2650 руб", "Купе (верхние места) 3762 руб", "Плацкарт (нижние места) 1315 руб", "Плацкарт (верхние места) 1603 руб", "СВ 6748 руб" };
+		string swagtype[speedmax]= { "Купе (нижние места) 3026 руб", "Купе (верхние места) 4186 руб", "Плацкарт (нижние места) 1589 руб", "Плацкарт (верхние места) 1791 руб"};
 		switch (data.Ttype)
 		{
 		case trainType::swallow:
-			message = "Выберите номер поезда:\n";
+			message = "Выберите номер поезда. Цена 1193 руб\n";
 			if (data.tnumber)
 			{
 				string var[3] = { "№6 (4:30)", "№8 (11:00)", "№10 (17:30)" };
@@ -390,17 +392,17 @@ userdata cashbox::SetData()
 				for (i = 0; i < pointer; i++)
 				{
 					SetConsoleTextAttribute(hConsole, (WORD)((LIGHTCYAN << 4) | GREEN));
-					cout << wagtype[i] << "\n";
+					cout << fwagtype[i] << "\n";
 				}
 				if (pointer < firmmax)
 				{
 					SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | GREEN));
-					cout << wagtype[pointer] << "\n";
+					cout << fwagtype[pointer] << "\n";
 					SetConsoleTextAttribute(hConsole, (WORD)((LIGHTCYAN << 4) | GREEN));
 					i++;
 				}
 				for (i; i < firmmax; i++)
-					cout << wagtype[i] << "\n";
+					cout << fwagtype[i] << "\n";
 				updown(pointer, firmmax, notEnter);
 			} while (notEnter);
 			if (data.tnumber)
@@ -420,17 +422,17 @@ userdata cashbox::SetData()
 				for (i = 0; i < pointer; i++)
 				{
 					SetConsoleTextAttribute(hConsole, (WORD)((LIGHTCYAN << 4) | GREEN));
-					cout << wagtype[i] << "\n";
+					cout << swagtype[i] << "\n";
 				}
 				if (pointer < speedmax)
 				{
 					SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | GREEN));
-					cout << wagtype[pointer] << "\n";
+					cout << swagtype[pointer] << "\n";
 					SetConsoleTextAttribute(hConsole, (WORD)((LIGHTCYAN << 4) | GREEN));
 					i++;
 				}
 				for (i; i < speedmax; i++)
-					cout << wagtype[i] << "\n";
+					cout << swagtype[i] << "\n";
 				updown(pointer, speedmax, notEnter);
 			} while (notEnter);
 			if (data.tnumber)

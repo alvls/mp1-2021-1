@@ -14,24 +14,24 @@ class cashbox
 	vector<railway> toNN, toMsk;
 	int sum;
 	userdata SetData();//получает данные о пользователе
-					   //проверяет, можно ли вычесть из количества билетов, чтобы оно не стало отрицательным
+	//проверяет, можно ли вычесть из количества билетов, чтобы оно не стало отрицательным
 	/// меняет также число свободных билетов.
 	void GetTicket(userdata inf);//сформировать билет
-	cashbox& operator=(cashbox& cash);/////////////////////////////////
-	cashbox(cashbox& cash);////////////////////////////////////////////
+	//cashbox& operator=(const cashbox& cash);/////////////////////////////////
 	void change_database(userdata change, bool is_new);
 	bool agree(const userdata& data);
 	void do_repeat(bool& repeat);
 public:
-	virtual void calculate(const userdata& data);
+	cashbox(const cashbox& cash);////////////////////////////////////////////
+	void calculate(const userdata& data);
 	void SetPlace(bool& repeat);//полная обработка действий с билетами
 	cashbox() : sum(0)
 	{
-		railway tmp_rail;
+		railway null_rail;
 		for (int i = 0; i < 30; i++)/////здесь нужно считывать из файла
 		{
-			toNN.push_back(tmp_rail);
-			toMsk.push_back(tmp_rail);
+			toNN.push_back(null_rail);
+			toMsk.push_back(null_rail);
 		}
 	}
 };
