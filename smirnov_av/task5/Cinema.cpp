@@ -185,11 +185,11 @@ void Cinema::UpdateSession(Date _date)
 void Cinema::ShowSessions(Date _date)
 {
 
-	for (size_t k = 1; k <= COUNTHALLS; k++)
+	for (size_t k = 0; k < COUNTHALLS; k++)
 	{
 		for (size_t i = 0; i < COUNTHALLS; i++)
 		{
-			for (size_t j = (k-1)*SESSIONSINHALLINDAY; j < k * SESSIONSINHALLINDAY; j++)
+			for (size_t j = k*SESSIONSINHALLINDAY; j < (k+1) * SESSIONSINHALLINDAY; j++)
 			{
 				cout << sessions[i][j] << " \nЗал: " << i << endl << endl;
 			}

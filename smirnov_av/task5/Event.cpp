@@ -1,6 +1,5 @@
 #include "Event.h"
 
-
 unsigned int daysInMounth[] = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 void Event::SetNameFilm(string otherName)
@@ -114,4 +113,19 @@ Date Date::operator+(int otherDay)
 		temp.day -= daysInMounth[temp.mounth - 1];
 	}
 	return temp;
+}
+
+bool Date::operator>=(Date otherDate)
+{
+	if (this->mounth == otherDate.mounth)
+	{
+		if (this->day >= otherDate.day)
+			return true;
+		else
+			return false;
+	}
+	else if (this->mounth >= otherDate.mounth)
+		return true;
+	else
+		return false;
 }

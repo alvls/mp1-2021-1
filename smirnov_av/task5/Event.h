@@ -17,6 +17,7 @@ struct Date
 		return false;
 	}
 
+	bool operator >=(Date otherDate);
 	Date operator+(int otherDay);	
 };
 

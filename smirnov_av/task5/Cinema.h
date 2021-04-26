@@ -24,7 +24,7 @@ private:
 	vector <int> savedDays; //хранит дни, которые сохранены в sessions
 	vector<hall> halls; //информация о ценах на билеты в залах  
 	int FindIndexSession(int hallNumber, Session& neededSession);
-	void SetFirstDaySession(Date _date);
+	void SetFirstDaySession(Date _date); 
 	void SetSecondtDaySession(Date _date);
 	void SetThirdDaySession(Date _date);
 public:
@@ -32,7 +32,7 @@ public:
 	{
 		sheduleDay.resize(30);
 		sessions.resize(COUNTHALLS);
-		savedDays.resize(3);
+		savedDays.resize(3); 
 		halls.resize(COUNTHALLS);
 		for (size_t i = 0; i < COUNTHALLS; i++)
 		{

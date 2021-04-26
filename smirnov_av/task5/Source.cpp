@@ -4,9 +4,9 @@
 #pragma warning(disable : 4996)
 using namespace std;
 
-string Films[] = {"Пираты Карибского Моря 1","Пираты Карибского Моря 2" , "Властелин колец 1","Властелин колец 2", "Властелин колец 3", "Гарри Поттер 1",
-"Гарри Поттер 2", "Гарри Поттер 3" , "Гарри Поттер 4" , "Гарри Поттер 5" ,"Гарри Поттер 6" , "Гарри Поттер 7" , "Пираты Карибского Моря 3",
-"Пираты Карибского Моря 4" , "Властелин колец 2", "Властелин колец 3" };
+string Films[] = {"Пираты Карибского моря 1","Пираты Карибского моря 2" , "Властелин колец 1","Властелин колец 2", "Властелин колец 3", "Гарри Поттер 1",
+"Гарри Поттер 2", "Гарри Поттер 3" , "Гарри Поттер 4" , "Гарри Поттер 5" ,"Гарри Поттер 6" , "Гарри Поттер 7" , "Пираты Карибского моря 3",
+"Пираты Карибского моря 4" , "Властелин колец 2", "Властелин колец 3" };
 
 void RandomEventsInDay(vector<Event>& eventsInDay)
 {
@@ -57,34 +57,62 @@ void main()
 	setlocale(LC_ALL, "ru");
 	vector<Event> eventsInDay;
 	Cinema myCinema;
+	//создаем холлы 
 	myCinema.SetDataHall(0, 400, 200);
 	myCinema.SetDataHall(1, 500, 250);
 	myCinema.SetDataHall(2, 300, 150);
+	//заполняем расписание 
 	for (size_t i = 0; i < 30; i++)
 	{
 		RandomEventsInDay(eventsInDay);
 		myCinema.SetSheduleInDay(i,eventsInDay);
 		eventsInDay.clear();
 	}
-	TicketOffice ticketOffice;
-	ticketOffice.SetCinema(&myCinema);
-	Time currentTime = GetCurrentTime();
-	Date currentDate = GetCurrentDate();
-	myCinema.UpdateSession(currentDate); //обновили расписание доступных сеансов в зависимости от даты 
-	myCinema.ShowSessions(currentDate);
-	Date date = { 27, 3 };
-	Time timdas = { 15,00 };
-	ticketOffice.SetDataClient(date, timdas, "Гарри Поттер 4", 0, true, 4);
-	ticketOffice.CheckAvailability();
-	ticketOffice.Reserve(currentDate, currentTime);
-	vector<Ticket>tickets(4);
-	ticketOffice.CancellationOrder();
-	tickets = ticketOffice.GetTickets();
-	
-	for (size_t i = 0; i < tickets.size(); i++)
+	try
 	{
-		cout << tickets[i] << endl;
+		TicketOffice ticketOffice;
+		ticketOffice.SetCinema(&myCinema);
+		//используем хардкод, а не системное время, чтобы не зависило от даты проверки работы 
+		Time currentTime = { 19, 19 };
+		Date currentDate = { 26,04 };
+		myCinema.UpdateSession(currentDate); //обновили расписание доступных сеансов в зависимости от даты 
+		myCinema.ShowSessions(currentDate); // можно посмотреть все доступные сессии в пределах 3 дней от текущей даты 
+		Date dateSession = { 27, 4 };
+		Time timeSession = { 13,30 };
+		bool _isVip = false;
+		int _countSeats = 3;
+		int hall = 2;
+		ticketOffice.SetDataClient(dateSession, timeSession, "Пираты Карибского моря 3", hall, _isVip, _countSeats);
+		//проверяем доступность
+		ticketOffice.CheckAvailability();
+		//резервируем 
+		ticketOffice.Reserve(currentDate, currentTime);
+		vector<Ticket>tickets(4);
+		//получаем билеты 
+		tickets = ticketOffice.GetTickets();
+		//вывод билетов 
+		for (size_t i = 0; i < tickets.size(); i++)
+		{
+			cout << tickets[i] << endl;
+		}
+		cout << "Итоговая цена: " << ticketOffice.GetTotalPrice() << "р"<< endl;
+		
+		//новый клиент
+		dateSession = { 28, 4 };
+		timeSession = { 19,30 };
+		_isVip = true;
+		_countSeats = 2;
+		hall = 1;
+		ticketOffice.SetDataClient(dateSession, timeSession, "Гарри Поттер 4", hall, _isVip, _countSeats);
+		ticketOffice.CheckAvailability();
+		ticketOffice.Reserve(currentDate, currentTime);
+		//отменяем билеты, зарезервинованные выше
+		ticketOffice.CancellationOrder();
 	}
-	cout << ticketOffice.GetTotalPrice() << endl;
+	catch (const string& ex)
+	{
+		cout << ex << endl;
+	}
+	
 	system("Pause");
 }

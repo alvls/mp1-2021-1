@@ -74,22 +74,23 @@ public:
 		cinema = nullptr;
 	}
 
-	void SetCinema(Cinema* otherCinema); // +
+	//соединение кассы с нужным кинотеатром
+	void SetCinema(Cinema* otherCinema); 
 	//забирает данные клиента
-	void SetDataClient(Date _date, Time _timeSession, string _nameFilm, int _hallNumber, bool _isVip, int _countSeats); //+
+	void SetDataClient(Date _date, Time _timeSession, string _nameFilm, int _hallNumber, bool _isVip, int _countSeats); 
 	//проверяет доступность данного количества мест в данной зоне 
-	bool CheckAvailability();  // + 
+	bool CheckAvailability();  
 	//резервирует места 
-	void Reserve(Date currnetDate, Time currentTime); // +
+	void Reserve(Date currnetDate, Time currentTime); 
 	//итоговая цена билетов 
-	int GetTotalPrice(); // +
+	int GetTotalPrice(); 
 	//отмена билетов 
-	void CancellationOrder(); // +
+	void CancellationOrder(); 
 	//получение билетов 
-	vector<Ticket> GetTickets(); // +
+	vector<Ticket> GetTickets(); 
 	//проверяет, получены ли данные клиента 
-	void CheckInitilize(); // +
+	void CheckInitilize(); 
 	// проверка на опоздание 
-	void CheckGetLate(Date currentDate, Time currentTime); // +
+	void CheckGetLate(Date currentDate, Time currentTime); 
 };
 

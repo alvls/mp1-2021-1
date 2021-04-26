@@ -40,6 +40,8 @@ void TicketOffice::Reserve(Date currnetDate, Time currentTime)
 {
 	CheckInitilize();
 	CheckGetLate(currnetDate,currentTime);
+	if (dataFromClient.date >= currnetDate + 3)
+		throw string("Билеты на сеансы можно заказывать в пределах трех дней!");
 	cinema->SetPlace(dataFromClient.countSeats, dataFromClient.isVip, dataFromClient.hallNumber, dataFromClient.neededSession, historySeats);
 }
 
