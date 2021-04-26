@@ -23,7 +23,6 @@ class userdata
 	friend class railway;
 	friend void setwtype(const int pointer, userdata& data);
 	friend ostream& operator<<(ostream& place, const userdata& u);
-	friend istream& operator>>(istream& place, userdata& u);
 public:
 	userdata() :surname(""), name(""), patronymic(""), Ttype(trainType::swallow), Wtype(wagonType::up_r), date(0), tnumber(0), wnumber(0), sitnumber(1)
 	{
@@ -54,6 +53,8 @@ class firm : public train
 	{
 		c_first = 1, c_last = 6, r_first, r_last = 10, s_first, s_last = 12
 	};
+	friend ostream& operator<<(ostream& place, const cashbox& c);
+	friend istream& operator>>(istream& place, cashbox& c);
 public:
 	firm();
 	firm& operator=(const firm& f);
@@ -70,6 +71,8 @@ class speed : public train
 	int down_coupe[4];
 	int up_reserved[8];//плацкартные вагоны
 	int down_reserved[8];
+	friend ostream& operator<<(ostream& place, const cashbox& c);
+	friend istream& operator>>(istream& place, cashbox& c);
 public:
 	speed();
 	speed& operator=(const speed& s);
@@ -79,6 +82,8 @@ public:
 class swallow
 {
 	int wagon[8] = { 100,100, 100, 100, 100, 100, 100, 100 };
+	friend ostream& operator<<(ostream& place, const cashbox& c);
+	friend istream& operator>>(istream& place, cashbox& c);
 public:
 	swallow()
 	{
@@ -98,6 +103,8 @@ class railway
 	swallow swtrain[3];
 	speed strain;
 	firm ftrain;
+	friend ostream& operator<<(ostream& place, const cashbox& c);
+	friend istream& operator>>(istream& place, cashbox& c);
 public:
 	railway(const railway& r)
 	{

@@ -18,20 +18,28 @@ class cashbox
 	/// меняет также число свободных билетов.
 	void GetTicket(userdata inf);//сформировать билет
 	//cashbox& operator=(const cashbox& cash);/////////////////////////////////
+	cashbox(const cashbox& cash);////////////////////////////////////////////
 	void change_database(userdata change, bool is_new);
 	bool agree(const userdata& data);
 	void do_repeat(bool& repeat);
+	friend ostream& operator<<(ostream& place, const cashbox& c);
+	friend istream& operator>>(istream& place, cashbox& c);
 public:
-	cashbox(const cashbox& cash);////////////////////////////////////////////
 	void calculate(const userdata& data);
 	void SetPlace(bool& repeat);//полная обработка действий с билетами
 	cashbox() : sum(0)
 	{
-		railway null_rail;
-		for (int i = 0; i < 30; i++)/////здесь нужно считывать из файла
+		ifstream fin;
+		if (fin.peek() == EOF)
 		{
-			toNN.push_back(null_rail);
-			toMsk.push_back(null_rail);
+			railway null_rail;
+			for (int i = 0; i < 30; i++)/////здесь нужно считывать из файла
+			{
+				toNN.push_back(null_rail);
+				toMsk.push_back(null_rail);
+			}
 		}
+		else
+			fin >> (*this);
 	}
 };

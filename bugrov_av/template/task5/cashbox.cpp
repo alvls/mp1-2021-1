@@ -3,10 +3,10 @@
 void cashbox::SetPlace(bool& repeat)
 {
 	userdata information = SetData();
+	system("color B2");
 	if (information.tnumber % 2)
 		if (toMsk[information.date-1].check(information))
 		{
-			//меняем Reserved.txt дозапись: std::ios::app
 			calculate(information);
 			GetTicket(information);
 		}
@@ -15,12 +15,15 @@ void cashbox::SetPlace(bool& repeat)
 	else
 		if (toNN[information.date-1].check(information))
 		{
-			//меняем Reserved.txt дозапись: std::ios::app
+			calculate(information);
 			GetTicket(information);
 		}
 		else
 			cout << "Недостаточно свободных мест\n";
-	
+	ofstream fout;
+	fout.open("Reserved.txt");
+	fout << (*this);
+	do_repeat(repeat);
 }
 void cashbox::GetTicket(userdata inf)
 {
@@ -103,7 +106,236 @@ void cashbox:: calculate(const userdata& data)
 		break;
 	}
 }
-cashbox::cashbox(const cashbox& cash):toNN(cash.toNN), toMsk(cash.toMsk), sum(cash.sum)
+void cashbox::do_repeat(bool& repeat)
 {
+	system("color B2");
+	cout << "Будете ли вы заказывать ещё билеты? Enter - да, Esc - нет\n";
+	int ans;
+	bool badsymb;
+	do
+	{
+		ans = _getch();
+		switch (ans)
+		{
+		case 13:
+			repeat = true;
+			badsymb = false;
+			break;
+		case 27:
+			repeat = false;
+			badsymb = false;
+			break;
+		default:
+			badsymb = true;
+		}
+	} while (badsymb);
+}
+//cashbox::cashbox(const cashbox& cash):toNN(cash.toNN), toMsk(cash.toMsk), sum(cash.sum)
+//{
+//
+//}
 
+ostream& operator<<(ostream& place, const cashbox& c)
+{
+	for (int i = 0; i < c.toMsk.size(); i++)
+	{
+		int j;
+		for (j = 0; j < 6; j++)
+			place << c.toMsk[i].ftrain.up_coupe[j] << "\n";
+		for (j = 0; j < 6; j++)
+			place << c.toMsk[i].ftrain.down_coupe[j] << "\n";
+		for (j = 0; j < 4; j++)
+			place << c.toMsk[i].ftrain.up_reserved[j] << "\n";
+		for (j = 0; j < 4; j++)
+			place << c.toMsk[i].ftrain.down_reserved[j] << "\n";
+		for (j = 0; j < 2; j++)
+			place << c.toMsk[i].ftrain.sleeping[j] << "\n";
+		//==================================================
+		for (j = 0; j < 4; j++)
+			place << c.toMsk[i].strain.up_coupe[j] << "\n";
+		for (j = 0; j < 4; j++)
+			place << c.toMsk[i].strain.down_coupe[j] << "\n";
+		for (j = 0; j < 8; j++)
+			place << c.toMsk[i].strain.up_reserved[j] << "\n";
+		for (j = 0; j < 8; j++)
+			place << c.toMsk[i].strain.down_reserved[j] << "\n";
+		//==================================================
+		for (j = 0; j < 8; j++)
+			place << c.toMsk[i].swtrain[0].wagon[j] << "\n";
+		for (j = 0; j < 8; j++)
+			place << c.toMsk[i].swtrain[1].wagon[j] << "\n";
+		for (j = 0; j < 8; j++)
+			place << c.toMsk[i].swtrain[2].wagon[j] << "\n";
+
+	}
+	for (int i = 0; i < c.toNN.size(); i++)
+	{
+		int j;
+		for (j = 0; j < 6; j++)
+			place << c.toNN[i].ftrain.up_coupe[j] << "\n";
+		for (j = 0; j < 6; j++)
+			place << c.toNN[i].ftrain.down_coupe[j] << "\n";
+		for (j = 0; j < 4; j++)
+			place << c.toNN[i].ftrain.up_reserved[j] << "\n";
+		for (j = 0; j < 4; j++)
+			place << c.toNN[i].ftrain.down_reserved[j] << "\n";
+		for (j = 0; j < 2; j++)
+			place << c.toNN[i].ftrain.sleeping[j] << "\n";
+		//==================================================
+		for (j = 0; j < 4; j++)
+			place << c.toNN[i].strain.up_coupe[j] << "\n";
+		for (j = 0; j < 4; j++)
+			place << c.toNN[i].strain.down_coupe[j] << "\n";
+		for (j = 0; j < 8; j++)
+			place << c.toNN[i].strain.up_reserved[j] << "\n";
+		for (j = 0; j < 8; j++)
+			place << c.toNN[i].strain.down_reserved[j] << "\n";
+		//==================================================
+		for (j = 0; j < 8; j++)
+			place << c.toNN[i].swtrain[0].wagon[j] << "\n";
+		for (j = 0; j < 8; j++)
+			place << c.toNN[i].swtrain[1].wagon[j] << "\n";
+		for (j = 0; j < 8; j++)
+			place << c.toNN[i].swtrain[2].wagon[j] << "\n";
+	}
+	return place;
+}
+istream& operator>>(istream& place, cashbox& c)
+{
+	place.get();
+	for (int i = 0; i < c.toMsk.size(); i++)
+	{
+		int j;
+		string str;
+		for (j = 0; j < 6; j++)
+		{
+			getline(place, str); 
+			c.toMsk[i].ftrain.up_coupe[j] = stoi(str);
+		}
+		for (j = 0; j < 6; j++) 
+		{
+			getline(place, str);
+			c.toMsk[i].ftrain.down_coupe[j] = stoi(str);
+		}
+		for (j = 0; j < 4; j++)
+		{
+			getline(place, str);
+			c.toMsk[i].ftrain.up_reserved[j] = stoi(str);
+		}
+		for (j = 0; j < 4; j++)
+		{
+			getline(place, str);
+			c.toMsk[i].ftrain.down_reserved[j] = stoi(str);
+		}
+		for (j = 0; j < 2; j++)
+		{
+			getline(place, str);
+			c.toMsk[i].ftrain.sleeping[j] = stoi(str);
+		}
+		//==================================================
+		for (j = 0; j < 4; j++)
+		{
+			getline(place, str);
+			c.toMsk[i].strain.up_coupe[j] = stoi(str);
+		}
+		for (j = 0; j < 4; j++)
+		{
+			getline(place, str);
+			c.toMsk[i].strain.down_coupe[j] = stoi(str);
+		}
+		for (j = 0; j < 8; j++)
+		{
+			getline(place, str);
+			c.toMsk[i].strain.up_reserved[j] = stoi(str);
+		}
+		for (j = 0; j < 8; j++)
+		{
+			getline(place, str);
+			c.toMsk[i].strain.down_reserved[j] = stoi(str);
+		}
+		//==================================================
+		for (j = 0; j < 8; j++)
+		{
+			getline(place, str);
+			c.toMsk[i].swtrain[0].wagon[j] = stoi(str);
+		}
+		for (j = 0; j < 8; j++)
+		{
+			getline(place, str);
+			c.toMsk[i].swtrain[1].wagon[j] = stoi(str);
+		}
+		for (j = 0; j < 8; j++)
+		{
+			getline(place, str);
+			c.toMsk[i].swtrain[2].wagon[j] = stoi(str);
+		}
+	}
+	for (int i = 0; i < c.toNN.size(); i++)
+	{
+		int j;
+		string str;
+		for (j = 0; j < 6; j++)
+		{
+			getline(place, str);
+			c.toNN[i].ftrain.up_coupe[j] = stoi(str);
+		}
+		for (j = 0; j < 6; j++)
+		{
+			getline(place, str);
+			c.toNN[i].ftrain.down_coupe[j] = stoi(str);
+		}
+		for (j = 0; j < 4; j++)
+		{
+			getline(place, str);
+			c.toNN[i].ftrain.up_reserved[j] = stoi(str);
+		}
+		for (j = 0; j < 4; j++)
+		{
+			getline(place, str);
+			c.toNN[i].ftrain.down_reserved[j] = stoi(str);
+		}
+		for (j = 0; j < 2; j++)
+		{
+			getline(place, str);
+			c.toNN[i].ftrain.sleeping[j] = stoi(str);
+		}
+		//==================================================
+		for (j = 0; j < 4; j++)
+		{
+			getline(place, str);
+			c.toNN[i].strain.up_coupe[j] = stoi(str);
+		}
+		for (j = 0; j < 4; j++)
+		{
+			getline(place, str);
+			c.toNN[i].strain.down_coupe[j] = stoi(str);
+		}
+		for (j = 0; j < 8; j++)
+		{
+			getline(place, str);
+			c.toNN[i].strain.up_reserved[j] = stoi(str);
+		}
+		for (j = 0; j < 8; j++)
+		{
+			getline(place, str);
+			c.toNN[i].strain.down_reserved[j] = stoi(str);
+		}
+		//==================================================
+		for (j = 0; j < 8; j++)
+		{
+			getline(place, str);
+			c.toNN[i].swtrain[0].wagon[j] = stoi(str);
+		}
+		for (j = 0; j < 8; j++)
+		{
+			getline(place, str);
+			c.toNN[i].swtrain[1].wagon[j] = stoi(str);
+		}
+		for (j = 0; j < 8; j++)
+		{
+			getline(place, str);
+			c.toNN[i].swtrain[2].wagon[j] = stoi(str);
+		}
+	}
+	return place;
 }

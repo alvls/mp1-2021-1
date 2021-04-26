@@ -222,7 +222,56 @@ bool cashbox::agree(const userdata& data)
 	system("cls");
 	system("color B2");
 	cout << "Удостоверьтесь, что ваши данные введены правильно: (номер вагона и место не учитываются)\n";
-	cout << data;
+	cout << "Дата: " << data.date << "-й день\n";
+	cout << "ФИО пассажира:\n";
+	cout << data.surname << "\n";
+	cout << data.name << "\n";
+	cout << data.patronymic << "\n";
+	switch (data.Ttype)
+	{
+	case trainType::firm:
+		cout << "Фирменный поезд\n";
+		switch (data.Wtype)
+		{
+		case wagonType::down_c:
+			cout << "Купе. Нижнее место\n";
+			break;
+		case wagonType::down_r:
+			cout << "Плацкарт. Нижнее место\n";
+			break;
+		case wagonType::sleep:
+			cout << "Спальный вагон\n";
+			break;
+		case wagonType::up_c:
+			cout << "Купе. Верхнее место\n";
+			break;
+		case wagonType::up_r:
+			cout << "Плацкарт. Верхнее место\n";
+			break;
+		}
+		break;
+	case trainType::speed:
+		cout << "Скорый поезд\n";
+		switch (data.Wtype)
+		{
+		case wagonType::down_c:
+			cout << "Купе. Нижнее место\n";
+			break;
+		case wagonType::down_r:
+			cout << "Плацкарт. Нижнее место\n";
+			break;
+		case wagonType::up_c:
+			cout << "Купе. Верхнее место\n";
+			break;
+		case wagonType::up_r:
+			cout << "Плацкарт. Верхнее место\n";
+			break;
+		}
+		break;
+	case trainType::swallow:
+		cout << "Поезд \"Ласточка\"\n";
+		break;
+	}
 	cout << "\nЕсли какие-либо данные оказались неверны, нажмите esc. Если всё верно, нажмите Enter\n";
 	int ans;
 	do
@@ -236,30 +285,6 @@ bool cashbox::agree(const userdata& data)
 			return false;
 		}
 	} while (1);
-}
-void cashbox::do_repeat(bool& repeat)
-{
-	system("color B2");
-	cout << "Будете ли вы заказывать ещё билеты? Enter - да, Esc - нет\n";
-	int ans;
-	bool badsymb;
-	do
-	{
-		ans = _getch();
-		switch (ans)
-		{
-		case 13:
-			repeat = true;
-			badsymb = false;
-			break;
-		case 27:
-			repeat = false;
-			badsymb = false;
-			break;
-		default:
-			badsymb = true;
-		}
-	} while (badsymb);
 }
 //---------------------------------------------------
 userdata cashbox::SetData()

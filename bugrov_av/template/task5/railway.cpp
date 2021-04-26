@@ -217,6 +217,11 @@ firm::firm(const firm& f)
 ostream& operator<<(ostream& place, const userdata& u)
 {
 	place << "Дата: " << u.date << "-й день\n";
+	place << "Отправление: ";
+	if (u.tnumber)
+		place << "Москва. Курский вокзал\n";
+	else
+		place << "Нижний Новгород. Московский вокзал\n";
 	place << "ФИО пассажира:\n";
 	place << u.surname << "\n";
 	place << u.name << "\n";
@@ -269,8 +274,5 @@ ostream& operator<<(ostream& place, const userdata& u)
 	place << "№ поезда: " << u.tnumber << "\n";
 	place << "№ вагона: " << u.wnumber << "\n";
 	place << "№ места: " << u.sitnumber << "\n";
-}
-istream& operator>>(ostream& place, userdata& u)
-{
-
+	return place;
 }
