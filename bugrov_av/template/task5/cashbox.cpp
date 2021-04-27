@@ -25,13 +25,16 @@ void cashbox::SetPlace(bool& repeat)
 		ofstream fout;
 		fout.open("Reserved.txt");
 		fout << (*this);
+		fout.close();
 	}
 	do_repeat(repeat);
+	if (!repeat)
+		cout << "Итоговая сумма: " << sum << "рублей\n";
 }
 void cashbox::GetTicket(userdata inf)
 {
 	ofstream fout;
-	fout.open("Ticket.txt");
+	fout.open("Ticket.txt", ios::app);
 	if (fout.is_open())
 	{
 		calculate(inf);

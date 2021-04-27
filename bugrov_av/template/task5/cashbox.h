@@ -41,5 +41,7 @@ public:
 		}
 		else
 			fin >> (*this);
+		ofstream fout;
+		fout.open("Ticket.txt", ios_base::out | ios_base::trunc);
 	}
 };

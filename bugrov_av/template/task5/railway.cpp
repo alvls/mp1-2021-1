@@ -7,56 +7,56 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 		switch (inf.Wtype)
 		{
 		case wagonType::down_c:
-			for (int i = ftrain.c_first; i < ftrain.c_last; i++)
+			for (int i = ftrain.c_first; i <= ftrain.c_last; i++)
 				if (ftrain.down_coupe[i])
 				{
 					ftrain.down_coupe[i]--;
 					inf.sitnumber = -ftrain.down_coupe[i] + ftrain.COUPE;
-					inf.wnumber = i;
+					inf.wnumber = i + 1;
 					return true;
 				}
 			return false;
 			break;
 		case wagonType::down_r:
-			for (int i = ftrain.r_first; i < ftrain.r_last; i++)
+			for (int i = ftrain.r_first; i <= ftrain.r_last; i++)
 				if (ftrain.down_reserved[i])
 				{
 					ftrain.down_reserved[i]--;
 					inf.sitnumber = -ftrain.down_reserved[i] + ftrain.RESERVED;
-					inf.wnumber = i;
+					inf.wnumber = i + 1;
 					return true;
 				}
 			return false;
 			break;
 		case wagonType::up_c:
-			for (int i = ftrain.c_first; i < ftrain.c_last; i++)
+			for (int i = ftrain.c_first; i <= ftrain.c_last; i++)
 				if (ftrain.up_coupe[i])
 				{
 					ftrain.up_coupe[i]--;
 					inf.sitnumber = -ftrain.up_coupe[i] + ftrain.COUPE;
-					inf.wnumber = i;
+					inf.wnumber = i + 1;
 					return true;
 				}
 			return false;
 			break;
 		case wagonType::up_r:
-			for (int i = ftrain.r_first; i < ftrain.r_last; i++)
+			for (int i = ftrain.r_first; i <= ftrain.r_last; i++)
 				if (ftrain.up_reserved[i])
 				{
 					ftrain.up_reserved[i]--;
 					inf.sitnumber = -ftrain.up_reserved[i] + ftrain.RESERVED;
-					inf.wnumber = i;
+					inf.wnumber = i + 1;
 					return true;
 				}
 			return false;
 			break;
 		case wagonType::sleep:
-			for (int i = ftrain.s_first; i < ftrain.s_last; i++)
+			for (int i = ftrain.s_first; i <= ftrain.s_last; i++)
 				if (ftrain.sleeping[i])
 				{
 					ftrain.sleeping[i]--;
 					inf.sitnumber = -ftrain.sleeping[i] + ftrain.SLEEPING;
-					inf.wnumber = i;
+					inf.wnumber = i + 1;
 					return true;
 				}
 			return false;
@@ -66,45 +66,45 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 		switch (inf.Wtype)
 		{
 		case wagonType::down_c:
-			for (int i = strain.c_first; i < strain.c_last; i++)
+			for (int i = strain.c_first; i <= strain.c_last; i++)
 				if (strain.down_coupe[i])
 				{
 					strain.down_coupe[i]--;
 					inf.sitnumber = -strain.down_coupe[i] + strain.COUPE;
-					inf.wnumber = i;
+					inf.wnumber = i + 1;
 					return true;
 				}
 			return false;
 			break;
 		case wagonType::down_r:
-			for (int i = strain.r_first; i < strain.r_last; i++)
+			for (int i = strain.r_first; i <= strain.r_last; i++)
 				if (strain.down_reserved[i])
 				{
 					strain.down_reserved[i]--;
 					inf.sitnumber = -strain.down_reserved[i] + strain.RESERVED;
-					inf.wnumber = i;
+					inf.wnumber = i + 1;
 					return true;
 				}
 			return false;
 			break;
 		case wagonType::up_c:
-			for (int i = strain.c_first; i < strain.c_last; i++)
+			for (int i = strain.c_first; i <= strain.c_last; i++)
 				if (strain.up_coupe[i])
 				{
 					strain.up_coupe[i]--;
 					inf.sitnumber = -strain.up_coupe[i] + strain.COUPE;
-					inf.wnumber = i;
+					inf.wnumber = i + 1;
 					return true;
 				}
 			return false;
 			break;
 		case wagonType::up_r:
-			for (int i = strain.r_first; i < strain.r_last; i++)
+			for (int i = strain.r_first; i <= strain.r_last; i++)
 				if (strain.up_reserved[i])
 				{
 					strain.up_reserved[i]--;
 					inf.sitnumber = -strain.up_reserved[i] + strain.RESERVED;
-					inf.wnumber = i;
+					inf.wnumber = i + 1;
 					return true;
 				}
 			return false;
@@ -130,7 +130,7 @@ bool railway::check(userdata& inf)//тут я вычитаю места
 				}
 				swtrain[j].wagon[i]--;
 				inf.sitnumber = 100 - swtrain[j].wagon[i];
-				inf.tnumber = i;
+				inf.tnumber = i + 1;
 				return true;
 			}
 		return false;
@@ -217,16 +217,16 @@ firm::firm(const firm& f)
 ostream& operator<<(ostream& place, const userdata& u)
 {
 	place << "Дата: " << u.date << "-й день\n";
-	place << "Отправление: ";
-	if (u.tnumber)
-	{
-		place << "Москва. Курский вокзал\n";
-		place << "Прибытие:\nНижний Новгород. Московский вокзал\n";
-	}
-	else
+	place << "Отправление:\n";
+	if (u.tnumber % 2)
 	{
 		place << "Нижний Новгород. Московский вокзал\n";
 		place << "Прибытие:\nМосква. Курский вокзал\n";
+	}
+	else
+	{
+		place << "Москва. Курский вокзал\n";
+		place << "Прибытие:\nНижний Новгород. Московский вокзал\n";
 	}
 	place << "ФИО пассажира:\n";
 	place << u.surname << "\n";

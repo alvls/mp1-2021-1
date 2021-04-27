@@ -51,7 +51,7 @@ class firm : public train
 	int sleeping[2];//спальные вагоны
 	enum places
 	{
-		c_first = 1, c_last = 6, r_first, r_last = 10, s_first, s_last = 12
+		c_first = 0, c_last = 5, r_first, r_last = 9, s_first, s_last = 11
 	};
 	friend ostream& operator<<(ostream& place, const cashbox& c);
 	friend istream& operator>>(istream& place, cashbox& c);
@@ -65,7 +65,7 @@ class speed : public train
 {
 	enum places
 	{
-		c_first = 1, c_last = 4, r_first, r_last = 12
+		c_first = 0, c_last = 3, r_first, r_last = 11
 	};
 	int up_coupe[4];//купе
 	int down_coupe[4];

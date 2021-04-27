@@ -295,15 +295,18 @@ bool cashbox::disagree(userdata& data)
 		case 13:
 			system("cls");
 			cout << "Заказ отправлен на обработку\n";
+			cout << "Введите любой символ\n";
 			_getch();
 			return false;
 		case 27:
 			system("cls");
 			cout << "Введите снова все необходимые данные\n";
+			cout << "Но для начала введите любой символ\n";
 			_getch();
 			return true;
 		case '\b':
-			cout << "Вы отменили заказ билета\n";
+			cout << "Вы отменили заказ билета\n"; 
+			cout << "Введите любой символ\n";
 			_getch();
 			system("cls");
 			data.date = 0;
