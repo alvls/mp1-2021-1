@@ -4,6 +4,8 @@
 #include <Windows.h>
 #include <string>
 #include <vector>
+#include <stdlib.h>
+#include <time.h>
 #include <conio.h>
 
 using namespace std;
