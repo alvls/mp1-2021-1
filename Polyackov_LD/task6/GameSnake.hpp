@@ -18,6 +18,7 @@ class Snake
 {
 private:
 	enum { INITIALSIZE = 5 };
+	COORD LastUnit;
 	vector<COORD> snake;
 	Area* pArea;
 
@@ -28,7 +29,8 @@ public:
 	void ShowSnake();
 	size_t GetSize() { return snake.size(); }
 	COORD GetHead() { return snake[0]; }
-	void ChangeForm(const short x, const short y, const bool AddUnit = false);
+	void ChangePosition(const short x, const short y);
+	void AddLastUnit();
 	void Move(const short code);
 	bool CrossedItself();
 	vector<COORD> GetSnake() { return snake; }
@@ -57,13 +59,16 @@ private:
 	Area area;
 	Snake snake;
 	Food food;
-	short goal;
+	short direction;
+	short SizeNeeded;
+	short FruitsLeft;
 
 	void Show();
-	void ShowGoal();
+	void ShowInfo();
 	void Hide() { system("cls"); }
 	short GameStatus();
 	void Actions();
+	void EndGame(const int code);
 public:
 	GameSnake(short _goal, short _w, short _h);
 	void LaunchGame();
