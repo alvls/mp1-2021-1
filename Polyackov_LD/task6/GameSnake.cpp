@@ -122,7 +122,7 @@ bool Food::unique()
 	return true;
 }
 
-Food::Food(Area* _pArea, Snake* _pSnake) : pArea(_pArea), pSnake(_pSnake)
+Food::Food(Snake* _pSnake) : pSnake(_pSnake)
 {
 	srand(time(NULL));
 	GenerateFood();
@@ -130,8 +130,8 @@ Food::Food(Area* _pArea, Snake* _pSnake) : pArea(_pArea), pSnake(_pSnake)
 
 void Food::GenerateFood()
 {
-	short width = pArea->GetWidth();
-	short height = pArea->GetHeight();
+	short width = pSnake->GetpArea()->GetWidth();
+	short height = pSnake->GetpArea()->GetHeight();
 	do
 	{
 		FoodsCoord = { rand() % width + 1, rand() % height + 1 };
@@ -149,9 +149,8 @@ void Food::ShowFood()
 
 Food::~Food()
 {
-	// Сбрасываю на nullptr, чтобы случайно не уничтожить информацию, хранящую под указателями
-	// Те объекты удалятся сами с помощью своих деструкторов в дальнейшем
-	pArea = nullptr;
+	// Сбрасываю на nullptr, чтобы случайно не уничтожить информацию, хранящую под указателем
+	// Объект удалится сам с помощью своего деструктора в дальнейшем
 	pSnake = nullptr;
 	// Не использую delete, так как не выделял динамическую память с помощью new
 }
@@ -246,11 +245,16 @@ void GameSnake::EndGame(const int code)
 	}
 }
 
-GameSnake::GameSnake(short _goal, short _w, short _h) : area(_w, _h), snake(&area), food(&area, &snake)
+GameSnake::GameSnake(short _goal, short _w, short _h) : area(_w, _h), snake(&area), food(&snake)
 {
-	short PlacesNeeded = _w * _h - short(snake.GetSize());
-	if (PlacesNeeded < _goal || _w < 6 || _h < 2 || _goal < 6)
-		throw exception("Игру с задаными параметрами невозможно выиграть!");
+	if (_goal < snake.GetSize() + 1)
+		throw exception("Длина змейки, которую нужно достичь, должна быть больше изначальной длины змейки!");
+	if (_w < snake.GetSize() + 2)
+		throw exception("При данных параметрах змейка не убирается по ширине!");
+	if (_h < 2)
+		throw exception("При данных параметрах змейка не убирается по высоте!");
+	if (_w * _h < _goal)
+		throw exception("Змейка не сможет достичь заданной длины из-за нехватки свободного места!");
 	direction = LEFT;
 	SizeNeeded = _goal;
 	FruitsLeft = _goal - short(snake.GetSize());
@@ -258,17 +262,21 @@ GameSnake::GameSnake(short _goal, short _w, short _h) : area(_w, _h), snake(&are
 
 void GameSnake::LaunchGame()
 {
-	enum { GAMEOVER, GAMEWON, GAMECONTINUE };
+	enum { GAMEOVER, GAMEWON, GAMECONTINUE, SPEED = 200 };
 	short status = GAMECONTINUE;
+	unsigned int time;
 	while (true)
 	{
+		time = clock();
 		Actions();
 		status = GameStatus();
 		if (status != GAMECONTINUE)
 			break;
 		Hide();
 		Show();
-		Sleep(200);
+		time = clock() - time;
+		if (SPEED > time)
+			Sleep(SPEED - time);
 	}
 	EndGame(status);
 }

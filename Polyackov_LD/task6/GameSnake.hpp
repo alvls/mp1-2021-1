@@ -29,6 +29,7 @@ public:
 	void ShowSnake();
 	size_t GetSize() { return snake.size(); }
 	COORD GetHead() { return snake[0]; }
+	Area* GetpArea() { return pArea; }
 	void ChangePosition(const short x, const short y);
 	void AddLastUnit();
 	void Move(const short code);
@@ -41,12 +42,11 @@ class Food
 {
 private:
 	COORD FoodsCoord;
-	Area* pArea;
 	Snake* pSnake;
 
 	bool unique();
 public:
-	Food(Area* _pArea, Snake* _pSnake);
+	Food(Snake* _pSnake);
 	void GenerateFood();
 	void ShowFood();
 	COORD GetCoord() { return FoodsCoord; }
