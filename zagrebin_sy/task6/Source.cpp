@@ -72,7 +72,9 @@ public:
 		field[y][x].color = Color::Yellow;
 		field[y][x].sign = '*';
 	}
-	void start(unsigned l) {
+	void start(unsigned l, unsigned speed) {
+		if (l < 6 || speed <= 0)
+			throw err::wrong_parameter;
 		unsigned i, j; bool f = true; int c;
 		queue<Body> snake;
 		unsigned y, x;	// head coordinates
@@ -148,7 +150,7 @@ public:
 				goto end;
 			}
 			show();
-			Sleep(250);
+			Sleep(speed);
 		}
 		end:
 			if (f)
@@ -163,19 +165,26 @@ public:
 	}
 };
 
-void main() {
-	unsigned h = 16, w = 16; bool again = true;
+int main() {
+	unsigned h = 16, w = 16, goal = 10, spd = 250; bool again = true;
 	srand(time(NULL));
-
-	//cout << "Enter heigth and width of the field: ";
-	//cin >> h; cin >> w;
-	Field field(h, w);
-
-	while (again) {
-		field.start(10);
-		cout << "Try again? (Yes - 1, No - 0): ";
-		cin >> again;
+	try {
+		cout << "Enter heigth and width of the field: ";
+		cin >> h; cin >> w;
+		Field field(h, w);
+		cout << "Enter target size (start with 5, >5): ";
+		cin >> goal;
+		cout << "Enter speed (pause time, >0): ";
+		cin >> spd;
+		while (again) {
+			field.start(goal, spd);
+			cout << "Try again? (Yes - 1, No - 0): ";
+			cin >> again;
+		}
 	}
-	
+	catch (err e) {
+		cout << "\nERROR: Wrong Data\n";
+	}
 	system("pause");
+	return 0;
 }
