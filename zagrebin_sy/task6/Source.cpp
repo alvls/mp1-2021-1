@@ -47,7 +47,7 @@ public:
 	Field(unsigned h, unsigned w) {
 		if (w < 7 || h < 3)
 			throw err::wrong_parameter;
-		unsigned i, j;
+		unsigned i;
 		height = h + 2; width = w + 2;	// Real sizes with borders
 		field = new Cell*[height];	// Create
 		for ( i = 0; i < height; i++)
@@ -147,12 +147,14 @@ public:
 				break;
 			default:
 				f = false;
+				snake.pop();
 				goto end;
 			}
 			show();
 			Sleep(speed);
 		}
 		end:
+			show();
 			if (f)
 				cout << "\nYou win!\n";
 			else
@@ -166,7 +168,7 @@ public:
 };
 
 int main() {
-	unsigned h = 16, w = 16, goal = 10, spd = 250; bool again = true;
+	unsigned h = 16, w = 16, goal = 10, spd = 4; bool again = true;
 	srand(time(NULL));
 	try {
 		cout << "Enter heigth and width of the field: ";
@@ -174,15 +176,15 @@ int main() {
 		Field field(h, w);
 		cout << "Enter target size (start with 5, >5): ";
 		cin >> goal;
-		cout << "Enter speed (pause time, >0): ";
+		cout << "Enter speed (>0, MAX Speed = 1000, frame update time = 1000/speed): ";
 		cin >> spd;
 		while (again) {
-			field.start(goal, spd);
+			field.start(goal, int(1000/spd));
 			cout << "Try again? (Yes - 1, No - 0): ";
 			cin >> again;
 		}
 	}
-	catch (err e) {
+	catch (err) {
 		cout << "\nERROR: Wrong Data\n";
 	}
 	system("pause");
