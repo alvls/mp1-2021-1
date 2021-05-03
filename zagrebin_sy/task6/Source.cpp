@@ -15,7 +15,7 @@ void paint(char c, Color col) {
 	SetConsoleTextAttribute(hStdOut, (WORD)(col));
 	cout << c;
 }
-enum class err { wrong_parameter };
+enum class err { Wrong_Parameter, Division_By_Zero};
 enum direction { up = 1, right = 2, down = -1, left = -2 };
 			//	72			77			80		75
 struct Cell {
@@ -46,7 +46,7 @@ class Field {		// Field
 public: 
 	Field(unsigned h, unsigned w) {
 		if (w < 7 || h < 3)
-			throw err::wrong_parameter;
+			throw err::Wrong_Parameter;
 		unsigned i;
 		height = h + 2; width = w + 2;	// Real sizes with borders
 		field = new Cell*[height];	// Create
@@ -74,7 +74,7 @@ public:
 	}
 	void start(unsigned l, unsigned speed) {
 		if (l < 6 || speed <= 0)
-			throw err::wrong_parameter;
+			throw err::Wrong_Parameter;
 		unsigned i, j; bool f = true; int c;
 		queue<Body> snake;
 		unsigned y, x;	// head coordinates
@@ -178,6 +178,8 @@ int main() {
 		cin >> goal;
 		cout << "Enter speed (>0, MAX Speed = 1000, frame update time = 1000/speed): ";
 		cin >> spd;
+		if (spd == 0)
+			throw err::Division_By_Zero;
 		while (again) {
 			field.start(goal, int(1000/spd));
 			cout << "Try again? (Yes - 1, No - 0): ";
