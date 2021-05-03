@@ -20,9 +20,9 @@ enum ConsoleColor
 	LIGHTRED = 12,
 };
 
-enum { UP, DOWN, LEFT, RIGHT };
+enum Directions { UP, DOWN, LEFT, RIGHT };
 
-enum
+enum ArrowKeys
 {
 	UPARROW = 72,
 	LEFTARROW = 75,

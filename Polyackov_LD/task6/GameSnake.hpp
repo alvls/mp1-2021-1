@@ -20,7 +20,7 @@ private:
 	enum { INITIALSIZE = 5 };
 	COORD LastUnit;
 	vector<COORD> snake;
-	Area* pArea;
+	Area* pArea; // ”казатель будет присвоен, поэтому в деструкторе не нужно использовать delete
 
 	void ShowBody();
 	void ShowHead();
@@ -30,19 +30,18 @@ public:
 	size_t GetSize() { return snake.size(); }
 	COORD GetHead() { return snake[0]; }
 	Area* GetpArea() { return pArea; }
-	void ChangePosition(const short x, const short y);
+	void ChangePosition(const short dx, const short dy);
 	void AddLastUnit();
 	void Move(const short code);
 	bool CrossedItself();
 	vector<COORD> GetSnake() { return snake; }
-	~Snake();
 };
 
 class Food
 {
 private:
 	COORD FoodsCoord;
-	Snake* pSnake;
+	Snake* pSnake; // ”казатель будет присвоен, поэтому в деструкторе не нужно использовать delete
 
 	bool unique();
 public:
@@ -50,7 +49,6 @@ public:
 	void GenerateFood();
 	void ShowFood();
 	COORD GetCoord() { return FoodsCoord; }
-	~Food();
 };
 
 class GameSnake
@@ -61,14 +59,14 @@ private:
 	Food food;
 	short direction;
 	short SizeNeeded;
-	short FruitsLeft;
+	short FoodsLeft;
 
 	void Show();
 	void ShowInfo();
 	void Hide() { system("cls"); }
 	short GameStatus();
 	void Actions();
-	void EndGame(const int code);
+	void EndGame(const short code);
 public:
 	GameSnake(short _goal, short _w, short _h);
 	void LaunchGame();

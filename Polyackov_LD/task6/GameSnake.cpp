@@ -62,10 +62,10 @@ void Snake::ShowSnake()
 	ShowHead();
 }
 
-void Snake::ChangePosition(const short x, const short y)
+void Snake::ChangePosition(const short dx, const short dy)
 {
 	LastUnit = snake[snake.size() - 1];
-	COORD tmpcoord = { snake[0].X + x, snake[0].Y + y };
+	COORD tmpcoord = { snake[0].X + dx, snake[0].Y + dy };
 	snake.insert(snake.cbegin(), tmpcoord); // Теперь голова пересместилась
 	snake.pop_back(); // Удаляется последнее звено у хвоста
 }
@@ -101,14 +101,6 @@ bool Snake::CrossedItself()
 		if (head.X == snake[i].X && head.Y == snake[i].Y)
 			return true;
 	return false;
-}
-
-Snake::~Snake()
-{
-	// Сбрасываю на nullptr, чтобы случайно не уничтожить информацию, хранящую под указателем
-	// Объект удалится сам с помощью своего деструктора в дальнейшем
-	pArea = nullptr;
-	// Не использую delete, так как не выделял динамическую память с помощью new
 }
 
 // Food
@@ -147,14 +139,6 @@ void Food::ShowFood()
 	SetConsoleTextAttribute(hConsole, (WORD)((15 << 4) | BLACK));
 }
 
-Food::~Food()
-{
-	// Сбрасываю на nullptr, чтобы случайно не уничтожить информацию, хранящую под указателем
-	// Объект удалится сам с помощью своего деструктора в дальнейшем
-	pSnake = nullptr;
-	// Не использую delete, так как не выделял динамическую память с помощью new
-}
-
 // GameSnake
 
 void GameSnake::Show()
@@ -169,7 +153,7 @@ void GameSnake::ShowInfo()
 {
 	COORD pos = { 1, area.GetHeight() + 3 };
 	gotoxy(pos);
-	cout << "Размер змейки: " << SizeNeeded - FruitsLeft << " из " << SizeNeeded << "\n\n Осталось съесть пищи: " << FruitsLeft;
+	cout << "Размер змейки: " << SizeNeeded - FoodsLeft << " из " << SizeNeeded << "\n\n Осталось съесть пищи: " << FoodsLeft;
 }
 
 short GameSnake::GameStatus()
@@ -182,8 +166,8 @@ short GameSnake::GameStatus()
 	if (head.X == food.GetCoord().X && head.Y == food.GetCoord().Y)
 	{
 		snake.AddLastUnit();
-		FruitsLeft--;
-		if (FruitsLeft == 0)
+		FoodsLeft--;
+		if (FoodsLeft == 0)
 			return 1;
 		food.GenerateFood();
 	}
@@ -201,19 +185,19 @@ void GameSnake::Actions()
 			{
 			case -32:
 				break;
-			case'w': case'W': case UPARROW:
+			case UPARROW:
 				if (direction != DOWN)
 					direction = UP;
 				break;
-			case's': case'S': case DOWNARROW:
+			case DOWNARROW:
 				if (direction != UP)
 					direction = DOWN;
 				break;
-			case'a': case 'A': case LEFTARROW:
+			case LEFTARROW:
 				if (direction != RIGHT)
 					direction = LEFT;
 				break;
-			case'd': case'D': case RIGHTARROW:
+			case RIGHTARROW:
 				if (direction != LEFT)
 					direction = RIGHT;
 				break;
@@ -223,9 +207,9 @@ void GameSnake::Actions()
 	snake.Move(direction);
 }
 
-void GameSnake::EndGame(const int code)
+void GameSnake::EndGame(const short code)
 {
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	static HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	enum { GAMEOVER, GAMEWON };
 	if (code == GAMEOVER)
 	{
@@ -257,7 +241,7 @@ GameSnake::GameSnake(short _goal, short _w, short _h) : area(_w, _h), snake(&are
 		throw exception("Змейка не сможет достичь заданной длины из-за нехватки свободного места!");
 	direction = LEFT;
 	SizeNeeded = _goal;
-	FruitsLeft = _goal - short(snake.GetSize());
+	FoodsLeft = _goal - short(snake.GetSize());
 }
 
 void GameSnake::LaunchGame()
