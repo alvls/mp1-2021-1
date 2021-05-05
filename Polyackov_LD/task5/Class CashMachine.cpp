@@ -98,9 +98,3 @@ ostream& operator<< (ostream& out, const CashMachine& box)
 	out << "\n Владелец:\n\n " << box.pCard->GetName() << "\n\n ID ***" << box.pCard->GetCardID() % 10 << "\n\n Баланс:\n\n " << box.pCard->GetMoney() << " руб.";
 	return out;
 }
-
-CashMachine::~CashMachine()
-{
-	delete pCenter;
-	delete pCard;
-}

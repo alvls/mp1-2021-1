@@ -5,8 +5,8 @@ class CashMachine
 private:
 	enum { MAXQUANTITY = 40 , SIZECASSETTE = 2000 };
 	NominalValues cassettes;
-	ProcessingCenter* pCenter;
-	OneCard* pCard;
+	ProcessingCenter* pCenter; // Указатель будет присвоен, поэтому в деструкторе не нужно использовать delete
+	OneCard* pCard; // Указатель будет присвоен, поэтому в деструкторе не нужно использовать delete
 	NominalValues AdditionalCassette; // Дополнительная кассета, в которую будут сохраняться деньги 
 	bool AccessToFunct; // Доступ к функционалу для карты, находящейся в банкомате
 public:
@@ -35,7 +35,4 @@ public:
 
 	// Операторы
 	friend ostream& operator<< (ostream& out, const CashMachine& box);
-
-	//Деструктор
-	~CashMachine();
 };
