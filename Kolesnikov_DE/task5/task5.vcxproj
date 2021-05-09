@@ -111,6 +111,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Credit.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="ProcCenter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Credit.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="ProcCenter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

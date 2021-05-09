@@ -1,0 +1,22 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Authorize	Credit.cpp	/^bool Credit::Authorize(int _PayrollN,string _password) $/;"	f	class:Credit
+Av_Credit_Info	Credit.cpp	/^vector<int> Credit::Av_Credit_Info()$/;"	f	class:Credit
+Calc_Credit_Debt	Credit.cpp	/^void Credit::Calc_Credit_Debt(){$/;"	f	class:Credit
+Calc_Credit_Debt_TEST	Credit.cpp	/^void Credit::Calc_Credit_Debt_TEST(int _day,int _month, int _year) {$/;"	f	class:Credit
+Change_Data	Credit.cpp	/^void Credit::Change_Data(ProcCenter* _data)$/;"	f	class:Credit
+Clear_Credit	Credit.cpp	/^void Credit::Clear_Credit()$/;"	f	class:Credit
+Credit	Credit.cpp	/^Credit::Credit(ProcCenter* _data): AuthPersNumb(-1)$/;"	f	class:Credit
+Credit_Status	Credit.cpp	/^vector<int> Credit::Credit_Status(){$/;"	f	class:Credit
+Get_Credit	Credit.cpp	/^bool Credit::Get_Credit(int n,int sum)$/;"	f	class:Credit
+Get_Current_Date	Credit.cpp	/^void Credit::Get_Current_Date(int* day,int* month,int* year)$/;"	f	class:Credit
+Is_Av_Credit	Credit.cpp	/^bool Credit::Is_Av_Credit(int n,int sum)$/;"	f	class:Credit
+Log_Out	Credit.cpp	/^void Credit::Log_Out() {$/;"	f	class:Credit
+Pay_Credit	Credit.cpp	/^bool Credit::Pay_Credit()$/;"	f	class:Credit
+Pay_Credit_Early	Credit.cpp	/^bool Credit::Pay_Credit_Early()$/;"	f	class:Credit
+Read_From_File	ProcCenter.cpp	/^bool ProcCenter::Read_From_File(string path)$/;"	f	class:ProcCenter
+main	main.cpp	/^int main()$/;"	f
