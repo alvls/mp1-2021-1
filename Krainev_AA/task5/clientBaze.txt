@@ -1,0 +1,11 @@
+1234 qwerty Krainev Alexander Andreevich 610000 0 0 fixid 0 0 0 0 0 0 0 0 0
+1234 qwerty Krainev Alexander Andreevich 610000 1 4.5 3-мес€чный 500000 3 23 4 2021 16 6 2021 0
+1234 qwerty Krainev Alexander Andreevich 610000 1 2.5 3-мес€чный 90000 3 23 4 2021 23 7 2021 0
+1234 qwerty Krainev Alexander Andreevich 610000 1 3 3-мес€чный 300000 3 23 4 2021 23 7 2021 0
+1234 qwerty Krainev Alexander Andreevich 610000 1 3 3-мес€чный 500000 3 23 10 2020 23 4 2021 7500
+1111 111111 Shvandyreva Alina Andreevna 1.23445e+06 0 4.5 3-мес€чный 0 3 12 12 12 12 15 12 0
+0001 solidUn Shushpanov Nikita Michailovich 3.95e+06 0 4.5 3-мес€чный 0 3 12 12 12 12 15 12 0
+0001 solidUn Shushpanov Nikita Michailovich 3.95e+06 1 2.5 3-мес€чный 1 3 23 4 2021 23 7 2021 0
+0001 solidUn Shushpanov Nikita Michailovich 3.95e+06 1 2.5 3-мес€чный 100000 3 21 1 2021 21 4 2021 625
+0001 solidUn Shushpanov Nikita Michailovich 3.95e+06 1 2.8 6-мес€чный 50000 6 23 4 2021 23 10 2021 0
+0099 ananasik Inanov Nikita Dmitrich 800000 0 2.8 6-мес€чный 50000 6 23 4 2021 23 10 2021 0
