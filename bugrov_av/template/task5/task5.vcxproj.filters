@@ -14,5 +14,28 @@
     <ClCompile Include="main5.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="railway.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="interface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cashbox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="railway.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="all.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cashbox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -111,7 +111,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cashbox.cpp" />
+    <ClCompile Include="interface.cpp" />
     <ClCompile Include="main5.cpp" />
+    <ClCompile Include="railway.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="all.h" />
+    <ClInclude Include="cashbox.h" />
+    <ClInclude Include="main5.h" />
+    <ClInclude Include="railway.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
