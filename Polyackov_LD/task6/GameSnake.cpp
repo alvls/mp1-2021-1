@@ -4,8 +4,12 @@
 
 // Area
 
-Area::Area(short _w, short _h) : width(_w), height(_h)
+Area::Area(short _w, short _h) 
 {
+	if (_w <= 0 || _h <= 0)
+		throw exception("Высота и ширина поля обязаны быть строго положительными!");
+	width = _w;
+	height = _h;
 	for (short i = 0; i < width + 2; i++)
 		widthstr += '@';
 	widthstr += '\n';
