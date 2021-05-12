@@ -248,7 +248,12 @@ void GameSnake::LaunchGame()
 {
 	enum { GAMEOVER, GAMEWON, GAMECONTINUE, SPEED = 200 };
 	short status = GAMECONTINUE;
-	unsigned int time;
+	unsigned int time = clock();
+	Hide();
+	Show(); // Отрисовка начального положения
+	time = clock() - time;
+	if (SPEED > time)
+		Sleep(SPEED - time);
 	while (true)
 	{
 		time = clock();
