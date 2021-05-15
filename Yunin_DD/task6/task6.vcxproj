@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -111,6 +111,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MyCoordXY.cpp" />
+    <ClCompile Include="MyDisplay.cpp" />
+    <ClCompile Include="MyGame.cpp" />
+    <ClCompile Include="MyMain.cpp" />
+    <ClCompile Include="MySnake.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MyCoordXY.h" />
+    <ClInclude Include="MyDisplay.h" />
+    <ClInclude Include="MyGame.h" />
+    <ClInclude Include="MySnake.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
