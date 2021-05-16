@@ -41,6 +41,12 @@
 #include "all.h"
 //==============================================
 
+/// getxy +
+/// setships +
+/// set_random_ships +
+/// check +
+/// show +
+
 void getxy(int& letter, int& digit)
 {
 	int input;
@@ -88,7 +94,7 @@ setdigit:
 	do
 	{
 		input = _getch();
-	} while (input < '1' && input>'9' && input != '\b');
+	} while ((input < '1' || input>'9') && input != '\b');
 	if (input == '\b')
 	{
 		cout << "\b \b";
@@ -126,14 +132,13 @@ class table
 	const char ship = '+';
 	const string header = "   А Б В Г Д Е Ж З И К";
 	string list[10];
-	const int indent = 3;
-	const int max = 10;
-	int flotilla[4] = { 4,3,2,1 };
 	//-----------------------------
 	bool check(int x1, int y1, int x2, int y2, int* ship_amount);
-	friend class user;
 	friend class game;
 public:
+	friend class menu;
+	const int indent = 3;
+	const int max = 10;
 	table()
 	{
 		char tmp;
@@ -159,6 +164,7 @@ public:
 		}
 	}
 	void show();
+	void set_random_ships();
 	void setships();
 	table(const table& t)
 	{
@@ -220,7 +226,6 @@ void table::show()
 		WHITE = 15
 	};
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	system("color E0");
 	cout << header << "\n";
 	int i, j;
 	for (i = 0; i < max; i++)
@@ -257,7 +262,7 @@ bool table::check(int x1, int y1, int x2, int y2, int* ship_amount)
 				tmp_xmax = indent + x1 * 2;
 				tmp_xmin = indent + x2 * 2;
 				//------------------------
-				if (x1 < 18)
+				if (x1 < 9)
 					buf_xmax = 2 * x1 + 2;
 				else
 					buf_xmax = 2 * x1;
@@ -271,7 +276,7 @@ bool table::check(int x1, int y1, int x2, int y2, int* ship_amount)
 				tmp_xmax = indent + x2 * 2;
 				tmp_xmin = indent + x1 * 2;
 				//------------------------
-				if (x2 < 18)
+				if (x2 < 9)
 					buf_xmax = 2 * x2 + 2;
 				else
 					buf_xmax = 2 * x2;
@@ -332,7 +337,7 @@ bool table::check(int x1, int y1, int x2, int y2, int* ship_amount)
 			buf_xmin = 2 * x1 - 2;
 		else
 			buf_xmin = 2 * x1;
-		if (x1 < 18)
+		if (x1 < 9)
 			buf_xmax = 2 * x1 + 2;
 		else
 			buf_xmax = 2 * x1;
@@ -350,29 +355,95 @@ bool table::check(int x1, int y1, int x2, int y2, int* ship_amount)
 			list[i][j] = ship;
 	return true;
 }
+void table::set_random_ships()
+{
+	/*
+	1. Выбор рандомной точки.
+	2. Выбор изменения по i(y), или по j(x).
+	3. Выбор положительного или отрицательного изменения.
+	4. Получение конечной координаты.
+	5. Если какая - то координата отрицательна или больше 18, перейти к пункту 1.
+	6. Функция check для table.
+	*/
+	int ship_amount[4] = { 4,3,2,1 };//число кораблей
+	int letter1, digit1;//первая координата
+	int letter2, digit2;//вторая координата
+	int direction;//направление
+	int change;//изменение координаты
+	while (ship_amount[0] > 0 || ship_amount[1] > 0 || ship_amount[2] > 0 || ship_amount[3] > 0)
+	{
+		digit1 = rand() % 10;
+		letter1 = rand() % 10;
+		direction = rand() % 6;
+		change = rand() % 4;
+		switch (direction)
+		{
+			//Условно идём против часовой стрелки
+		case 0:
+			letter2 = letter1;
+			digit2 = digit1;
+			check(letter1, digit1, letter2, digit2, ship_amount);
+			break;
+		case 1:
+			//letter2 > letter1;
+			letter2 = letter1 + change;
+			digit2 = digit1;
+			if (letter2 < 10)
+				check(letter1, digit1, letter2, digit2, ship_amount);
+			break;
+		case 2:
+			//digit2 > digit1;
+			letter2 = letter1;
+			digit2 = digit1 + change;
+			if (digit2 < 10)
+				check(letter1, digit1, letter2, digit2, ship_amount);
+			break;
+		case 3:
+			//letter2 < letter1;
+			letter2 = letter1 - change;
+			digit2 = digit1;
+			if (letter2 > -1)
+				check(letter1, digit1, letter2, digit2, ship_amount);
+			break;
+		case 4:
+			//digit2 < digit1;
+			letter2 = letter1;
+			digit2 = digit1 - change;
+			if (digit2 > -1)
+				check(letter1, digit1, letter2, digit2, ship_amount);
+			break;
+		}
+	}
+}
 
 //===============================================
 
-//Реализовать ходы компьютера - play + другие функции
-//При выстреле сделать изменения в досках стреляющего (вражеские корабли) и атакуемого (ваши корабли)
-//Сделать создание кораблей для компьютера
-//Сделать установку кораблей в play
+///Доделать play
+/// доделать manual 
+/// доделать playgame
+
+///На будущее: 
+/// Сделать три уровня сложности: 
+/// новичок (рандомные выстрелы и рандомная установка кораблей);
+/// любитель (рандомная с добиванием стрельба + не рандомные выстрелы)
+/// профессионал ( верные выстрелы и "умная" установка кораблей)
 
 //===============================================
 
+enum mode
+{
+	oneplayer,
+	twoplayers
+};
 class game
 {
-	enum mode
-	{
-		oneplayer,
-		twoplayers
-	};
 	const int indent = 3;
 	mode var;
 	table mine[2], enemy[2];//нулевой игрок ходит первым, первый - вторым
 	int turn;
-	void show();
-	string shoot(int& letter, int& digit);
+	//-------------------------------------------------------------------
+	string shoot(int& letter, int& digit, bool& gamerepeat,bool& goodshoot);
+	vector<int> random_shoot(bool& gamerepeat, bool& goodshoot);
 	void play();
 	game& operator=(const game& g);
 	game(const game& g);
@@ -388,6 +459,7 @@ public:
 		else
 			var = oneplayer;
 	}
+	void show();
 };
 void game::show()
 {
@@ -415,7 +487,6 @@ void game::show()
 	};
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	const char* gap = "\t\t\t";
-	system("color E0");
 	cout << "      ";
 	cout << "Ваши корабли";
 	cout << gap << "    ";
@@ -447,74 +518,180 @@ void game::play()
 {
 	int letter, digit;
 	bool gamerepeat = true;
-	const bool oneplayer = (var == oneplayer);
-	system("color E0");
-	while (gamerepeat)
+	bool goodshoot;
+	if (var == oneplayer)
 	{
-		show();
-		cout << "\nВведите координаты выстрела ";
-		getxy(letter, digit);
-		cout << "\n" << shoot(letter, digit) << "\n";
-		cout << "Передать ход сопернику - Enter, сдаться - Esc";
-		int ans;
-		bool garbage;
-		enum class s
+		vector<int> ji;
+		srand(time(0));
+		mine[0].setships();
+		mine[1].set_random_ships();
+		while (gamerepeat)
 		{
-			n = 13,
-			_esc = 27
-		};
-		do
-		{
-			ans = _getch();
-			switch (ans)
+			turn = 0;
+			show();
+			do
 			{
-			case 13:
-				system("cls");
-				if (var == twoplayers)
+				cout << "\nВведите координаты выстрела ";
+				getxy(letter, digit);
+				cout << "\n" << shoot(letter, digit, gamerepeat, goodshoot) << "\n";
+				if (goodshoot)
+					cout << "Снова ваш ход";
+			} while (goodshoot);
+			if (!gamerepeat)
+				break;
+			cout << "Передать ход компьютеру - Enter, сдаться - Esc";
+			int ans;
+			bool garbage;
+			do
+			{
+				ans = _getch();
+				switch (ans)
 				{
+				case 13:
+					system("cls");
+					garbage = false;
+					break;
+				case 27:
+					gamerepeat = false;
+					garbage = false;
+					break;
+				default:
+					garbage = true;
+					break;
+				}
+			} while (garbage);
+			turn = 1;
+			ji = random_shoot(gamerepeat, goodshoot);
+			cout << "Противник выстрелил в клетку " << char(mine[0].header[ji[0]]) << (ji[1] + 1) << "\n";
+			_getch();
+		}
+		if (turn % 2 == 0)
+			cout << "Вы победили, поздравляем!\n";
+		else
+			cout << "Увы, победил компьютер\n";
+		_getch();
+	}
+	else//Игра двух человек
+	{
+		turn = 1;
+		mine[0].setships();
+		mine[1].setships();
+		while (gamerepeat)
+		{
+			turn = (turn + 1) % 2;
+			show();
+			do
+			{
+				cout << "\nВведите координаты выстрела ";
+				getxy(letter, digit);
+				cout << "\n" << shoot(letter, digit, gamerepeat, goodshoot) << "\n";
+				if (goodshoot)
+					cout << "Снова ваш ход";
+			} while (goodshoot);
+			cout << "Передать ход сопернику - Enter, сдаться - Esc";
+			int ans;
+			bool garbage;
+			enum class s
+			{
+				n = 13,
+				_esc = 27
+			};
+			do
+			{
+				ans = _getch();
+				switch (ans)
+				{
+				case 13:
+					system("cls");
 					cout << "Передайте ход сопернику\n";
 					Sleep(1500);
-					cout << "Если вам только что передали ход, введите любой символ\n";
+					cout << "Если сейчас ваш ход, введите любой символ\n";
 					_getch();
+					cout << "Противник выстрелил в клетку " << char(mine[0].header[mine[0].indent + letter * 2]) << (digit + 1) << "\n";
+					garbage = false;
+					break;
+				case 27:
+					gamerepeat = false;
+					garbage = false;
+					break;
+				default:
+					garbage = true;
+					break;
 				}
-				garbage = false;
-				break;
-			case 27:
-				gamerepeat = false;
-				garbage = false;
-				break;
-			default:
-				garbage = true;
-				break;
-			}
-		} while (garbage);
-		turn = (turn + 1) % 2;
-		if (turn > 0 && oneplayer)
-		{
-			//реализовать ход компьютера
+			} while (garbage);
 		}
+		cout << "Победа " << turn + 1 << "-го игрока! Поздравляем!";
+		_getch();
 	}
-	if (turn > 0)
-		turn = 1;
-	else
-		turn = 2;
-	cout << "Победа " << turn << "-го игрока! Поздравляем!";
-	_getch();
 }
-string game::shoot(int& letter, int& digit)
+vector<int> game::random_shoot(bool& gamerepeat, bool& goodshoot)
+{
+	const int usernum = 0;
+	vector<int> ji(2);//потом придумал передавать vector, и решил ничего не менять
+	int& i = ji[1];
+	int& j = ji[0];
+	//const int begini = digit, beginj = indent + letter * 2;
+	do
+	{
+		i = rand() % 10;
+		j = indent + 2 * (rand() % 10);
+	} while (mine[usernum][i][j] == mine[usernum].hit || mine[usernum][i][j] == mine[usernum].miss);
+	if (mine[usernum][i][j] == mine[usernum].empty)
+	{
+		goodshoot = false;
+		mine[usernum][i][j] = mine[usernum].miss;
+		enemy[turn][i][j] = enemy[turn].miss;
+		return ji;
+	}
+	else
+	{
+		mine[usernum][i][j] = mine[usernum].hit;
+		enemy[turn][i][j] = enemy[turn].hit;
+		goodshoot = true;
+		for (int i = 0; i < mine[usernum].max; i++)
+			for (j = 0; j < mine[usernum][i].size(); j++)
+				if (mine[usernum][i][j] == mine[i].ship)
+					return ji;
+		gamerepeat = false;
+		return ji;
+	}
+}
+string game::shoot(int& letter, int& digit, bool& gamerepeat,bool& goodshoot)
 {
 	const int usernum = (turn + 1) % 2;
 	const int begini = digit, beginj = indent + letter * 2;
-	const string answer[4] = { "Ранен", "Убит", "Мимо", "Уже был такой выстрел" };
-	int i = begini, j = beginj;
+	const string answer[3] = { "Попадание", "Мимо", "Уже был такой выстрел" };
 	int quantity = 0;
 	if (mine[usernum][begini][beginj] == mine[usernum].hit || mine[usernum][begini][beginj] == mine[usernum].miss)
-		return answer[3];
+	{
+		goodshoot = false;
+		return answer[2];
+	}
 	else
 		if (mine[usernum][begini][beginj] == mine[usernum].empty)
-			return answer[2];
+		{
+			goodshoot = false;
+			mine[usernum][begini][beginj] = mine[usernum].miss;
+			enemy[turn][begini][beginj] = enemy[turn].miss;
+			return answer[1];
+		}
 		else
-			if (mine[usernum][begini][beginj] == mine[usernum].ship)
+		{
+			mine[usernum][begini][beginj] = mine[usernum].hit;
+			enemy[turn][begini][beginj] = enemy[turn].hit;
+			goodshoot = true;
+			int i, j;
+			for (i = 0; i < mine[usernum].max; i++)
+				for (j = 0; j < mine[usernum][i].size(); j++)
+					if (mine[usernum][i][j] == mine[i].ship)
+					{
+						mine[usernum][begini][beginj] = mine[usernum].hit;
+						enemy[turn][begini][beginj] = enemy[turn].hit;
+						return answer[0];
+					}
+			gamerepeat = false;
+		}
+			/*if (mine[usernum][begini][beginj] == mine[usernum].ship)
 			{
 				mine[usernum][begini][beginj] = 'x';
 				for (i, j, quantity; (j <= beginj + 6) && j <= 18; j += 2)
@@ -554,10 +731,308 @@ string game::shoot(int& letter, int& digit)
 						else
 							if (mine[usernum][i][j] == mine[usernum].ship)
 								return answer[0];
+			}*/
+}
+
+//===============================================
+
+class menu
+{
+	int pointer;
+	enum choice
+	{
+		W_en = 87,
+		W = 214,
+		w_en = 119,
+		w = 246,
+		A_en = 65,
+		A = 212,
+		a_en = 97,
+		a = 244,
+		S_en = 83,
+		S = 219,
+		s_en = 115,
+		s = 251,
+		D_en = 68,
+		D = 194,
+		d_en = 100,
+		d = 226,
+		_n = 13,
+		esc = 27
+	};
+	enum color
+	{
+		BLACK = 0,
+		BLUE = 1,
+		GREEN = 2,
+		CYAN = 3,
+		RED = 4,
+		MAGENTA = 5,
+		BROWN = 6,
+		LIGHTGRAY = 7,
+		DARKGRAY = 8,
+		LIGHTBLUE = 9,
+		LIGHTGREEN = 10,
+		LIGHTCYAN = 11,
+		LIGHTRED = 12,
+		LIGHTMAGENTA = 13,
+		YELLOW = 14,
+		WHITE = 15
+	};
+	bool badsymb;
+	int input;
+	const HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+public:
+	menu()
+	{
+		pointer = 0;
+		badsymb = true;
+		input = 0;
+	}
+	void choose_item();
+	void mainmenu();
+	void playgame();
+	void manual();
+	bool exitmenu();
+};
+void menu::choose_item()
+{
+	bool exitgame = true;
+	system("color E0");
+	do 
+	{
+		mainmenu();
+		switch (pointer)
+		{
+		case 0:
+			playgame();
+			break;
+		case 1:
+			manual();
+			break;
+		case 2:
+			exitgame = exitmenu();
+			break;
+		}
+	} while (exitgame);
+}
+void menu::mainmenu()
+{
+	int i;
+	pointer = 0;
+	badsymb = true;
+	const vector<string>item{ "   Играть"," Инструкция", "   Выход" };
+	const vector<string> header{ "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\n","+Добро пожаловать в игру \"Морской бой\"+\n","+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\n\n" };
+	for (i = 0; i < header.size(); i++)
+		cout << header[i];
+	//(WORD)((Background << 4) | Text))
+	do
+	{
+		for (i = 0; i < pointer; i++)
+		{
+			cout << item[i] << "\n";
+		}
+		SetConsoleTextAttribute(hConsole, (WORD)((LIGHTCYAN << 4) | BLACK));
+		cout << item[pointer] << "\n";
+		i++;
+		SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | BLACK));
+		for (i; i < item.size(); i++)
+		{
+			cout << item[i] << "\n";
+		}
+		do
+		{
+			input = _getch();
+			switch (input)
+			{
+			case w: case W: case w_en: case W_en:
+				if (pointer > 0)
+					pointer--;
+				else
+					pointer = item.size() - 1;
+				badsymb = false;
+				break;
+			case S: case s: case S_en: case s_en:
+				pointer = (pointer + 1) % item.size();
+				badsymb = false;
+				break;
+			case _n:
+				badsymb = false;
+				break;
+			default:
+				badsymb = true;
 			}
-	mine[usernum].flotilla[quantity - 1]--;
-	if (mine[usernum].flotilla[0] < 1 && mine[usernum].flotilla[1] < 1 && mine[usernum].flotilla[2] < 1 && mine[usernum].flotilla[3] < 1)
-		;
-	else
-		return answer[1];
+		} while (badsymb);
+	} while (input != _n);
+}
+void menu::playgame()
+{
+	int i;
+	pointer = 0;
+	system("color E0");
+	bool badsymb = true;
+	int input;
+	mode gamemod;
+	//(WORD)((Background << 4) | Text))
+
+	do
+	{
+		for (i = 0; i < pointer; i++)
+		{
+			cout << item[i] << "\n";
+		}
+		SetConsoleTextAttribute(hConsole, (WORD)((LIGHTCYAN << 4) | BLACK));
+		cout << item[pointer] << "\n";
+		i++;
+		SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | BLACK));
+		for (i; i < item.size(); i++)
+		{
+			cout << item[i] << "\n";
+		}
+		do
+		{
+			input = _getch();
+			switch (input)
+			{
+			case w: case W: case w_en: case W_en:
+				if (pointer > 0)
+					pointer--;
+				else
+					pointer = item.size() - 1;
+				badsymb = false;
+				break;
+			case S: case s: case S_en: case s_en:
+				pointer = (pointer + 1) % item.size();
+				badsymb = false;
+				break;
+			case _n:
+				badsymb = false;
+				break;
+			default:
+				badsymb = true;
+			}
+		} while (badsymb);
+	} while (input != _n);
+}
+void menu::manual()
+{
+	cout << "ДЕЙСТВИЯ ВО ВРЕМЯ ИГРЫ:\n";
+	cout << "Играют два игрокa. Это могут быть два человека или человек и компьютер\n"; 
+	cout << "Каждый по очереди вводит координаты клетки, в которую нужно выстрелить\n"; 
+	cout << "Есть три варианта результата выстрела: попадание в корабль, промах, выстрел по клетке, в которую уже стреляли\n"; 
+	cout << "Каждый вариант выдаётся игроку\n"; 
+	cout << "Если игрок попал в корабль, ход остаётся у него, иначе переходит к сопернику\n"; 
+	cout << "Выигрывает тот игрок, кто первым потопит все корабли противника\n";
+	cout << "УСЛОВНЫЕ ОБОЗНАЧЕНИЯ: \n";
+	table t;
+	{
+		int indent = t.indent;
+		const char ship = t.ship;
+		const char miss = t.miss;
+		const char hit = t.hit;
+		t[0][7 * 2 + indent] = hit;
+		t[1][1 * 2 + indent] = ship;
+		t[1][4 * 2 + indent] = ship;
+		t[1][7 * 2 + indent] = ship;
+		t[1][9 * 2 + indent] = ship;
+		t[2][1 * 2 + indent] = ship;
+		t[2][7 * 2 + indent] = hit;
+		t[2][9 * 2 + indent] = ship;
+		t[3][4 * 2 + indent] = hit;
+		t[3][5 * 2 + indent] = hit;
+		t[3][7 * 2 + indent] = miss;
+		t[3][9 * 2 + indent] = ship;
+		t[4][indent] = miss;
+		t[4][2 * 2 + indent] = miss;
+		t[4][6 * 2 + indent] = miss;
+		t[4][7 * 2 + indent] = hit;
+		t[4][8 * 2 + indent] = miss;
+		t[4][9 * 2 + indent] = ship;
+		t[5][2 * 2 + indent] = ship;
+		t[5][5 * 2 + indent] = miss;
+		t[5][7 * 2 + indent] = miss;
+		t[6][2 * 2 + indent] = hit;
+		t[6][3 * 2 + indent] = miss;
+		t[6][4 * 2 + indent] = miss;
+		t[7][2 * 2 + indent] = ship;
+		t[7][3 * 2 + indent] = miss;
+		t[8][2 * 2 + indent] = miss;
+		t[8][3 * 2 + indent] = miss;
+		t[8][4 * 2 + indent] = hit;
+		t[8][5 * 2 + indent] = ship;
+		t[8][8 * 2 + indent] = ship;
+		t[9][indent] = ship;
+		t.show();
+		cout << t.empty << " - Если это ваши корабли, то здесь ничего нет. Если вражеские - может быть всё нижеперечисленное\n";
+		cout << t.hit << " - Повреждение корабля. Возможно, он потоплен, возможно нет\n";
+		cout << t.miss << " - Выстрел в клетку, где нет корабля\n";
+		cout << t.ship << " - Клетка с вашим кораблём\n";
+	}
+
+	cout << "\n";
+	cout << "\n";
+	cout << "\n";
+	cout << "\n";
+	cout << "\n";
+	cout << "\n"; 
+	cout << "\n";
+	cout << "\n";
+}
+bool menu::exitmenu()
+{
+	bool yes = true;
+	badsymb = true;
+	do 
+	{
+		cout << "Вы точно хотите выйти из игры?" << "\n";
+		if (yes)
+		{
+			cout << "         ";
+			SetConsoleTextAttribute(hConsole, (WORD)((LIGHTCYAN << 4) | BLACK));
+			cout << "Да";
+			cout << "\t";
+			SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | BLACK));
+			cout << "Нет\n";
+			SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | BLACK));
+		}
+		else
+		{
+			cout << "         ";
+			cout << "Да";
+			cout << "\t";
+			SetConsoleTextAttribute(hConsole, (WORD)((LIGHTCYAN << 4) | BLACK));
+			cout << "Нет\n";
+			SetConsoleTextAttribute(hConsole, (WORD)((YELLOW << 4) | BLACK));
+		}
+		do
+		{
+			input = _getch();
+			switch (input)
+			{
+				switch (input)
+				{
+				case A: case a: case A_en: case a_en: case D: case d: case d_en: case D_en:
+					yes = !yes;
+					badsymb = false;
+					break;
+				case _n:
+					badsymb = false;
+					break;
+				default:
+					badsymb = true;
+					break;
+				}
+			}
+		} while (badsymb);
+	} while (input != _n);
+	return yes;
+}
+
+//===============================================
+
+int main()
+{
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+	menu m;
 }
