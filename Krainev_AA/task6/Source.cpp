@@ -15,12 +15,12 @@ private:
 	unsigned int rightBound = RIGHT_BOUND;
 	bool initialized = false;
 	vector <int> computerValue;
-	unsigned int lenght;
+	unsigned int length;
 public:
 	unsigned int getLength();
 	vector <int> getRandomValue();
-	RandomGenerator(int _length) :lenght(_length) { randomSequence(); }
-	void setLenght(int _lenght) { lenght = _lenght; }
+	RandomGenerator(int _length) :length(_length) { randomSequence(); }
+	void setLenght(int _length) { length = _length; }
 	void init();
 	int getRandom();
 	void randomSequence();
@@ -132,7 +132,7 @@ void Game::printCountCowsAndBulls() {
 }
 
 unsigned int RandomGenerator::getLength() {
-	return lenght;
+	return length;
 }
 
 vector<int> RandomGenerator::getRandomValue() {
@@ -156,7 +156,7 @@ void RandomGenerator::randomSequence() {
 		computerValue.clear();
 		int numeral;
 		bool count = false;
-		while (computerValue.size() != lenght) {
+		while (computerValue.size() != length) {
 			numeral = getRandom();
 			for (size_t i = 0; i < computerValue.size(); i++) {
 				if (numeral == computerValue[i]) {
