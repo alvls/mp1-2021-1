@@ -229,7 +229,7 @@ void game::random_shoot(bool& gamerepeat, bool& goodshoot, vector<int>& digit_sh
 		enemy[turn][i][j] = enemy[turn].hit;
 		goodshoot = true;
 		for (int i = 0; i < mine[usernum].max; i++)
-			for (j = 0; j < mine[usernum][i].size(); j++)
+			for (j = indent; j < mine[usernum][i].size(); j += 2)
 				if (mine[usernum][i][j] == mine[i].ship)
 					return;
 		gamerepeat = false;
@@ -264,10 +264,9 @@ int game::shoot(int& letter, int& digit, bool& gamerepeat, bool& goodshoot, vect
 			goodshoot = true;
 			int i, j;
 			for (i = 0; i < mine[usernum].max; i++)
-				for (j = 0; j < mine[usernum][i].size(); j++)
+				for (j = indent; j < mine[usernum][i].size(); j += 2)
 					if (mine[usernum][i][j] == mine[i].ship)
 					{
-						//следующие строки должны быть несущественны
 						mine[usernum][begini][beginj] = mine[usernum].hit;
 						enemy[turn][begini][beginj] = enemy[turn].hit;
 						return 0;
@@ -275,8 +274,6 @@ int game::shoot(int& letter, int& digit, bool& gamerepeat, bool& goodshoot, vect
 			gamerepeat = false;
 			return 0;
 		}
-	///Вызвано исключение: нарушение доступа для чтения.
-	///**this** было 0x1F101CC
 	/*if (mine[usernum][begini][beginj] == mine[usernum].ship)
 	{
 		mine[usernum][begini][beginj] = 'x';
