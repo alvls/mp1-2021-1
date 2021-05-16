@@ -85,11 +85,6 @@ public:
         cout << endl;
     }
 };
-
-
-
-
-
 class Snake
 {
 private:
@@ -239,9 +234,10 @@ private:
             return 300;
         case 3:
             return 200;
+        default:
+            return 300;
         }
     }
-
 public:
     Snake(Draw* _Paint,int _end_len,int _len, int _lvl) : Paint(_Paint),score(0),isgame(false), snake_len(_len),snake_end_len(_end_len),C_Dir(Directions::Left)
     {
@@ -270,16 +266,11 @@ public:
         delete[] field;
     }
 };
-
-
-
-
-
 int main()
 {
     Draw a(20,20,14);
     a.DisableShowConsoleCursor();
-    Snake s(&a,10,5,500);
+    Snake s(&a,10,5,2);
     cout << s.Start() << endl;
     system("pause");
 }
