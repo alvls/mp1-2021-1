@@ -1,12 +1,13 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-#include <Windows.h>
+#include <windows.h>
+#include <vector>
+using  namespace std;
 class randomgenerator //загадать число
 {
 protected:
 	int len;//длина числа
-	//int n;//число
 public:
 	randomgenerator()
 	{
@@ -17,18 +18,27 @@ public:
 	{
 		len = ln;
 		int n = 0;
+		vector <int> no_repeat;
+		no_repeat.push_back(0);
 		srand(time(NULL));
 		int tmp;
-		//n = get_number();//иначе ошибка
+		bool flag = true;
 		for (int i = 0; i < len; i++)
 		{
 			do
 			{
+				flag = true;
 				tmp = rand() % 10;
-				n = n * 10 + tmp;
-			} while (n == 0);//если на первой итерации рандомное число tmp=0
+				
+				for (int j = 0; j < no_repeat.size(); j++)//цикл проверки на неповторяемость цифр числа
+				{
+					if (no_repeat[j] == tmp)
+						flag = false;
+				}
+			} while (flag == false);//если на первой итерации рандомное число tmp=0
+			n = n * 10 + tmp;
+			no_repeat.push_back(tmp);
 		}
-		std::cout << n << '\n';//потом убрать!
 		return (n);
 	}
 	int get_len()
@@ -38,50 +48,46 @@ public:
 };
 class computer : public randomgenerator
 {
-	//randomgenerator r;
-	//computer *random;
 protected:
 	int cow;
 	int buffalo;
 	int n;
 public:
-	computer()//выдать быки-коровы
+	computer()
 	{
-		//random = NULL;
 		cow = 0;
 		buffalo = 0;
 		n = 0;
 	}
-	/*int get_number()
-	{
-		return(n);
-	}*/
-	/*void set_number(int num)
-	{
-		n = num;
-	}*/
 	void count_cow_and_buf(int n_user)
 	{
 		cow = 0;
 		buffalo = 0;
 		int step;
-		int l;
-		l = get_len();
-		int* n_user_mas = new int[l];
-		for (int i = l - 1; i >= 0; i--)//старший разряд иммет индекс 0 в массиве
+		//int l;
+		len = get_len();
+		int* n_user_mas = new int[len];
+		for (int i = len - 1; i >= 0; i--)//старший разряд иммет индекс 0 в массиве
 		{
 			n_user_mas[i] = n_user % 10;
 			n_user = n_user / 10;
 		}
-		for (int i = l - 1; i >= 0; i--)//сравниваем число P с числом b, которое загадал компьютер
+		for (int i = 0; i < len; i++)//потом убрать
 		{
-			int n_copy = n;
+			std::cout << i << ":  " << n_user_mas[i] << '\n';
+		}
+		int n_copy = n;
+		for (int i = len - 1; i >= 0; i--)//сравниваем число P с числом b, которое загадал компьютер
+		{
 			step = n_copy % 10;
 			n_copy = n_copy / 10;
-			for (int j = 0; j < l; j++)
+			for (int j = 0; j < len; j++)
 			{
 				if (n_user_mas[j] == step)
+				{
 					cow++;
+					break;
+				}
 			}
 			if (step == n_user_mas[i])
 			{
@@ -91,9 +97,9 @@ public:
 		}
 		delete[] n_user_mas;
 	}
-	int set_number(int ln)
+	void set_number(int N)
 	{
-		n = make_number(ln);
+		n = N;
 	}
 	int get_cow()
 	{
@@ -106,8 +112,6 @@ public:
 };
 
 class game : private computer {//menu
-	//randomgenerator r;
-	//computer c;
 	int n_gamer;
 	int n_user;
 	int attempt = 0;
@@ -129,10 +133,10 @@ public:
 		buffalo = 0;
 		while (1)
 		{
-			//int n = set_number(5);
 			std::cout << "Введите число n-значной длины: ";
 			std::cin >> n_user;
 			attempt++;
+			set_number(n);
 			count_cow_and_buf(n_user);
 			buffalo = get_buffalo();
 			cow = get_cow();
@@ -142,14 +146,10 @@ public:
 				std::cout << "Всего попыток: " << attempt << '\n';
 				break;
 			}
-			//else {
 			std::cout << "Число коров: " << cow << '\n';
 			std::cout << "Число быков: " << buffalo << '\n';
-			//}
 		}
 	}
-	//set_number(tmp);
-
 };
 int main()
 {
@@ -159,19 +159,6 @@ int main()
 	srand(time(NULL));
 	int n = 0, tmp;
 	game Game;
-
-	/*for (int i = 0; i < 5; i++)
-	{
-		do
-		{
-			tmp = rand() % 10;
-			std::cout << tmp << "\n";
-			n = n * 10 + tmp;
-		} while (n == 0);//если на первой итерации рандомное число tmp=0
-	}*/
-	/*randomgenerator rnd;
-	n=rnd.make_number(5);
-	std::cout << n << "\n";*/
 	Game.menu();
 	system("pause");
 }
