@@ -4,20 +4,24 @@
 #include <windows.h>
 #include <vector>
 using  namespace std;
-class randomgenerator //загадать число
+class computer
 {
 protected:
 	int len;//длина числа
+	int cow;
+	int buffalo;
+	int n;
 public:
-	randomgenerator()
+	computer()
 	{
+		cow = 0;
+		buffalo = 0;
+		n = 0;
 		len = 0;
-		//n=0;
 	}
-	int make_number(int ln)
+	void make_number(int ln)
 	{
 		len = ln;
-		int n = 0;
 		vector <int> no_repeat;
 		no_repeat.push_back(0);
 		srand(time(NULL));
@@ -29,7 +33,7 @@ public:
 			{
 				flag = true;
 				tmp = rand() % 10;
-				
+
 				for (int j = 0; j < no_repeat.size(); j++)//цикл проверки на неповторяемость цифр числа
 				{
 					if (no_repeat[j] == tmp)
@@ -39,42 +43,17 @@ public:
 			n = n * 10 + tmp;
 			no_repeat.push_back(tmp);
 		}
-		return (n);
-	}
-	int get_len()
-	{
-		return(len);
-	}
-};
-class computer : public randomgenerator
-{
-protected:
-	int cow;
-	int buffalo;
-	int n;
-public:
-	computer()
-	{
-		cow = 0;
-		buffalo = 0;
-		n = 0;
 	}
 	void count_cow_and_buf(int n_user)
 	{
 		cow = 0;
 		buffalo = 0;
 		int step;
-		//int l;
-		len = get_len();
 		int* n_user_mas = new int[len];
 		for (int i = len - 1; i >= 0; i--)//старший разряд иммет индекс 0 в массиве
 		{
 			n_user_mas[i] = n_user % 10;
 			n_user = n_user / 10;
-		}
-		for (int i = 0; i < len; i++)//потом убрать
-		{
-			std::cout << i << ":  " << n_user_mas[i] << '\n';
 		}
 		int n_copy = n;
 		for (int i = len - 1; i >= 0; i--)//сравниваем число P с числом b, которое загадал компьютер
@@ -124,11 +103,10 @@ public:
 	}
 	void menu()
 	{
-		//int n, len;
 		attempt = 0;
 		std::cout << "Введите длину числа (для выхода нажмите 0): ";
 		std::cin >> len;
-		n = make_number(len);
+		make_number(len);
 		cow = 0;
 		buffalo = 0;
 		while (1)
