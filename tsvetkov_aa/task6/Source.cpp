@@ -7,7 +7,7 @@
 #include <time.h>	
 #include <tchar.h>
 #include <stdio.h>
-#include<ctime>//
+#include<ctime>
 using namespace std;
 int poz[10][10] = { 0 };
 
@@ -196,6 +196,65 @@ protected:
 	int y2;
 public:
 	manydeck(int health) : deck(health), x2(0), y2(0) {};
+	virtual void maska(int k, int pozpc[10][10])
+	{
+		int tmp;
+		if (x1 == x2)
+		{
+
+			if (y1 - 1 >= 0)
+			{
+				pozpc[x1][y1 - 1] = k;
+				if (x1 + 1 <= 9)
+					for (tmp = y1 - 1; tmp <= y2; tmp++)
+						pozpc[x1 + 1][tmp] = k;
+				if (x1 - 1 >= 0)
+					for (tmp = y1 - 1; tmp <= y2; tmp++)
+						pozpc[x1 - 1][tmp] = k;
+			}
+			if (y2 + 1 <= 9)
+			{
+				pozpc[x1][y2 + 1] = k;
+				if (x1 + 1 <= 9)
+					for (tmp = y1; tmp <= y2 + 1; tmp++)
+						pozpc[x1 + 1][tmp] = k;
+				if (x1 - 1 >= 0)
+					for (tmp = y1; tmp <= y2 + 1; tmp++)
+						pozpc[x1 - 1][tmp] = k;
+
+			}
+			return;
+		}
+		else
+		{
+
+			if (x1 - 1 >= 0)
+			{
+				pozpc[x1 - 1][y1] = k;
+				if (y1 - 1 >= 0)
+					for (tmp = x1 - 1; tmp <= x2; tmp++)
+						pozpc[tmp][y1 - 1] = k;
+				if (y1 + 1 <= 9)
+					for (tmp = x1 - 1; tmp <= x2; tmp++)
+						pozpc[tmp][y1 + 1] = k;
+
+			}
+			if (x2 + 1 <= 9)
+			{
+				pozpc[x2 + 1][y1] = k;
+				if (y1 - 1 >= 0)
+					for (tmp = x1; tmp <= x2 + 1; tmp++)
+						pozpc[tmp][y1 - 1] = k;
+				if (y1 + 1 <= 9)
+					for (tmp = x1; tmp <= x2 + 1; tmp++)
+						pozpc[tmp][y1 + 1] = k;
+
+			}
+			return;
+		}
+
+	}
+
 	void robot(int pozpc[10][10])
 	{
 		int tmp, p;
@@ -277,27 +336,7 @@ public:
 	{
 		for (tmp = y1; tmp <= y2; tmp++)
 			pozpc[x1][tmp] = 1;
-		if (y1 - 1 >= 0)
-		{
-			pozpc[x1][y1 - 1] = 2;
-			if (x1 + 1 <= 9)
-				for (tmp = y1 - 1; tmp <= y2; tmp++)
-					pozpc[x1 + 1][tmp] = 2;
-			if (x1 - 1 >= 0)
-				for (tmp = y1 - 1; tmp <= y2; tmp++)
-					pozpc[x1 - 1][tmp] = 2;
-		}
-		if (y2 + 1 <= 9)
-		{
-			pozpc[x1][y2 + 1] = 2;
-			if (x1 + 1 <= 9)
-				for (tmp = y1; tmp <= y2 + 1; tmp++)
-					pozpc[x1 + 1][tmp] = 2;
-			if (x1 - 1 >= 0)
-				for (tmp = y1; tmp <= y2 + 1; tmp++)
-					pozpc[x1 - 1][tmp] = 2;
-
-		}
+		maska(2, pozpc);
 		return;
 	}
 	else
@@ -306,28 +345,8 @@ public:
 		{
 			pozpc[tmp][y1] = 1;
 		}
-		if (x1 - 1 >= 0)
-		{
-			pozpc[x1 - 1][y1] = 2;
-			if (y1 - 1 >= 0)
-				for (tmp = x1 - 1; tmp <= x2; tmp++)
-					pozpc[tmp][y1 - 1] = 2;
-			if (y1 + 1 <= 9)
-				for (tmp = x1 - 1; tmp <= x2; tmp++)
-					pozpc[tmp][y1 + 1] = 2;
+		maska(2, pozpc);
 
-		}
-		if (x2 + 1 <= 9)
-		{
-			pozpc[x2 + 1][y1] = 2;
-			if (y1 - 1 >= 0)
-				for (tmp = x1; tmp <= x2 + 1; tmp++)
-					pozpc[tmp][y1 - 1] = 2;
-			if (y1 + 1 <= 9)
-				for (tmp = x1; tmp <= x2 + 1; tmp++)
-					pozpc[tmp][y1 + 1] = 2;
-
-		}
 		return;
 	}
 	}
@@ -675,28 +694,7 @@ public:
 				{
 					for (tmp = y1; tmp <= y2; tmp++)
 						poz[x1][tmp] = 1;
-					if (y1 - 1 >= 0)
-					{
-						poz[x1][y1 - 1] = 2;
-						if (x1 + 1 <= 9)
-							for (tmp = y1 - 1; tmp <= y2; tmp++)
-								poz[x1 + 1][tmp] = 2;
-						if (x1 - 1 >= 0)
-							for (tmp = y1 - 1; tmp <= y2; tmp++)
-								poz[x1 - 1][tmp] = 2;
-
-					}
-					if (y2 + 1 <= 9)
-					{
-						poz[x1][y2 + 1] = 2;
-						if (x1 + 1 <= 9)
-							for (tmp = y1; tmp <= y2 + 1; tmp++)
-								poz[x1 + 1][tmp] = 2;
-						if (x1 - 1 >= 0)
-							for (tmp = y1; tmp <= y2 + 1; tmp++)
-								poz[x1 - 1][tmp] = 2;
-
-					}
+					maska(2, poz);
 					cout << "Корабль успешно установлен";
 					Sleep(500);
 					system("cls");
@@ -718,28 +716,7 @@ public:
 					{
 						poz[tmp][y1] = 1;
 					}
-					if (x1 - 1 >= 0)
-					{
-						poz[x1 - 1][y1] = 2;
-						if (y1 - 1 >= 0)
-							for (tmp = x1 - 1; tmp <= x2; tmp++)
-								poz[tmp][y1 - 1] = 2;
-						if (y1 + 1 <= 9)
-							for (tmp = x1 - 1; tmp <= x2; tmp++)
-								poz[tmp][y1 + 1] = 2;
-
-					}
-					if (x2 + 1 <= 9)
-					{
-						poz[x2 + 1][y1] = 2;
-						if (y1 - 1 >= 0)
-							for (tmp = x1; tmp <= x2 + 1; tmp++)
-								poz[tmp][y1 - 1] = 2;
-						if (y1 + 1 <= 9)
-							for (tmp = x1; tmp <= x2 + 1; tmp++)
-								poz[tmp][y1 + 1] = 2;
-
-					}
+					maska(2, poz);
 					cout << "Корабль успешно установлен";
 					Sleep(500);
 					system("cls");
@@ -772,64 +749,6 @@ public:
 					return health;
 		}
 		return 0;
-	}
-	virtual void maska(int k, int pozpc[10][10])
-	{
-		int tmp;
-		if (x1 == x2)
-		{
-
-			if (y1 - 1 >= 0)
-			{
-				pozpc[x1][y1 - 1] = k;
-				if (x1 + 1 <= 9)
-					for (tmp = y1 - 1; tmp <= y2; tmp++)
-						pozpc[x1 + 1][tmp] = k;
-				if (x1 - 1 >= 0)
-					for (tmp = y1 - 1; tmp <= y2; tmp++)
-						pozpc[x1 - 1][tmp] = k;
-			}
-			if (y2 + 1 <= 9)
-			{
-				pozpc[x1][y2 + 1] = k;
-				if (x1 + 1 <= 9)
-					for (tmp = y1; tmp <= y2 + 1; tmp++)
-						pozpc[x1 + 1][tmp] = k;
-				if (x1 - 1 >= 0)
-					for (tmp = y1; tmp <= y2 + 1; tmp++)
-						pozpc[x1 - 1][tmp] = k;
-
-			}
-			return;
-		}
-		else
-		{
-
-			if (x1 - 1 >= 0)
-			{
-				pozpc[x1 - 1][y1] = k;
-				if (y1 - 1 >= 0)
-					for (tmp = x1 - 1; tmp <= x2; tmp++)
-						pozpc[tmp][y1 - 1] = k;
-				if (y1 + 1 <= 9)
-					for (tmp = x1 - 1; tmp <= x2; tmp++)
-						pozpc[tmp][y1 + 1] = k;
-
-			}
-			if (x2 + 1 <= 9)
-			{
-				pozpc[x2 + 1][y1] = k;
-				if (y1 - 1 >= 0)
-					for (tmp = x1; tmp <= x2 + 1; tmp++)
-						pozpc[tmp][y1 - 1] = k;
-				if (y1 + 1 <= 9)
-					for (tmp = x1; tmp <= x2 + 1; tmp++)
-						pozpc[tmp][y1 + 1] = k;
-
-			}
-			return;
-		}
-
 	}
 
 };
@@ -1151,7 +1070,6 @@ public:
 				}
 				break;
 			case 75:
-				//std::cout << "Влево\n";
 				//std::cout << "Вправо\n";
 				if (xpol != 3)
 				{
@@ -1254,12 +1172,10 @@ public:
 		printplay();
 		while ((countplayer > 0) && (countpc > 0))
 		{
-
 			do
 			{
 				k = playerplay();
 			} while ((k == 1) && (countpc > 0));
-
 			if ((k != 1) && (countpc != 0))
 			{
 			r: tmpcount = countplayer;
