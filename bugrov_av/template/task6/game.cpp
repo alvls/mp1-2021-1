@@ -1,5 +1,5 @@
 #include "all.h"
-void game::show()
+void game::show() const
 {
 	if (turn % 2)
 		if (var == oneplayer)
@@ -56,7 +56,7 @@ void game::play()
 {
 	int letter, digit;
 	bool gamerepeat = true;
-	bool goodshoot;
+	bool goodshoot = false;
 	vector<int>digit_shoot;
 	vector<char>letter_shoot;
 	const string answer[3] = { "Попадание", "Мимо", "Уже был такой выстрел" };
@@ -82,7 +82,9 @@ void game::play()
 			letter_shoot.clear();
 			do
 			{
-				cout << "\nВведите координаты выстрела ";
+				if (goodshoot)
+					cout << "Снова ваш ход\n";
+				cout << "Введите координаты выстрела ";
 				getxy(letter, digit);
 				ansnum = shoot(letter, digit, gamerepeat, goodshoot, digit_shoot, letter_shoot);
 				if (ansnum > 0)
@@ -91,10 +93,9 @@ void game::play()
 				{
 					system("cls");
 					show();
-					cout << "\nПопадание\n";
-					cout << "Снова ваш ход ";
+					cout << "Попадание\n";
 				}
-			} while (goodshoot);
+			} while (goodshoot && gamerepeat);
 			if (!gamerepeat)
 				break;
 			cout << "Передать ход компьютеру - Enter, сдаться - Esc";
@@ -125,8 +126,9 @@ void game::play()
 			do
 			{
 				random_shoot(gamerepeat, goodshoot, digit_shoot, letter_shoot);
-			} while (goodshoot);
+			} while (goodshoot && gamerepeat);
 		}
+	onewin:		
 		if (turn % 2 == 0)
 			cout << "Вы победили, поздравляем!\n";
 		else
@@ -143,7 +145,7 @@ void game::play()
 		system("cls");
 		cout << "Второй игрок, выставляйте корабли\n";
 		mine[1].setships();
-		cout << "\nВторой игрок, передайте право сделать выстрел первому игроку, нажав любую клавишу\n";
+		cout << "Второй игрок, передайте право сделать выстрел первому игроку, нажав любую клавишу\n";
 		_getch();
 		system("cls");
 		while (gamerepeat)
@@ -161,7 +163,9 @@ void game::play()
 			letter_shoot.clear();
 			do
 			{
-				cout << "\nВведите координаты выстрела ";
+				if (goodshoot)
+					cout << "Снова ваш ход\n";
+				cout << "Введите координаты выстрела ";
 				getxy(letter, digit);
 				ansnum = shoot(letter, digit, gamerepeat, goodshoot, digit_shoot, letter_shoot);
 				if (ansnum > 0)
@@ -170,10 +174,11 @@ void game::play()
 				{
 					system("cls");
 					show();
-					cout << "\nПопадание\n";
-					cout << "Снова ваш ход ";
+					cout << "Попадание\n";
 				}
-			} while (goodshoot);
+			} while (goodshoot && gamerepeat);
+			if (!gamerepeat)
+				break;
 			cout << "Передать ход сопернику - Enter, сдаться - Esc\n";
 			int ans;
 			bool garbage;
@@ -230,7 +235,7 @@ void game::random_shoot(bool& gamerepeat, bool& goodshoot, vector<int>& digit_sh
 		goodshoot = true;
 		for (int i = 0; i < mine[usernum].max; i++)
 			for (j = indent; j < mine[usernum][i].size(); j += 2)
-				if (mine[usernum][i][j] == mine[i].ship)
+				if (mine[usernum][i][j] == mine->ship)
 					return;
 		gamerepeat = false;
 		return;
@@ -243,7 +248,7 @@ int game::shoot(int& letter, int& digit, bool& gamerepeat, bool& goodshoot, vect
 	digit_shoot.push_back(begini + 1);
 	letter_shoot.push_back(mine->header[beginj]);
 	//const string answer[3] = { "Попадание", "Мимо", "Уже был такой выстрел" };
-	int quantity = 0;
+	//int quantity = 0;
 	if (mine[usernum][begini][beginj] == mine[usernum].hit || mine[usernum][begini][beginj] == mine[usernum].miss)
 	{
 		goodshoot = false;
@@ -265,12 +270,8 @@ int game::shoot(int& letter, int& digit, bool& gamerepeat, bool& goodshoot, vect
 			int i, j;
 			for (i = 0; i < mine[usernum].max; i++)
 				for (j = indent; j < mine[usernum][i].size(); j += 2)
-					if (mine[usernum][i][j] == mine[i].ship)
-					{
-						mine[usernum][begini][beginj] = mine[usernum].hit;
-						enemy[turn][begini][beginj] = enemy[turn].hit;
+					if (mine[usernum][i][j] == mine->ship)
 						return 0;
-					}
 			gamerepeat = false;
 			return 0;
 		}

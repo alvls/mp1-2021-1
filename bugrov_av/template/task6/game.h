@@ -29,5 +29,5 @@ public:
 			var = oneplayer;
 	}
 	void play();
-	void show();
+	void show() const;
 };

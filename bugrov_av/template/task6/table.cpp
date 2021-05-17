@@ -21,7 +21,7 @@ void table::setships()
 		system("cls");
 	} while (ship_amount[0] > 0 || ship_amount[1] > 0 || ship_amount[2] > 0 || ship_amount[3] > 0);
 }
-void table::show()
+void table::show() const
 {
 	enum color
 	{

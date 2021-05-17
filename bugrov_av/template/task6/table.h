@@ -2,7 +2,7 @@
 #include "all.h"
 class table
 {
-	const int hit = 'x';
+	const char hit = 'x';
 	const char miss = 149;
 	const char empty = '~';
 	const char ship = '+';
@@ -16,7 +16,7 @@ public:
 	const int indent = 3;
 	const int max = 10;
 	table();
-	void show();
+	void show() const;
 	void set_random_ships();
 	void setships();
 	table(const table& t);
