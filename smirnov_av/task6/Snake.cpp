@@ -11,29 +11,21 @@ void Snake::ChangeSnakePos(int deltaX, int deltaY)
 
 void Snake::SnakeShow(const int& width, const int& height)
 {
-	bool exit = false;
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	for (size_t y = 1; y < height + 1; y++)
-	{		
-		for (size_t x = 1; x < width + 1; x++)
+	for (size_t i = 0; i < snake.size(); i++)
+	{
+		gotoxy(snake[i].x, snake[i].y);
+		if (i == 0)
 		{
-			if (snake[0].x == x && snake[0].y == y)
-			{
-				gotoxy(x, y);			
-				SetConsoleTextAttribute(hConsole, (WORD)((White << 4) |Red));
-				cout << "0";
-				continue;
-			}		
-			for (size_t i = 1; i < snake.size(); i++)
-			{
-				if (snake[i].x == x && snake[i].y == y)
-				{
-					gotoxy(x, y);
-					SetConsoleTextAttribute(hConsole, (WORD)((White << 4) | Green));
-					cout << "î";					
-				}					
-			}					
-		}	
+			SetConsoleTextAttribute(hConsole, (WORD)((White << 4) | Red));
+			cout << "0";
+			continue;
+		}
+		else
+		{
+			SetConsoleTextAttribute(hConsole, (WORD)((White << 4) | Green));
+			cout << "î";
+		}
 	}
 	SetConsoleTextAttribute(hConsole, (WORD)((White << 4) | Black));
 }
@@ -59,19 +51,10 @@ void Snake::SnakeMove()
 
 void Snake::SnakeHide(const int& width, const int& height)
 {	
-	for (size_t y = 1; y < height + 1; y++)
+	for (size_t i = 0; i < snake.size(); i++)
 	{
-		for (size_t x = 1; x < width + 1; x++)
-		{
-			for (size_t i = 1; i < snake.size(); i++)
-			{
-				if (snake[i].x == x && snake[i].y == y)
-				{
-					gotoxy(x, y);
-					cout << " ";
-				}
-			}
-		}
+		gotoxy(snake[i].x, snake[i].y);
+		cout << " ";		
 	}
 }
 
