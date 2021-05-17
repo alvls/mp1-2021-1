@@ -151,7 +151,6 @@ private:
     }
     bool Snake_Move(int& head_x, int& head_y, int& fruit_x, int& fruit_y)
     {
-
         switch (C_Dir) {
         case Directions::Left:head_x--; break;
         case Directions::Right: head_x++; break;
@@ -171,7 +170,7 @@ private:
             else {
                 field[head_y][head_x] = snake_len + 1;
                 for (int i = 0; i < height; i++) {
-                    for (int k = 0; k < height; k++) {
+                    for (int k = 0; k < width; k++) {
                         if (field[i][k] > 0) {
                             field[i][k]--;
                         }
@@ -206,7 +205,7 @@ private:
     {
         srand(time(NULL));
          do{
-            fruit_y = rand() % (width - 2) + 1;
+            fruit_y = rand() % (height - 2) + 1;
          } while (fruit_y == head_y);
         fruit_x = rand() % (height - 2) + 1;
         field[fruit_y][fruit_x] = -2;
@@ -239,7 +238,8 @@ private:
         }
     }
 public:
-    Snake(Draw* _Paint,int _end_len,int _len, int _lvl) : Paint(_Paint),score(0),isgame(false), snake_len(_len),snake_end_len(_end_len),C_Dir(Directions::Left)
+    Snake(Draw* _Paint,int _end_len,int _len, int _lvl) : Paint(_Paint),score(0),
+        isgame(false), snake_len(_len),snake_end_len(_end_len),C_Dir(Directions::Left)
     {
         width = Paint->Get_Width();
         height = Paint->Get_Height();
@@ -268,7 +268,7 @@ public:
 };
 int main()
 {
-    Draw a(20,20,14);
+    Draw a(60, 20, 14);
     a.DisableShowConsoleCursor();
     Snake s(&a,10,5,2);
     cout << s.Start() << endl;
