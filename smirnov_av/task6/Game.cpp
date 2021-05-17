@@ -105,9 +105,9 @@ void Game::StartGame()
 	cout << "Score: " << score << endl;
 	cout << "NeededScore: " << SCOREONEFOOD * needScore << endl;
 
-	snake.SnakeShow(width,height);
+	snake.SnakeShow();
 	this->ShowFood();
-	snake.SnakeHide(width, height);
+	snake.SnakeHide();
 
 	while (true)
 	{
@@ -129,11 +129,11 @@ void Game::StartGame()
 
 			snake.SnakeMove();
 
-			snake.SnakeShow(width, height);
+			snake.SnakeShow();
 
 			Sleep(speed);
 
-			snake.SnakeHide(width, height);
+			snake.SnakeHide();
 		}
 
 		key = _getch();

@@ -12,6 +12,12 @@ void EndWindow(bool isWin)
 		cout << "Вы проиграли :(";
 }
 
+enum Keys
+{
+	ENTER = 13,
+	ECS = 27
+};
+
 void ShowMenu()
 {
 	gotoxy(0, 0);
@@ -66,7 +72,7 @@ void ShowSettings(int& needScore,int& speed, int& width, int& height)
 			cout << "Новое значение скорости игры(Чем меньше значение, тем быстрее двигается змейка): ";
 			cin >> speed;
 			break;
-		case 27:
+		case ECS:
 			system("cls");
 			exit = true;
 			break;

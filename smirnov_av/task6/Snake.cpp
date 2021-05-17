@@ -9,7 +9,7 @@ void Snake::ChangeSnakePos(int deltaX, int deltaY)
 	snake.pop_back(); 
 }
 
-void Snake::SnakeShow(const int& width, const int& height)
+void Snake::SnakeShow()
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	for (size_t i = 0; i < snake.size(); i++)
@@ -49,7 +49,7 @@ void Snake::SnakeMove()
 	}
 }
 
-void Snake::SnakeHide(const int& width, const int& height)
+void Snake::SnakeHide()
 {	
 	for (size_t i = 0; i < snake.size(); i++)
 	{

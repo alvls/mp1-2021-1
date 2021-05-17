@@ -12,7 +12,7 @@ using namespace std;
 
 enum Direction
 {
-	LEFT = 75,RIGHT = 77,DOWN = 80,UP = 72, ENTER = 13
+	LEFT = 75,RIGHT = 77,DOWN = 80,UP = 72
 };
 
 class Snake
@@ -36,9 +36,9 @@ public:
 		}
 	}
 	
-	void SnakeShow(const int& width, const int& height);
+	void SnakeShow();
 	void SnakeMove();
-	void SnakeHide(const int& width, const int& height);
+	void SnakeHide();
 	
 	Coordinates GetCoordHead() { return snake[0]; }
 	void SetSnakeDir(Direction _dir);
