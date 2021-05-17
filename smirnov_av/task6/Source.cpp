@@ -113,6 +113,7 @@ void main()
 {
 	setlocale(LC_ALL, "ru");
 	system("color F0");
+
 	bool exit = false;
 	int choice;
 	int needMode = 0;
@@ -123,7 +124,6 @@ void main()
 
 	while(!exit)
 	{
-
 		ShowMenu();
 		gotoxy(0, needMode);
 		choice = _getch();
@@ -154,8 +154,7 @@ void main()
 		if (needMode > COUNT_MENU_CHOICES - 1)
 			needMode = COUNT_MENU_CHOICES - 1;
 		if (needMode < 0)
-			needMode = 0;
-		
+			needMode = 0;		
 	}
 	system("pause");
 }

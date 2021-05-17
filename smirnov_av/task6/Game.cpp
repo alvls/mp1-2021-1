@@ -81,14 +81,9 @@ void Game::ShowFood()
 
 void Game::StartGame()
 {
-	setlocale(LC_ALL, "ru");
-
 	int width = field.GetWidth();
 	int height= field.GetHeight();
-
-
 	int key = 0;
-
 	srand(time(NULL));
 
 	//при запуске, создаем пул объектов, а потом выводим на экран при необходимости
@@ -128,11 +123,8 @@ void Game::StartGame()
 				return;
 
 			snake.SnakeMove();
-
 			snake.SnakeShow();
-
 			Sleep(speed);
-
 			snake.SnakeHide();
 		}
 
@@ -152,14 +144,12 @@ void Game::StartGame()
 			if (snake.GetSnakeDir() != UP)
 			{
 				snake.SetSnakeDir(DOWN);
-
 			}
 			break;
 		case LEFT:
 			if (snake.GetSnakeDir() != RIGHT)
 			{
 				snake.SetSnakeDir(LEFT);
-
 			}
 			break;
 		case UP:
