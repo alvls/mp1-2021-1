@@ -4,12 +4,12 @@
 #include <conio.h>
 #include <iomanip>
 #include <cstring>
+#include <string>
 #include <time.h>	
 #include <tchar.h>
 #include <stdio.h>
 #include<ctime>
 using namespace std;
-int poz[10][10] = { 0 };
 
 void position(int x, int y)//перемещение курсора в консоли
 {
@@ -20,31 +20,31 @@ void position(int x, int y)//перемещение курсора в консоли
 	SetConsoleCursorPosition(hConsole, position);
 }
 
-class deck
+class deck//класс палуба, для однопалубных кораблей, и так же потомок для многопалубных
 {
 protected:
 	int x1;
 	int y1;
 	int health;
 public:
-	deck(int _health = 1)
+	deck(int _health = 1)//конструктор
 	{
 		x1 = 0;
 		y1 = 0;
 		health = _health;
 	}
-	int minushealth()
+	int minushealth()//уменьшение значения здоровья при попадании
 	{
 		health--;
 		return health;
 	}
-	virtual int gethealth(int x, int y)
+	virtual int gethealth(int x, int y)//возврат значение здоровья корабля, если промах то возвращается 0
 	{
 		if ((x1 == x) && (y1 == y))
 			return health;
 		else return 0;
 	}
-	virtual void maska(int k, int pozpc[10][10])
+	virtual void mask(int k, int pozpc[10][10])//в процессе необходимо будет "обводить корабли" различными знаками
 	{
 		if (y1 - 1 >= 0)
 		{
@@ -76,16 +76,16 @@ public:
 		}
 		return;
 	}
-	virtual void robot(int pozpc[10][10])
+	virtual void robot(int pozpc[10][10])//установка корабля на поле для компьютера
 	{
 		do {
 			x1 = rand() % 10;
 			y1 = rand() % 10;
 		} while (pozpc[x1][y1] != 0);
 		pozpc[x1][y1] = 1;
-		maska(2, pozpc);
+		mask(2, pozpc);
 	}
-	virtual void move(string pol[])
+	virtual void move(string pol[], int poz[10][10])//установка корабля для игрока
 	{
 		int i, xpol, ypol, tmp;
 		ypol = 1; xpol = 3;
@@ -172,7 +172,7 @@ public:
 			if (poz[x1][y1] == 0)
 			{
 				poz[x1][y1] = 1;
-				maska(2, poz);
+				mask(2, poz);
 				cout << "Корабль успешно установлен";
 				Sleep(500);
 				system("cls");
@@ -185,18 +185,17 @@ public:
 		system("cls");
 		for (i = 0; i < 11; i++)
 			cout << pol[i];
-
 	}
 	}
 };
-class manydeck :public deck
+class manydeck :public deck//все функции аналогичны функциям класса deck, только выполняются для многопалубных кораблей
 {
 protected:
 	int x2;
 	int y2;
 public:
 	manydeck(int health) : deck(health), x2(0), y2(0) {};
-	virtual void maska(int k, int pozpc[10][10])
+	virtual void mask(int k, int pozpc[10][10])
 	{
 		int tmp;
 		if (x1 == x2)
@@ -252,10 +251,8 @@ public:
 			}
 			return;
 		}
-
 	}
-
-	void robot(int pozpc[10][10])
+	virtual void robot(int pozpc[10][10])
 	{
 		int tmp, p;
 		p = rand() % 2 + 1;
@@ -336,7 +333,7 @@ public:
 	{
 		for (tmp = y1; tmp <= y2; tmp++)
 			pozpc[x1][tmp] = 1;
-		maska(2, pozpc);
+		mask(2, pozpc);
 		return;
 	}
 	else
@@ -345,12 +342,12 @@ public:
 		{
 			pozpc[tmp][y1] = 1;
 		}
-		maska(2, pozpc);
+		mask(2, pozpc);
 
 		return;
 	}
 	}
-	void move(string pol[])
+	virtual void move(string pol[], int poz[10][10])
 	{
 		int i, xpol1, ypol1, xpol2, ypol2, tmp, tmp2;
 		ypol1 = 1; xpol1 = 3; xpol2 = 3;
@@ -375,7 +372,7 @@ public:
 	{
 		switch (symbol) {
 		case 72:
-			//cout << "Вверх\n";
+			//"Вверх\n";
 			if (ypol1 != 1)
 			{
 				y1 -= 1;
@@ -433,12 +430,11 @@ public:
 			}
 			break;
 		case 75:
-			//std::cout << "Влево\n";
+			// "Влево\n";
 			if (xpol1 != 3)
 			{
 				x1 -= 1;
 				x2 -= 1;
-				//tmp = xpol1;
 				xpol1 -= 2;
 				xpol2 -= 2;
 				if (x1 == x2)
@@ -492,12 +488,11 @@ public:
 			}
 			break;
 		case 77:
-			//std::cout << "Вправо\n";
+			// "Вправо\n";
 			if (xpol2 != 21)
 			{
 				x1 += 1;
 				x2 += 1;
-				//tmp = xpol1;
 				xpol1 += 2;
 				xpol2 += 2;
 				if (x1 == x2)
@@ -551,7 +546,7 @@ public:
 			}
 			break;
 		case 80:
-			//std::cout << "Вниз\n";
+			// "Вниз\n";
 			if (ypol2 != 10)
 			{
 				y1 += 1;
@@ -609,6 +604,7 @@ public:
 			}
 			break;
 		case 32:
+			// Пробел
 			if (x1 == x2)
 			{
 				tmp = ypol1;
@@ -681,6 +677,7 @@ public:
 			}
 			break;
 		case 13:
+			//Enter
 			if (x1 == x2)
 			{
 				tmp = y1;
@@ -694,7 +691,7 @@ public:
 				{
 					for (tmp = y1; tmp <= y2; tmp++)
 						poz[x1][tmp] = 1;
-					maska(2, poz);
+					mask(2, poz);
 					cout << "Корабль успешно установлен";
 					Sleep(500);
 					system("cls");
@@ -716,7 +713,7 @@ public:
 					{
 						poz[tmp][y1] = 1;
 					}
-					maska(2, poz);
+					mask(2, poz);
 					cout << "Корабль успешно установлен";
 					Sleep(500);
 					system("cls");
@@ -750,31 +747,30 @@ public:
 		}
 		return 0;
 	}
-
 };
 class Playing
 {
 protected:
 	int pozpc[10][10] = { 0 };
+	int poz[10][10] = { 0 };
 	string pc[11] = { "__|A_Б_В_Г_Д_Е_Ж_З_И_К_\n","1 |_|_|_|_|_|_|_|_|_|_|\n","2 |_|_|_|_|_|_|_|_|_|_|\n","3 |_|_|_|_|_|_|_|_|_|_|\n","4 |_|_|_|_|_|_|_|_|_|_|\n","5 |_|_|_|_|_|_|_|_|_|_|\n",
 "6 |_|_|_|_|_|_|_|_|_|_|\n","7 |_|_|_|_|_|_|_|_|_|_|\n","8 |_|_|_|_|_|_|_|_|_|_|\n","9 |_|_|_|_|_|_|_|_|_|_|\n","10|_|_|_|_|_|_|_|_|_|_|\n" };
 	string player[11] = { "__|A_Б_В_Г_Д_Е_Ж_З_И_К_\n","1 |_|_|_|_|_|_|_|_|_|_|\n","2 |_|_|_|_|_|_|_|_|_|_|\n","3 |_|_|_|_|_|_|_|_|_|_|\n","4 |_|_|_|_|_|_|_|_|_|_|\n","5 |_|_|_|_|_|_|_|_|_|_|\n",
 "6 |_|_|_|_|_|_|_|_|_|_|\n","7 |_|_|_|_|_|_|_|_|_|_|\n","8 |_|_|_|_|_|_|_|_|_|_|\n","9 |_|_|_|_|_|_|_|_|_|_|\n","10|_|_|_|_|_|_|_|_|_|_|\n" };
 	deck* kplayer[10] = { new deck, new deck, new deck, new deck, new manydeck(2),new manydeck(2),new manydeck(2), new manydeck(3), new manydeck(3) ,new manydeck(4) };
 	deck* kpc[10] = { new deck, new deck, new deck, new deck, new manydeck(2),new manydeck(2),new manydeck(2), new manydeck(3), new manydeck(3) ,new manydeck(4) };
-	int countplayer = 10;
+	int countplayer = 10;//количество кораблей
 	int countpc = 10;
 public:
-	void setrobot()
+	void setrobot()//размещение кораблей компьютером
 	{
 		int i = 0;
 		for (i = 0; i < 10; i++)
 		{
 			kpc[i]->robot(pozpc);
-
 		}
 	}
-	void poleplayer()
+	void fieldplayer()//размещение кораблей игроком
 	{
 		int i = 0;
 		cout << "Разместите свои корабли на игровом поле" << endl;
@@ -783,10 +779,10 @@ public:
 		cout << "Используйте клавишу \"Enter\" для установки корабля" << endl;
 		for (i = 0; i < 10; i++)
 		{
-			kplayer[i]->move(player);
+			kplayer[i]->move(player,poz);
 		}
 	}
-	void printplay()
+	void printplay()//вывод на консоль игрового поля
 	{
 		system("cls");
 		int i = 0;
@@ -808,7 +804,7 @@ public:
 		cout << "Выберите клетку для выстрела,перемещая \"X\" по вражескому полю, " << endl << "затем нажмите клавишу \"Enter\" для выстрела" << endl;
 		cout << "Обозначения клеток:" << endl << "0-пустая клетка" << endl << "#-попадание по вражескому кораблю" << endl;
 	}
-	int robotplay(int p)
+	int pcplay(int p)//алгоритм работы робота при выстреле
 	{
 		static int h, n;
 		static int x, y;
@@ -841,7 +837,7 @@ public:
 			h--;
 			if (h == 0)
 			{
-				kplayer[n]->maska(3, poz);
+				kplayer[n]->mask(3, poz);
 				countplayer--;
 				return 0;
 			}
@@ -886,12 +882,17 @@ public:
 					player[y + 1][2 * tmp + 3] = 'X';
 					poz[tmp][y] = 3;
 				}
+				if (tmp < 0)
+				{
+					p = 2;
+					goto l;
+				}
 				p = 2;
 				return p;
 			}
 			else
 			{
-				kplayer[n]->maska(3, poz);
+				kplayer[n]->mask(3, poz);
 				countplayer--;
 				return 0;
 			}
@@ -933,12 +934,17 @@ public:
 					player[y + 1][2 * tmp + 3] = 'X';
 					poz[tmp][y] = 3;
 				}
+				if (tmp > 9)
+				{
+					p = 1; 
+					goto l;
+				}
 				p = 1;
 				return p;
 			}
 			else
 			{
-				kplayer[n]->maska(3, poz);
+				kplayer[n]->mask(3, poz);
 				countplayer--;
 				return 0;
 			}
@@ -979,12 +985,17 @@ public:
 					player[tmp + 1][2 * x + 3] = 'X';
 					poz[x][tmp] = 3;
 				}
+				if (tmp > 9)
+				{
+					p = 4;
+					goto l;
+				}
 				p = 4;
 				return p;
 			}
 			else
 			{
-				kplayer[n]->maska(3, poz);
+				kplayer[n]->mask(3, poz);
 				countplayer--;
 				return 0;
 			}
@@ -1025,12 +1036,17 @@ public:
 					player[tmp + 1][2 * x + 3] = 'X';
 					poz[x][tmp] = 3;
 				}
+				if (tmp < 0)
+				{
+					p = 3;
+					goto l;
+				}
 				p = 3;
 				return p;
 			}
 			else
 			{
-				kplayer[n]->maska(3, poz);
+				kplayer[n]->mask(3, poz);
 				countplayer--;
 				return 0;
 			}
@@ -1039,7 +1055,7 @@ public:
 		}
 
 	}
-	int playerplay()
+	int playerplay()//обработка хода игрока(выбор цели, выстрел)
 	{
 		int i, j, xpol, ypol, tmp;
 	m:	ypol = 1; xpol = 3;
@@ -1052,7 +1068,7 @@ public:
 		{
 			switch (symbol) {
 			case 72:
-				//cout << "Вверх\n";
+				// "Вверх\n";
 				if (ypol != 1)
 				{
 					y -= 1;
@@ -1070,7 +1086,7 @@ public:
 				}
 				break;
 			case 75:
-				//std::cout << "Вправо\n";
+				//  "Влевоо\n";
 				if (xpol != 3)
 				{
 					x -= 1;
@@ -1087,7 +1103,7 @@ public:
 				}
 				break;
 			case 77:
-				//std::cout << "Вправо\n";
+				// "Вправо\n";
 				if (xpol != 21)
 				{
 					x += 1;
@@ -1104,7 +1120,7 @@ public:
 				}
 				break;
 			case 80:
-				//std::cout << "Вниз\n";
+				// "Вниз\n";
 				if (ypol != 10)
 				{
 					y += 1;
@@ -1121,6 +1137,7 @@ public:
 				}
 				break;
 			case 13:
+				// "Enter\n"
 				if ((pozpc[x][y] != 1) && (pozpc[x][y] != 3))
 				{
 					pc[ypol][xpol] = '0';
@@ -1143,7 +1160,7 @@ public:
 					if (h == 0)
 					{
 						countpc--;
-						kpc[n]->maska(4, pozpc);
+						kpc[n]->mask(4, pozpc);
 						for (j = 0; j < 10; j++)
 						{
 							for (int i = 0; i < 10; i++)
@@ -1162,12 +1179,11 @@ public:
 
 		}
 	}
-
-	void pl()
+	void gameprocess()
 	{
 		int p = 0, k = 0;
 		int tmpcount;
-		poleplayer();
+		fieldplayer();
 		setrobot();
 		printplay();
 		while ((countplayer > 0) && (countpc > 0))
@@ -1179,19 +1195,17 @@ public:
 			if ((k != 1) && (countpc != 0))
 			{
 			r: tmpcount = countplayer;
-				p = robotplay(p);
+				p = pcplay(p);
 				printplay();
 				if ((tmpcount != countplayer) && (countplayer != 0))
 					goto r;
 			}
 		}
 		if (countplayer == 0)
-			cout << "Вы проиграли" << endl;
+			cout << "Вы проиграли!" << endl;
 		else
-			cout << "Поздравляем, вы выиграли" << endl;
+			cout << "Поздравляем, вы выиграли!" << endl;
 	}
-
-
 };
 
 int  menu()
@@ -1224,9 +1238,8 @@ void main()
 	if (m == 1)
 	{
 		system("cls");
-		play.pl();
+		play.gameprocess();
 	}
-
-
+	else return;
 	system("pause");
 }
