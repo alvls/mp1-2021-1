@@ -4,7 +4,6 @@
 #include <conio.h>
 #include <iomanip>
 #include <cstring>
-#include <string>
 #include <time.h>	
 #include <tchar.h>
 #include <stdio.h>
@@ -188,6 +187,7 @@ public:
 	}
 	}
 };
+
 class manydeck :public deck//все функции аналогичны функци€м класса deck, только выполн€ютс€ дл€ многопалубных кораблей
 {
 protected:
@@ -748,6 +748,7 @@ public:
 		return 0;
 	}
 };
+
 class Playing
 {
 protected:
