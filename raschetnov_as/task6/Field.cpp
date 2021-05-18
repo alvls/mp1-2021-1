@@ -208,14 +208,14 @@ bool Field::Shoot(Field& Field, int* coordinates)
 {
   if(field[coordinates[0]][coordinates[1]].GetStatus() == 2)
   {
-    field[coordinates[0]][coordinates[1]].SetStatus(3);
     Field.field[coordinates[0]][coordinates[1]].SetSymbol('x');
+    field[coordinates[0]][coordinates[1]].SetStatus(3);
     return true;
   }
   else
   {
+    Field.field[coordinates[0]][coordinates[1]].SetSymbol('-');  
     field[coordinates[0]][coordinates[1]].SetStatus(3);
-    Field.field[coordinates[0]][coordinates[1]].SetSymbol('-');    
     return false;
   }
 }
@@ -260,16 +260,10 @@ void Field::GenerateCoordinatesAI(Field& Field, int* enemyShootCoordinates)
 
 bool Field::IsKilled(int* coordinates)
 {
-  if(field[coordinates[0] - 1][coordinates[1]].GetStatus() == 2)
+
+  if (field[coordinates[0] - 1][coordinates[1]].GetStatus() == 2 || field[coordinates[0]][coordinates[1] + 1].GetStatus() == 2 || field[coordinates[0] + 1][coordinates[1]].GetStatus() == 2 || field[coordinates[0]][coordinates[1] - 1].GetStatus() == 2)
     return 0;
-  else if (field[coordinates[0]][coordinates[1] + 1].GetStatus() == 2)
-    return 0;
-  else if (field[coordinates[0] + 1][coordinates[1]].GetStatus() == 2)
-    return 0;
-  else if (field[coordinates[0]][coordinates[1] - 1].GetStatus() == 2)
-    return 0;
-  else
-    return 1;
+   return 1;
 }
 
 void Field::ShootAI(int* enemyShootCoordinates, bool status)

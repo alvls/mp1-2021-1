@@ -170,6 +170,12 @@ int main()
       cout << "Мимо" << endl;
       SetColor(7, 0);
     }
+    if (!counterOfEnemyShips)
+    {
+      cout << "Вы выиграли!" << endl;
+      gameOver = 1;
+      goto finish;
+    }
     while (status)
     {
       SetShootCoordinates(coordinates);
@@ -197,12 +203,12 @@ int main()
         cout << "Мимо" << endl;
         SetColor(7, 0);
       } 
-    }
-    if (!counterOfEnemyShips)
-    {
-      cout << "Вы выиграли!" << endl;
-      gameOver = 1;
-      goto finish;
+      if (!counterOfEnemyShips)
+      {
+        cout << "Вы выиграли!" << endl;
+        gameOver = 1;
+        goto finish;
+      }
     }
     myfield.GenerateCoordinatesAI(enemymyfield, enemyShootCoordinates);
     status = ResultOutput();
