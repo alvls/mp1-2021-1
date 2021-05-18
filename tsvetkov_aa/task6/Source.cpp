@@ -100,7 +100,7 @@ public:
 	{
 		switch (symbol) {
 		case 72:
-			//cout << "¬верх\n";
+			// "¬верх\n";
 			if (ypol != 1)
 			{
 				y1 -= 1;
@@ -117,7 +117,7 @@ public:
 			}
 			break;
 		case 75:
-			//std::cout << "¬лево\n";
+			//"¬лево\n";
 			if (xpol != 3)
 			{
 				x1 -= 1;
@@ -134,7 +134,7 @@ public:
 			}
 			break;
 		case 77:
-			//std::cout << "¬право\n";
+			//"¬право\n";
 			if (xpol != 21)
 			{
 				x1 += 1;
@@ -151,7 +151,7 @@ public:
 			}
 			break;
 		case 80:
-			//std::cout << "¬низ\n";
+			//"¬низ\n";
 			if (ypol != 10)
 			{
 				y1 += 1;
@@ -168,6 +168,7 @@ public:
 			}
 			break;
 		case 13:
+			// Enter
 			if (poz[x1][y1] == 0)
 			{
 				poz[x1][y1] = 1;
@@ -1224,7 +1225,6 @@ int  menu()
 	cin >> m;
 	return m;
 }
-
 
 void main()
 {
