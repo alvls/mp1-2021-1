@@ -209,13 +209,13 @@ bool Field::Shoot(Field& Field, int* coordinates)
   if(field[coordinates[0]][coordinates[1]].GetStatus() == 2)
   {
     Field.field[coordinates[0]][coordinates[1]].SetSymbol('x');
-    field[coordinates[0]][coordinates[1]].SetStatus(3);
+    field[coordinates[0]][coordinates[1]].SetStatus(4); 
     return true;
   }
   else
   {
     Field.field[coordinates[0]][coordinates[1]].SetSymbol('-');  
-    field[coordinates[0]][coordinates[1]].SetStatus(3);
+    field[coordinates[0]][coordinates[1]].SetStatus(3); 
     return false;
   }
 }
@@ -231,7 +231,7 @@ void Field::PlaceShipAI()
   tempvar = rand() % 50 + 1;
   ost << tempvar;
   path += ost.str();
-  path += ".txt";
+  path += ".txt"; 
   filein.open(path);
   for(i = 2; i < 12; i++)
     for(j = 2; j < 12; j++)
@@ -260,10 +260,87 @@ void Field::GenerateCoordinatesAI(Field& Field, int* enemyShootCoordinates)
 
 bool Field::IsKilled(int* coordinates)
 {
-
+  int temp;
+  int counter = 0;
+  int direction = 0;
   if (field[coordinates[0] - 1][coordinates[1]].GetStatus() == 2 || field[coordinates[0]][coordinates[1] + 1].GetStatus() == 2 || field[coordinates[0] + 1][coordinates[1]].GetStatus() == 2 || field[coordinates[0]][coordinates[1] - 1].GetStatus() == 2)
     return 0;
-   return 1;
+  if(field[coordinates[0] - 1][coordinates[1]].GetStatus() == 4)
+    direction = 3;
+  if (field[coordinates[0]][coordinates[1] + 1].GetStatus() == 4)
+    direction = 2;
+  if (field[coordinates[0] + 1][coordinates[1]].GetStatus() == 4)
+    direction = 4;
+  if (field[coordinates[0]][coordinates[1] - 1].GetStatus() == 4)
+    direction = 1;
+  switch(direction)
+  {
+    case 1:
+    {  
+      coordinates[1]--;
+      while (field[coordinates[0]][coordinates[1]].GetStatus() != 3 && field[coordinates[0]][coordinates[1]].GetStatus() != 0 && field[coordinates[0]][coordinates[1]].GetStatus() != 1)
+      {
+        if (field[coordinates[0]][coordinates[1]].GetStatus() == 2)
+        {
+          counter++;
+        }
+        coordinates[1]--;
+      }
+      if (!counter)
+        return 1;
+      return 0;
+    }
+    case 2:
+    {
+      coordinates[1]++;
+      while (field[coordinates[0]][coordinates[1]].GetStatus() != 3 && field[coordinates[0]][coordinates[1]].GetStatus() != 0 && field[coordinates[0]][coordinates[1]].GetStatus() != 1)
+      {
+        if (field[coordinates[0]][coordinates[1]].GetStatus() == 2)
+        {
+          counter++;
+        }
+      coordinates[1]++;
+      }
+      if (!counter)
+        return 1;
+      else
+        return 0;
+    }
+    case 3:
+    {
+      coordinates[0]--;
+      while (field[coordinates[0]][coordinates[1]].GetStatus() != 3 && field[coordinates[0]][coordinates[1]].GetStatus() != 0 && field[coordinates[0]][coordinates[1]].GetStatus() != 1)
+      {
+        if(field[coordinates[0]][coordinates[1]].GetStatus() == 2)
+        {
+          counter++;
+        }
+        coordinates[0]--;
+      }
+      if (!counter)
+        return 1;
+      else
+        return 0;
+    }
+    case 4:
+    {
+      coordinates[0]++;
+      while (field[coordinates[0]][coordinates[1]].GetStatus() != 3 && field[coordinates[0]][coordinates[1]].GetStatus() != 0 && field[coordinates[0]][coordinates[1]].GetStatus() != 1)
+      {
+        if (field[coordinates[0]][coordinates[1]].GetStatus() == 2)
+        {
+          counter++;
+        }
+        coordinates[0]++;
+      }
+      if (!counter)
+        return 1;
+      else
+        return 0;
+    }
+    default:
+      return 1;
+  }
 }
 
 void Field::ShootAI(int* enemyShootCoordinates, bool status)
