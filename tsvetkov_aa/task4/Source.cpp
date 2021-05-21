@@ -54,6 +54,8 @@ private:
 	string compos;
 	int boxoffice;
 	date ready;
+	int k=1, p=5;
+	int m = k + p;
 public:
 	void setfilm(string _name, string _producer, string _scen, string _compos, int _boxoffice, date a)
 	{
