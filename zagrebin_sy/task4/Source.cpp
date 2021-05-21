@@ -125,7 +125,7 @@ int main() {
 	Player box; Song song; string s = "";
 	box.load("player.txt");
 	song = {"Автор", "Поэт", "Композитор", "Исполнитель", "Альбом"};
-	song.date = "14.11.2002";
+	song.date = "144.11.2002";
 	box.add(song);
 	box.save("player.txt");
 	system("pause");
